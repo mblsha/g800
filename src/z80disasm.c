@@ -1331,7 +1331,7 @@ const int offOp[] = {
     2  /* fd cb xx yy */
 };
 
-/* ƒj[ƒ‚ƒjƒbƒN•¶Žš—ñ */
+/* ãƒ‹ãƒ¼ãƒ¢ãƒ‹ãƒƒã‚¯æ–‡å­—åˆ— */
 const static char *txtNim[] = {
     "adc",     "add",     "and",     "bit 0,",  "bit 1,",  "bit 2,",  "bit 3,",
     "bit 4,",  "bit 5,",  "bit 6,",  "bit 7,",  "call",    "ccf",     "cp",
@@ -1349,7 +1349,7 @@ const static char *txtNim[] = {
     "set 7,",  "sla",     "sll",     "sra",     "srl",     "sub",     "xor",
     "?"};
 
-/* ¶ƒIƒyƒ‰ƒ“ƒh•¶Žš—ñ */
+/* å·¦ã‚ªãƒšãƒ©ãƒ³ãƒ‰æ–‡å­—åˆ— */
 const static char *txtLop[] = {
     "",        "B",    "C",       "D",    "E",       "H",         "L",
     "A",       "F",    "IXh",     "IXl",  "IYh",     "IYl",       "BC",
@@ -1360,7 +1360,7 @@ const static char *txtLop[] = {
     "Z",       "NC",   "C",       "PO",   "PE",      "P",         "M",
     "%s"};
 
-/* ‰EƒIƒyƒ‰ƒ“ƒh•¶Žš—ñ */
+/* å³ã‚ªãƒšãƒ©ãƒ³ãƒ‰æ–‡å­—åˆ— */
 const static char *txtRop[] = {
     "",       ", B",       ", C",         ", D",    ", E",    ", H",
     ", L",    ", A",       ", F",         ", IXh",  ", IXl",  ", IYh",
@@ -1371,7 +1371,7 @@ const static char *txtRop[] = {
     ", (IY)", ", (IY%+d)", ", (C)",       ", I",    ", R",    ", %s"};
 
 /*
-        ƒVƒ“ƒ{ƒ‹–¼‚ð“¾‚é
+        ã‚·ãƒ³ãƒœãƒ«åã‚’å¾—ã‚‹
 */
 const char *z80symbol(const Z80symbol *symbol, int bank, uint16 address) {
   const Z80symbol *p;
@@ -1384,7 +1384,7 @@ const char *z80symbol(const Z80symbol *symbol, int bank, uint16 address) {
 }
 
 /*
-        1–½—ß‹tƒAƒZƒ“ƒuƒ‹‚·‚é
+        1å‘½ä»¤é€†ã‚¢ã‚»ãƒ³ãƒ–ãƒ«ã™ã‚‹
 */
 void *z80disasm(char *str, uint8 *mem, int bank, uint16 address,
                 const Z80symbol *symbol) {
@@ -1394,17 +1394,17 @@ void *z80disasm(char *str, uint8 *mem, int bank, uint16 address,
   uint8 *p;
   const char *sym;
 
-  if (memcmp(mem, "\xcb", 1) == 0)
+  if (memcmp(mem, "Â¥xcb", 1) == 0)
     x = 1;
-  else if (memcmp(mem, "\xdd\xcb", 2) == 0)
+  else if (memcmp(mem, "Â¥xddÂ¥xcb", 2) == 0)
     x = 3;
-  else if (memcmp(mem, "\xdd", 1) == 0)
+  else if (memcmp(mem, "Â¥xdd", 1) == 0)
     x = 2;
-  else if (memcmp(mem, "\xed", 1) == 0)
+  else if (memcmp(mem, "Â¥xed", 1) == 0)
     x = 4;
-  else if (memcmp(mem, "\xfd\xcb", 2) == 0)
+  else if (memcmp(mem, "Â¥xfdÂ¥xcb", 2) == 0)
     x = 6;
-  else if (memcmp(mem, "\xfd", 1) == 0)
+  else if (memcmp(mem, "Â¥xfd", 1) == 0)
     x = 5;
   else
     x = 0;
@@ -1464,16 +1464,16 @@ void *z80disasm(char *str, uint8 *mem, int bank, uint16 address,
 }
 
 /*
-        CPU‚Ìó‘Ô‚ð•¶Žš—ñ‚Æ‚µ‚Äo—Í‚·‚é
+        CPUã®çŠ¶æ…‹ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å‡ºåŠ›ã™ã‚‹
 */
 char *z80regs(char *str, const Z80stat *r) {
   char buf[32];
 
   sprintf(
       str,
-      "%c%c%c%c%c%c(%02x) A=%02x BC=%04x DE=%04x HL=%04x SP=%04x PC=%04x %s\n"
+      "%c%c%c%c%c%c(%02x) A=%02x BC=%04x DE=%04x HL=%04x SP=%04x PC=%04x %sÂ¥n"
       "%c%c%c%c%c%c(%02x) A'%02x BC'%04x DE'%04x HL'%04x IX=%04x IY=%04x "
-      "IFF=%d%d %s\n",
+      "IFF=%d%d %sÂ¥n",
       (r->r.f & 0x80 ? 'S' : '-'), (r->r.f & 0x40 ? 'Z' : '-'),
       (r->r.f & 0x10 ? 'H' : '-'), (r->r.f & 0x04 ? 'P' : '-'),
       (r->r.f & 0x02 ? 'N' : '-'), (r->r.f & 0x01 ? 'C' : '-'), r->r.f, r->r.a,
@@ -1491,7 +1491,7 @@ char *z80regs(char *str, const Z80stat *r) {
 }
 
 /*
-        Copyright 2005 ~ 2008 maruhiro
+        Copyright 2005 â€¾ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

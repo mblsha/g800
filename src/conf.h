@@ -1,5 +1,5 @@
 /*
-        İ’èƒtƒ@ƒCƒ‹ˆ—
+        è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å‡¦ç†
 */
 
 #if !defined(CONF_H)
@@ -8,9 +8,9 @@
 #include <stdio.h>
 
 /*
-        \‘¢‘Ì
+        æ§‹é€ ä½“
 */
-/* •¶š—ñ<->”’l•ÏŠ·ƒe[ƒuƒ‹ */
+/* æ–‡å­—åˆ—<->æ•°å€¤å¤‰æ›ãƒ†ãƒ¼ãƒ–ãƒ« */
 typedef struct {
   char *string;
   int value;
@@ -24,7 +24,7 @@ typedef struct {
 } Conf;
 
 /*
-        ŠÖ”ƒvƒƒgƒ^ƒCƒv
+        é–¢æ•°ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—
 */
 #if defined(_WIN32)
 char **argvToUTF8(int, char *[]);
@@ -42,7 +42,7 @@ void setOptTable(OptTable *, const char *, int);
 #endif
 
 /*
-        Copyright 2005 ~ 2008 maruhiro
+        Copyright 2005 â€¾ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

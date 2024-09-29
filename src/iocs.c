@@ -1,6 +1,6 @@
 /*
         SHARP PC-G800 series Emulator
-        IOCSƒGƒ~ƒ…ƒŒ[ƒg
+        IOCSã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆ
 */
 
 #include "g800.h"
@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* ƒL[ƒR[ƒh -> ASCIIƒR[ƒh•ÏŠ·ƒe[ƒuƒ‹ */
+/* ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ -> ASCIIã‚³ãƒ¼ãƒ‰å¤‰æ›ãƒ†ãƒ¼ãƒ–ãƒ« */
 const static uint8 keycode2ascii_normal[] = {
     0x00, 0x06, /* OFF */
     0x51,       /* Q */
@@ -40,14 +40,14 @@ const static uint8 keycode2ascii_normal[] = {
     0x01, /* BASIC */
     0x02, /* TEXT */
     0x14, /* CAPS */
-    0x11, /* ƒJƒi */
+    0x11, /* ã‚«ãƒŠ */
     0x0a, /* TAB */
     0x20, /* SPACE */
-    0x1f, /* « */
+    0x1f, /* â†“ */
 
-    0x1e, /* ª */
-    0x1d, /* © */
-    0x1c, /* ¨ */
+    0x1e, /* â†‘ */
+    0x1d, /* â† */
+    0x1c, /* â†’ */
     0x15, /* ANS */
     0x30, /* 0 */
     0x2e, /* . */
@@ -70,10 +70,10 @@ const static uint8 keycode2ascii_normal[] = {
     0x35, /* 5 */
     0x36, /* 6 */
     0x2a, /* * */
-    0x19, /* RECM */
+    0x19, /* Rãƒ»CM */
     0x50, /* P */
     0x08, /* BS */
-    0xfe, /* ƒÎ */
+    0xfe, /* Ï€ */
     0x37, /* 7 */
     0x38, /* 8 */
     0x39, /* 9 */
@@ -81,8 +81,8 @@ const static uint8 keycode2ascii_normal[] = {
 
     0x29, /* ) */
     0xfe, /* nPr */
-    0xfe, /* ¨DEG */
-    0xfe, /* ã */
+    0xfe, /* â†’DEG */
+    0xfe, /* âˆš */
     0xfe, /* x^2 */
     0x5e, /* ^ */
     0x28, /* ( */
@@ -94,7 +94,7 @@ const static uint8 keycode2ascii_normal[] = {
     0xfe, /* ln */
     0xfe, /* log */
     0xfe, /* tan */
-    0x0f, /* F©¨E */
+    0x0f, /* Fâ†â†’E */
 
     0x0c, /* CLS */
     0x05, /* BREAK */
@@ -135,14 +135,14 @@ const static uint8 keycode2ascii_normal[] = {
     0xf0, /* SHIFT + BASIC */
     0x03, /* SHIFT + TEXT */
     0x14, /* SHIFT + CAPS */
-    0x11, /* SHIFT + ƒJƒi */
+    0x11, /* SHIFT + ã‚«ãƒŠ */
     0x0a, /* SHIFT + TAB */
     0x20, /* SHIFT + SPACE */
-    0x1f, /* SHIFT + « */
+    0x1f, /* SHIFT + â†“ */
 
-    0x1e, /* SHIFT + ª */
-    0x1d, /* SHIFT + © */
-    0x1c, /* SHIFT + ¨ */
+    0x1e, /* SHIFT + â†‘ */
+    0x1d, /* SHIFT + â† */
+    0x1c, /* SHIFT + â†’ */
     0xf2, /* SHIFT + ANS */
     0x30, /* SHIFT + 0 */
     0x13, /* SHIFT + . */
@@ -165,10 +165,10 @@ const static uint8 keycode2ascii_normal[] = {
     0x35, /* SHIFT + 5 */
     0x36, /* SHIFT + 6 */
     0x2a, /* SHIFT + * */
-    0x19, /* SHIFT + RECM */
+    0x19, /* SHIFT + Rãƒ»CM */
     0x40, /* SHIFT + P */
     0x08, /* SHIFT + BS */
-    0xfe, /* SHIFT + ƒÎ */
+    0xfe, /* SHIFT + Ï€ */
     0xdf, /* SHIFT + 7 */
     0x27, /* SHIFT + 8 */
     0xf8, /* SHIFT + 9 */
@@ -176,8 +176,8 @@ const static uint8 keycode2ascii_normal[] = {
 
     0xf1, /* SHIFT + ) */
     0xfe, /* SHIFT + nPr */
-    0xfe, /* SHIFT + ¨DEG */
-    0xfe, /* SHIFT + ã */
+    0xfe, /* SHIFT + â†’DEG */
+    0xfe, /* SHIFT + âˆš */
     0xfe, /* SHIFT + x^2 */
     0xfe, /* SHIFT + ^ */
     0xfe, /* SHIFT + ( */
@@ -189,7 +189,7 @@ const static uint8 keycode2ascii_normal[] = {
     0xfe, /* SHIFT + ln */
     0xfe, /* SHIFT + log */
     0xfe, /* SHIFT + tan */
-    0x0e, /* SHIFT + F©¨E */
+    0x0e, /* SHIFT + Fâ†â†’E */
 
     0x0b, /* SHIFT + CLS */
     0x05, /* SHIFT + BREAK */
@@ -227,14 +227,14 @@ const static uint8 keycode2ascii_caps[] = {
     0x01, /* CAPS + BASIC */
     0x02, /* CAPS + TEXT */
     0x14, /* CAPS + CAPS */
-    0x11, /* CAPS + ƒJƒi */
+    0x11, /* CAPS + ã‚«ãƒŠ */
     0x0a, /* CAPS + TAB */
     0x20, /* CAPS + SPACE */
-    0x1f, /* CAPS + « */
+    0x1f, /* CAPS + â†“ */
 
-    0x1e, /* CAPS + ª */
-    0x1d, /* CAPS + © */
-    0x1c, /* CAPS + ¨ */
+    0x1e, /* CAPS + â†‘ */
+    0x1d, /* CAPS + â† */
+    0x1c, /* CAPS + â†’ */
     0x15, /* CAPS + ANS */
     0x30, /* CAPS + 0 */
     0x2e, /* CAPS + . */
@@ -257,10 +257,10 @@ const static uint8 keycode2ascii_caps[] = {
     0x35, /* CAPS + 5 */
     0x36, /* CAPS + 6 */
     0x2a, /* CAPS + * */
-    0x19, /* CAPS + RECM */
+    0x19, /* CAPS + Rãƒ»CM */
     0x70, /* CAPS + P */
     0x08, /* CAPS + BS */
-    0xfe, /* CAPS + ƒÎ */
+    0xfe, /* CAPS + Ï€ */
     0x37, /* CAPS + 7 */
     0x38, /* CAPS + 8 */
     0x39, /* CAPS + 9 */
@@ -268,8 +268,8 @@ const static uint8 keycode2ascii_caps[] = {
 
     0x29, /* CAPS + ) */
     0xfe, /* CAPS + nPr */
-    0xfe, /* CAPS + ¨DEG */
-    0xfe, /* CAPS + ã */
+    0xfe, /* CAPS + â†’DEG */
+    0xfe, /* CAPS + âˆš */
     0xfe, /* CAPS + x^2 */
     0x5e, /* CAPS + ^ */
     0x28, /* CAPS + ( */
@@ -281,7 +281,7 @@ const static uint8 keycode2ascii_caps[] = {
     0xfe, /* CAPS + ln */
     0xfe, /* CAPS + log */
     0xfe, /* CAPS + tan */
-    0x0f, /* CAPS + F©¨E */
+    0x0f, /* CAPS + Fâ†â†’E */
 
     0x0c, /* CAPS + CLS */
     0x05, /* CAPS + BREAK */
@@ -294,15 +294,15 @@ const static uint8 keycode2ascii_caps[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-/* Ÿ‚É•\¦‚·‚é•¶š‚ÌˆÊ’u */
+/* æ¬¡ã«è¡¨ç¤ºã™ã‚‹æ–‡å­—ã®ä½ç½® */
 static uint8 *curCol = &memory[0x7920], *curRow = &memory[0x7921];
-/* ÅŒã‚É•\¦‚µ‚½•¶š‚ÌˆÊ’u */
+/* æœ€å¾Œã«è¡¨ç¤ºã—ãŸæ–‡å­—ã®ä½ç½® */
 static uint8 *lastCol = &memory[0x7922], *lastRow = &memory[0x7923];
-/* ‰üs‚µ‚È‚¢‚©? */
+/* æ”¹è¡Œã—ãªã„ã‹? */
 static uint8 *noWrap = &memory[0x797d];
 
 /*
-        “dŒ¹‚ğ’â~‚·‚é
+        é›»æºã‚’åœæ­¢ã™ã‚‹
 */
 void poweroff(void) {
   ioReset = 0;
@@ -311,7 +311,7 @@ void poweroff(void) {
 }
 
 /*
-        ƒpƒ^[ƒ“‚ğ•\¦‚·‚é
+        ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¡¨ç¤ºã™ã‚‹
 */
 void putpat(uint8 col, uint8 row, const uint8 *pat, uint8 len) {
   if (cellHeight == 8)
@@ -326,14 +326,14 @@ void putpat(uint8 col, uint8 row, const uint8 *pat, uint8 len) {
 }
 
 /*
-        row‚ğÁ‹‚·‚é
+        rowã‚’æ¶ˆå»ã™ã‚‹
 */
 static inline void clrline(uint8 row) {
   memset(VRAM_CR(0, row), 0, vramWidth - 1);
 }
 
 /*
-        ã‚ÉƒXƒNƒ[ƒ‹‚·‚é
+        ä¸Šã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
 */
 void scrup(void) {
   uint8 tmp;
@@ -368,7 +368,7 @@ void scrup(void) {
 }
 
 /*
-        ‰º‚ÉƒXƒNƒ[ƒ‹‚·‚é
+        ä¸‹ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
 */
 void scrdown(uint8 row, uint8 col) {
   int n;
@@ -381,7 +381,7 @@ void scrdown(uint8 row, uint8 col) {
 }
 
 /*
-        ‰æ–Ê‘S‘Ì‚ğÁ‹‚·‚é
+        ç”»é¢å…¨ä½“ã‚’æ¶ˆå»ã™ã‚‹
 */
 void clrall(void) {
   uint8 row;
@@ -391,7 +391,7 @@ void clrall(void) {
 }
 
 /*
-        Å‰‚Ì•¶š‚ğ•\¦‚·‚é
+        æœ€åˆã®æ–‡å­—ã‚’è¡¨ç¤ºã™ã‚‹
 */
 void putchr(uint8 col, uint8 row, uint8 chr) {
   uint8 pat[7];
@@ -405,7 +405,7 @@ void putchr(uint8 col, uint8 row, uint8 chr) {
 }
 
 /*
-        Ÿ‚Ìs‚ğ‹‚ß‚é
+        æ¬¡ã®è¡Œã‚’æ±‚ã‚ã‚‹
 */
 int nextRow(uint8 *col, uint8 *row) {
   *col = 0;
@@ -419,7 +419,7 @@ int nextRow(uint8 *col, uint8 *row) {
 }
 
 /*
-        Ÿ‚Ì—ñ‚ğ‹‚ß‚é
+        æ¬¡ã®åˆ—ã‚’æ±‚ã‚ã‚‹
 */
 int nextCol(uint8 *col, uint8 *row) {
   if (*col >= lcdCols - 1)
@@ -431,7 +431,7 @@ int nextCol(uint8 *col, uint8 *row) {
 }
 
 /*
-        ‘O‚Ì—ñ‚ğ‹‚ß‚é
+        å‰ã®åˆ—ã‚’æ±‚ã‚ã‚‹
 */
 void prevCol(uint8 *col, uint8 *row) {
   if (*col == 0) {
@@ -444,7 +444,7 @@ void prevCol(uint8 *col, uint8 *row) {
 }
 
 /*
-        2‚Â–ÚˆÈ~‚Ì•¶š‚ğ•\¦‚·‚é
+        2ã¤ç›®ä»¥é™ã®æ–‡å­—ã‚’è¡¨ç¤ºã™ã‚‹
 */
 int putchrNext(uint8 *col, uint8 *row, uint8 chr) {
   if (nextCol(col, row)) {
@@ -458,7 +458,7 @@ int putchrNext(uint8 *col, uint8 *row, uint8 chr) {
 }
 
 /*
-        •¶š—ñ‚ğ•\¦‚·‚é
+        æ–‡å­—åˆ—ã‚’è¡¨ç¤ºã™ã‚‹
 */
 int putstr(uint8 col, uint8 row, void *str, ...) {
   va_list v;
@@ -480,7 +480,7 @@ int putstr(uint8 col, uint8 row, void *str, ...) {
 }
 
 /*
-        •\¦ˆÊ’u‚ğŒˆ‚ß‚é
+        è¡¨ç¤ºä½ç½®ã‚’æ±ºã‚ã‚‹
 */
 void glocate(uint8 col, uint8 row) {
   *curCol = col;
@@ -489,18 +489,18 @@ void glocate(uint8 col, uint8 row) {
 }
 
 /*
-        ƒJ[ƒ\ƒ‹‚ğˆÚ“®‚·‚é
+        ã‚«ãƒ¼ã‚½ãƒ«ã‚’ç§»å‹•ã™ã‚‹
 */
 int moveCursor(uint8 ctrl) {
   if (ctrl == 0x0d) { /* RETURN */
     *curCol = 0;
     (*curRow)++;
-  } else if (ctrl == 0x1c) { /* ¨ */
+  } else if (ctrl == 0x1c) { /* â†’ */
     if ((int8)++ * curCol >= lcdCols) {
       *curCol = 0;
       (*curRow)++;
     }
-  } else if (ctrl == 0x1d) { /* © */
+  } else if (ctrl == 0x1d) { /* â† */
     if ((int8)-- * curCol < 0) {
       *curCol = lcdCols - 1;
       (*curRow)--;
@@ -520,7 +520,7 @@ int moveCursor(uint8 ctrl) {
 }
 
 /*
-        1•¶š•\¦‚·‚é
+        1æ–‡å­—è¡¨ç¤ºã™ã‚‹
 */
 int gputchr(uint8 chr) {
   int scroll;
@@ -555,7 +555,7 @@ int gputchr(uint8 chr) {
 }
 
 /*
-        •¶š—ñ‚ğ•\¦‚·‚é
+        æ–‡å­—åˆ—ã‚’è¡¨ç¤ºã™ã‚‹
 */
 void gprintf(const char *str, ...) {
   va_list v;
@@ -577,7 +577,7 @@ void gprintf(const char *str, ...) {
 }
 
 /*
-        ‰æ–Ê‘S‘Ì‚ğÁ‹‚·‚é
+        ç”»é¢å…¨ä½“ã‚’æ¶ˆå»ã™ã‚‹
 */
 void gcls() {
   clrall();
@@ -585,11 +585,11 @@ void gcls() {
 }
 
 /*
-        LCDã‚Éƒhƒbƒg‚ª‚ ‚é‚©’²‚×‚é
+        LCDä¸Šã«ãƒ‰ãƒƒãƒˆãŒã‚ã‚‹ã‹èª¿ã¹ã‚‹
 */
 uint8 point(int16 x, int16 y) {
   /*
-  printf("POINT(%d,%d)\n", x, y);
+  printf("POINT(%d,%d)Â¥n", x, y);
   fflush(stdout);
   */
 
@@ -600,7 +600,7 @@ uint8 point(int16 x, int16 y) {
 }
 
 /*
-        LCDã‚É“_‚ğ•`‚­
+        LCDä¸Šã«ç‚¹ã‚’æã
 */
 void pset(int16 x, int16 y, uint8 mode) {
   uint8 mask, *p;
@@ -615,7 +615,7 @@ void pset(int16 x, int16 y, uint8 mode) {
 
   switch (mode) {
   case 0:
-    *p &= ~mask;
+    *p &= â€¾mask;
     break;
   case 1:
     *p |= mask;
@@ -627,7 +627,7 @@ void pset(int16 x, int16 y, uint8 mode) {
 }
 
 /*
-        ƒXƒe[ƒ^ƒX‚ğ•`‚­
+        ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’æã
 */
 void putstatus(int status, int on_off) {
   uint8 *p = VRAM_CR(lcdCols, machineInfo[machine]->status_row[status]);
@@ -636,11 +636,11 @@ void putstatus(int status, int on_off) {
   if (on_off)
     *p |= mask;
   else
-    *p &= ~mask;
+    *p &= â€¾mask;
 }
 
 /*
-        16bit‚Ì•Ï”‚ğŒğŠ·‚·‚é
+        16bitã®å¤‰æ•°ã‚’äº¤æ›ã™ã‚‹
 */
 static inline void swap16(void *x, void *y) {
   uint16 tmp;
@@ -651,7 +651,7 @@ static inline void swap16(void *x, void *y) {
 }
 
 /*
-        ’·•ûŒ`‚ÌƒNƒŠƒbƒsƒ“ƒO‚ğs‚¤
+        é•·æ–¹å½¢ã®ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°ã‚’è¡Œã†
 */
 static void clip(int16 *x1, int16 *y1, int16 *x2, int16 *y2) {
   *x1 = (*x1 < 0 ? 0 : (*x1 >= lcdWidth ? lcdWidth - 1 : *x1));
@@ -665,7 +665,7 @@ static void clip(int16 *x1, int16 *y1, int16 *x2, int16 *y2) {
 }
 
 /*
-        ¶ƒVƒtƒg‚·‚é (‰º¿‚¯)
+        å·¦ã‚·ãƒ•ãƒˆã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static uint16 rotate(uint16 *mask) {
   uint16 prev = *mask;
@@ -676,7 +676,7 @@ static uint16 rotate(uint16 *mask) {
 }
 
 /*
-        LCDã‚Éü‚ğ•`‚­
+        LCDä¸Šã«ç·šã‚’æã
 */
 void line(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
   int dx, dx0, dy, dy0, e;
@@ -684,7 +684,7 @@ void line(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
   uint16 mask = 0x0001;
 
   /*
-  printf("LINE(%d,%d)-(%d,%d),%d\n", x1, y1, x2, y2, mode & 0x03);
+  printf("LINE(%d,%d)-(%d,%d),%dÂ¥n", x1, y1, x2, y2, mode & 0x03);
   fflush(stdout);
   */
 
@@ -727,13 +727,13 @@ void line(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
 }
 
 /*
-        LCDã‚ÉlŠp‚ğ•`‚­
+        LCDä¸Šã«å››è§’ã‚’æã
 */
 void box(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
   int dx = (x2 > x1 ? x2 - x1 : x1 - x2), dy = (y2 > y1 ? y2 - y1 : y1 - y2);
 
   /*
-  printf("BOX(%d,%d)-(%d,%d),%d\n", x1, y1, x2, y2, mode);
+  printf("BOX(%d,%d)-(%d,%d),%dÂ¥n", x1, y1, x2, y2, mode);
   fflush(stdout);
   */
 
@@ -760,14 +760,14 @@ void box(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
 }
 
 /*
-        LCDã‚É“h‚è‚Â‚Ô‚µ‚½lŠp‚ğ•`‚­
+        LCDä¸Šã«å¡—ã‚Šã¤ã¶ã—ãŸå››è§’ã‚’æã
 */
 void boxfill(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
   uint16 i, j;
   uint16 mask = 0x0001;
 
   /*
-  printf("BOXFILL(%d,%d)-(%d,%d),%d\n", x1, y1, x2, y2, mode);
+  printf("BOXFILL(%d,%d)-(%d,%d),%dÂ¥n", x1, y1, x2, y2, mode);
   fflush(stdout);
   */
 
@@ -779,11 +779,11 @@ void boxfill(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
 }
 
 /*
-        LCDã‚Éƒpƒ^[ƒ“‚ğ•`‚­
+        LCDä¸Šã«ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’æã
 */
 static void gprint(int16 x, int16 y, uint8 pat) {
   /*
-  printf("GPRINT(%d,%d),%02x\n", x, y, pat);
+  printf("GPRINT(%d,%d),%02xÂ¥n", x, y, pat);
   fflush(stdout);
   */
 
@@ -798,7 +798,7 @@ static void gprint(int16 x, int16 y, uint8 pat) {
 }
 
 /*
-        ‰Ÿ‚³‚ê‚Ä‚¢‚éƒL[‚ğ“¾‚é(wait‚È‚µ)
+        æŠ¼ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼ã‚’å¾—ã‚‹(waitãªã—)
 */
 uint8 peekKeycode(void) {
   const static uint8 zero[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -847,7 +847,7 @@ uint8 peekKeycode(void) {
 }
 
 /*
-        ‰Ÿ‚³‚ê‚Ä‚¢‚éƒL[‚ğ“¾‚é(wait‚ ‚è)
+        æŠ¼ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼ã‚’å¾—ã‚‹(waitã‚ã‚Š)
 */
 uint8 getKeycode(void) {
   uint8 keycode;
@@ -868,7 +868,7 @@ uint8 getKeycode(void) {
 }
 
 /*
-        ƒL[‚ğ—£‚·‚Ü‚Å‘Ò‚Â
+        ã‚­ãƒ¼ã‚’é›¢ã™ã¾ã§å¾…ã¤
 */
 void waitRelease(void) {
   do {
@@ -879,7 +879,7 @@ void waitRelease(void) {
 }
 
 /*
-        ƒL[ƒR[ƒh‚ğASCII‚É•ÏŠ·‚·‚é
+        ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’ASCIIã«å¤‰æ›ã™ã‚‹
 */
 uint8 keycode2ascii(uint8 keycode, int is_normal) {
   if (is_normal)
@@ -907,7 +907,7 @@ int setMode(uint8 ch) {
     ;
   else if (ch == 0xf1) /* BASE-n */
     ;
-  else if (ch == 0xf2) /* ƒRƒ“ƒgƒ‰ƒXƒg */
+  else if (ch == 0xf2) /* ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆ */
     ;
   else
     return FALSE;
@@ -916,7 +916,7 @@ int setMode(uint8 ch) {
 }
 
 /*
-        ƒJ[ƒ\ƒ‹‚ğ•\¦‚·‚é (getChrcode‚Ì‰º¿‚¯)
+        ã‚«ãƒ¼ã‚½ãƒ«ã‚’è¡¨ç¤ºã™ã‚‹ (getChrcodeã®ä¸‹è«‹ã‘)
 */
 static void putCursor(uint8 col, uint8 row, const uint8 *off, const uint8 *on,
                       int count) {
@@ -940,12 +940,12 @@ static void putCursor(uint8 col, uint8 row, const uint8 *off, const uint8 *on,
   delay(1000 / freqUpdateIO);
 }
 
-#define REPEAT_START_DELAY                                                     \
-  200                    /* ƒL[‚ğÅ‰‚É‰Ÿ‚µ‚Ä‚©‚ç•¶š‚ªo‚é‚Ü‚Å‚Ì‘Ò‚¿ŠÔ */
-#define REPEAT_DELAY 100 /* •¶š‚ªo‚éŠÔŠu */
+#define REPEAT_START_DELAY                                                     Â¥
+  200                    /* ã‚­ãƒ¼ã‚’æœ€åˆã«æŠ¼ã—ã¦ã‹ã‚‰æ–‡å­—ãŒå‡ºã‚‹ã¾ã§ã®å¾…ã¡æ™‚é–“ */
+#define REPEAT_DELAY 100 /* æ–‡å­—ãŒå‡ºã‚‹é–“éš” */
 
 /*
-        ƒL[ƒR[ƒh‚ğ“¾‚é(ƒI[ƒgƒŠƒs[ƒg‚ ‚èEƒEƒFƒCƒg‚È‚µ) (getChrcode‚Ì‰º¿‚¯)
+        ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å¾—ã‚‹(ã‚ªãƒ¼ãƒˆãƒªãƒ”ãƒ¼ãƒˆã‚ã‚Šãƒ»ã‚¦ã‚§ã‚¤ãƒˆãªã—) (getChrcodeã®ä¸‹è«‹ã‘)
 */
 static uint8 peekKeycodeRepeat(void) {
   static int repeat_counter = 0;
@@ -984,230 +984,230 @@ static uint8 peekKeycodeRepeat(void) {
 }
 
 /*
-        ƒL[“ü—Í‚ğ1•¶š“¾‚é (ggetchr‚Ì‰º¿‚¯)
+        ã‚­ãƒ¼å…¥åŠ›ã‚’1æ–‡å­—å¾—ã‚‹ (ggetchrã®ä¸‹è«‹ã‘)
 */
 uint8 getChrcode(int cursor) {
   const struct RomanKana {
     const uint8 *roman;
     const uint8 *kana;
   } *r, table[] = {
-            {(const uint8 *)"A", (const uint8 *)"\xb1"},           /* ƒA */
-            {(const uint8 *)"I", (const uint8 *)"\xb2"},           /* ƒC */
-            {(const uint8 *)"U", (const uint8 *)"\xb3"},           /* ƒE */
-            {(const uint8 *)"E", (const uint8 *)"\xb4"},           /* ƒG */
-            {(const uint8 *)"O", (const uint8 *)"\xb5"},           /* ƒI */
-            {(const uint8 *)"YE", (const uint8 *)"\xb2\xaa"},      /* ƒCƒF */
-            {(const uint8 *)"KA", (const uint8 *)"\xb6"},          /* ƒJ */
-            {(const uint8 *)"KI", (const uint8 *)"\xb7"},          /* ƒL */
-            {(const uint8 *)"KU", (const uint8 *)"\xb8"},          /* ƒN */
-            {(const uint8 *)"KE", (const uint8 *)"\xb9"},          /* ƒP */
-            {(const uint8 *)"KO", (const uint8 *)"\xba"},          /* ƒR */
-            {(const uint8 *)"CA", (const uint8 *)"\xb6"},          /* ƒJ */
-            {(const uint8 *)"CU", (const uint8 *)"\xb8"},          /* ƒN */
-            {(const uint8 *)"CO", (const uint8 *)"\xba"},          /* ƒR */
-            {(const uint8 *)"QA", (const uint8 *)"\xb8\xa7"},      /* ƒNƒ@ */
-            {(const uint8 *)"QI", (const uint8 *)"\xb8\xa8"},      /* ƒNƒB */
-            {(const uint8 *)"QU", (const uint8 *)"\xb8"},          /* ƒN */
-            {(const uint8 *)"QE", (const uint8 *)"\xb8\xaa"},      /* ƒNƒF */
-            {(const uint8 *)"QO", (const uint8 *)"\xb8\xab"},      /* ƒNƒH */
-            {(const uint8 *)"KYA", (const uint8 *)"\xb7\xac"},     /* ƒLƒƒ */
-            {(const uint8 *)"KYI", (const uint8 *)"\xb7\xa8"},     /* ƒLƒB */
-            {(const uint8 *)"KYU", (const uint8 *)"\xb7\xad"},     /* ƒLƒ… */
-            {(const uint8 *)"KYE", (const uint8 *)"\xb7\xaa"},     /* ƒLƒF */
-            {(const uint8 *)"KYO", (const uint8 *)"\xb7\xae"},     /* ƒLƒ‡ */
-            {(const uint8 *)"SA", (const uint8 *)"\xbb"},          /* ƒT */
-            {(const uint8 *)"SI", (const uint8 *)"\xbc"},          /* ƒV */
-            {(const uint8 *)"SU", (const uint8 *)"\xbd"},          /* ƒX */
-            {(const uint8 *)"SE", (const uint8 *)"\xbe"},          /* ƒZ */
-            {(const uint8 *)"SO", (const uint8 *)"\xbf"},          /* ƒ\ */
-            {(const uint8 *)"SHA", (const uint8 *)"\xbc\xac"},     /* ƒVƒƒ */
-            {(const uint8 *)"SHI", (const uint8 *)"\xbc"},         /* ƒV */
-            {(const uint8 *)"SHU", (const uint8 *)"\xbc\xad"},     /* ƒVƒ… */
-            {(const uint8 *)"SHE", (const uint8 *)"\xbc\xaa"},     /* ƒVƒF */
-            {(const uint8 *)"SHO", (const uint8 *)"\xbc\xae"},     /* ƒVƒ‡ */
-            {(const uint8 *)"SYA", (const uint8 *)"\xbc\xac"},     /* ƒVƒƒ */
-            {(const uint8 *)"SYI", (const uint8 *)"\xbc"},         /* ƒV */
-            {(const uint8 *)"SYU", (const uint8 *)"\xbc\xad"},     /* ƒVƒ… */
-            {(const uint8 *)"SYE", (const uint8 *)"\xbc\xaa"},     /* ƒVƒF */
-            {(const uint8 *)"SYO", (const uint8 *)"\xbc\xae"},     /* ƒVƒ‡ */
-            {(const uint8 *)"TA", (const uint8 *)"\xc0"},          /* ƒ^ */
-            {(const uint8 *)"TI", (const uint8 *)"\xc1"},          /* ƒ` */
-            {(const uint8 *)"TU", (const uint8 *)"\xc2"},          /* ƒc */
-            {(const uint8 *)"TE", (const uint8 *)"\xc3"},          /* ƒe */
-            {(const uint8 *)"TO", (const uint8 *)"\xc4"},          /* ƒg */
-            {(const uint8 *)"TSA", (const uint8 *)"\xc2\xa7"},     /* ƒcƒ@ */
-            {(const uint8 *)"TSI", (const uint8 *)"\xc2\xa8"},     /* ƒcƒB */
-            {(const uint8 *)"TSU", (const uint8 *)"\xc2"},         /* ƒc */
-            {(const uint8 *)"TSE", (const uint8 *)"\xc2\xaa"},     /* ƒcƒF */
-            {(const uint8 *)"TSO", (const uint8 *)"\xc2\xab"},     /* ƒcƒH */
-            {(const uint8 *)"CHA", (const uint8 *)"\xc1\xac"},     /* ƒ`ƒƒ */
-            {(const uint8 *)"CHI", (const uint8 *)"\xc1"},         /* ƒ` */
-            {(const uint8 *)"CHU", (const uint8 *)"\xc1\xad"},     /* ƒ`ƒ… */
-            {(const uint8 *)"CHE", (const uint8 *)"\xc1\xaa"},     /* ƒ`ƒF */
-            {(const uint8 *)"CHO", (const uint8 *)"\xc1\xac"},     /* ƒ`ƒ‡ */
-            {(const uint8 *)"TYA", (const uint8 *)"\xc1\xac"},     /* ƒ`ƒƒ */
-            {(const uint8 *)"TYI", (const uint8 *)"\xc1\xa8"},     /* ƒ`ƒB */
-            {(const uint8 *)"TYU", (const uint8 *)"\xc1\xad"},     /* ƒ`ƒ… */
-            {(const uint8 *)"TYE", (const uint8 *)"\xc1\xaa"},     /* ƒ`ƒF */
-            {(const uint8 *)"TYO", (const uint8 *)"\xc1\xac"},     /* ƒ`ƒ‡ */
-            {(const uint8 *)"CYA", (const uint8 *)"\xc1\xac"},     /* ƒ`ƒƒ */
-            {(const uint8 *)"CYI", (const uint8 *)"\xc1\xa8"},     /* ƒ`ƒB */
-            {(const uint8 *)"CYU", (const uint8 *)"\xc1\xad"},     /* ƒ`ƒ… */
-            {(const uint8 *)"CYE", (const uint8 *)"\xc1\xaa"},     /* ƒ`ƒF */
-            {(const uint8 *)"CYO", (const uint8 *)"\xc1\xac"},     /* ƒ`ƒ‡ */
-            {(const uint8 *)"NA", (const uint8 *)"\xc5"},          /* ƒi */
-            {(const uint8 *)"NI", (const uint8 *)"\xc6"},          /* ƒj */
-            {(const uint8 *)"NU", (const uint8 *)"\xc7"},          /* ƒk */
-            {(const uint8 *)"NE", (const uint8 *)"\xc8"},          /* ƒl */
-            {(const uint8 *)"NO", (const uint8 *)"\xc9"},          /* ƒm */
-            {(const uint8 *)"NYA", (const uint8 *)"\xc6\xac"},     /* ƒjƒƒ */
-            {(const uint8 *)"NYI", (const uint8 *)"\xc6\xa8"},     /* ƒjƒB */
-            {(const uint8 *)"NYU", (const uint8 *)"\xc6\xad"},     /* ƒjƒ… */
-            {(const uint8 *)"NYE", (const uint8 *)"\xc6\xaa"},     /* ƒjƒF */
-            {(const uint8 *)"NYO", (const uint8 *)"\xc6\xac"},     /* ƒjƒ‡ */
-            {(const uint8 *)"HA", (const uint8 *)"\xca"},          /* ƒn */
-            {(const uint8 *)"HI", (const uint8 *)"\xcb"},          /* ƒq */
-            {(const uint8 *)"HU", (const uint8 *)"\xcc"},          /* ƒt */
-            {(const uint8 *)"HE", (const uint8 *)"\xcd"},          /* ƒw */
-            {(const uint8 *)"HO", (const uint8 *)"\xce"},          /* ƒz */
-            {(const uint8 *)"FA", (const uint8 *)"\xcd\xa7"},      /* ƒtƒ@ */
-            {(const uint8 *)"FI", (const uint8 *)"\xcd\xa8"},      /* ƒtƒB */
-            {(const uint8 *)"FU", (const uint8 *)"\xcd"},          /* ƒt */
-            {(const uint8 *)"FE", (const uint8 *)"\xcd\xaa"},      /* ƒtƒF */
-            {(const uint8 *)"FO", (const uint8 *)"\xcd\xab"},      /* ƒtƒH */
-            {(const uint8 *)"HYA", (const uint8 *)"\xcb\xac"},     /* ƒqƒƒ */
-            {(const uint8 *)"HYI", (const uint8 *)"\xcb\xa8"},     /* ƒqƒB */
-            {(const uint8 *)"HYU", (const uint8 *)"\xcb\xad"},     /* ƒqƒ… */
-            {(const uint8 *)"HYE", (const uint8 *)"\xcb\xaa"},     /* ƒqƒF */
-            {(const uint8 *)"HYO", (const uint8 *)"\xcb\xac"},     /* ƒqƒ‡ */
-            {(const uint8 *)"MA", (const uint8 *)"\xcf"},          /* ƒ} */
-            {(const uint8 *)"MI", (const uint8 *)"\xd0"},          /* ƒ~ */
-            {(const uint8 *)"MU", (const uint8 *)"\xd1"},          /* ƒ€ */
-            {(const uint8 *)"ME", (const uint8 *)"\xd2"},          /* ƒ */
-            {(const uint8 *)"MO", (const uint8 *)"\xd3"},          /* ƒ‚ */
-            {(const uint8 *)"MYA", (const uint8 *)"\xd0\xac"},     /* ƒ~ƒƒ */
-            {(const uint8 *)"MYI", (const uint8 *)"\xd0\xa8"},     /* ƒ~ƒB */
-            {(const uint8 *)"MYU", (const uint8 *)"\xd0\xad"},     /* ƒ~ƒ… */
-            {(const uint8 *)"MYE", (const uint8 *)"\xd0\xaa"},     /* ƒ~ƒF */
-            {(const uint8 *)"MYO", (const uint8 *)"\xd0\xac"},     /* ƒ~ƒ‡ */
-            {(const uint8 *)"YA", (const uint8 *)"\xd4"},          /* ƒ„ */
-            {(const uint8 *)"YI", (const uint8 *)"\xb2"},          /* ƒC */
-            {(const uint8 *)"YU", (const uint8 *)"\xd5"},          /* ƒ† */
-            {(const uint8 *)"YO", (const uint8 *)"\xd6"},          /* ƒˆ */
-            {(const uint8 *)"RA", (const uint8 *)"\xd7"},          /* ƒ‰ */
-            {(const uint8 *)"RI", (const uint8 *)"\xd8"},          /* ƒŠ */
-            {(const uint8 *)"RU", (const uint8 *)"\xd9"},          /* ƒ‹ */
-            {(const uint8 *)"RE", (const uint8 *)"\xda"},          /* ƒŒ */
-            {(const uint8 *)"RO", (const uint8 *)"\xdb"},          /* ƒ */
-            {(const uint8 *)"LA", (const uint8 *)"\xd7"},          /* ƒ‰ */
-            {(const uint8 *)"LI", (const uint8 *)"\xd8"},          /* ƒŠ */
-            {(const uint8 *)"LU", (const uint8 *)"\xd9"},          /* ƒ‹ */
-            {(const uint8 *)"LE", (const uint8 *)"\xda"},          /* ƒŒ */
-            {(const uint8 *)"LO", (const uint8 *)"\xdb"},          /* ƒ */
-            {(const uint8 *)"RYA", (const uint8 *)"\xd8\xac"},     /* ƒŠƒƒ */
-            {(const uint8 *)"RYI", (const uint8 *)"\xd8\xa8"},     /* ƒŠƒB */
-            {(const uint8 *)"RYU", (const uint8 *)"\xd8\xad"},     /* ƒŠƒ… */
-            {(const uint8 *)"RYE", (const uint8 *)"\xd8\xaa"},     /* ƒŠƒF */
-            {(const uint8 *)"RYO", (const uint8 *)"\xd8\xae"},     /* ƒŠƒ‡ */
-            {(const uint8 *)"LYA", (const uint8 *)"\xd8\xac"},     /* ƒŠƒƒ */
-            {(const uint8 *)"LYI", (const uint8 *)"\xd8\xa8"},     /* ƒŠƒB */
-            {(const uint8 *)"LYU", (const uint8 *)"\xd8\xad"},     /* ƒŠƒ… */
-            {(const uint8 *)"LYE", (const uint8 *)"\xd8\xaa"},     /* ƒŠƒF */
-            {(const uint8 *)"LYO", (const uint8 *)"\xd8\xae"},     /* ƒŠƒ‡ */
-            {(const uint8 *)"WA", (const uint8 *)"\xdc"},          /* ƒ */
-            {(const uint8 *)"WO", (const uint8 *)"\xa6"},          /* ƒ’ */
-            {(const uint8 *)"VA", (const uint8 *)"\xb3\xde\xa7"},  /* ƒ”ƒ@ */
-            {(const uint8 *)"VI", (const uint8 *)"\xb3\xde\xa8"},  /* ƒ”ƒB */
-            {(const uint8 *)"VU", (const uint8 *)"\xb3\xde"},      /* ƒ” */
-            {(const uint8 *)"VE", (const uint8 *)"\xb3\xde\xaa"},  /* ƒ”ƒF */
-            {(const uint8 *)"VO", (const uint8 *)"\xb3\xde\xab"},  /* ƒ”ƒH */
-            {(const uint8 *)"GA", (const uint8 *)"\xb6\xde"},      /* ƒK */
-            {(const uint8 *)"GI", (const uint8 *)"\xb7\xde"},      /* ƒM */
-            {(const uint8 *)"GU", (const uint8 *)"\xb8\xde"},      /* ƒO */
-            {(const uint8 *)"GE", (const uint8 *)"\xb9\xde"},      /* ƒQ */
-            {(const uint8 *)"GO", (const uint8 *)"\xba\xde"},      /* ƒS */
-            {(const uint8 *)"GYA", (const uint8 *)"\xb7\xde\xac"}, /* ƒMƒƒ */
-            {(const uint8 *)"GYI", (const uint8 *)"\xb7\xde\xa8"}, /* ƒMƒB */
-            {(const uint8 *)"GYU", (const uint8 *)"\xb7\xde\xad"}, /* ƒMƒ… */
-            {(const uint8 *)"GYE", (const uint8 *)"\xb7\xde\xaa"}, /* ƒMƒF */
-            {(const uint8 *)"GYO", (const uint8 *)"\xb7\xde\xac"}, /* ƒMƒ‡ */
-            {(const uint8 *)"ZA", (const uint8 *)"\xbb\xde"},      /* ƒU */
-            {(const uint8 *)"ZI", (const uint8 *)"\xbc\xde"},      /* ƒW */
-            {(const uint8 *)"ZU", (const uint8 *)"\xbd\xde"},      /* ƒY */
-            {(const uint8 *)"ZE", (const uint8 *)"\xbe\xde"},      /* ƒ[ */
-            {(const uint8 *)"ZO", (const uint8 *)"\xbf\xde"},      /* ƒ] */
-            {(const uint8 *)"JA", (const uint8 *)"\xbc\xde\xac"},  /* ƒWƒƒ */
-            {(const uint8 *)"JI", (const uint8 *)"\xbc\xde"},      /* ƒW */
-            {(const uint8 *)"JU", (const uint8 *)"\xbc\xde\xad"},  /* ƒWƒ… */
-            {(const uint8 *)"JE", (const uint8 *)"\xbc\xde\xaa"},  /* ƒWƒF */
-            {(const uint8 *)"JO", (const uint8 *)"\xbc\xde\xac"},  /* ƒWƒ‡ */
-            {(const uint8 *)"JYA", (const uint8 *)"\xbc\xde\xac"}, /* ƒWƒƒ */
-            {(const uint8 *)"JYI", (const uint8 *)"\xbc\xde\xa8"}, /* ƒWƒB */
-            {(const uint8 *)"JYU", (const uint8 *)"\xbc\xde\xad"}, /* ƒWƒ… */
-            {(const uint8 *)"JYE", (const uint8 *)"\xbc\xde\xaa"}, /* ƒWƒF */
-            {(const uint8 *)"JYO", (const uint8 *)"\xbc\xde\xac"}, /* ƒWƒ‡ */
-            {(const uint8 *)"ZYA", (const uint8 *)"\xbc\xde\xac"}, /* ƒWƒƒ */
-            {(const uint8 *)"ZYI", (const uint8 *)"\xbc\xde\xa8"}, /* ƒWƒB */
-            {(const uint8 *)"ZYU", (const uint8 *)"\xbc\xde\xad"}, /* ƒWƒ… */
-            {(const uint8 *)"ZYE", (const uint8 *)"\xbc\xde\xaa"}, /* ƒWƒF */
-            {(const uint8 *)"ZYO", (const uint8 *)"\xbc\xde\xac"}, /* ƒWƒ‡ */
-            {(const uint8 *)"DA", (const uint8 *)"\xc0\xde"},      /* ƒ_ */
-            {(const uint8 *)"DI", (const uint8 *)"\xc1\xde"},      /* ƒa */
-            {(const uint8 *)"DU", (const uint8 *)"\xc2\xde"},      /* ƒd */
-            {(const uint8 *)"DE", (const uint8 *)"\xc3\xde"},      /* ƒf */
-            {(const uint8 *)"DO", (const uint8 *)"\xc4\xde"},      /* ƒh */
-            {(const uint8 *)"DHA", (const uint8 *)"\xc3\xde\xac"}, /* ƒfƒƒ */
-            {(const uint8 *)"DHI", (const uint8 *)"\xc3\xde\xa8"}, /* ƒfƒB */
-            {(const uint8 *)"DHU", (const uint8 *)"\xc3\xde\xad"}, /* ƒfƒ… */
-            {(const uint8 *)"DHE", (const uint8 *)"\xc3\xde\xaa"}, /* ƒfƒF */
-            {(const uint8 *)"DHO", (const uint8 *)"\xc3\xde\xac"}, /* ƒfƒ‡ */
-            {(const uint8 *)"DYA", (const uint8 *)"\xc1\xde\xac"}, /* ƒaƒƒ */
-            {(const uint8 *)"DYI", (const uint8 *)"\xc1\xde\xa8"}, /* ƒaƒB */
-            {(const uint8 *)"DYU", (const uint8 *)"\xc1\xde\xad"}, /* ƒaƒ… */
-            {(const uint8 *)"DYE", (const uint8 *)"\xc1\xde\xaa"}, /* ƒaƒF */
-            {(const uint8 *)"DYO", (const uint8 *)"\xc1\xde\xac"}, /* ƒaƒ‡ */
-            {(const uint8 *)"BA", (const uint8 *)"\xca\xde"},      /* ƒo */
-            {(const uint8 *)"BI", (const uint8 *)"\xcb\xde"},      /* ƒr */
-            {(const uint8 *)"BU", (const uint8 *)"\xcc\xde"},      /* ƒu */
-            {(const uint8 *)"BE", (const uint8 *)"\xcd\xde"},      /* ƒx */
-            {(const uint8 *)"BO", (const uint8 *)"\xce\xde"},      /* ƒ{ */
-            {(const uint8 *)"BYA", (const uint8 *)"\xcb\xde\xac"}, /* ƒrƒƒ */
-            {(const uint8 *)"BYI", (const uint8 *)"\xcb\xde\xa8"}, /* ƒrƒB */
-            {(const uint8 *)"BYU", (const uint8 *)"\xcb\xde\xad"}, /* ƒrƒ… */
-            {(const uint8 *)"BYE", (const uint8 *)"\xcb\xde\xaa"}, /* ƒrƒF */
-            {(const uint8 *)"BYO", (const uint8 *)"\xcb\xde\xac"}, /* ƒrƒ‡ */
-            {(const uint8 *)"PA", (const uint8 *)"\xca\xdf"},      /* ƒp */
-            {(const uint8 *)"PI", (const uint8 *)"\xcb\xdf"},      /* ƒs */
-            {(const uint8 *)"PU", (const uint8 *)"\xcc\xdf"},      /* ƒv */
-            {(const uint8 *)"PE", (const uint8 *)"\xcd\xdf"},      /* ƒy */
-            {(const uint8 *)"PO", (const uint8 *)"\xce\xdf"},      /* ƒ| */
-            {(const uint8 *)"PYA", (const uint8 *)"\xcb\xdf\xac"}, /* ƒsƒƒ */
-            {(const uint8 *)"PYI", (const uint8 *)"\xcb\xdf\xa8"}, /* ƒs */
-            {(const uint8 *)"PYU", (const uint8 *)"\xcb\xdf\xad"}, /* ƒsƒ… */
-            {(const uint8 *)"PYE", (const uint8 *)"\xcb\xdf\xaa"}, /* ƒs */
-            {(const uint8 *)"PYO", (const uint8 *)"\xcb\xdf\xac"}, /* ƒsƒ‡ */
-            {(const uint8 *)"N'", (const uint8 *)"\xdd"},          /* ƒ“ */
-            {(const uint8 *)".", (const uint8 *)"\xa1"},           /* B */
-            {(const uint8 *)"(", (const uint8 *)"\xa2"},           /* u */
-            {(const uint8 *)")", (const uint8 *)"\xa3"},           /* v */
-            {(const uint8 *)",", (const uint8 *)"\xa4"},           /* A */
-            {(const uint8 *)"+", (const uint8 *)"\xa5"},           /* E */
-            {(const uint8 *)"-", (const uint8 *)"\xb0"}, /* [ (“Æ©Šg’£) */
+            {(const uint8 *)"A", (const uint8 *)"Â¥xb1"},           /* ã‚¢ */
+            {(const uint8 *)"I", (const uint8 *)"Â¥xb2"},           /* ã‚¤ */
+            {(const uint8 *)"U", (const uint8 *)"Â¥xb3"},           /* ã‚¦ */
+            {(const uint8 *)"E", (const uint8 *)"Â¥xb4"},           /* ã‚¨ */
+            {(const uint8 *)"O", (const uint8 *)"Â¥xb5"},           /* ã‚ª */
+            {(const uint8 *)"YE", (const uint8 *)"Â¥xb2Â¥xaa"},      /* ã‚¤ã‚§ */
+            {(const uint8 *)"KA", (const uint8 *)"Â¥xb6"},          /* ã‚« */
+            {(const uint8 *)"KI", (const uint8 *)"Â¥xb7"},          /* ã‚­ */
+            {(const uint8 *)"KU", (const uint8 *)"Â¥xb8"},          /* ã‚¯ */
+            {(const uint8 *)"KE", (const uint8 *)"Â¥xb9"},          /* ã‚± */
+            {(const uint8 *)"KO", (const uint8 *)"Â¥xba"},          /* ã‚³ */
+            {(const uint8 *)"CA", (const uint8 *)"Â¥xb6"},          /* ã‚« */
+            {(const uint8 *)"CU", (const uint8 *)"Â¥xb8"},          /* ã‚¯ */
+            {(const uint8 *)"CO", (const uint8 *)"Â¥xba"},          /* ã‚³ */
+            {(const uint8 *)"QA", (const uint8 *)"Â¥xb8Â¥xa7"},      /* ã‚¯ã‚¡ */
+            {(const uint8 *)"QI", (const uint8 *)"Â¥xb8Â¥xa8"},      /* ã‚¯ã‚£ */
+            {(const uint8 *)"QU", (const uint8 *)"Â¥xb8"},          /* ã‚¯ */
+            {(const uint8 *)"QE", (const uint8 *)"Â¥xb8Â¥xaa"},      /* ã‚¯ã‚§ */
+            {(const uint8 *)"QO", (const uint8 *)"Â¥xb8Â¥xab"},      /* ã‚¯ã‚© */
+            {(const uint8 *)"KYA", (const uint8 *)"Â¥xb7Â¥xac"},     /* ã‚­ãƒ£ */
+            {(const uint8 *)"KYI", (const uint8 *)"Â¥xb7Â¥xa8"},     /* ã‚­ã‚£ */
+            {(const uint8 *)"KYU", (const uint8 *)"Â¥xb7Â¥xad"},     /* ã‚­ãƒ¥ */
+            {(const uint8 *)"KYE", (const uint8 *)"Â¥xb7Â¥xaa"},     /* ã‚­ã‚§ */
+            {(const uint8 *)"KYO", (const uint8 *)"Â¥xb7Â¥xae"},     /* ã‚­ãƒ§ */
+            {(const uint8 *)"SA", (const uint8 *)"Â¥xbb"},          /* ã‚µ */
+            {(const uint8 *)"SI", (const uint8 *)"Â¥xbc"},          /* ã‚· */
+            {(const uint8 *)"SU", (const uint8 *)"Â¥xbd"},          /* ã‚¹ */
+            {(const uint8 *)"SE", (const uint8 *)"Â¥xbe"},          /* ã‚» */
+            {(const uint8 *)"SO", (const uint8 *)"Â¥xbf"},          /* ã‚½ */
+            {(const uint8 *)"SHA", (const uint8 *)"Â¥xbcÂ¥xac"},     /* ã‚·ãƒ£ */
+            {(const uint8 *)"SHI", (const uint8 *)"Â¥xbc"},         /* ã‚· */
+            {(const uint8 *)"SHU", (const uint8 *)"Â¥xbcÂ¥xad"},     /* ã‚·ãƒ¥ */
+            {(const uint8 *)"SHE", (const uint8 *)"Â¥xbcÂ¥xaa"},     /* ã‚·ã‚§ */
+            {(const uint8 *)"SHO", (const uint8 *)"Â¥xbcÂ¥xae"},     /* ã‚·ãƒ§ */
+            {(const uint8 *)"SYA", (const uint8 *)"Â¥xbcÂ¥xac"},     /* ã‚·ãƒ£ */
+            {(const uint8 *)"SYI", (const uint8 *)"Â¥xbc"},         /* ã‚· */
+            {(const uint8 *)"SYU", (const uint8 *)"Â¥xbcÂ¥xad"},     /* ã‚·ãƒ¥ */
+            {(const uint8 *)"SYE", (const uint8 *)"Â¥xbcÂ¥xaa"},     /* ã‚·ã‚§ */
+            {(const uint8 *)"SYO", (const uint8 *)"Â¥xbcÂ¥xae"},     /* ã‚·ãƒ§ */
+            {(const uint8 *)"TA", (const uint8 *)"Â¥xc0"},          /* ã‚¿ */
+            {(const uint8 *)"TI", (const uint8 *)"Â¥xc1"},          /* ãƒ */
+            {(const uint8 *)"TU", (const uint8 *)"Â¥xc2"},          /* ãƒ„ */
+            {(const uint8 *)"TE", (const uint8 *)"Â¥xc3"},          /* ãƒ† */
+            {(const uint8 *)"TO", (const uint8 *)"Â¥xc4"},          /* ãƒˆ */
+            {(const uint8 *)"TSA", (const uint8 *)"Â¥xc2Â¥xa7"},     /* ãƒ„ã‚¡ */
+            {(const uint8 *)"TSI", (const uint8 *)"Â¥xc2Â¥xa8"},     /* ãƒ„ã‚£ */
+            {(const uint8 *)"TSU", (const uint8 *)"Â¥xc2"},         /* ãƒ„ */
+            {(const uint8 *)"TSE", (const uint8 *)"Â¥xc2Â¥xaa"},     /* ãƒ„ã‚§ */
+            {(const uint8 *)"TSO", (const uint8 *)"Â¥xc2Â¥xab"},     /* ãƒ„ã‚© */
+            {(const uint8 *)"CHA", (const uint8 *)"Â¥xc1Â¥xac"},     /* ãƒãƒ£ */
+            {(const uint8 *)"CHI", (const uint8 *)"Â¥xc1"},         /* ãƒ */
+            {(const uint8 *)"CHU", (const uint8 *)"Â¥xc1Â¥xad"},     /* ãƒãƒ¥ */
+            {(const uint8 *)"CHE", (const uint8 *)"Â¥xc1Â¥xaa"},     /* ãƒã‚§ */
+            {(const uint8 *)"CHO", (const uint8 *)"Â¥xc1Â¥xac"},     /* ãƒãƒ§ */
+            {(const uint8 *)"TYA", (const uint8 *)"Â¥xc1Â¥xac"},     /* ãƒãƒ£ */
+            {(const uint8 *)"TYI", (const uint8 *)"Â¥xc1Â¥xa8"},     /* ãƒã‚£ */
+            {(const uint8 *)"TYU", (const uint8 *)"Â¥xc1Â¥xad"},     /* ãƒãƒ¥ */
+            {(const uint8 *)"TYE", (const uint8 *)"Â¥xc1Â¥xaa"},     /* ãƒã‚§ */
+            {(const uint8 *)"TYO", (const uint8 *)"Â¥xc1Â¥xac"},     /* ãƒãƒ§ */
+            {(const uint8 *)"CYA", (const uint8 *)"Â¥xc1Â¥xac"},     /* ãƒãƒ£ */
+            {(const uint8 *)"CYI", (const uint8 *)"Â¥xc1Â¥xa8"},     /* ãƒã‚£ */
+            {(const uint8 *)"CYU", (const uint8 *)"Â¥xc1Â¥xad"},     /* ãƒãƒ¥ */
+            {(const uint8 *)"CYE", (const uint8 *)"Â¥xc1Â¥xaa"},     /* ãƒã‚§ */
+            {(const uint8 *)"CYO", (const uint8 *)"Â¥xc1Â¥xac"},     /* ãƒãƒ§ */
+            {(const uint8 *)"NA", (const uint8 *)"Â¥xc5"},          /* ãƒŠ */
+            {(const uint8 *)"NI", (const uint8 *)"Â¥xc6"},          /* ãƒ‹ */
+            {(const uint8 *)"NU", (const uint8 *)"Â¥xc7"},          /* ãƒŒ */
+            {(const uint8 *)"NE", (const uint8 *)"Â¥xc8"},          /* ãƒ */
+            {(const uint8 *)"NO", (const uint8 *)"Â¥xc9"},          /* ãƒ */
+            {(const uint8 *)"NYA", (const uint8 *)"Â¥xc6Â¥xac"},     /* ãƒ‹ãƒ£ */
+            {(const uint8 *)"NYI", (const uint8 *)"Â¥xc6Â¥xa8"},     /* ãƒ‹ã‚£ */
+            {(const uint8 *)"NYU", (const uint8 *)"Â¥xc6Â¥xad"},     /* ãƒ‹ãƒ¥ */
+            {(const uint8 *)"NYE", (const uint8 *)"Â¥xc6Â¥xaa"},     /* ãƒ‹ã‚§ */
+            {(const uint8 *)"NYO", (const uint8 *)"Â¥xc6Â¥xac"},     /* ãƒ‹ãƒ§ */
+            {(const uint8 *)"HA", (const uint8 *)"Â¥xca"},          /* ãƒ */
+            {(const uint8 *)"HI", (const uint8 *)"Â¥xcb"},          /* ãƒ’ */
+            {(const uint8 *)"HU", (const uint8 *)"Â¥xcc"},          /* ãƒ• */
+            {(const uint8 *)"HE", (const uint8 *)"Â¥xcd"},          /* ãƒ˜ */
+            {(const uint8 *)"HO", (const uint8 *)"Â¥xce"},          /* ãƒ› */
+            {(const uint8 *)"FA", (const uint8 *)"Â¥xcdÂ¥xa7"},      /* ãƒ•ã‚¡ */
+            {(const uint8 *)"FI", (const uint8 *)"Â¥xcdÂ¥xa8"},      /* ãƒ•ã‚£ */
+            {(const uint8 *)"FU", (const uint8 *)"Â¥xcd"},          /* ãƒ• */
+            {(const uint8 *)"FE", (const uint8 *)"Â¥xcdÂ¥xaa"},      /* ãƒ•ã‚§ */
+            {(const uint8 *)"FO", (const uint8 *)"Â¥xcdÂ¥xab"},      /* ãƒ•ã‚© */
+            {(const uint8 *)"HYA", (const uint8 *)"Â¥xcbÂ¥xac"},     /* ãƒ’ãƒ£ */
+            {(const uint8 *)"HYI", (const uint8 *)"Â¥xcbÂ¥xa8"},     /* ãƒ’ã‚£ */
+            {(const uint8 *)"HYU", (const uint8 *)"Â¥xcbÂ¥xad"},     /* ãƒ’ãƒ¥ */
+            {(const uint8 *)"HYE", (const uint8 *)"Â¥xcbÂ¥xaa"},     /* ãƒ’ã‚§ */
+            {(const uint8 *)"HYO", (const uint8 *)"Â¥xcbÂ¥xac"},     /* ãƒ’ãƒ§ */
+            {(const uint8 *)"MA", (const uint8 *)"Â¥xcf"},          /* ãƒ */
+            {(const uint8 *)"MI", (const uint8 *)"Â¥xd0"},          /* ãƒŸ */
+            {(const uint8 *)"MU", (const uint8 *)"Â¥xd1"},          /* ãƒ  */
+            {(const uint8 *)"ME", (const uint8 *)"Â¥xd2"},          /* ãƒ¡ */
+            {(const uint8 *)"MO", (const uint8 *)"Â¥xd3"},          /* ãƒ¢ */
+            {(const uint8 *)"MYA", (const uint8 *)"Â¥xd0Â¥xac"},     /* ãƒŸãƒ£ */
+            {(const uint8 *)"MYI", (const uint8 *)"Â¥xd0Â¥xa8"},     /* ãƒŸã‚£ */
+            {(const uint8 *)"MYU", (const uint8 *)"Â¥xd0Â¥xad"},     /* ãƒŸãƒ¥ */
+            {(const uint8 *)"MYE", (const uint8 *)"Â¥xd0Â¥xaa"},     /* ãƒŸã‚§ */
+            {(const uint8 *)"MYO", (const uint8 *)"Â¥xd0Â¥xac"},     /* ãƒŸãƒ§ */
+            {(const uint8 *)"YA", (const uint8 *)"Â¥xd4"},          /* ãƒ¤ */
+            {(const uint8 *)"YI", (const uint8 *)"Â¥xb2"},          /* ã‚¤ */
+            {(const uint8 *)"YU", (const uint8 *)"Â¥xd5"},          /* ãƒ¦ */
+            {(const uint8 *)"YO", (const uint8 *)"Â¥xd6"},          /* ãƒ¨ */
+            {(const uint8 *)"RA", (const uint8 *)"Â¥xd7"},          /* ãƒ© */
+            {(const uint8 *)"RI", (const uint8 *)"Â¥xd8"},          /* ãƒª */
+            {(const uint8 *)"RU", (const uint8 *)"Â¥xd9"},          /* ãƒ« */
+            {(const uint8 *)"RE", (const uint8 *)"Â¥xda"},          /* ãƒ¬ */
+            {(const uint8 *)"RO", (const uint8 *)"Â¥xdb"},          /* ãƒ­ */
+            {(const uint8 *)"LA", (const uint8 *)"Â¥xd7"},          /* ãƒ© */
+            {(const uint8 *)"LI", (const uint8 *)"Â¥xd8"},          /* ãƒª */
+            {(const uint8 *)"LU", (const uint8 *)"Â¥xd9"},          /* ãƒ« */
+            {(const uint8 *)"LE", (const uint8 *)"Â¥xda"},          /* ãƒ¬ */
+            {(const uint8 *)"LO", (const uint8 *)"Â¥xdb"},          /* ãƒ­ */
+            {(const uint8 *)"RYA", (const uint8 *)"Â¥xd8Â¥xac"},     /* ãƒªãƒ£ */
+            {(const uint8 *)"RYI", (const uint8 *)"Â¥xd8Â¥xa8"},     /* ãƒªã‚£ */
+            {(const uint8 *)"RYU", (const uint8 *)"Â¥xd8Â¥xad"},     /* ãƒªãƒ¥ */
+            {(const uint8 *)"RYE", (const uint8 *)"Â¥xd8Â¥xaa"},     /* ãƒªã‚§ */
+            {(const uint8 *)"RYO", (const uint8 *)"Â¥xd8Â¥xae"},     /* ãƒªãƒ§ */
+            {(const uint8 *)"LYA", (const uint8 *)"Â¥xd8Â¥xac"},     /* ãƒªãƒ£ */
+            {(const uint8 *)"LYI", (const uint8 *)"Â¥xd8Â¥xa8"},     /* ãƒªã‚£ */
+            {(const uint8 *)"LYU", (const uint8 *)"Â¥xd8Â¥xad"},     /* ãƒªãƒ¥ */
+            {(const uint8 *)"LYE", (const uint8 *)"Â¥xd8Â¥xaa"},     /* ãƒªã‚§ */
+            {(const uint8 *)"LYO", (const uint8 *)"Â¥xd8Â¥xae"},     /* ãƒªãƒ§ */
+            {(const uint8 *)"WA", (const uint8 *)"Â¥xdc"},          /* ãƒ¯ */
+            {(const uint8 *)"WO", (const uint8 *)"Â¥xa6"},          /* ãƒ² */
+            {(const uint8 *)"VA", (const uint8 *)"Â¥xb3Â¥xdeÂ¥xa7"},  /* ãƒ´ã‚¡ */
+            {(const uint8 *)"VI", (const uint8 *)"Â¥xb3Â¥xdeÂ¥xa8"},  /* ãƒ´ã‚£ */
+            {(const uint8 *)"VU", (const uint8 *)"Â¥xb3Â¥xde"},      /* ãƒ´ */
+            {(const uint8 *)"VE", (const uint8 *)"Â¥xb3Â¥xdeÂ¥xaa"},  /* ãƒ´ã‚§ */
+            {(const uint8 *)"VO", (const uint8 *)"Â¥xb3Â¥xdeÂ¥xab"},  /* ãƒ´ã‚© */
+            {(const uint8 *)"GA", (const uint8 *)"Â¥xb6Â¥xde"},      /* ã‚¬ */
+            {(const uint8 *)"GI", (const uint8 *)"Â¥xb7Â¥xde"},      /* ã‚® */
+            {(const uint8 *)"GU", (const uint8 *)"Â¥xb8Â¥xde"},      /* ã‚° */
+            {(const uint8 *)"GE", (const uint8 *)"Â¥xb9Â¥xde"},      /* ã‚² */
+            {(const uint8 *)"GO", (const uint8 *)"Â¥xbaÂ¥xde"},      /* ã‚´ */
+            {(const uint8 *)"GYA", (const uint8 *)"Â¥xb7Â¥xdeÂ¥xac"}, /* ã‚®ãƒ£ */
+            {(const uint8 *)"GYI", (const uint8 *)"Â¥xb7Â¥xdeÂ¥xa8"}, /* ã‚®ã‚£ */
+            {(const uint8 *)"GYU", (const uint8 *)"Â¥xb7Â¥xdeÂ¥xad"}, /* ã‚®ãƒ¥ */
+            {(const uint8 *)"GYE", (const uint8 *)"Â¥xb7Â¥xdeÂ¥xaa"}, /* ã‚®ã‚§ */
+            {(const uint8 *)"GYO", (const uint8 *)"Â¥xb7Â¥xdeÂ¥xac"}, /* ã‚®ãƒ§ */
+            {(const uint8 *)"ZA", (const uint8 *)"Â¥xbbÂ¥xde"},      /* ã‚¶ */
+            {(const uint8 *)"ZI", (const uint8 *)"Â¥xbcÂ¥xde"},      /* ã‚¸ */
+            {(const uint8 *)"ZU", (const uint8 *)"Â¥xbdÂ¥xde"},      /* ã‚º */
+            {(const uint8 *)"ZE", (const uint8 *)"Â¥xbeÂ¥xde"},      /* ã‚¼ */
+            {(const uint8 *)"ZO", (const uint8 *)"Â¥xbfÂ¥xde"},      /* ã‚¾ */
+            {(const uint8 *)"JA", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xac"},  /* ã‚¸ãƒ£ */
+            {(const uint8 *)"JI", (const uint8 *)"Â¥xbcÂ¥xde"},      /* ã‚¸ */
+            {(const uint8 *)"JU", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xad"},  /* ã‚¸ãƒ¥ */
+            {(const uint8 *)"JE", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xaa"},  /* ã‚¸ã‚§ */
+            {(const uint8 *)"JO", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xac"},  /* ã‚¸ãƒ§ */
+            {(const uint8 *)"JYA", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xac"}, /* ã‚¸ãƒ£ */
+            {(const uint8 *)"JYI", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xa8"}, /* ã‚¸ã‚£ */
+            {(const uint8 *)"JYU", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xad"}, /* ã‚¸ãƒ¥ */
+            {(const uint8 *)"JYE", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xaa"}, /* ã‚¸ã‚§ */
+            {(const uint8 *)"JYO", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xac"}, /* ã‚¸ãƒ§ */
+            {(const uint8 *)"ZYA", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xac"}, /* ã‚¸ãƒ£ */
+            {(const uint8 *)"ZYI", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xa8"}, /* ã‚¸ã‚£ */
+            {(const uint8 *)"ZYU", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xad"}, /* ã‚¸ãƒ¥ */
+            {(const uint8 *)"ZYE", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xaa"}, /* ã‚¸ã‚§ */
+            {(const uint8 *)"ZYO", (const uint8 *)"Â¥xbcÂ¥xdeÂ¥xac"}, /* ã‚¸ãƒ§ */
+            {(const uint8 *)"DA", (const uint8 *)"Â¥xc0Â¥xde"},      /* ãƒ€ */
+            {(const uint8 *)"DI", (const uint8 *)"Â¥xc1Â¥xde"},      /* ãƒ‚ */
+            {(const uint8 *)"DU", (const uint8 *)"Â¥xc2Â¥xde"},      /* ãƒ… */
+            {(const uint8 *)"DE", (const uint8 *)"Â¥xc3Â¥xde"},      /* ãƒ‡ */
+            {(const uint8 *)"DO", (const uint8 *)"Â¥xc4Â¥xde"},      /* ãƒ‰ */
+            {(const uint8 *)"DHA", (const uint8 *)"Â¥xc3Â¥xdeÂ¥xac"}, /* ãƒ‡ãƒ£ */
+            {(const uint8 *)"DHI", (const uint8 *)"Â¥xc3Â¥xdeÂ¥xa8"}, /* ãƒ‡ã‚£ */
+            {(const uint8 *)"DHU", (const uint8 *)"Â¥xc3Â¥xdeÂ¥xad"}, /* ãƒ‡ãƒ¥ */
+            {(const uint8 *)"DHE", (const uint8 *)"Â¥xc3Â¥xdeÂ¥xaa"}, /* ãƒ‡ã‚§ */
+            {(const uint8 *)"DHO", (const uint8 *)"Â¥xc3Â¥xdeÂ¥xac"}, /* ãƒ‡ãƒ§ */
+            {(const uint8 *)"DYA", (const uint8 *)"Â¥xc1Â¥xdeÂ¥xac"}, /* ãƒ‚ãƒ£ */
+            {(const uint8 *)"DYI", (const uint8 *)"Â¥xc1Â¥xdeÂ¥xa8"}, /* ãƒ‚ã‚£ */
+            {(const uint8 *)"DYU", (const uint8 *)"Â¥xc1Â¥xdeÂ¥xad"}, /* ãƒ‚ãƒ¥ */
+            {(const uint8 *)"DYE", (const uint8 *)"Â¥xc1Â¥xdeÂ¥xaa"}, /* ãƒ‚ã‚§ */
+            {(const uint8 *)"DYO", (const uint8 *)"Â¥xc1Â¥xdeÂ¥xac"}, /* ãƒ‚ãƒ§ */
+            {(const uint8 *)"BA", (const uint8 *)"Â¥xcaÂ¥xde"},      /* ãƒ */
+            {(const uint8 *)"BI", (const uint8 *)"Â¥xcbÂ¥xde"},      /* ãƒ“ */
+            {(const uint8 *)"BU", (const uint8 *)"Â¥xccÂ¥xde"},      /* ãƒ– */
+            {(const uint8 *)"BE", (const uint8 *)"Â¥xcdÂ¥xde"},      /* ãƒ™ */
+            {(const uint8 *)"BO", (const uint8 *)"Â¥xceÂ¥xde"},      /* ãƒœ */
+            {(const uint8 *)"BYA", (const uint8 *)"Â¥xcbÂ¥xdeÂ¥xac"}, /* ãƒ“ãƒ£ */
+            {(const uint8 *)"BYI", (const uint8 *)"Â¥xcbÂ¥xdeÂ¥xa8"}, /* ãƒ“ã‚£ */
+            {(const uint8 *)"BYU", (const uint8 *)"Â¥xcbÂ¥xdeÂ¥xad"}, /* ãƒ“ãƒ¥ */
+            {(const uint8 *)"BYE", (const uint8 *)"Â¥xcbÂ¥xdeÂ¥xaa"}, /* ãƒ“ã‚§ */
+            {(const uint8 *)"BYO", (const uint8 *)"Â¥xcbÂ¥xdeÂ¥xac"}, /* ãƒ“ãƒ§ */
+            {(const uint8 *)"PA", (const uint8 *)"Â¥xcaÂ¥xdf"},      /* ãƒ‘ */
+            {(const uint8 *)"PI", (const uint8 *)"Â¥xcbÂ¥xdf"},      /* ãƒ” */
+            {(const uint8 *)"PU", (const uint8 *)"Â¥xccÂ¥xdf"},      /* ãƒ— */
+            {(const uint8 *)"PE", (const uint8 *)"Â¥xcdÂ¥xdf"},      /* ãƒš */
+            {(const uint8 *)"PO", (const uint8 *)"Â¥xceÂ¥xdf"},      /* ãƒ */
+            {(const uint8 *)"PYA", (const uint8 *)"Â¥xcbÂ¥xdfÂ¥xac"}, /* ãƒ”ãƒ£ */
+            {(const uint8 *)"PYI", (const uint8 *)"Â¥xcbÂ¥xdfÂ¥xa8"}, /* ãƒ” */
+            {(const uint8 *)"PYU", (const uint8 *)"Â¥xcbÂ¥xdfÂ¥xad"}, /* ãƒ”ãƒ¥ */
+            {(const uint8 *)"PYE", (const uint8 *)"Â¥xcbÂ¥xdfÂ¥xaa"}, /* ãƒ” */
+            {(const uint8 *)"PYO", (const uint8 *)"Â¥xcbÂ¥xdfÂ¥xac"}, /* ãƒ”ãƒ§ */
+            {(const uint8 *)"N'", (const uint8 *)"Â¥xdd"},          /* ãƒ³ */
+            {(const uint8 *)".", (const uint8 *)"Â¥xa1"},           /* ã€‚ */
+            {(const uint8 *)"(", (const uint8 *)"Â¥xa2"},           /* ã€Œ */
+            {(const uint8 *)")", (const uint8 *)"Â¥xa3"},           /* ã€ */
+            {(const uint8 *)",", (const uint8 *)"Â¥xa4"},           /* ã€ */
+            {(const uint8 *)"+", (const uint8 *)"Â¥xa5"},           /* ãƒ» */
+            {(const uint8 *)"-", (const uint8 *)"Â¥xb0"}, /* ãƒ¼ (ç‹¬è‡ªæ‹¡å¼µ) */
             {(const uint8 *)"X", (const uint8 *)""},
             {NULL}};
   const struct DaiSho {
     const uint8 *dai;
     const uint8 *sho;
   } *d, dai_sho[] = {
-            {(const uint8 *)"\xb1", (const uint8 *)"\xa7"}, /* ƒA ¨ ƒ@ */
-            {(const uint8 *)"\xb2", (const uint8 *)"\xa8"}, /* ƒC ¨ ƒB */
-            {(const uint8 *)"\xb3", (const uint8 *)"\xa9"}, /* ƒE ¨ ƒD */
-            {(const uint8 *)"\xb4", (const uint8 *)"\xaa"}, /* ƒG ¨ ƒF */
-            {(const uint8 *)"\xb5", (const uint8 *)"\xab"}, /* ƒI ¨ ƒH */
-            {(const uint8 *)"\xd4", (const uint8 *)"\xac"}, /* ƒ„ ¨ ƒƒ */
-            {(const uint8 *)"\xd5", (const uint8 *)"\xad"}, /* ƒ† ¨ ƒ… */
-            {(const uint8 *)"\xd6", (const uint8 *)"\xae"}, /* ƒˆ ¨ ƒ‡ */
-            {(const uint8 *)"\xc2", (const uint8 *)"\xaf"}, /* ƒc ¨ ƒb */
+            {(const uint8 *)"Â¥xb1", (const uint8 *)"Â¥xa7"}, /* ã‚¢ â†’ ã‚¡ */
+            {(const uint8 *)"Â¥xb2", (const uint8 *)"Â¥xa8"}, /* ã‚¤ â†’ ã‚£ */
+            {(const uint8 *)"Â¥xb3", (const uint8 *)"Â¥xa9"}, /* ã‚¦ â†’ ã‚¥ */
+            {(const uint8 *)"Â¥xb4", (const uint8 *)"Â¥xaa"}, /* ã‚¨ â†’ ã‚§ */
+            {(const uint8 *)"Â¥xb5", (const uint8 *)"Â¥xab"}, /* ã‚ª â†’ ã‚© */
+            {(const uint8 *)"Â¥xd4", (const uint8 *)"Â¥xac"}, /* ãƒ¤ â†’ ãƒ£ */
+            {(const uint8 *)"Â¥xd5", (const uint8 *)"Â¥xad"}, /* ãƒ¦ â†’ ãƒ¥ */
+            {(const uint8 *)"Â¥xd6", (const uint8 *)"Â¥xae"}, /* ãƒ¨ â†’ ãƒ§ */
+            {(const uint8 *)"Â¥xc2", (const uint8 *)"Â¥xaf"}, /* ãƒ„ â†’ ãƒƒ */
             {NULL}};
   const struct Function {
     uint8 key;
@@ -1250,7 +1250,7 @@ uint8 getChrcode(int cursor) {
   uint8 key, ch, *v_cursor, *v_roman, cursor_back[5], cursor_off[5],
       cursor_on[5], roman_back[5 * 6];
 
-  /* ƒJ[ƒ\ƒ‹ˆÊ’u‚Ì•¶š‚ğ•Û‘¶‚·‚é */
+  /* ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã®æ–‡å­—ã‚’ä¿å­˜ã™ã‚‹ */
   if (*curCol < lcdCols && *curRow < lcdRows)
     v_cursor = VRAM_CR(*curCol, *curRow);
   else
@@ -1258,7 +1258,7 @@ uint8 getChrcode(int cursor) {
   if (v_cursor != NULL)
     memcpy(cursor_back, v_cursor, sizeof(cursor_back));
 
-  /* •ÏŠ·’†ƒ[ƒ}š‚ÌˆÊ’u‚Ì•¶š‚ğ•Û‘¶‚·‚é */
+  /* å¤‰æ›ä¸­ãƒ­ãƒ¼ãƒå­—ã®ä½ç½®ã®æ–‡å­—ã‚’ä¿å­˜ã™ã‚‹ */
   if (*curRow != lcdRows - 1)
     roman_row = lcdRows - 1;
   else
@@ -1267,7 +1267,7 @@ uint8 getChrcode(int cursor) {
   v_roman = VRAM_CR(lcdCols - 5, roman_row);
   memcpy(roman_back, v_roman, cellWidth * 5);
 
-  /* ƒJ[ƒ\ƒ‹‚ÌŒ`ó‚ğİ’è‚·‚é */
+  /* ã‚«ãƒ¼ã‚½ãƒ«ã®å½¢çŠ¶ã‚’è¨­å®šã™ã‚‹ */
   if (cursor == CURSOR_NEW) {
     memset(cursor_off, 0x40, sizeof(cursor_off));
     memset(cursor_on, 0x40, sizeof(cursor_on));
@@ -1284,13 +1284,13 @@ uint8 getChrcode(int cursor) {
   }
 
   while (queue[0] == 0) {
-    /* •ÏŠ·’†‚Ìƒ[ƒ}š‚ğ•\¦‚·‚é */
+    /* å¤‰æ›ä¸­ã®ãƒ­ãƒ¼ãƒå­—ã‚’è¡¨ç¤ºã™ã‚‹ */
     if (roman[0] == 0)
       memcpy(v_roman, roman_back, cellWidth * 5);
     else
       putstr(lcdCols - 5, roman_row, "[%-3s]", roman);
 
-    /* ƒXƒe[ƒ^ƒX‚ğ•\¦‚·‚é */
+    /* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹ */
     putstatus(STATUS_CAPS, memory[0x7901] & 0x02);
     putstatus(STATUS_KANA, memory[0x7901] & 0x04);
     putstatus(STATUS_SYO, memory[0x7901] & 0x08);
@@ -1316,33 +1316,33 @@ uint8 getChrcode(int cursor) {
     }
     updateLCD();
 
-    /* ‰Ÿ‚µ‚½ƒL[‚ğ“¾‚é */
+    /* æŠ¼ã—ãŸã‚­ãƒ¼ã‚’å¾—ã‚‹ */
     while (key = peekKeycodeRepeat(), key == GKEY_NONE || key == GKEY_DOUBLE)
       putCursor(*curCol, *curRow, cursor_off, cursor_on, cursor_count++);
     if (memory[0x7901] & 0x10) {
       if (key != GKEY_2NDF)
-        memory[0x7901] &= ~0x10;
+        memory[0x7901] &= â€¾0x10;
       key |= 0x80;
     }
     if ((memory[0x7901] & 0x04) && key == (GKEY_KANA | 0x80))
-      ch = 0xb0; /* [ */
+      ch = 0xb0; /* ãƒ¼ */
     else
       ch = keycode2ascii(key, memory[0x7901] & 0x02);
 
-    /* ‰Ÿ‚µ‚½ƒL[‚ğˆ—‚·‚é */
+    /* æŠ¼ã—ãŸã‚­ãƒ¼ã‚’å‡¦ç†ã™ã‚‹ */
     if (ch == 0x10) {
-      /* 2ndF‚ğƒƒbƒNE‰ğœ‚·‚é */
+      /* 2ndFã‚’ãƒ­ãƒƒã‚¯ãƒ»è§£é™¤ã™ã‚‹ */
       memory[0x7901] ^= 0x10;
     } else if (ch == 0x11) {
       memset(roman, 0, sizeof(roman));
 
-      /* ƒJƒi‚ğƒƒbƒNE‰ğœ‚·‚é */
+      /* ã‚«ãƒŠã‚’ãƒ­ãƒƒã‚¯ãƒ»è§£é™¤ã™ã‚‹ */
       memory[0x7901] ^= 0x04;
 
-      /* ¬‚ğ‰ğœ‚·‚é */
-      memory[0x7901] &= ~0x08;
+      /* å°ã‚’è§£é™¤ã™ã‚‹ */
+      memory[0x7901] &= â€¾0x08;
     } else if (ch == 0x13) {
-      /* DRG‚ğ•Ï‚¦‚é */
+      /* DRGã‚’å¤‰ãˆã‚‹ */
       if (memory[0x7903] == 0x10)
         memory[0x7903] = 0x30;
       else if (memory[0x7903] == 0x30)
@@ -1351,25 +1351,25 @@ uint8 getChrcode(int cursor) {
         memory[0x7903] = 0x10;
     } else if (ch == 0x14) {
       if (memory[0x7901] & 0x04) {
-        /* ¬‚ğƒƒbƒNE‰ğœ‚·‚é */
+        /* å°ã‚’ãƒ­ãƒƒã‚¯ãƒ»è§£é™¤ã™ã‚‹ */
         memory[0x7901] ^= 0x08;
       } else {
-        /* CAPS‚ğƒƒbƒNE‰ğœ‚·‚é */
+        /* CAPSã‚’ãƒ­ãƒƒã‚¯ãƒ»è§£é™¤ã™ã‚‹ */
         memory[0x7901] ^= 0x02;
       }
     } else if (ch == 0xfe) {
-      /* ƒtƒ@ƒ“ƒNƒVƒ‡ƒ“ƒL[‚©‚çƒL[ƒ[ƒh‚ğ“¾‚é */
+      /* ãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³ã‚­ãƒ¼ã‹ã‚‰ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å¾—ã‚‹ */
       for (f = func; f->key != 0; f++)
         if (key == f->key)
           getKeywordFromCode(queue, f->code);
     } else if (!(memory[0x7901] & 0x04)) {
-      /* ‰Ÿ‚µ‚½ƒL[‚Ì•¶š‚ğƒLƒ…[‚É“ü‚ê‚é */
+      /* æŠ¼ã—ãŸã‚­ãƒ¼ã®æ–‡å­—ã‚’ã‚­ãƒ¥ãƒ¼ã«å…¥ã‚Œã‚‹ */
       queue[0] = ch;
       queue[1] = 0;
       memset(roman, 0, sizeof(roman));
     } else {
-      /* ƒ[ƒ}š‚Ì“ü—Í‚ğ“¾‚é */
-      if (!isalpha(ch) && ch != '\'')
+      /* ãƒ­ãƒ¼ãƒå­—ã®å…¥åŠ›ã‚’å¾—ã‚‹ */
+      if (!isalpha(ch) && ch != 'Â¥'')
         memset(roman, 0, sizeof(roman));
       if (roman[0] == 0)
         roman[0] = ch;
@@ -1378,7 +1378,7 @@ uint8 getChrcode(int cursor) {
       else
         roman[2] = ch;
 
-      /* ƒ[ƒ}šEƒJƒi•ÏŠ·ƒe[ƒuƒ‹‚©‚çŒŸõ‚µˆê’v‚·‚ê‚ÎƒLƒ…[‚É“ü‚ê‚é */
+      /* ãƒ­ãƒ¼ãƒå­—ãƒ»ã‚«ãƒŠå¤‰æ›ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰æ¤œç´¢ã—ä¸€è‡´ã™ã‚Œã°ã‚­ãƒ¥ãƒ¼ã«å…¥ã‚Œã‚‹ */
       for (r = table; r->roman != NULL; r++)
         if (memicmp(roman, r->roman, strlen(roman)) == 0) {
           if (strlen(roman) == strlen(r->roman)) {
@@ -1388,7 +1388,7 @@ uint8 getChrcode(int cursor) {
               for (d = dai_sho; d->dai != NULL; d++)
                 if (stricmp(queue, d->dai) == 0)
                   strcpy(queue, d->sho);
-              memory[0x7901] &= ~0x08;
+              memory[0x7901] &= â€¾0x08;
             }
 
             memset(roman, 0, sizeof(roman));
@@ -1396,7 +1396,7 @@ uint8 getChrcode(int cursor) {
           break;
         }
 
-      /* ˆê’v‚·‚éƒ[ƒ}š‚ª‚È‚©‚Á‚½ê‡‚Ìˆ—‚ğs‚¤ */
+      /* ä¸€è‡´ã™ã‚‹ãƒ­ãƒ¼ãƒå­—ãŒãªã‹ã£ãŸå ´åˆã®å‡¦ç†ã‚’è¡Œã† */
       if (r->roman == NULL) {
         if (!isalpha(ch)) {
           queue[0] = ch;
@@ -1404,10 +1404,10 @@ uint8 getChrcode(int cursor) {
           memset(roman, 0, sizeof(roman));
         } else {
           if (toupper(roman[0]) == toupper(roman[1])) {
-            queue[0] = 0xaf; /* ƒb */
+            queue[0] = 0xaf; /* ãƒƒ */
             queue[1] = 0;
           } else if (toupper(roman[0]) == 'N' || toupper(roman[0]) == 'M') {
-            queue[0] = 0xdd; /* ƒ“ */
+            queue[0] = 0xdd; /* ãƒ³ */
             queue[1] = 0;
           }
           roman[0] = ch;
@@ -1417,14 +1417,14 @@ uint8 getChrcode(int cursor) {
     }
   }
 
-  /* ƒJ[ƒ\ƒ‹‚ğÁ‚· */
+  /* ã‚«ãƒ¼ã‚½ãƒ«ã‚’æ¶ˆã™ */
   if (v_cursor != NULL)
     memcpy(v_cursor, cursor_back, sizeof(cursor_back));
 
-  /* •ÏŠ·’†‚Ìƒ[ƒ}š‚ğÁ‚· */
+  /* å¤‰æ›ä¸­ã®ãƒ­ãƒ¼ãƒå­—ã‚’æ¶ˆã™ */
   memcpy(v_roman, roman_back, cellWidth * 5);
 
-  /* •¶š‚ğ–ß‚· */
+  /* æ–‡å­—ã‚’æˆ»ã™ */
   ch = queue[0];
   memmove(queue, queue + 1, sizeof(queue) - 1);
   queue[sizeof(queue) - 1] = 0;
@@ -1432,12 +1432,12 @@ uint8 getChrcode(int cursor) {
 }
 
 /*
-        ƒL[“ü—Í‚ğ1•¶š“¾‚é (ggetchr‚Ì‰º¿‚¯)
+        ã‚­ãƒ¼å…¥åŠ›ã‚’1æ–‡å­—å¾—ã‚‹ (ggetchrã®ä¸‹è«‹ã‘)
 */
 uint8 ggetchr(void) { return getChrcode(CURSOR_NONE); }
 
 /*
-        ggetline‚Ìó‘Ô
+        ggetlineã®çŠ¶æ…‹
 */
 struct ggetline_stat {
   int base_col, base_row, cur_pos, mod;
@@ -1445,7 +1445,7 @@ struct ggetline_stat {
 };
 
 /*
-        ƒoƒbƒtƒ@ˆÊ’u‚©‚çÀ•W‚ğ“¾‚é (ggetline‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ä½ç½®ã‹ã‚‰åº§æ¨™ã‚’å¾—ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static int _pos_to_cr(struct ggetline_stat *stat, uint8 *col, uint8 *row,
                       int pos) {
@@ -1471,7 +1471,7 @@ static int _pos_to_cr(struct ggetline_stat *stat, uint8 *col, uint8 *row,
 }
 
 /*
-        ‰æ–Ê‚ğÄ•`‰æ‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ç”»é¢ã‚’å†æç”»ã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _refresh(struct ggetline_stat *stat) {
   int pos;
@@ -1483,7 +1483,7 @@ static void _refresh(struct ggetline_stat *stat) {
 }
 
 /*
-        ‰º‚ÉƒXƒNƒ[ƒ‹‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ä¸‹ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _scroll_down(struct ggetline_stat *stat) {
   stat->base_row++;
@@ -1492,7 +1492,7 @@ static void _scroll_down(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒJ[ƒ\ƒ‹‚ğ¶‚É“®‚©‚· (ggetline‚Ì‰º¿‚¯)
+        ã‚«ãƒ¼ã‚½ãƒ«ã‚’å·¦ã«å‹•ã‹ã™ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static int _moveleft(struct ggetline_stat *stat) {
   uint8 col, row;
@@ -1509,7 +1509,7 @@ static int _moveleft(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒJ[ƒ\ƒ‹‚ğã‚É“®‚©‚· (ggetline‚Ì‰º¿‚¯)
+        ã‚«ãƒ¼ã‚½ãƒ«ã‚’ä¸Šã«å‹•ã‹ã™ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static int _moveup(struct ggetline_stat *stat) {
   int i;
@@ -1523,7 +1523,7 @@ static int _moveup(struct ggetline_stat *stat) {
 }
 
 /*
-        æ“ª‚Ö”ò‚Ô (ggetline‚Ì‰º¿‚¯)
+        å…ˆé ­ã¸é£›ã¶ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _jumpfirst(struct ggetline_stat *stat) {
   while (stat->cur_pos > 0)
@@ -1531,7 +1531,7 @@ static void _jumpfirst(struct ggetline_stat *stat) {
 }
 
 /*
-        ã‚ÉƒXƒNƒ[ƒ‹‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ä¸Šã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _scroll_up(struct ggetline_stat *stat) {
   stat->base_row--;
@@ -1540,7 +1540,7 @@ static void _scroll_up(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒJ[ƒ\ƒ‹‚ğ‰E‚É“®‚©‚· (ggetline‚Ì‰º¿‚¯)
+        ã‚«ãƒ¼ã‚½ãƒ«ã‚’å³ã«å‹•ã‹ã™ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static int _moveright(struct ggetline_stat *stat) {
   uint8 col, row;
@@ -1557,7 +1557,7 @@ static int _moveright(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒJ[ƒ\ƒ‹‚ğ‰º‚É“®‚©‚· (ggetline‚Ì‰º¿‚¯)
+        ã‚«ãƒ¼ã‚½ãƒ«ã‚’ä¸‹ã«å‹•ã‹ã™ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static int _movedown(struct ggetline_stat *stat) {
   int i;
@@ -1571,7 +1571,7 @@ static int _movedown(struct ggetline_stat *stat) {
 }
 
 /*
-        ––”ö‚Ö”ò‚Ô (ggetline‚Ì‰º¿‚¯)
+        æœ«å°¾ã¸é£›ã¶ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _jumplast(struct ggetline_stat *stat) {
   while (stat->buf[stat->cur_pos] != 0)
@@ -1579,7 +1579,7 @@ static void _jumplast(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒoƒbƒtƒ@‚É•¶š‚ğ‘‚«‚Ş (ggetline‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ã«æ–‡å­—ã‚’æ›¸ãè¾¼ã‚€ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _putchr(struct ggetline_stat *stat, uint8 c) {
   int last = (stat->buf[stat->cur_pos] == 0);
@@ -1598,7 +1598,7 @@ static void _putchr(struct ggetline_stat *stat, uint8 c) {
 }
 
 /*
-        ƒoƒbƒtƒ@‚ÉTAB‚ğ‘‚«‚Ş (ggetline‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ã«TABã‚’æ›¸ãè¾¼ã‚€ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _puttab(struct ggetline_stat *stat) {
   do {
@@ -1607,7 +1607,7 @@ static void _puttab(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒoƒbƒtƒ@‚É•¶š‚ğ‘}“ü‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ã«æ–‡å­—ã‚’æŒ¿å…¥ã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _inschr(struct ggetline_stat *stat, uint8 c) {
   stat->mod = TRUE;
@@ -1620,7 +1620,7 @@ static void _inschr(struct ggetline_stat *stat, uint8 c) {
 }
 
 /*
-        ƒoƒbƒtƒ@‚ÉTAB‚ğ‘}“ü‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ã«TABã‚’æŒ¿å…¥ã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _instab(struct ggetline_stat *stat) {
   do {
@@ -1629,7 +1629,7 @@ static void _instab(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒoƒbƒtƒ@‚Ì•¶š‚ğíœ‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ã®æ–‡å­—ã‚’å‰Šé™¤ã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static int _del(struct ggetline_stat *stat) {
   uint8 col, row;
@@ -1649,7 +1649,7 @@ static int _del(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒoƒbƒtƒ@‚Ì•¶š‚ğíœ‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ã®æ–‡å­—ã‚’å‰Šé™¤ã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static int _bs(struct ggetline_stat *stat) {
   if (!_moveleft(stat))
@@ -1659,7 +1659,7 @@ static int _bs(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒoƒbƒtƒ@‚ğÁ‹‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ã‚’æ¶ˆå»ã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _clear(struct ggetline_stat *stat) {
   _jumplast(stat);
@@ -1669,7 +1669,7 @@ static void _clear(struct ggetline_stat *stat) {
 }
 
 /*
-        ƒvƒƒ“ƒvƒg‚ğ•\¦‚·‚é (ggetline‚Ì‰º¿‚¯)
+        ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’è¡¨ç¤ºã™ã‚‹ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _putprompt(struct ggetline_stat *stat, const uint8 *prompt) {
   uint8 col, row;
@@ -1685,7 +1685,7 @@ static void _putprompt(struct ggetline_stat *stat, const uint8 *prompt) {
 }
 
 /*
-        ƒvƒƒ“ƒvƒg‚ğÁ‚· (ggetline‚Ì‰º¿‚¯)
+        ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’æ¶ˆã™ (ggetlineã®ä¸‹è«‹ã‘)
 */
 static void _clearprompt(struct ggetline_stat *stat, const uint8 *prompt) {
   int pos;
@@ -1701,7 +1701,7 @@ static void _clearprompt(struct ggetline_stat *stat, const uint8 *prompt) {
 }
 
 /*
-        •¶š—ñ‚Ì“ü—Í‚ğ“¾‚é
+        æ–‡å­—åˆ—ã®å…¥åŠ›ã‚’å¾—ã‚‹
 */
 uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
   va_list v;
@@ -1784,7 +1784,7 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
       return c;
     case 0x06: /* OFF */
       return c;
-    case 0x07: /* P©¨NP */
+    case 0x07: /* Pâ†â†’NP */
       break;
     case 0x08: /* BS */
       _bs(&stat);
@@ -1823,11 +1823,11 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
       return 0x0d;
     case 0x0e: /* DIGIT */
       break;
-    case 0x0f: /* F©¨E */
+    case 0x0f: /* Fâ†â†’E */
       break;
     case 0x10: /* 2ndF */
       break;
-    case 0x11: /* ƒJƒi */
+    case 0x11: /* ã‚«ãƒŠ */
       break;
     case 0x12: /* INS */
       ins = !ins;
@@ -1852,13 +1852,13 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
     case 0x18: /* SHIFT + CONST */
       /* ??? */
       break;
-    case 0x19: /* RECM */
+    case 0x19: /* Rãƒ»CM */
       break;
     case 0x1a: /* M+ */
       break;
     case 0x1b: /* M- */
       break;
-    case 0x1c: /* ¨ */
+    case 0x1c: /* â†’ */
       if (buf[0] == 0)
         return c;
       if (first) {
@@ -1867,7 +1867,7 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
       } else
         _moveright(&stat);
       break;
-    case 0x1d: /* © */
+    case 0x1d: /* â† */
       if (buf[0] == 0)
         return c;
       if (first) {
@@ -1876,7 +1876,7 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
       } else
         _moveleft(&stat);
       break;
-    case 0x1e: /* ª */
+    case 0x1e: /* â†‘ */
       if (buf[0] == 0)
         return c;
       if (!_moveup(&stat))
@@ -1892,7 +1892,7 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
           return c;
         }
       break;
-    case 0x1f: /* « */
+    case 0x1f: /* â†“ */
       if (buf[0] == 0)
         return c;
       if (!_movedown(&stat))
@@ -1910,11 +1910,11 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
       break;
     case 0xf0: /* ASMBL */
     case 0xf1: /* BASE-n */
-    case 0xf2: /* ƒRƒ“ƒgƒ‰ƒXƒg */
+    case 0xf2: /* ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆ */
       return c;
-    default: /* •¶š */
+    default: /* æ–‡å­— */
       if (first) {
-        if (c == '+' || c == '-' || c == '*' || c == '/' || c == '\\' ||
+        if (c == '+' || c == '-' || c == '*' || c == '/' || c == 'Â¥Â¥' ||
             c == '^' || c == '<' || c == '=' || c == '>') {
           _refresh(&stat);
           _jumplast(&stat);
@@ -1935,7 +1935,7 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
 }
 
 /*
-        ”’l(16i”)‚ğ“¾‚é
+        æ•°å€¤(16é€²æ•°)ã‚’å¾—ã‚‹
 */
 static int ishex(uint8 ascii) {
   return ascii == 0x30 || ascii == 0x31 || ascii == 0x32 || ascii == 0x33 ||
@@ -1981,7 +1981,7 @@ static void gethex(void *num, int length, uint8 col, uint8 row) {
 }
 
 /*
-        ƒŒƒWƒXƒ^”j‰ó
+        ãƒ¬ã‚¸ã‚¹ã‚¿ç ´å£Š
 */
 static inline uint16 destroy16(void) {
   static uint32 rnd = 0xffffffff;
@@ -1992,7 +1992,7 @@ static inline uint16 destroy16(void) {
 static inline uint8 destroy8(void) { return destroy16() >> 8; }
 
 /*
-        ‘SƒŒƒWƒXƒ^‚ğ•\¦‚·‚é
+        å…¨ãƒ¬ã‚¸ã‚¹ã‚¿ã‚’è¡¨ç¤ºã™ã‚‹
 */
 static inline int iocs_bd03(Z80stat *z) {
   clrall();
@@ -2006,12 +2006,12 @@ static inline int iocs_bd03(Z80stat *z) {
 }
 
 /*
-        ­‚µ‘Ò‚Â (PC-G850ê—p)
+        å°‘ã—å¾…ã¤ (PC-G850å°‚ç”¨)
 */
 static inline int iocs_8aad(Z80stat *z) { return 1500; }
 
 /*
-        ƒOƒ‰ƒtƒBƒbƒNˆ— (PC-G815ê—p)
+        ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯å‡¦ç† (PC-G815å°‚ç”¨)
 */
 static inline int iocs_02_f9f8(Z80stat *z) {
   z->r.a = point(z->r16.hl, z->r16.de);
@@ -2118,7 +2118,7 @@ static inline int iocs_9490(Z80stat *z) {
   }
 
   /*
-  printf("page=%02x address=%04x\n", page, address);
+  printf("page=%02x address=%04xÂ¥n", page, address);
   fflush(stdout);
   */
 
@@ -2126,7 +2126,7 @@ static inline int iocs_9490(Z80stat *z) {
 }
 
 /*
-        ƒOƒ‰ƒtƒBƒbƒNˆ— (PC-G850ê—p)
+        ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯å‡¦ç† (PC-G850å°‚ç”¨)
 */
 static inline int iocs_0e_ffca(Z80stat *z) {
   z->r.a = point(z->r16.hl, z->r16.de);
@@ -2218,7 +2218,7 @@ static inline int iocs_bb6b(Z80stat *z) {
   }
 
   /*
-  printf("page=%02x address=%04x\n", page, address);
+  printf("page=%02x address=%04xÂ¥n", page, address);
   fflush(stdout);
   */
 
@@ -2226,7 +2226,7 @@ static inline int iocs_bb6b(Z80stat *z) {
 }
 
 /*
-        Š„‚è‚İæ (PC-G850ê—p)
+        å‰²ã‚Šè¾¼ã¿å…ˆ (PC-G850å°‚ç”¨)
 */
 static inline int iocs_bc37(Z80stat *z) {
   z->r.halt = 0;
@@ -2237,7 +2237,7 @@ static inline int iocs_bc37(Z80stat *z) {
 }
 
 /*
-        ‰Ÿ‚³‚ê‚Ä‚¢‚éƒL[‚ÌASCIIƒR[ƒh‚ğ“¾‚é(wait‚ ‚è) (PC-G850ê—p)
+        æŠ¼ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼ã®ASCIIã‚³ãƒ¼ãƒ‰ã‚’å¾—ã‚‹(waitã‚ã‚Š) (PC-G850å°‚ç”¨)
 */
 static inline int iocs_bcc4(Z80stat *z) {
   waitRelease();
@@ -2262,14 +2262,14 @@ static inline int iocs_bcc4(Z80stat *z) {
 }
 
 /*
-        ‰Ÿ‚³‚ê‚Ä‚¢‚éƒL[‚ğ“¾‚é(wait‚È‚µ)
+        æŠ¼ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼ã‚’å¾—ã‚‹(waitãªã—)
 */
 static inline int iocs_be53(Z80stat *z) {
   z->r.a = peekKeycode();
   if (z->r.a)
     z->r.f |= 0x01; /* ? */
   else
-    z->r.f &= ~0x01; /* ? */
+    z->r.f &= â€¾0x01; /* ? */
 
   if (z->r.f & 0x01)
     z->r.b = destroy8();
@@ -2289,7 +2289,7 @@ static inline int iocs_be53(Z80stat *z) {
 }
 
 /*
-        ƒL[ƒR[ƒh‚ğASCIIƒR[ƒh‚É•ÏŠ·‚·‚é
+        ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’ASCIIã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹
 */
 static inline int iocs_be56(Z80stat *z) {
   if (z->m[0x78f0] & 0x08) {
@@ -2304,7 +2304,7 @@ static inline int iocs_be56(Z80stat *z) {
 }
 
 /*
-        1•¶š•\¦‚·‚é(‹L†‚ğŠÜ‚Ş)
+        1æ–‡å­—è¡¨ç¤ºã™ã‚‹(è¨˜å·ã‚’å«ã‚€)
 */
 static inline int iocs_be5f(Z80stat *z) {
   if (z->r.e >= vramCols || z->r.d >= vramRows)
@@ -2321,7 +2321,7 @@ static inline int iocs_be5f(Z80stat *z) {
 }
 
 /*
-        1•¶š•\¦‚·‚é(‹L†‚ğŠÜ‚Ü‚È‚¢)
+        1æ–‡å­—è¡¨ç¤ºã™ã‚‹(è¨˜å·ã‚’å«ã¾ãªã„)
 */
 static inline int iocs_be62(Z80stat *z) {
   if (z->r.e >= vramCols || z->r.d >= vramRows)
@@ -2338,7 +2338,7 @@ static inline int iocs_be62(Z80stat *z) {
 }
 
 /*
-        ‰º‚ÉƒXƒNƒ[ƒ‹‚·‚é
+        ä¸‹ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
 */
 static inline int iocs_be65(Z80stat *z) {
   if (z->r.e >= vramCols || z->r.d >= vramRows)
@@ -2355,7 +2355,7 @@ static inline int iocs_be65(Z80stat *z) {
 }
 
 /*
-        ‰Ÿ‚³‚ê‚Ä‚¢‚éƒL[‚ğ“¾‚é(wait‚ ‚è)
+        æŠ¼ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼ã‚’å¾—ã‚‹(waitã‚ã‚Š)
 */
 static inline int iocs_bcfd(Z80stat *z) {
   z->r.a = getKeycode();
@@ -2370,7 +2370,7 @@ static inline int iocs_bcfd(Z80stat *z) {
 }
 
 /*
-        16i”2Œ…‚ÌƒL[“ü—Í‚ğ“¾‚é
+        16é€²æ•°2æ¡ã®ã‚­ãƒ¼å…¥åŠ›ã‚’å¾—ã‚‹
 */
 static inline int iocs_bd09(Z80stat *z) {
   clrall();
@@ -2386,7 +2386,7 @@ static inline int iocs_bd09(Z80stat *z) {
 }
 
 /*
-        16i”4Œ…‚ÌƒL[“ü—Í‚ğ“¾‚é
+        16é€²æ•°4æ¡ã®ã‚­ãƒ¼å…¥åŠ›ã‚’å¾—ã‚‹
 */
 static inline int iocs_bd0f(Z80stat *z) {
   clrall();
@@ -2403,7 +2403,7 @@ static inline int iocs_bd0f(Z80stat *z) {
 }
 
 /*
-        ‰Ÿ‚³‚ê‚Ä‚¢‚éƒL[‚ğ“¾‚é(wait‚ ‚è)
+        æŠ¼ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼ã‚’å¾—ã‚‹(waitã‚ã‚Š)
 */
 static inline int iocs_bfcc(Z80stat *z) {
   z->r.a = getKeycode();
@@ -2415,7 +2415,7 @@ static inline int iocs_bfcc(Z80stat *z) {
 }
 
 /*
-        ƒpƒ^[ƒ“‚ğ•\¦‚·‚é
+        ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¡¨ç¤ºã™ã‚‹
 */
 static inline int iocs_bfd0(Z80stat *z) {
   int state, width, b;
@@ -2448,7 +2448,7 @@ static inline int iocs_bfd0(Z80stat *z) {
 }
 
 /*
-        ã‚ÉƒXƒNƒ[ƒ‹‚·‚é
+        ä¸Šã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹
 */
 static inline int iocs_bfeb(Z80stat *z) {
   scrup();
@@ -2461,7 +2461,7 @@ static inline int iocs_bfeb(Z80stat *z) {
 }
 
 /*
-        nŒÂ‚Ì•¶š‚ğ•\¦‚·‚é
+        nå€‹ã®æ–‡å­—ã‚’è¡¨ç¤ºã™ã‚‹
 */
 static inline int iocs_bfee(Z80stat *z) {
   int state;
@@ -2483,7 +2483,7 @@ static inline int iocs_bfee(Z80stat *z) {
 }
 
 /*
-        •¶š—ñ‚ğ•\¦‚·‚é
+        æ–‡å­—åˆ—ã‚’è¡¨ç¤ºã™ã‚‹
 */
 static inline int iocs_bff1(Z80stat *z) {
   int state;
@@ -2505,7 +2505,7 @@ static inline int iocs_bff1(Z80stat *z) {
 }
 
 /*
-        ‹N“®‚·‚é
+        èµ·å‹•ã™ã‚‹
 */
 static inline int iocs_bff4(Z80stat *z) {
   z->r16.sp = 0x7ff6;
@@ -2514,7 +2514,7 @@ static inline int iocs_bff4(Z80stat *z) {
 }
 
 /*
-        “dŒ¹‚ğØ‚é
+        é›»æºã‚’åˆ‡ã‚‹
 */
 static inline int iocs_c110(Z80stat *z) {
   poweroff();
@@ -2522,7 +2522,7 @@ static inline int iocs_c110(Z80stat *z) {
 }
 
 /*
-        IOCSƒR[ƒ‹‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é
+        IOCSã‚³ãƒ¼ãƒ«ã‚’ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹
 */
 int z80subroutine(Z80stat *z, uint16 address) {
   if (address < 0x8000 && address > 0x0040)
@@ -2595,7 +2595,7 @@ int z80subroutine(Z80stat *z, uint16 address) {
 
   if (address >= 0x8000) {
 #ifdef WARN_UNKNOWN_IO
-    printf("UNKNOWN CALL %04x\n", address);
+    printf("UNKNOWN CALL %04xÂ¥n", address);
 #endif
     return (useROM ? -1 : 100);
   } else
@@ -2603,7 +2603,7 @@ int z80subroutine(Z80stat *z, uint16 address) {
 }
 
 /*
-        Copyright 2005 ~ 2017 maruhiro
+        Copyright 2005 â€¾ 2017 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

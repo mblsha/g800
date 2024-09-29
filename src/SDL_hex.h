@@ -1,5 +1,5 @@
 /*
-        IntelHEXŒ`®ˆ—ƒwƒbƒ_(SDL_hex.h)
+        IntelHEXå½¢å¼å‡¦ç†ãƒ˜ãƒƒãƒ€(SDL_hex.h)
 */
 
 #if !defined(SDLHEX_H)

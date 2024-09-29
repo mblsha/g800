@@ -1,5 +1,5 @@
 /*
-        XPM‚©‚çSDL_Surface‚ð¶¬‚·‚é (sdlxpm.c)
+        XPMã‹ã‚‰SDL_Surfaceã‚’ç”Ÿæˆã™ã‚‹ (sdlxpm.c)
 */
 
 #include "sdlxpm.h"
@@ -12,7 +12,7 @@
 #define TRUE 1
 
 /*
-        16i”‚Ì•¶Žš—ñ‚ð”’l‚É‚·‚é(‰º¿‚¯)
+        16é€²æ•°ã®æ–‡å­—åˆ—ã‚’æ•°å€¤ã«ã™ã‚‹(ä¸‹è«‹ã‘)
 */
 static unsigned int atoix(const char *txt) {
   unsigned int x;
@@ -22,7 +22,7 @@ static unsigned int atoix(const char *txt) {
 }
 
 /*
-        Surface‚É“_‚ð•`‚­(SDL_CreateRGBSurfaceAndMaskFromXpm‚Ì‰º¿‚¯)
+        Surfaceã«ç‚¹ã‚’æã(SDL_CreateRGBSurfaceAndMaskFromXpmã®ä¸‹è«‹ã‘)
 */
 static void pset(Uint8 *dst, Uint32 pix, int bpp) {
   switch (bpp) {
@@ -50,7 +50,7 @@ static void pset(Uint8 *dst, Uint32 pix, int bpp) {
 }
 
 /*
-        ‚ ‚éF‚ªƒe[ƒuƒ‹‚É‘¶Ý‚·‚é‚©’²‚×‚é(get_keycolor‚Ì‰º¿‚¯)
+        ã‚ã‚‹è‰²ãŒãƒ†ãƒ¼ãƒ–ãƒ«ã«å­˜åœ¨ã™ã‚‹ã‹èª¿ã¹ã‚‹(get_keycolorã®ä¸‹è«‹ã‘)
 */
 static int exist_color(const SDL_Color color[], int colors,
                        SDL_Color key_color) {
@@ -63,7 +63,7 @@ static int exist_color(const SDL_Color color[], int colors,
 }
 
 /*
-        “§–¾F‚ð‹‚ß‚é(SDL_CreateRGBSurfaceAndMaskFromXpm‚Ì‰º¿‚¯)
+        é€æ˜Žè‰²ã‚’æ±‚ã‚ã‚‹(SDL_CreateRGBSurfaceAndMaskFromXpmã®ä¸‹è«‹ã‘)
 */
 static SDL_Color get_keycolor(SDL_Surface *s, const SDL_Color color[],
                               int colors) {
@@ -83,7 +83,7 @@ static SDL_Color get_keycolor(SDL_Surface *s, const SDL_Color color[],
 }
 
 /*
-        XPM‚©‚çSDL_Surface‚Æƒ}ƒXƒN‚ð¶¬‚·‚é
+        XPMã‹ã‚‰SDL_Surfaceã¨ãƒžã‚¹ã‚¯ã‚’ç”Ÿæˆã™ã‚‹
 */
 SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *xpm[], Uint8 *mask) {
 #if SDL_MAJOR_VERSION == 1
@@ -96,7 +96,7 @@ SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *xpm[], Uint8 *mask) {
   int i, width, height, colors, bytes, key = 0;
   char symbol[4], c[4], rgb[8], *p_xpm, **pp_xpm = xpm;
 
-  /* •, ‚‚³‚ðÝ’è‚·‚é */
+  /* å¹…, é«˜ã•ã‚’è¨­å®šã™ã‚‹ */
   if (sscanf(*pp_xpm++, "%d %d %d %d", &width, &height, &colors, &bytes) != 4)
     return NULL;
   if (bytes != 1)
@@ -121,7 +121,7 @@ SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *xpm[], Uint8 *mask) {
   if (mask != NULL)
     memset(mask, 0, (width + 7) / 8 * height);
 
-  /* F‚ðÝ’è‚·‚é */
+  /* è‰²ã‚’è¨­å®šã™ã‚‹ */
   for (i = 0; i != colors; i++) {
     if (**pp_xpm != ' ')
       sscanf(*pp_xpm++, "%3s %3s %7s", symbol, c, rgb);
@@ -155,7 +155,7 @@ SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *xpm[], Uint8 *mask) {
       SDL_MapRGB(s->format, color[key].r, color[key].g, color[key].b));
 #endif
 
-  /* Pixel‚ð•`‚«ž‚Þ */
+  /* Pixelã‚’æãè¾¼ã‚€ */
   if (SDL_MUSTLOCK(s))
     SDL_LockSurface(s);
   for (i = 0, q_pix = s->pixels, p_mask = mask; i != height;
@@ -177,7 +177,7 @@ SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *xpm[], Uint8 *mask) {
 }
 
 /*
-        Copyright 2006 ~ 2014 maruhiro
+        Copyright 2006 â€¾ 2014 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

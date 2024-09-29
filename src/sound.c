@@ -1,18 +1,18 @@
 /*
         SHARP PC-G800 series emulator
-        ƒTƒEƒ“ƒh
+        ã‚µã‚¦ãƒ³ãƒ‰
 */
 
 #include "g800.h"
 #include <stdio.h>
 #include <string.h>
 
-#define VOLUME 0x5f /* ƒ{ƒŠƒ…[ƒ€ */
+#define VOLUME 0x5f /* ãƒœãƒªãƒ¥ãƒ¼ãƒ  */
 
-static int oldXout = 0; /* 1üŠú‘O‚ÌXout */
+static int oldXout = 0; /* 1å‘¨æœŸå‰ã®Xout */
 
 /*
-        ƒI[ƒfƒBƒIƒoƒbƒtƒ@ƒTƒCƒY‚ğ‹‚ß‚é
+        ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã‚’æ±‚ã‚ã‚‹
 */
 int getSoundBufferSize(int freq_update_io) {
   int sample_size;
@@ -26,7 +26,7 @@ int getSoundBufferSize(int freq_update_io) {
 }
 
 /*
-        ‰¹‚ğƒoƒbƒtƒ@‚É‘‚«‚Ş
+        éŸ³ã‚’ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã‚€
 */
 void writeSound(int xout) {
   unsigned int x, len, freq_cpu;
@@ -54,7 +54,7 @@ void writeSound(int xout) {
 }
 
 /*
-        “Çƒoƒbƒtƒ@‚Æ‘ƒoƒbƒtƒ@‚ğŒğŠ·‚·‚é
+        èª­è¾¼ãƒãƒƒãƒ•ã‚¡ã¨æ›¸è¾¼ãƒãƒƒãƒ•ã‚¡ã‚’äº¤æ›ã™ã‚‹
 */
 void flipSoundBuffer(void) {
 #if 0
@@ -66,7 +66,7 @@ void flipSoundBuffer(void) {
       delay(1);
 
 #if 0
-	/* SDL2.0‚Å‚Í‚±‚Ì•û–@‚Å‚Í‚¤‚Ü‚­‚¢‚©‚È‚¢. */
+	/* SDL2.0ã§ã¯ã“ã®æ–¹æ³•ã§ã¯ã†ã¾ãã„ã‹ãªã„. */
 	p = soundReadBuffer;
 	soundReadBuffer = soundWriteBuffer;
 	soundWriteBuffer = p;
@@ -80,7 +80,7 @@ void flipSoundBuffer(void) {
 }
 
 /*
-        Copyright 2005 ~ 2013 maruhiro
+        Copyright 2005 â€¾ 2013 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

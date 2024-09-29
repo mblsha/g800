@@ -1,5 +1,5 @@
 /*
-        XPM‚©‚çSDL_Surface‚ğ¶¬‚·‚é (sdlxpm.h)
+        XPMã‹ã‚‰SDL_Surfaceã‚’ç”Ÿæˆã™ã‚‹ (sdlxpm.h)
 */
 
 #ifndef SDLXPM_H
@@ -11,7 +11,7 @@ SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *[], Uint8 *);
 #endif
 
 /*
-        Copyright 2006 ~ 2008 maruhiro
+        Copyright 2006 â€¾ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

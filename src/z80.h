@@ -16,10 +16,10 @@
 #endif
 #endif
 
-/* z80exec()‚Ì–ß‚è’l */
-#define Z80_RUN 0       /* “®ì’† */
-#define Z80_HALT 1      /* HALT’† */
-#define Z80_UNDERFLOW 2 /* ƒXƒ^ƒbƒNƒAƒ“ƒ_[ƒtƒ[ */
+/* z80exec()ã®æˆ»ã‚Šå€¤ */
+#define Z80_RUN 0       /* å‹•ä½œä¸­ */
+#define Z80_HALT 1      /* HALTä¸­ */
+#define Z80_UNDERFLOW 2 /* ã‚¹ã‚¿ãƒƒã‚¯ã‚¢ãƒ³ãƒ€ãƒ¼ãƒ•ãƒ­ãƒ¼ */
 
 #define Z80_STATES(z) ((z)->i.total_states - (z)->i.states)
 #define Z80_RESET_STATES(z) ((z)->i.total_states = (z)->i.states)
@@ -33,29 +33,29 @@ typedef int int32;
 typedef unsigned long long uint64;
 typedef long long int64;
 
-/* 8bitsƒŒƒWƒXƒ^ */
+/* 8bitsãƒ¬ã‚¸ã‚¹ã‚¿ */
 typedef struct {
   uint8 *m;
 #if defined(Z80_LITTLEENDIAN)
-  uint8 f, a;     /* ƒtƒ‰ƒO, ƒAƒLƒ…ƒ€ƒŒ[ƒ^ */
-  uint8 c, b;     /* ”Ä—pƒŒƒWƒXƒ^C, B */
-  uint8 e, d;     /* ”Ä—pƒŒƒWƒXƒ^E, D */
-  uint8 l, h;     /* ”Ä—pƒŒƒWƒXƒ^L, H */
-  uint8 ixl, ixh; /* ƒCƒ“ƒfƒbƒNƒXƒŒƒWƒXƒ^IXl, IXh */
-  uint8 iyl, iyh; /* ƒCƒ“ƒfƒbƒNƒXƒŒƒWƒXƒ^IYl, IYh */
-  uint8 i;        /* ƒCƒ“ƒ^ƒ‰ƒvƒgƒŒƒWƒXƒ^I */
+  uint8 f, a;     /* ãƒ•ãƒ©ã‚°, ã‚¢ã‚­ãƒ¥ãƒ ãƒ¬ãƒ¼ã‚¿ */
+  uint8 c, b;     /* æ±ç”¨ãƒ¬ã‚¸ã‚¹ã‚¿C, B */
+  uint8 e, d;     /* æ±ç”¨ãƒ¬ã‚¸ã‚¹ã‚¿E, D */
+  uint8 l, h;     /* æ±ç”¨ãƒ¬ã‚¸ã‚¹ã‚¿L, H */
+  uint8 ixl, ixh; /* ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿IXl, IXh */
+  uint8 iyl, iyh; /* ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿IYl, IYh */
+  uint8 i;        /* ã‚¤ãƒ³ã‚¿ãƒ©ãƒ—ãƒˆãƒ¬ã‚¸ã‚¹ã‚¿I */
   uint8 pad1;
-  uint8 f_d, a_d; /* •â•ƒŒƒWƒXƒ^F', A' */
+  uint8 f_d, a_d; /* è£œåŠ©ãƒ¬ã‚¸ã‚¹ã‚¿F', A' */
 #elif defined(Z80_BIGENDIAN)
-  uint8 a, f;     /* ƒAƒLƒ…ƒ€ƒŒ[ƒ^, ƒtƒ‰ƒO */
-  uint8 b, c;     /* ”Ä—pƒŒƒWƒXƒ^B, C */
-  uint8 d, e;     /* ”Ä—pƒŒƒWƒXƒ^D, E */
-  uint8 h, l;     /* ”Ä—pƒŒƒWƒXƒ^H, L */
-  uint8 ixh, ixl; /* ƒCƒ“ƒfƒbƒNƒXƒŒƒWƒXƒ^IXh, IXl */
-  uint8 iyh, iyl; /* ƒCƒ“ƒfƒbƒNƒXƒŒƒWƒXƒ^IYh, IYl */
+  uint8 a, f;     /* ã‚¢ã‚­ãƒ¥ãƒ ãƒ¬ãƒ¼ã‚¿, ãƒ•ãƒ©ã‚° */
+  uint8 b, c;     /* æ±ç”¨ãƒ¬ã‚¸ã‚¹ã‚¿B, C */
+  uint8 d, e;     /* æ±ç”¨ãƒ¬ã‚¸ã‚¹ã‚¿D, E */
+  uint8 h, l;     /* æ±ç”¨ãƒ¬ã‚¸ã‚¹ã‚¿H, L */
+  uint8 ixh, ixl; /* ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿IXh, IXl */
+  uint8 iyh, iyl; /* ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿IYh, IYl */
   uint8 pad2;
-  uint8 i;        /* ƒCƒ“ƒ^ƒ‰ƒvƒgƒŒƒWƒXƒ^I */
-  uint8 a_d, f_d; /* •â•ƒŒƒWƒXƒ^A', F' */
+  uint8 i;        /* ã‚¤ãƒ³ã‚¿ãƒ©ãƒ—ãƒˆãƒ¬ã‚¸ã‚¹ã‚¿I */
+  uint8 a_d, f_d; /* è£œåŠ©ãƒ¬ã‚¸ã‚¹ã‚¿A', F' */
 #else
   ERROR: MUST DEFINE Z80_LITTLEENDIAN OR Z80_BIGENDIAN
 #endif
@@ -65,99 +65,99 @@ typedef struct {
   uint8 pad9, pad10;
   uint8 pad11, pad12;
   uint8 iff;  /* IFF1, IFF2 */
-  uint8 im;   /* Š„‚è‚İƒ‚[ƒh */
-  uint8 halt; /* HALT‚©? */
+  uint8 im;   /* å‰²ã‚Šè¾¼ã¿ãƒ¢ãƒ¼ãƒ‰ */
+  uint8 halt; /* HALTã‹? */
   uint8 pad13;
   uint8 pad14, pad15;
 } Z80regs;
 
-/* 16bitsƒŒƒWƒXƒ^ */
+/* 16bitsãƒ¬ã‚¸ã‚¹ã‚¿ */
 typedef struct {
   uint8 *m;
-  uint16 af; /* ƒyƒAƒŒƒWƒXƒ^AF */
-  uint16 bc; /* ƒyƒAƒŒƒWƒXƒ^BC */
-  uint16 de; /* ƒyƒAƒŒƒWƒXƒ^DE */
-  uint16 hl; /* ƒyƒAƒŒƒWƒXƒ^HL */
-  uint16 ix; /* ƒCƒ“ƒfƒbƒNƒXƒŒƒWƒXƒ^IX */
-  uint16 iy; /* ƒCƒ“ƒfƒbƒNƒXƒŒƒWƒXƒ^IY */
+  uint16 af; /* ãƒšã‚¢ãƒ¬ã‚¸ã‚¹ã‚¿AF */
+  uint16 bc; /* ãƒšã‚¢ãƒ¬ã‚¸ã‚¹ã‚¿BC */
+  uint16 de; /* ãƒšã‚¢ãƒ¬ã‚¸ã‚¹ã‚¿DE */
+  uint16 hl; /* ãƒšã‚¢ãƒ¬ã‚¸ã‚¹ã‚¿HL */
+  uint16 ix; /* ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿IX */
+  uint16 iy; /* ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿IY */
   uint16 pad2;
-  uint16 af_d; /* •â•ƒŒƒWƒXƒ^AF' */
-  uint16 bc_d; /* •â•ƒŒƒWƒXƒ^BC' */
-  uint16 de_d; /* •â•ƒŒƒWƒXƒ^DE' */
-  uint16 hl_d; /* •â•ƒŒƒWƒXƒ^HL' */
-  uint16 sp;   /* ƒXƒ^ƒbƒNƒ|ƒCƒ“ƒ^SP */
-  uint16 pc;   /* ƒvƒƒOƒ‰ƒ€ƒJƒEƒ“ƒ^PC */
+  uint16 af_d; /* è£œåŠ©ãƒ¬ã‚¸ã‚¹ã‚¿AF' */
+  uint16 bc_d; /* è£œåŠ©ãƒ¬ã‚¸ã‚¹ã‚¿BC' */
+  uint16 de_d; /* è£œåŠ©ãƒ¬ã‚¸ã‚¹ã‚¿DE' */
+  uint16 hl_d; /* è£œåŠ©ãƒ¬ã‚¸ã‚¹ã‚¿HL' */
+  uint16 sp;   /* ã‚¹ã‚¿ãƒƒã‚¯ãƒã‚¤ãƒ³ã‚¿SP */
+  uint16 pc;   /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚«ã‚¦ãƒ³ã‚¿PC */
 } Z80regs16;
 
 #if defined(Z80_TRACE)
-/* ƒVƒ“ƒ{ƒ‹ */
+/* ã‚·ãƒ³ãƒœãƒ« */
 typedef struct {
-  uint16 bank;    /* ƒoƒ“ƒN”Ô† */
-  uint16 address; /* ƒAƒhƒŒƒX */
-  char name[32];  /* ƒVƒ“ƒ{ƒ‹–¼ */
+  uint16 bank;    /* ãƒãƒ³ã‚¯ç•ªå· */
+  uint16 address; /* ã‚¢ãƒ‰ãƒ¬ã‚¹ */
+  char name[32];  /* ã‚·ãƒ³ãƒœãƒ«å */
 } Z80symbol;
 #endif
 
 #if defined(Z80_PROF)
-/* ƒR[ƒ‹ƒXƒ^ƒbƒN */
+/* ã‚³ãƒ¼ãƒ«ã‚¹ã‚¿ãƒƒã‚¯ */
 typedef struct {
-  uint16 bank;    /* ƒTƒuƒ‹[ƒ`ƒ“‚Ìƒoƒ“ƒN */
-  uint16 address; /* ƒTƒuƒ‹[ƒ`ƒ“‚ÌƒAƒhƒŒƒX */
-  uint16 sp;      /* ŒÄ‚Ño‚µƒXƒ^ƒbƒNƒ|ƒCƒ“ƒ^ */
-  int64 states;   /* ŒÄ‚Ño‚µ‘ƒXƒe[ƒg” */
+  uint16 bank;    /* ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®ãƒãƒ³ã‚¯ */
+  uint16 address; /* ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ */
+  uint16 sp;      /* å‘¼ã³å‡ºã—æ™‚ã‚¹ã‚¿ãƒƒã‚¯ãƒã‚¤ãƒ³ã‚¿ */
+  int64 states;   /* å‘¼ã³å‡ºã—æ™‚ç·ã‚¹ãƒ†ãƒ¼ãƒˆæ•° */
 } Z80stack;
 
-/* ƒTƒuƒ‹[ƒ`ƒ“‚ÌŒÄ‚Ño‚µ‹L˜^ */
+/* ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®å‘¼ã³å‡ºã—è¨˜éŒ² */
 typedef struct {
-  uint16 bank;    /* ƒTƒuƒ‹[ƒ`ƒ“‚Ìƒoƒ“ƒN */
-  uint16 address; /* ƒTƒuƒ‹[ƒ`ƒ“‚ÌƒAƒhƒŒƒX */
-  int count;      /* ŒÄ‚Ño‚µ‰ñ” */
-  int64 states;   /* ‘ƒXƒe[ƒg” */
+  uint16 bank;    /* ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®ãƒãƒ³ã‚¯ */
+  uint16 address; /* ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ */
+  int count;      /* å‘¼ã³å‡ºã—å›æ•° */
+  int64 states;   /* ç·ã‚¹ãƒ†ãƒ¼ãƒˆæ•° */
 } Z80record;
 
-/* ƒR[ƒh‚ÌÀs‹L˜^ */
+/* ã‚³ãƒ¼ãƒ‰ã®å®Ÿè¡Œè¨˜éŒ² */
 typedef struct {
-  int count;        /* Às‰ñ” */
-  int cond;         /* ğŒ¬—§‰ñ” */
-  uint8 code[4];    /* ƒR[ƒh */
-  int64 states;     /* ‘ƒXƒe[ƒg” */
-  int64 sub_states; /* ƒTƒuƒ‹[ƒ`ƒ“‚Ì‘ƒXƒe[ƒg” */
+  int count;        /* å®Ÿè¡Œå›æ•° */
+  int cond;         /* æ¡ä»¶æˆç«‹å›æ•° */
+  uint8 code[4];    /* ã‚³ãƒ¼ãƒ‰ */
+  int64 states;     /* ç·ã‚¹ãƒ†ãƒ¼ãƒˆæ•° */
+  int64 sub_states; /* ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®ç·ã‚¹ãƒ†ãƒ¼ãƒˆæ•° */
 } Z80path;
 
-/* ƒvƒƒtƒ@ƒCƒ‰ */
+/* ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ© */
 typedef struct {
-  Z80record *record; /* ƒTƒuƒ‹[ƒ`ƒ“‚ÌŒÄ‚Ño‚µ‹L˜^ */
-  Z80stack *stack;   /* ƒR[ƒ‹ƒXƒ^ƒbƒN */
-  Z80stack *cur;     /* Œ»İ‚ÌƒXƒ^ƒbƒNˆÊ’u */
-  Z80path **path;    /* ƒR[ƒhÀs‹L˜^ */
-  Z80path *pos;      /* Œ»İ‚ÌÀsˆÊ’u */
+  Z80record *record; /* ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã®å‘¼ã³å‡ºã—è¨˜éŒ² */
+  Z80stack *stack;   /* ã‚³ãƒ¼ãƒ«ã‚¹ã‚¿ãƒƒã‚¯ */
+  Z80stack *cur;     /* ç¾åœ¨ã®ã‚¹ã‚¿ãƒƒã‚¯ä½ç½® */
+  Z80path **path;    /* ã‚³ãƒ¼ãƒ‰å®Ÿè¡Œè¨˜éŒ² */
+  Z80path *pos;      /* ç¾åœ¨ã®å®Ÿè¡Œä½ç½® */
 } Z80prof;
 #endif
 
-/* ƒIƒvƒVƒ‡ƒ“E‚»‚Ì‘¼‚Ìî•ñ */
+/* ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ»ãã®ä»–ã®æƒ…å ± */
 typedef struct {
   Z80regs pad1;
-  int states;         /* Às‚·‚éƒXƒe[ƒg” */
-  uint16 stack_under; /* ƒXƒ^ƒbƒN‰ºŒÀ */
+  int states;         /* å®Ÿè¡Œã™ã‚‹ã‚¹ãƒ†ãƒ¼ãƒˆæ•° */
+  uint16 stack_under; /* ã‚¹ã‚¿ãƒƒã‚¯ä¸‹é™ */
   uint16 pad2;
-  int total_states;       /* —İÏƒXƒe[ƒg” */
-  int emulate_subroutine; /* ƒTƒuƒ‹[ƒ`ƒ“‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é‚©? */
-  void *user_data;        /* ‚»‚Ì‘¼‚Ìî•ñ */
+  int total_states;       /* ç´¯ç©ã‚¹ãƒ†ãƒ¼ãƒˆæ•° */
+  int emulate_subroutine; /* ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ã‚’ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹ã‹? */
+  void *user_data;        /* ãã®ä»–ã®æƒ…å ± */
 #if defined(Z80_TRACE)
-  int trace;         /* ƒgƒŒ[ƒXƒ‚[ƒh‚©? */
-  Z80symbol *symbol; /* ƒVƒ“ƒ{ƒ‹ */
+  int trace;         /* ãƒˆãƒ¬ãƒ¼ã‚¹ãƒ¢ãƒ¼ãƒ‰ã‹? */
+  Z80symbol *symbol; /* ã‚·ãƒ³ãƒœãƒ« */
 #endif
 #if defined(Z80_PROF)
-  Z80prof prof; /* ƒvƒƒtƒ@ƒCƒ‰ */
+  Z80prof prof; /* ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ© */
 #endif
 } Z80info;
 
-/* ƒŒƒWƒXƒ^ */
+/* ãƒ¬ã‚¸ã‚¹ã‚¿ */
 typedef union {
-  uint8 *m;      /* ƒƒ‚ƒŠ */
-  Z80regs r;     /* 8bitsƒŒƒWƒXƒ^ */
-  Z80regs16 r16; /* 16bitsƒŒƒWƒXƒ^ */
-  Z80info i;     /* ƒIƒvƒVƒ‡ƒ“E‚»‚Ì‘¼‚Ìó‘Ô */
+  uint8 *m;      /* ãƒ¡ãƒ¢ãƒª */
+  Z80regs r;     /* 8bitsãƒ¬ã‚¸ã‚¹ã‚¿ */
+  Z80regs16 r16; /* 16bitsãƒ¬ã‚¸ã‚¹ã‚¿ */
+  Z80info i;     /* ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ»ãã®ä»–ã®çŠ¶æ…‹ */
 } Z80stat;
 
 /* z80.c */
@@ -189,7 +189,7 @@ void z80prof_exec(Z80stat *, int);
 void z80prof_cond(Z80stat *, int);
 #endif
 
-/* ƒ†[ƒU’è‹` */
+/* ãƒ¦ãƒ¼ã‚¶å®šç¾© */
 #include "z80memory.h"
 int z80inport(Z80stat *, uint8 *, uint16);
 int z80outport(Z80stat *, uint16, uint8);
@@ -202,7 +202,7 @@ void z80log(const Z80stat *);
 #endif
 
 /*
-        Copyright 2005 ~ 2024 maruhiro
+        Copyright 2005 â€¾ 2024 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

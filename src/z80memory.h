@@ -19,7 +19,7 @@ static inline void z80write8(const Z80stat *z, uint16 address, uint8 value) {
 #if defined(Z80_LITTLEENDIAN)
 
 /*
-        16bits READ/WRITE (ƒŠƒgƒ‹ƒGƒ“ƒfƒBƒAƒ“)
+        16bits READ/WRITE (ãƒªãƒˆãƒ«ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³)
 */
 static inline uint16 z80read16(const Z80stat *z, uint16 address) {
   return *(uint16 *)(&memory[address]);
@@ -32,7 +32,7 @@ static inline void z80write16(const Z80stat *z, uint16 address, uint16 value) {
 #else
 
 /*
-        16bits READ/WRITE (ƒGƒ“ƒfƒBƒAƒ“”ñˆË‘¶)
+        16bits READ/WRITE (ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³éä¾å­˜)
 */
 static inline uint16 z80read16(const Z80stat *z, uint16 address) {
   return ((uint16)memory[(address) + 1] << 8U | memory[address]);
@@ -47,7 +47,7 @@ static inline void z80write16(const Z80stat *z, uint16 address, uint16 value) {
 #endif
 
 /*
-        Copyright 2005 ~ 2008 maruhiro
+        Copyright 2005 â€¾ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

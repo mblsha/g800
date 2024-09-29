@@ -1,6 +1,6 @@
 /*
         SHARP PC-G800 series Emulator
-        “üo—ÍƒGƒ~ƒ…ƒŒ[ƒg
+        å…¥å‡ºåŠ›ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆ
 */
 
 #include "g800.h"
@@ -9,7 +9,7 @@
 #include <string.h>
 
 /*
-        VRAM‚ÌƒIƒtƒZƒbƒg(PC-E200)
+        VRAMã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ(PC-E200)
 */
 static inline int e200vramoff(uint8 x, uint8 row, uint8 begin) {
   row = (row - begin + 8) % 8;
@@ -24,14 +24,14 @@ static inline int e200vramoff(uint8 x, uint8 row, uint8 begin) {
 }
 
 /*
-        VRAM‚Ö‚Ìƒ|ƒCƒ“ƒ^(PC-E200)
+        VRAMã¸ã®ãƒã‚¤ãƒ³ã‚¿(PC-E200)
 */
 static inline uint8 *e200vram(uint8 x, uint8 row, uint8 begin) {
   return &vram[e200vramoff(x, row, begin)];
 }
 
 /*
-        •\¦ŠJnˆÊ’u‚ğİ’è‚·‚é(PC-E200)
+        è¡¨ç¤ºé–‹å§‹ä½ç½®ã‚’è¨­å®šã™ã‚‹(PC-E200)
 */
 static inline int sete200begin(uint8 begin) {
   uint8 oldvram[166 * 9];
@@ -47,7 +47,7 @@ static inline int sete200begin(uint8 begin) {
 }
 
 /*
-        VRAM‚ÌƒIƒtƒZƒbƒg(PC-G815)
+        VRAMã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ(PC-G815)
 */
 static inline int g815vramoff(uint8 x, uint8 row, uint8 begin) {
   row = (row - begin + 8) % 8;
@@ -61,14 +61,14 @@ static inline int g815vramoff(uint8 x, uint8 row, uint8 begin) {
 }
 
 /*
-        VRAM‚Ö‚Ìƒ|ƒCƒ“ƒ^(PC-G815)
+        VRAMã¸ã®ãƒã‚¤ãƒ³ã‚¿(PC-G815)
 */
 static inline uint8 *g815vram(uint8 x, uint8 row, uint8 begin) {
   return &vram[g815vramoff(x, row, begin)];
 }
 
 /*
-        •\¦ŠJnˆÊ’u‚ğİ’è‚·‚é(PC-G815)
+        è¡¨ç¤ºé–‹å§‹ä½ç½®ã‚’è¨­å®šã™ã‚‹(PC-G815)
 */
 static inline int setg815begin(uint8 begin) {
   uint8 oldvram[166 * 9];
@@ -84,14 +84,14 @@ static inline int setg815begin(uint8 begin) {
 }
 
 /*
-        VRAM‚Ö‚Ìƒ|ƒCƒ“ƒ^(PC-G850)
+        VRAMã¸ã®ãƒã‚¤ãƒ³ã‚¿(PC-G850)
 */
 static inline uint8 *g850vram(uint8 x, uint8 row) {
   return &vram[row * G850_VRAM_WIDTH + x];
 }
 
 /*
-        ROMƒoƒ“ƒN‚ğØ‚è‘Ö‚¦‚é
+        ROMãƒãƒ³ã‚¯ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 */
 static inline void swrom(uint8 page) {
   if (romBanks == 0)
@@ -104,7 +104,7 @@ static inline void swrom(uint8 page) {
 }
 
 /*
-        EXROMƒoƒ“ƒN‚ğØ‚è‘Ö‚¦‚é
+        EXROMãƒãƒ³ã‚¯ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 */
 static inline void swexrom(uint8 page) {
   if (page & 0xfc) {
@@ -119,14 +119,14 @@ static inline void swexrom(uint8 page) {
 }
 
 /*
-        11pin‚Ìo—ÍM†‚ğ“¾‚é
+        11pinã®å‡ºåŠ›ä¿¡å·ã‚’å¾—ã‚‹
 */
 uint8 pin11out(void) {
   switch (pin11If) {
   case PIN11IF_3IO:
     return (io3Out & 0x03) | ((io3Out >> 4) & 0x08);
   case PIN11IF_8PIO:
-    return ~pio8Io & pio8Out;
+    return â€¾pio8Io & pio8Out;
   case PIN11IF_UART:
     return 0;
   default:
@@ -135,7 +135,7 @@ uint8 pin11out(void) {
 }
 
 /*
-        ƒL[‚Ìó‘Ô
+        ã‚­ãƒ¼ã®çŠ¶æ…‹
 */
 static inline int in10(uint8 *x) {
   if (statesKeyStrobeLast - z80.i.states > statesKeyStrobeClear)
@@ -155,7 +155,7 @@ static inline int in10(uint8 *x) {
 static inline int out10(int x) { return 0; }
 
 /*
-        ƒL[ƒXƒgƒ[ƒu
+        ã‚­ãƒ¼ã‚¹ãƒˆãƒ­ãƒ¼ãƒ–
 */
 static inline int in11(uint8 *x) {
   *x = 0;
@@ -185,7 +185,7 @@ static inline int out12(uint8 x) {
 }
 
 /*
-        ƒVƒtƒgƒL[‚Ìó‘Ô
+        ã‚·ãƒ•ãƒˆã‚­ãƒ¼ã®çŠ¶æ…‹
 */
 static inline int in13(uint8 *x) {
   *x = (keyStrobe & 0x08 ? keyShift : 0);
@@ -194,7 +194,7 @@ static inline int in13(uint8 *x) {
 static inline int out13(uint8 x) { return 0; }
 
 /*
-        ƒ^ƒCƒ}
+        ã‚¿ã‚¤ãƒ
 */
 static inline int in14(uint8 *x) {
   *x = timer;
@@ -206,7 +206,7 @@ static inline int out14(uint8 x) {
 }
 
 /*
-        Xin“ü—Í’[q‚Ì“ü—Í‰Â”Ûó‘Ô
+        Xinå…¥åŠ›ç«¯å­ã®å…¥åŠ›å¯å¦çŠ¶æ…‹
 */
 static inline int in15(uint8 *x) {
   *x = xinEnabled;
@@ -218,19 +218,19 @@ static inline int out15(uint8 x) {
 }
 
 /*
-        Š„‚è‚İ—vˆö
+        å‰²ã‚Šè¾¼ã¿è¦å› 
 */
 static inline int in16(uint8 *x) {
   *x = interruptType;
   return 0;
 }
 static inline int out16(uint8 x) {
-  interruptType &= ~x;
+  interruptType &= â€¾x;
   return 0;
 }
 
 /*
-        Š„‚è‚İƒ}ƒXƒN
+        å‰²ã‚Šè¾¼ã¿ãƒã‚¹ã‚¯
 */
 static inline int in17(uint8 *x) {
   *x = interruptMask;
@@ -242,7 +242,7 @@ static inline int out17(uint8 x) {
 }
 
 /*
-        11pinI/F‚Ìo—Í§Œä
+        11pinI/Fã®å‡ºåŠ›åˆ¶å¾¡
 */
 static inline int in18(uint8 *x) {
   *x = io3Out;
@@ -268,7 +268,7 @@ static inline int out18(uint8 x) {
   if((interval = Z80_STATES(&z80) - prev_states) < 0)
           interval = INT_MAX - prev_states + Z80_STATES(&z80);
   prev_states = Z80_STATES(&z80) + states;
-  printf("interval=%d (%d)\n", interval, pin11out() & PIN11_XOUT);
+  printf("interval=%d (%d)Â¥n", interval, pin11out() & PIN11_XOUT);
   */
   return 18;
 
@@ -285,7 +285,7 @@ static inline int out18(uint8 x) {
 }
 
 /*
-        ROMƒoƒ“ƒNØ‚è‘Ö‚¦
+        ROMãƒãƒ³ã‚¯åˆ‡ã‚Šæ›¿ãˆ
 */
 static inline int in19(uint8 *x) {
   *x = ((exBank & 0x07) << 4) | (romBank & 0x0f);
@@ -314,7 +314,7 @@ static inline int in1a(uint8 *x) {
 static inline int out1a(uint8 x) { return 0; }
 
 /*
-        RAMƒoƒ“ƒNØ‚è‘Ö‚¦
+        RAMãƒãƒ³ã‚¯åˆ‡ã‚Šæ›¿ãˆ
 */
 static inline int in1b(uint8 *x) {
   *x = ramBank;
@@ -338,7 +338,7 @@ static inline int out1b(uint8 x) {
 }
 
 /*
-        I/OƒŠƒZƒbƒg
+        I/Oãƒªã‚»ãƒƒãƒˆ
 */
 static inline int in1c(uint8 *x) {
   *x = 0;
@@ -350,7 +350,7 @@ static inline int out1c(uint8 x) {
 }
 
 /*
-        ƒoƒbƒeƒŠ[ó‘Ô?
+        ãƒãƒƒãƒ†ãƒªãƒ¼çŠ¶æ…‹?
 */
 static inline int in1d(uint8 *x) {
   switch (battChk) {
@@ -369,7 +369,7 @@ static inline int in1d(uint8 *x) {
 static inline int out1d(uint8 x) { return 0; }
 
 /*
-        ƒoƒbƒeƒŠ[ƒ`ƒFƒbƒNƒ‚[ƒh?
+        ãƒãƒƒãƒ†ãƒªãƒ¼ãƒã‚§ãƒƒã‚¯ãƒ¢ãƒ¼ãƒ‰?
 */
 static inline int in1e(uint8 *x) {
   *x = 0;
@@ -381,7 +381,7 @@ static inline int out1e(uint8 x) {
 }
 
 /*
-        11pinI/F‚Ì“ü—Í
+        11pinI/Fã®å…¥åŠ›
 */
 static inline int in1f(uint8 *x) {
   /*updateSerial();*/
@@ -397,7 +397,7 @@ static inline int in1f(uint8 *x) {
 static inline int out1f(uint8 x) { return 0; }
 
 /*
-        ƒfƒBƒXƒvƒŒƒCƒRƒ“ƒgƒ[ƒ‹ (PC-E200)
+        ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ« (PC-E200)
 */
 static inline int out58_e200(uint8 x) {
   lcdRead = FALSE;
@@ -423,7 +423,7 @@ static inline int in59_e200(uint8 *x) {
 }
 
 /*
-        ƒfƒBƒXƒvƒŒƒC READ/WRITE (PC-E200)
+        ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ READ/WRITE (PC-E200)
 */
 static inline int out5a_e200(uint8 x) {
   lcdRead = FALSE;
@@ -447,7 +447,7 @@ static inline int in5b_e200(uint8 *x) {
 }
 
 /*
-        ƒfƒBƒXƒvƒŒƒCƒRƒ“ƒgƒ[ƒ‹ (PC-G815)
+        ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ« (PC-G815)
 */
 static inline void g815lcdctrl(uint8 *lcd_x, uint8 *lcd_y, uint8 x) {
   lcdRead = FALSE;
@@ -493,7 +493,7 @@ static inline int in59_g815(uint8 *x) {
 }
 
 /*
-        ƒfƒBƒXƒvƒŒƒC READ/WRITE (PC-G815)
+        ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ READ/WRITE (PC-G815)
 */
 static inline int out56_g815(uint8 x) {
   lcdRead = FALSE;
@@ -542,7 +542,7 @@ static inline int out52_g815(uint8 x) {
 }
 
 /*
-        ƒfƒBƒXƒvƒŒƒCƒRƒ“ƒgƒ[ƒ‹ (PC-G850)
+        ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ« (PC-G850)
 */
 static inline int in40_g850(uint8 *x) {
   *x = 0;
@@ -643,7 +643,7 @@ static inline int out40_g850(uint8 x) {
 }
 
 /*
-        ƒfƒBƒXƒvƒŒƒC READ/WRITE (PC-G850)
+        ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ READ/WRITE (PC-G850)
 */
 static inline int in41_g850(uint8 *x) {
   if (!lcdRead) {
@@ -669,7 +669,7 @@ static inline int out41_g850(uint8 x) {
 }
 
 /*
-        11pin I/F‚Ì“®ì
+        11pin I/Fã®å‹•ä½œ
 */
 static inline int in60_g850(uint8 *x) {
   *x = pin11If;
@@ -682,7 +682,7 @@ static inline int out60_g850(uint8 x) {
 }
 
 /*
-        ƒpƒ‰ƒŒƒ‹I/O‚Ì“üo—Í•ûŒü
+        ãƒ‘ãƒ©ãƒ¬ãƒ«I/Oã®å…¥å‡ºåŠ›æ–¹å‘
 */
 static inline int in61_g850(uint8 *x) {
   *x = 0;
@@ -695,10 +695,10 @@ static inline int out61_g850(uint8 x) {
 }
 
 /*
-        ƒpƒ‰ƒŒƒ‹I/O‚Ìƒf[ƒ^ƒŒƒWƒXƒ^
+        ãƒ‘ãƒ©ãƒ¬ãƒ«I/Oã®ãƒ‡ãƒ¼ã‚¿ãƒ¬ã‚¸ã‚¹ã‚¿
 */
 static inline int in62_g850(uint8 *x) {
-  *x = pin11In & ~pio8Io;
+  *x = pin11In & â€¾pio8Io;
   return 0;
 }
 static inline int out62_g850(uint8 x) {
@@ -710,7 +710,7 @@ static inline int out62_g850(uint8 x) {
 }
 
 /*
-        UARTƒtƒ[§Œä
+        UARTãƒ•ãƒ­ãƒ¼åˆ¶å¾¡
 */
 static inline int in63_g850(uint8 *x) {
   *x = 0;
@@ -719,7 +719,7 @@ static inline int in63_g850(uint8 *x) {
 static inline int out63_g850(uint8 x) { return 0; }
 
 /*
-        CDM†‚É‚æ‚éON§Œä
+        CDä¿¡å·ã«ã‚ˆã‚‹ONåˆ¶å¾¡
 */
 static inline int in64_g850(uint8 *x) {
   *x = onCd;
@@ -731,7 +731,7 @@ static inline int out64_g850(uint8 x) {
 }
 
 /*
-        M1M†Œãwait§Œä
+        M1ä¿¡å·å¾Œwaitåˆ¶å¾¡
 */
 static inline int in65_g850(uint8 *x) {
   *x = m1Wait;
@@ -755,7 +755,7 @@ static inline int out66_g850(uint8 x) {
 }
 
 /*
-        CPUƒNƒƒbƒN‚‘¬/’á‘¬Ø‚è‘Ö‚¦ (PC-G850)
+        CPUã‚¯ãƒ­ãƒƒã‚¯é«˜é€Ÿ/ä½é€Ÿåˆ‡ã‚Šæ›¿ãˆ (PC-G850)
 */
 static inline int in67_g850(uint8 *x) {
   *x = csClk;
@@ -767,7 +767,7 @@ static inline int out67_g850(uint8 x) {
 }
 
 /*
-        ƒ^ƒCƒ}M†/LCDƒhƒ‰ƒCƒoüŠú
+        ã‚¿ã‚¤ãƒä¿¡å·/LCDãƒ‰ãƒ©ã‚¤ãƒå‘¨æœŸ
 */
 static inline int in68_g850(uint8 *x) {
   *x = 0;
@@ -776,7 +776,7 @@ static inline int in68_g850(uint8 *x) {
 static inline int out68_g850(uint8 x) { return 0; }
 
 /*
-        ROMƒoƒ“ƒNØ‚è‘Ö‚¦ (PC-G850)
+        ROMãƒãƒ³ã‚¯åˆ‡ã‚Šæ›¿ãˆ (PC-G850)
 */
 static inline int in69_g850(uint8 *x) {
   *x = romBank;
@@ -798,7 +798,7 @@ static inline int in6a_g850(uint8 *x) {
 static inline int out6a_g850(uint8 x) { return 0; }
 
 /*
-        UART‚Ì“ü—Í‘I‘ğ
+        UARTã®å…¥åŠ›é¸æŠ
 */
 static inline int in6b_g850(uint8 *x) {
   *x = uartIo;
@@ -810,7 +810,7 @@ static inline int out6b_g850(uint8 x) {
 }
 
 /*
-        UARTƒ‚[ƒhƒŒƒWƒXƒ^
+        UARTãƒ¢ãƒ¼ãƒ‰ãƒ¬ã‚¸ã‚¹ã‚¿
 */
 static inline int in6c_g850(uint8 *x) {
   *x = 0;
@@ -822,7 +822,7 @@ static inline int out6c_g850(uint8 x) {
 }
 
 /*
-        UARTƒRƒ}ƒ“ƒhƒŒƒWƒXƒ^
+        UARTã‚³ãƒãƒ³ãƒ‰ãƒ¬ã‚¸ã‚¹ã‚¿
 */
 static inline int in6d_g850(uint8 *x) {
   *x = 0;
@@ -834,7 +834,7 @@ static inline int out6d_g850(uint8 x) {
 }
 
 /*
-        UARTƒXƒe[ƒ^ƒXƒŒƒWƒXƒ^
+        UARTã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿
 */
 static inline int in6e_g850(uint8 *x) {
   *x = uartStatus;
@@ -843,7 +843,7 @@ static inline int in6e_g850(uint8 *x) {
 static inline int out6e_g850(uint8 x) { return 0; }
 
 /*
-        UART‘—óMƒŒƒWƒXƒ^
+        UARTé€å—ä¿¡ãƒ¬ã‚¸ã‚¹ã‚¿
 */
 static inline int in6f_g850(uint8 *x) {
   *x = 0xff;
@@ -852,14 +852,14 @@ static inline int in6f_g850(uint8 *x) {
 static inline int out6f_g850(uint8 x) { return 0; }
 
 /*
-        Inport‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é
+        Inportã‚’ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹
 */
 int z80inport(Z80stat *z, uint8 *x, uint16 address) {
   /*
-  printf("in %02x\n", address);
+  printf("in %02xÂ¥n", address);
   */
 
-  /* ƒfƒBƒXƒvƒŒƒC—pE‚»‚Ì‘¼(‹@íˆË‘¶) */
+  /* ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ç”¨ãƒ»ãã®ä»–(æ©Ÿç¨®ä¾å­˜) */
   switch (machine) {
   case MACHINE_E200:
     switch (address & 0xff) {
@@ -962,7 +962,7 @@ int z80inport(Z80stat *z, uint8 *x, uint16 address) {
     break;
   }
 
-  /* ƒVƒXƒeƒ€ƒ|[ƒg(‹¤’Ê) */
+  /* ã‚·ã‚¹ãƒ†ãƒ ãƒãƒ¼ãƒˆ(å…±é€š) */
   switch (address & 0xff) {
   case 0x10:
     return in10(x);
@@ -999,7 +999,7 @@ int z80inport(Z80stat *z, uint8 *x, uint16 address) {
   }
 
 #if defined(WARN_UNKOWN_IO)
-  printf("UNKNOWN in (%02xh)\n", address & 0xff);
+  printf("UNKNOWN in (%02xh)Â¥n", address & 0xff);
   fflush(stdout);
 #endif
   *x = 0x78;
@@ -1007,15 +1007,15 @@ int z80inport(Z80stat *z, uint8 *x, uint16 address) {
 }
 
 /*
-        Outport‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é
+        Outportã‚’ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹
 */
 int z80outport(Z80stat *z, uint16 address, uint8 x) {
   /*
-  printf("out (%02x), %02x\n", address, x);
+  printf("out (%02x), %02xÂ¥n", address, x);
   fflush(stdout);
   */
 
-  /* ƒfƒBƒXƒvƒŒƒC—pE‚»‚Ì‘¼(‹@íˆË‘¶) */
+  /* ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ç”¨ãƒ»ãã®ä»–(æ©Ÿç¨®ä¾å­˜) */
   switch (machine) {
   case MACHINE_E200:
     switch (address & 0xff) {
@@ -1115,7 +1115,7 @@ int z80outport(Z80stat *z, uint16 address, uint8 x) {
     break;
   }
 
-  /* ƒVƒXƒeƒ€ƒ|[ƒg(‹¤’Ê) */
+  /* ã‚·ã‚¹ãƒ†ãƒ ãƒãƒ¼ãƒˆ(å…±é€š) */
   switch (address & 0xff) {
   case 0x11:
     return out11(x);
@@ -1148,14 +1148,14 @@ int z80outport(Z80stat *z, uint16 address, uint8 x) {
   }
 
 #if defined(WARN_UNKOWN_IO)
-  printf("UNKNOWN out (%02xh), %02xh\n", address & 0xff, x);
+  printf("UNKNOWN out (%02xh), %02xhÂ¥n", address & 0xff, x);
   fflush(stdout);
 #endif
   return 0;
 }
 
 /*
-        Copyright 2005 ~ 2023 maruhiro
+        Copyright 2005 â€¾ 2023 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

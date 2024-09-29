@@ -1,6 +1,6 @@
 /*
         SHARP PC-G800 series emulator
-        BASICƒCƒ“ƒ^[ƒvƒŠƒ^
+        BASICã‚¤ãƒ³ã‚¿ãƒ¼ãƒ—ãƒªã‚¿
 */
 
 #include "g800.h"
@@ -15,16 +15,16 @@
 #include <sys/types.h>
 #include <time.h>
 
-/* ^‹U */
-#define FALSE 0 /* ‹U */
-#define TRUE 1  /* ^ */
+/* çœŸå½ */
+#define FALSE 0 /* å½ */
+#define TRUE 1  /* çœŸ */
 
-/* ‰¼‘zƒR[ƒh */
+/* ä»®æƒ³ã‚³ãƒ¼ãƒ‰ */
 #define CODE_ADD 0x100  /* + */
 #define CODE_SUB 0x101  /* - */
 #define CODE_MUL 0x102  /* * */
 #define CODE_DIV 0x103  /* / */
-#define CODE_IDIV 0x104 /* \ */
+#define CODE_IDIV 0x104 /* Â¥ */
 #define CODE_POW 0x105  /* ^ */
 #define CODE_EQ 0x106   /* = */
 #define CODE_NE 0x107   /* <> */
@@ -35,24 +35,24 @@
 #define CODE_POS 0x10c  /* + */
 #define CODE_NEG 0x10d  /* - */
 
-/* ƒGƒ‰[ */
-#define ERR_OK 0      /* ³í */
-#define ERR_OK_NEXT 0 /* ³íEŸ‚Ì–½—ß‚ğÀs */
-#define ERR_OK_JUMP 1 /* ³íEƒWƒƒƒ“ƒv */
-#define ERR_OK_CONT 2 /* ³íEÄÀs */
-#define ERR_10 -10    /* \•¶ƒGƒ‰[ */
+/* ã‚¨ãƒ©ãƒ¼ */
+#define ERR_OK 0      /* æ­£å¸¸ */
+#define ERR_OK_NEXT 0 /* æ­£å¸¸ãƒ»æ¬¡ã®å‘½ä»¤ã‚’å®Ÿè¡Œ */
+#define ERR_OK_JUMP 1 /* æ­£å¸¸ãƒ»ã‚¸ãƒ£ãƒ³ãƒ— */
+#define ERR_OK_CONT 2 /* æ­£å¸¸ãƒ»å†å®Ÿè¡Œ */
+#define ERR_10 -10    /* æ§‹æ–‡ã‚¨ãƒ©ãƒ¼ */
 #define ERR_11 -11
-#define ERR_12 -12 /* ƒ‚[ƒh‚ª³‚µ‚­‚È‚¢ */
-#define ERR_13 -13 /* ÄÀs•s‰Â */
-#define ERR_14 -14 /* ƒpƒXƒ[ƒhİ’è•s‰Â */
-#define ERR_15 -15 /* •s³‚ÈƒAƒhƒŒƒX */
+#define ERR_12 -12 /* ãƒ¢ãƒ¼ãƒ‰ãŒæ­£ã—ããªã„ */
+#define ERR_13 -13 /* å†å®Ÿè¡Œä¸å¯ */
+#define ERR_14 -14 /* ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰è¨­å®šä¸å¯ */
+#define ERR_15 -15 /* ä¸æ­£ãªã‚¢ãƒ‰ãƒ¬ã‚¹ */
 #define ERR_16 -16
 #define ERR_17 -17
 #define ERR_18 -18
 #define ERR_19 -19
-#define ERR_20 -20 /* ƒI[ƒo[ƒtƒ[ */
-#define ERR_21 -21 /* 0‚ÅœZ */
-#define ERR_22 -22 /* •s‰Â”\‚È‰‰Z */
+#define ERR_20 -20 /* ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ */
+#define ERR_21 -21 /* 0ã§é™¤ç®— */
+#define ERR_22 -22 /* ä¸å¯èƒ½ãªæ¼”ç®— */
 #define ERR_23 -23
 #define ERR_24 -24
 #define ERR_25 -25
@@ -60,166 +60,166 @@
 #define ERR_27 -27
 #define ERR_28 -28
 #define ERR_29 -29
-#define ERR_30 -30 /* ”z—ñ•Ï”‚ªéŒ¾Ï‚İ */
-#define ERR_31 -31 /* ”z—ñ•Ï”‚ªéŒ¾‚³‚ê‚Ä‚¢‚È‚¢ */
-#define ERR_32 -32 /* ”z—ñ•Ï”‚Ì“Y‚¦š‚ª”ÍˆÍŠO */
-#define ERR_33 -33 /* ’l‚ª”ÍˆÍŠO */
+#define ERR_30 -30 /* é…åˆ—å¤‰æ•°ãŒå®£è¨€æ¸ˆã¿ */
+#define ERR_31 -31 /* é…åˆ—å¤‰æ•°ãŒå®£è¨€ã•ã‚Œã¦ã„ãªã„ */
+#define ERR_32 -32 /* é…åˆ—å¤‰æ•°ã®æ·»ãˆå­—ãŒç¯„å›²å¤– */
+#define ERR_33 -33 /* å€¤ãŒç¯„å›²å¤– */
 #define ERR_34 -34
 #define ERR_35 -35
 #define ERR_36 -36
 #define ERR_37 -37
 #define ERR_38 -38
 #define ERR_39 -39
-#define ERR_40 -40 /* s”Ô†‚Ü‚½‚Íƒ‰ƒxƒ‹‚ª‘¶İ‚µ‚È‚¢ */
-#define ERR_41 -41 /* s”Ô†‚ª”ÍˆÍŠO */
+#define ERR_40 -40 /* è¡Œç•ªå·ã¾ãŸã¯ãƒ©ãƒ™ãƒ«ãŒå­˜åœ¨ã—ãªã„ */
+#define ERR_41 -41 /* è¡Œç•ªå·ãŒç¯„å›²å¤– */
 #define ERR_42 -42
-#define ERR_43 -43 /* s”Ô†‚ª•s³ */
-#define ERR_44 -44 /* I—¹s‚ªŠJns‚æ‚è‘O */
+#define ERR_43 -43 /* è¡Œç•ªå·ãŒä¸æ­£ */
+#define ERR_44 -44 /* çµ‚äº†è¡ŒãŒé–‹å§‹è¡Œã‚ˆã‚Šå‰ */
 #define ERR_45 -45
 #define ERR_46 -46
 #define ERR_47 -47
 #define ERR_48 -48
 #define ERR_49 -49
-#define ERR_50 -50 /* ƒlƒXƒg‚ª[‚·‚¬‚é */
-#define ERR_51 -51 /* GOSUB‚Ì‚È‚¢RETURN */
-#define ERR_52 -52 /* FOR‚Ì‚È‚¢NEXT */
-#define ERR_53 -53 /* DATA‚Ì‚È‚¢READ */
-#define ERR_54 -54 /* ‰‰Z‚ª•¡G‚·‚¬‚é */
-#define ERR_55 -55 /* •¶š—ñ‚ª’·‚·‚¬‚é */
+#define ERR_50 -50 /* ãƒã‚¹ãƒˆãŒæ·±ã™ãã‚‹ */
+#define ERR_51 -51 /* GOSUBã®ãªã„RETURN */
+#define ERR_52 -52 /* FORã®ãªã„NEXT */
+#define ERR_53 -53 /* DATAã®ãªã„READ */
+#define ERR_54 -54 /* æ¼”ç®—ãŒè¤‡é›‘ã™ãã‚‹ */
+#define ERR_55 -55 /* æ–‡å­—åˆ—ãŒé•·ã™ãã‚‹ */
 #define ERR_56 -56
 #define ERR_57 -57
 #define ERR_58 -58
 #define ERR_59 -59
-#define ERR_60 -60                         /* ƒƒ‚ƒŠ•s‘« */
-#define ERR_61 -61                         /* ENDIF‚Ì‚È‚¢IF‚Ü‚½‚ÍELSE */
-#define ERR_62 -62 /* REPEAT‚Ì‚È‚¢UNTIL */ /* ??? */
-#define ERR_63 -63 /* WEND‚Ì‚È‚¢WHILE */   /* ??? */
-#define ERR_64 -64                         /* WHILE‚Ì‚È‚¢WEND */
+#define ERR_60 -60                         /* ãƒ¡ãƒ¢ãƒªä¸è¶³ */
+#define ERR_61 -61                         /* ENDIFã®ãªã„IFã¾ãŸã¯ELSE */
+#define ERR_62 -62 /* REPEATã®ãªã„UNTIL */ /* ??? */
+#define ERR_63 -63 /* WENDã®ãªã„WHILE */   /* ??? */
+#define ERR_64 -64                         /* WHILEã®ãªã„WEND */
 #define ERR_65 -65
-#define ERR_66 -66 /* DEFAULT’†‚ÌCASE‚Ü‚½‚ÍDEFAULT */
+#define ERR_66 -66 /* DEFAULTä¸­ã®CASEã¾ãŸã¯DEFAULT */
 #define ERR_67 -67
-#define ERR_68 -68 /* ENDSWITCH‚Ì‚È‚¢SWITCH */
-#define ERR_69 -69 /* SWITCH‚Ì‚È‚¢CASE‚Ü‚½‚ÍDEFAULT‚Ü‚½‚ÍENDSWITCH */
-#define ERR_70 -70 /* USING‚Åw’è‚µ‚½Œ`®‚Åo—Í‚Å‚«‚È‚¢ */
-#define ERR_71 -71 /* USING‚Ìw’è‚ª•s³ */
-#define ERR_72 -72 /* “üo—Í‘•’u‚ÌƒGƒ‰[ */
+#define ERR_68 -68 /* ENDSWITCHã®ãªã„SWITCH */
+#define ERR_69 -69 /* SWITCHã®ãªã„CASEã¾ãŸã¯DEFAULTã¾ãŸã¯ENDSWITCH */
+#define ERR_70 -70 /* USINGã§æŒ‡å®šã—ãŸå½¢å¼ã§å‡ºåŠ›ã§ããªã„ */
+#define ERR_71 -71 /* USINGã®æŒ‡å®šãŒä¸æ­£ */
+#define ERR_72 -72 /* å…¥å‡ºåŠ›è£…ç½®ã®ã‚¨ãƒ©ãƒ¼ */
 #define ERR_73 -73
 #define ERR_74 -74
 #define ERR_75 -75
 #define ERR_76 -76
-#define ERR_77 -77 /* ƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş—e—Ê‚ª•s‘« */
+#define ERR_77 -77 /* ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€å®¹é‡ãŒä¸è¶³ */
 #define ERR_78 -78
 #define ERR_79 -79
-#define ERR_80 -80 /* SIO“Ç‚İ‚İƒGƒ‰[ */
-#define ERR_81 -81 /* SIO‚Ü‚½‚Íƒ~ƒjI/O‚Ìƒ^ƒCƒ€ƒAƒEƒg */
-#define ERR_82 -82 /* Æ‡•sˆê’v */
-#define ERR_83 -83 /* Œ^‚ª•sˆê’v */
-#define ERR_84 -84 /* ƒvƒŠƒ“ƒ^ƒGƒ‰[ */
-#define ERR_85 -85 /* ƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚È‚¢ */
-#define ERR_86 -86 /* Šù‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚é */
-#define ERR_87 -87 /* ‘‚«‚İÏ‚İ */
+#define ERR_80 -80 /* SIOèª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼ */
+#define ERR_81 -81 /* SIOã¾ãŸã¯ãƒŸãƒ‹I/Oã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ */
+#define ERR_82 -82 /* ç…§åˆä¸ä¸€è‡´ */
+#define ERR_83 -83 /* å‹ãŒä¸ä¸€è‡´ */
+#define ERR_84 -84 /* ãƒ—ãƒªãƒ³ã‚¿ã‚¨ãƒ©ãƒ¼ */
+#define ERR_85 -85 /* ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ãªã„ */
+#define ERR_86 -86 /* æ—¢ã«ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ã‚‹ */
+#define ERR_87 -87 /* æ›¸ãè¾¼ã¿æ¸ˆã¿ */
 #define ERR_88 -88
 #define ERR_89 -89
-#define ERR_90 -90 /* Œ^‚ª•sˆê’v */
-#define ERR_91 -91 /* ŒÅ’è•Ï”‚ÚŒ^‚ª•sˆê’v */
-#define ERR_92 -92 /* ƒpƒXƒ[ƒh‚ª•sˆê’v */
-#define ERR_93 -93 /* ƒƒbƒN‚³‚ê‚Ä‚¢‚é */
-#define ERR_94 -94 /* ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ */
-#define ERR_95 -95 /* ƒtƒ@ƒCƒ‹–¼‚ª•s³ */
-#define ERR_96 -96 /* ƒtƒ@ƒCƒ‹‚ª•s³ */
-#define ERR_97 -97 /* ƒtƒ@ƒCƒ‹‚ª‘½‚·‚¬‚é */
+#define ERR_90 -90 /* å‹ãŒä¸ä¸€è‡´ */
+#define ERR_91 -91 /* å›ºå®šå¤‰æ•°ã¼å‹ãŒä¸ä¸€è‡´ */
+#define ERR_92 -92 /* ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒä¸ä¸€è‡´ */
+#define ERR_93 -93 /* ãƒ­ãƒƒã‚¯ã•ã‚Œã¦ã„ã‚‹ */
+#define ERR_94 -94 /* ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„ */
+#define ERR_95 -95 /* ãƒ•ã‚¡ã‚¤ãƒ«åãŒä¸æ­£ */
+#define ERR_96 -96 /* ãƒ•ã‚¡ã‚¤ãƒ«ãŒä¸æ­£ */
+#define ERR_97 -97 /* ãƒ•ã‚¡ã‚¤ãƒ«ãŒå¤šã™ãã‚‹ */
 #define ERR_98 -98
 #define ERR_99 -99
-#define ERR_BREAK -256 /* ƒvƒƒOƒ‰ƒ€‚ğ’†’f‚µ‚½ */
-#define ERR_END -257   /* ƒvƒƒOƒ‰ƒ€‚ğI—¹‚µ‚½ */
-#define ERR_LIST -258  /* ƒvƒƒOƒ‰ƒ€‚ÌƒŠƒXƒg‚ğ•\¦ */
-#define ERR_AUTO -259  /* AUTO‚ğŠJn */
+#define ERR_BREAK -256 /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’ä¸­æ–­ã—ãŸ */
+#define ERR_END -257   /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’çµ‚äº†ã—ãŸ */
+#define ERR_LIST -258  /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ãƒªã‚¹ãƒˆã‚’è¡¨ç¤º */
+#define ERR_AUTO -259  /* AUTOã‚’é–‹å§‹ */
 #define IS_ERROR(err) (-255 <= (err) && (err) <= -1)
 
-/* —Dæ“x */
-#define PRIORITY_OPE 0     /* ‰‰Zq */
-#define PRIORITY_VAL 100   /* ’l */
-#define PRIORITY_FUNC 200  /* ŠÖ” */
-#define PRIORITY_ARRAY 200 /* ”z—ñ */
+/* å„ªå…ˆåº¦ */
+#define PRIORITY_OPE 0     /* æ¼”ç®—å­ */
+#define PRIORITY_VAL 100   /* å€¤ */
+#define PRIORITY_FUNC 200  /* é–¢æ•° */
+#define PRIORITY_ARRAY 200 /* é…åˆ— */
 
-/* —v‘f‚Ìí•Ê */
-#define ELE_TYPE_NUM 0    /* ƒŠƒeƒ‰ƒ‹”’l */
-#define ELE_TYPE_STR 1    /* ƒŠƒeƒ‰ƒ‹•¶š—ñ */
-#define ELE_TYPE_FIXED 2  /* ŒÅ’è•Ï” */
-#define ELE_TYPE_SIMPLE 3 /* ’Pƒ•Ï” */
-#define ELE_TYPE_ARRAY 4  /* ”z—ñ•Ï” */
-#define ELE_TYPE_OPE 5    /* ‰‰ZqEŠÖ” */
+/* è¦ç´ ã®ç¨®åˆ¥ */
+#define ELE_TYPE_NUM 0    /* ãƒªãƒ†ãƒ©ãƒ«æ•°å€¤ */
+#define ELE_TYPE_STR 1    /* ãƒªãƒ†ãƒ©ãƒ«æ–‡å­—åˆ— */
+#define ELE_TYPE_FIXED 2  /* å›ºå®šå¤‰æ•° */
+#define ELE_TYPE_SIMPLE 3 /* å˜ç´”å¤‰æ•° */
+#define ELE_TYPE_ARRAY 4  /* é…åˆ—å¤‰æ•° */
+#define ELE_TYPE_OPE 5    /* æ¼”ç®—å­ãƒ»é–¢æ•° */
 
-/* •Ï”‚Ìí•Ê */
-#define KIND_FIXED ELE_TYPE_FIXED   /* ŒÅ’è•Ï” */
-#define KIND_SIMPLE ELE_TYPE_SIMPLE /* ’Pƒ•Ï” */
-#define KIND_ARRAY ELE_TYPE_ARRAY   /* ”z—ñ•Ï” */
+/* å¤‰æ•°ã®ç¨®åˆ¥ */
+#define KIND_FIXED ELE_TYPE_FIXED   /* å›ºå®šå¤‰æ•° */
+#define KIND_SIMPLE ELE_TYPE_SIMPLE /* å˜ç´”å¤‰æ•° */
+#define KIND_ARRAY ELE_TYPE_ARRAY   /* é…åˆ—å¤‰æ•° */
 
-/* ’l‚ÌŒ^ */
-#define TYPE_NUM ELE_TYPE_NUM /* ”’l */
-#define TYPE_STR ELE_TYPE_STR /* •¶š—ñ */
+/* å€¤ã®å‹ */
+#define TYPE_NUM ELE_TYPE_NUM /* æ•°å€¤ */
+#define TYPE_STR ELE_TYPE_STR /* æ–‡å­—åˆ— */
 
-/* Šp“x */
-#define ANGLE_RADIAN 0x10 /* ƒ‰ƒWƒAƒ“ */
-#define ANGLE_GRAD 0x30   /* ƒOƒ‰[ƒh */
-#define ANGLE_DEGREE 0x60 /* “x”–@ */
+/* è§’åº¦ */
+#define ANGLE_RADIAN 0x10 /* ãƒ©ã‚¸ã‚¢ãƒ³ */
+#define ANGLE_GRAD 0x30   /* ã‚°ãƒ©ãƒ¼ãƒ‰ */
+#define ANGLE_DEGREE 0x60 /* åº¦æ•°æ³• */
 
-/* ƒ‚[ƒh */
+/* ãƒ¢ãƒ¼ãƒ‰ */
 #define MODE_MON 0x00
 #define MODE_TEXT 0x08
 #define MODE_CASL 0x10
 #define MODE_PRO 0x20
 #define MODE_RUN 0x40
 
-/* ‰¼‘zƒ‚[ƒh */
+/* ä»®æƒ³ãƒ¢ãƒ¼ãƒ‰ */
 #define MODE_MAN 0x01
 
-/* —Ìˆæ‚Ì––”ö‚©? */
+/* é ˜åŸŸã®æœ«å°¾ã‹? */
 #define IS_LAST(p) ((p)[0] == 0xff)
 
-/* s”Ô† */
+/* è¡Œç•ªå· */
 #define LINE_NO(p) ((p)[0] << 8U | (p)[1])
 
-/* s‚Ì’·‚³ */
+/* è¡Œã®é•·ã• */
 #define LINE_SIZE(p) ((p)[2] + 3)
 
-/* Œ^ */
+/* å‹ */
 typedef unsigned char uint8;
 typedef short int16;
 typedef unsigned short uint16;
 typedef int int32;
 typedef unsigned int uint32;
 
-/* —v‘f */
+/* è¦ç´  */
 struct Element {
-  int priority; /* —Dæ“x */
-  int ele_type; /* —v‘f‚Ìí•Ê */
+  int priority; /* å„ªå…ˆåº¦ */
+  int ele_type; /* è¦ç´ ã®ç¨®åˆ¥ */
   union {
-    uint8 num[SIZEOF_NUM]; /* ƒŠƒeƒ‰ƒ‹(”’l) */
-    const uint8 *str;      /* ƒŠƒeƒ‰ƒ‹(•¶š—ñ) */
-    int ope;               /* ‰‰ZqEŠÖ” */
-    uint8 *var;            /* •Ï” */
+    uint8 num[SIZEOF_NUM]; /* ãƒªãƒ†ãƒ©ãƒ«(æ•°å€¤) */
+    const uint8 *str;      /* ãƒªãƒ†ãƒ©ãƒ«(æ–‡å­—åˆ—) */
+    int ope;               /* æ¼”ç®—å­ãƒ»é–¢æ•° */
+    uint8 *var;            /* å¤‰æ•° */
   } x;
 };
 
-/* —\–ñŒê•\ */
+/* äºˆç´„èªè¡¨ */
 struct KeywordTable {
   const uint8 *name;
   uint8 code;
   int level;
 };
 
-/* ‰‰ZqEŠÖ”•\ */
+/* æ¼”ç®—å­ãƒ»é–¢æ•°è¡¨ */
 struct Operator {
-  int (*func)(); /* ˆ—‚·‚éŠÖ” */
-  int params;    /* ˆø”‚Ì” */
-  int type[4];   /* ˆø”‚ÌŒ^ */
-  int ret;       /* –ß‚è’l‚ÌŒ^ */
+  int (*func)(); /* å‡¦ç†ã™ã‚‹é–¢æ•° */
+  int params;    /* å¼•æ•°ã®æ•° */
+  int type[4];   /* å¼•æ•°ã®å‹ */
+  int ret;       /* æˆ»ã‚Šå€¤ã®å‹ */
   const struct Operator *
-      next; /* ˆø”‚ªˆê’v‚µ‚È‚¢ê‡, Ÿ‚Éƒ`ƒFƒbƒN‚·‚é‰‰ZqEŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^ */
+      next; /* å¼•æ•°ãŒä¸€è‡´ã—ãªã„å ´åˆ, æ¬¡ã«ãƒã‚§ãƒƒã‚¯ã™ã‚‹æ¼”ç®—å­ãƒ»é–¢æ•°ã¸ã®ãƒã‚¤ãƒ³ã‚¿ */
 };
 
-/* ƒXƒe[ƒgƒƒ“ƒg•\ */
+/* ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆè¡¨ */
 struct Statement {
   int (*sta)(struct Basic *, const uint8 **);
   int mode;
@@ -227,35 +227,35 @@ struct Statement {
 
 extern struct Statement staTable[];
 
-/* ƒL[ƒƒbƒN */
+/* ã‚­ãƒ¼ãƒ­ãƒƒã‚¯ */
 /*static uint8 *keylock = &memory[0x7901];*/
-/* ƒ‚[ƒh */
+/* ãƒ¢ãƒ¼ãƒ‰ */
 static uint8 *mode = &memory[0x7902];
-/* Šp“x */
+/* è§’åº¦ */
 static uint8 *angle = &memory[0x7903];
-/* ó‘Ô */
+/* çŠ¶æ…‹ */
 /*static uint8 *status = &memory[0x7904];*/
-/* Ÿ‚É•\¦‚·‚é•¶š‚ÌˆÊ’u */
+/* æ¬¡ã«è¡¨ç¤ºã™ã‚‹æ–‡å­—ã®ä½ç½® */
 static uint8 *curCol = &memory[0x7920], *curRow = &memory[0x7921];
-/* ÅŒã‚É•\¦‚µ‚½•¶š‚ÌˆÊ’u */
+/* æœ€å¾Œã«è¡¨ç¤ºã—ãŸæ–‡å­—ã®ä½ç½® */
 /*static uint8 *lastCol = &memory[0x7922], *lastRow = &memory[0x7923];*/
-/* ‰üs‚µ‚È‚¢‚©? */
+/* æ”¹è¡Œã—ãªã„ã‹? */
 static uint8 *noWrap = &memory[0x797d];
-/* ŒvZŒ‹‰Ê */
+/* è¨ˆç®—çµæœ */
 static uint8 *answer = &memory[0x79a0];
-/* PRINT‚ÉRETURNƒL[“ü—Í‚ğ‘Ò‚Â‚©? */
+/* PRINTæ™‚ã«RETURNã‚­ãƒ¼å…¥åŠ›ã‚’å¾…ã¤ã‹? */
 static uint8 *pauseWhenPrint =
-    &memory[0x79d8]; /* 4bit–ÚOFF:ƒ|[ƒY‚È‚µ, ON:‚ ‚è */
-/* WAITŠÔ */
+    &memory[0x79d8]; /* 4bitç›®OFF:ãƒãƒ¼ã‚ºãªã—, ON:ã‚ã‚Š */
+/* WAITæ™‚é–“ */
 static uint8 *waitTimeL = &memory[0x79e5], *waitTimeH = &memory[0x79e6];
-/* ®”•”Œ…” */
+/* æ•´æ•°éƒ¨æ¡æ•° */
 /*static uint8 *intPart = &memory[0x79f9];*/
-/* ¬”•”Œ…” */
+/* å°æ•°éƒ¨æ¡æ•° */
 /*static uint8 *fraPart = &memory[0x79fa];*/
-/* ƒtƒŠ[ƒGƒŠƒA */
+/* ãƒ•ãƒªãƒ¼ã‚¨ãƒªã‚¢ */
 const uint8 *freeLow = &memory[0x7ffe], *freeHigh = &memory[0x7fff];
 
-/* ”’l */
+/* æ•°å€¤ */
 uint8 NUM_0[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 uint8 NUM_1[] = {0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
 uint8 NUM_2[] = {0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -270,7 +270,7 @@ uint8 NUM_MINUS1[] = {0x00, 0x08, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
 uint8 NUM_0_5[] = {0x99, 0x90, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00};
 uint8 NUM_PI[] = {0x00, 0x00, 0x31, 0x41, 0x59, 0x26, 0x53, 0x59};
 
-/* ’†ŠÔƒR[ƒh•\ */
+/* ä¸­é–“ã‚³ãƒ¼ãƒ‰è¡¨ */
 const struct KeywordTable keywordTable[] = {
     {(const uint8 *)"ABS", CODE_ABS},
     {(const uint8 *)"AND", CODE_AND},
@@ -418,19 +418,19 @@ const struct KeywordTable keywordTable[] = {
     {(const uint8 *)"XOR", CODE_XOR},
     {NULL}};
 
-/* \•¶‰ğÍ—pƒXƒ^ƒbƒN */
+/* æ§‹æ–‡è§£æç”¨ã‚¹ã‚¿ãƒƒã‚¯ */
 static struct Element stack[32];
 
-/* \•¶‰ğÍ—pƒXƒ^ƒbƒN‚Ìæ“ª */
+/* æ§‹æ–‡è§£æç”¨ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ */
 static struct Element *top;
 
-/* ‰‰Z—pƒXƒ^ƒbƒN(’l) */
+/* æ¼”ç®—ç”¨ã‚¹ã‚¿ãƒƒã‚¯(å€¤) */
 static uint8 *valueStack[32], **valueSp;
 
-/* ‰‰Z—pƒXƒ^ƒbƒN(Œ^) */
+/* æ¼”ç®—ç”¨ã‚¹ã‚¿ãƒƒã‚¯(å‹) */
 static int typeStack[32], *typeSp;
 
-/* ƒvƒƒgƒ^ƒCƒvéŒ¾ */
+/* ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€ */
 static int clearBas(struct Basic *);
 static int loadBas(struct Basic *);
 static int saveBas(struct Basic *);
@@ -525,7 +525,7 @@ int funcVal(struct Basic *, uint8 *);
 int funcVdeg(struct Basic *, uint8 *);
 
 /*
-        ‘ã“ü‚·‚é
+        ä»£å…¥ã™ã‚‹
 */
 static int numLet(uint8 *x, const uint8 *y) {
   memcpy(x, y, SIZEOF_NUM);
@@ -533,7 +533,7 @@ static int numLet(uint8 *x, const uint8 *y) {
 }
 
 /*
-        ®”‚©?
+        æ•´æ•°ã‹?
 */
 static int numIsInt(const uint8 *num) {
   int pos, exp = (num[0] >> 4) * 100 + (num[0] & 0x0f) * 10 + (num[1] >> 4);
@@ -547,19 +547,19 @@ static int numIsInt(const uint8 *num) {
 }
 
 /*
-        •‰‚Ì”‚©?
+        è² ã®æ•°ã‹?
 */
 static int numIsNeg(const uint8 *num) { return num[1] & 0x08; }
 
 /*
-        0‚©?
+        0ã‹?
 */
 static int numIsZero(const uint8 *num) {
-  return memcmp(num, "\0\0\0\0\0\0\0", 7) == 0;
+  return memcmp(num, "Â¥0Â¥0Â¥0Â¥0Â¥0Â¥0Â¥0", 7) == 0;
 }
 
 /*
-        •„†‚ğ“¾‚é
+        ç¬¦å·ã‚’å¾—ã‚‹
 */
 static int numSgn(const uint8 *num) {
   if (numIsZero(num))
@@ -571,7 +571,7 @@ static int numSgn(const uint8 *num) {
 }
 
 /*
-        ”’l‚ğ”äŠr‚·‚é
+        æ•°å€¤ã‚’æ¯”è¼ƒã™ã‚‹
 */
 static int numCmp(const uint8 *x, const uint8 *y) {
   uint8 a[SIZEOF_NUM], b[SIZEOF_NUM];
@@ -583,7 +583,7 @@ static int numCmp(const uint8 *x, const uint8 *y) {
 }
 
 /*
-        •â³‚·‚é (10Œ…)
+        è£œæ­£ã™ã‚‹ (10æ¡)
 */
 static int numCorrect(uint8 *x) {
   int err;
@@ -608,7 +608,7 @@ static int numCorrect(uint8 *x) {
 }
 
 /*
-        •â³‚·‚é (9Œ…)
+        è£œæ­£ã™ã‚‹ (9æ¡)
 */
 static int numCorrect9(uint8 *x) {
   int err;
@@ -621,7 +621,7 @@ static int numCorrect9(uint8 *x) {
 }
 
 /*
-        •¶š—ñ—Ìˆæ‚ğŠm•Û‚·‚é
+        æ–‡å­—åˆ—é ˜åŸŸã‚’ç¢ºä¿ã™ã‚‹
 */
 /*
 static uint8 *allocStr(uint8 *p_val, int size)
@@ -635,7 +635,7 @@ static uint8 *allocStr(uint8 *p_val, int size)
 */
 
 /*
-        Œ‹‡
+        çµåˆ
 */
 /*
 static int strCat(uint8 *x, const uint8 *y)
@@ -647,26 +647,26 @@ static int strCat(uint8 *x, const uint8 *y)
 */
 
 /*
-        •¶š—ñ‚ğ”’l‚É•ÏŠ·‚·‚é (‰º¿‚¯)
+        æ–‡å­—åˆ—ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
   int pos = 0, exp = -1;
   uint8 sign, fra[] = {0, 0, 0, 0, 0, 0};
   const uint8 *p = str;
 
-  /* “ü—Í•¶š—ñ‚Ì‰¼”•”‚Ì•„†‚ğ“¾‚é */
+  /* å…¥åŠ›æ–‡å­—åˆ—ã®ä»®æ•°éƒ¨ã®ç¬¦å·ã‚’å¾—ã‚‹ */
   if (*p == '-') {
     sign = 0x08;
     p++;
   } else
     sign = 0x00;
 
-  if (strnicmp((const char *)p, "&H", 2) == 0) { /* 16i•\‹L */
+  if (strnicmp((const char *)p, "&H", 2) == 0) { /* 16é€²è¡¨è¨˜ */
     int i;
     uint32 x = 0;
     uint8 dec[8 + 1], *q;
 
-    /* 10i”‚É•ÏŠ·‚·‚é */
+    /* 10é€²æ•°ã«å¤‰æ›ã™ã‚‹ */
     p += 2;
     for (i = 0; i < 8 && isxdigit(*p); i++, p++)
       if (isdigit(*p))
@@ -677,13 +677,13 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
       return ERR_20;
     sprintf((char *)dec, "%u", x);
 
-    /* ‰¼”•”‚ğ“¾‚é */
+    /* ä»®æ•°éƒ¨ã‚’å¾—ã‚‹ */
     for (q = dec; isdigit(*q) && pos < 12; q++, pos++) {
       fra[pos / 2] |= ((*q - '0') << 4) >> ((pos % 2) * 4);
       exp++;
     }
-  } else if (isdigit(*p) || *p == '.') { /* 10i‚Ü‚½‚Í60i•\‹L */
-    /* “ü—Í•¶š—ñ‚Ì‰¼”•”‚ğ“¾‚é */
+  } else if (isdigit(*p) || *p == '.') { /* 10é€²ã¾ãŸã¯60é€²è¡¨è¨˜ */
+    /* å…¥åŠ›æ–‡å­—åˆ—ã®ä»®æ•°éƒ¨ã‚’å¾—ã‚‹ */
     for (; *p == '0'; p++)
       ;
     if (*p == '.') {
@@ -708,11 +708,11 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
     for (; *p == ' '; p++)
       ;
 
-    /* “ü—Í•¶š—ñ‚Ìw”•”‚ğ“¾‚é */
+    /* å…¥åŠ›æ–‡å­—åˆ—ã®æŒ‡æ•°éƒ¨ã‚’å¾—ã‚‹ */
     if (toupper(*p) == 'E') {
       int s, e = 0;
 
-      /* “ü—Í•¶š—ñ‚Ìw”•”‚Ì•„†‚ğ“¾‚é */
+      /* å…¥åŠ›æ–‡å­—åˆ—ã®æŒ‡æ•°éƒ¨ã®ç¬¦å·ã‚’å¾—ã‚‹ */
       p++;
       for (; *p == ' '; p++)
         ;
@@ -725,30 +725,30 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
       } else
         s = 1;
 
-      /* “ü—Í•¶š—ñ‚Ìw”•”‚ğ“¾‚é */
+      /* å…¥åŠ›æ–‡å­—åˆ—ã®æŒ‡æ•°éƒ¨ã‚’å¾—ã‚‹ */
       for (pos = 0; pos < 2 && isdigit(*p); pos++, p++)
         e = e * 10 + (*p - '0');
       for (; isdigit(*p); p++)
         ;
 
-      /* w”•”‚ğ‹‚ß‚é */
+      /* æŒ‡æ•°éƒ¨ã‚’æ±‚ã‚ã‚‹ */
       exp += s * e;
     }
 
     /*
-    printf("%02X%02X%02X%02X%02X%02X E%d\n",
+    printf("%02X%02X%02X%02X%02X%02X E%dÂ¥n",
     fra[0], fra[1], fra[2], fra[3], fra[4], fra[5], exp);
     */
 
     if (dms)
-      if (*p == 0xdf || *p == 0x27 || *p == 0xf8) { /* 60i•\‹L */
+      if (*p == 0xdf || *p == 0x27 || *p == 0xf8) { /* 60é€²è¡¨è¨˜ */
         int err, len, sign, count = 0;
         uint8 val[SIZEOF_NUM];
         const uint8 *p = str;
 
         numLet(num, NUM_0);
 
-        /* •„†‚ğ“¾‚é */
+        /* ç¬¦å·ã‚’å¾—ã‚‹ */
         if (*p == '-') {
           p++;
           sign = -1;
@@ -756,7 +756,7 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
           sign = 1;
 
         for (;;) {
-          /* ”’l‚ğ“¾‚é */
+          /* æ•°å€¤ã‚’å¾—ã‚‹ */
           if (*p == '-')
             break;
           if ((len = encodeNumDms(val, p, FALSE)) < 0)
@@ -764,7 +764,7 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
           p += len;
 
           if (toupper(*p) == 0xdf) {
-            /* “x‚ğ10i‚É‚·‚é */
+            /* åº¦ã‚’10é€²ã«ã™ã‚‹ */
             if (count > 0)
               return ERR_10;
             count = 1;
@@ -772,7 +772,7 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
             if ((err = numLet(num, val)) < 0)
               return err;
           } else if (toupper(*p) == 0x27) {
-            /* •ª‚ğ10i‚É‚µ‚Ä‰ÁZ‚·‚é */
+            /* åˆ†ã‚’10é€²ã«ã—ã¦åŠ ç®—ã™ã‚‹ */
             if (count > 1)
               return ERR_10;
             count = 2;
@@ -782,7 +782,7 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
             if ((err = opeAdd(NULL, num, val)) < 0)
               return err;
           } else if (toupper(*p) == 0xf8) {
-            /* •b‚ğ10i‚É‚µ‚Ä‰ÁZ‚·‚é */
+            /* ç§’ã‚’10é€²ã«ã—ã¦åŠ ç®—ã™ã‚‹ */
             if (count > 2)
               return ERR_10;
             count = 3;
@@ -801,16 +801,16 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
         num[1] |= 0x04;
         return (int)(p - str);
       }
-  } else /* ”’l‚Å‚Í‚È‚¢ */
+  } else /* æ•°å€¤ã§ã¯ãªã„ */
     return ERR_90;
 
-  /* 0‚©? */
-  if (memcmp(fra, "\0\0\0\0\0\0", 6) == 0) {
+  /* 0ã‹? */
+  if (memcmp(fra, "Â¥0Â¥0Â¥0Â¥0Â¥0Â¥0", 6) == 0) {
     exp = 0;
     sign = 0x00;
   }
 
-  /* w”•”‚ğ‘‚«‚Ş */
+  /* æŒ‡æ•°éƒ¨ã‚’æ›¸ãè¾¼ã‚€ */
   if (exp > 99 || exp < -99)
     return ERR_20;
   if (exp < 0)
@@ -818,24 +818,24 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
   num[0] = (exp / 100) << 4 | (((exp / 10) % 10) & 0x0f);
   num[1] = (exp % 10) << 4 | sign;
 
-  /* ‰¼”•”‚ğ‘‚«‚Ş */
+  /* ä»®æ•°éƒ¨ã‚’æ›¸ãè¾¼ã‚€ */
   memcpy(&num[2], fra, sizeof(fra));
   /*
-  printf("%02X%02X%02X%02X%02X%02X%02X%02X\n",
+  printf("%02X%02X%02X%02X%02X%02X%02X%02XÂ¥n",
   num[0], num[1], num[2], num[3], num[4], num[5], num[6], num[7]);
   */
   return (int)(p - str);
 }
 
 /*
-        •¶š—ñ‚ğ”’l‚É•ÏŠ·‚·‚é
+        æ–‡å­—åˆ—ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 */
 int encodeNum(uint8 *num, const uint8 *str) {
   return encodeNumDms(num, str, FALSE);
 }
 
 /*
-        •‚“®¬”“_‚ğ”’l‚É•ÏŠ·‚·‚é
+        æµ®å‹•å°æ•°ç‚¹ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 */
 int encodeNum_f(uint8 *dst, double f) {
   char buf[32];
@@ -845,7 +845,7 @@ int encodeNum_f(uint8 *dst, double f) {
 }
 
 /*
-        ®”‚ğ”’l‚É•ÏŠ·‚·‚é
+        æ•´æ•°ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 */
 int encodeNum_i(uint8 *dst, int i) {
   char buf[16];
@@ -855,7 +855,7 @@ int encodeNum_i(uint8 *dst, int i) {
 }
 
 /*
-        ƒ‰ƒWƒAƒ“‚ğ”’l‚É•ÏŠ·‚·‚é
+        ãƒ©ã‚¸ã‚¢ãƒ³ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 */
 int encodeNum_r(const struct Basic *bas, uint8 *num, double r) {
   if (*angle == ANGLE_RADIAN)
@@ -867,7 +867,7 @@ int encodeNum_r(const struct Basic *bas, uint8 *num, double r) {
 }
 
 /*
-        ”’l‚ğ•¶š—ñ‚É•ÏŠ·‚·‚é(‘®w’è‚ ‚è)
+        æ•°å€¤ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹(æ›¸å¼æŒ‡å®šã‚ã‚Š)
 */
 static int decodeNumFormat(const struct Basic *bas, uint8 *str,
                            const uint8 *num, int dms) {
@@ -875,24 +875,24 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
   char fra[12 + 1], *p;
   const uint8 *sign;
 
-  /* ”’l‚Å‚Í‚È‚¢‚©? */
+  /* æ•°å€¤ã§ã¯ãªã„ã‹? */
   if (num[0] == 0xf5)
     return ERR_90;
 
-  /* w”•”‚ğ“¾‚é */
+  /* æŒ‡æ•°éƒ¨ã‚’å¾—ã‚‹ */
   exp = (num[0] >> 4) * 100 + (num[0] & 0x0f) * 10 + (num[1] >> 4);
   if (exp > 99)
     exp -= 1000;
 
-  /* ‰¼”•”‚Ì•„†‚ğ“¾‚é */
+  /* ä»®æ•°éƒ¨ã®ç¬¦å·ã‚’å¾—ã‚‹ */
   sign = (const uint8 *)(num[1] & 0x08 ? "-" : "");
 
-  /* 60i‚©? */
+  /* 60é€²ã‹? */
   if (dms && (num[1] & 0x04)) {
     int err, d, m, s;
     uint8 angle[SIZEOF_NUM], deg[SIZEOF_NUM];
 
-    /* 10^10ˆÈã‚©? */
+    /* 10^10ä»¥ä¸Šã‹? */
     if (exp >= 10) {
       int len;
 
@@ -903,13 +903,13 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
       return len;
     }
 
-    /* Šp“x */
+    /* è§’åº¦ */
     if ((err = numLet(angle, num)) < 0)
       return err;
     if ((err = funcAbs(NULL, angle)) < 0)
       return err;
 
-    /* “x */
+    /* åº¦ */
     if ((err = numLet(deg, angle)) < 0)
       return err;
     if ((err = funcFix(NULL, deg)) < 0)
@@ -919,7 +919,7 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
     if ((err = decodeNum_i(&d, deg)) < 0)
       return err;
 
-    /* •ªE•b */
+    /* åˆ†ãƒ»ç§’ */
     if ((err = opeMul(NULL, angle, NUM_3600000)) < 0)
       return err;
     if ((err = opeIdiv(NULL, angle, NUM_10)) < 0)
@@ -930,40 +930,40 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
     s -= m * 6000;
 
     if (m == 0 && s == 0)
-      sprintf((char *)str, "%s%d\xdf", sign, d);
+      sprintf((char *)str, "%s%dÂ¥xdf", sign, d);
     else if (s == 0)
       sprintf((char *)str,
-              "%s%d\xdf"
-              "%02d\x27",
+              "%s%dÂ¥xdf"
+              "%02dÂ¥x27",
               sign, d, m);
     else if (s % 100 == 0)
       sprintf((char *)str,
-              "%s%d\xdf"
-              "%02d\x27"
-              "%02d\xf8",
+              "%s%dÂ¥xdf"
+              "%02dÂ¥x27"
+              "%02dÂ¥xf8",
               sign, d, m, s / 100);
     else
       sprintf((char *)str,
-              "%s%d\xdf"
-              "%02d\x27"
-              "%02d.%02d\xf8",
+              "%s%dÂ¥xdf"
+              "%02dÂ¥x27"
+              "%02d.%02dÂ¥xf8",
               sign, d, m, s / 100, s % 100);
     return strlen(str);
   }
 
-  /* ‰¼”•”‚ğ“¾‚é */
+  /* ä»®æ•°éƒ¨ã‚’å¾—ã‚‹ */
   sprintf((char *)fra, "%02X%02X%02X%02X%02X%02X", num[2], num[3], num[4],
           num[5], num[6], num[7]);
 
-  /* Œ…”‚ğ“¾‚é */
+  /* æ¡æ•°ã‚’å¾—ã‚‹ */
   for (p = fra + 11, digits = 12; digits > 0 && *p == '0'; p--, digits--)
     ;
 
-  /* ®”•”‚ÌŒ…”‚ğ“¾‚é */
+  /* æ•´æ•°éƒ¨ã®æ¡æ•°ã‚’å¾—ã‚‹ */
   if ((ints = exp + 1) < 0)
     ints = 0;
 
-  /* ¬”•”‚ÌŒ…”‚ğ“¾‚é */
+  /* å°æ•°éƒ¨ã®æ¡æ•°ã‚’å¾—ã‚‹ */
   if ((decs = (exp < 0 ? -exp - 1 : 0) + digits - ints) < 0)
     decs = 0;
 
@@ -976,14 +976,14 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
     format_exp = bas->format_exp;
   }
 
-  /* •¶š—ñ‚É•ÏŠ·‚·‚é */
+  /* æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ */
   if (format_exp)
     sprintf((char *)str, "%s%c.%.*sE %02d", sign, fra[0], digits - 1, &fra[1],
             exp);
   else {
     char ints_str[16], decs_str[16];
 
-    /* ®”•”‚ğ•¶š—ñ‚É‚·‚é */
+    /* æ•´æ•°éƒ¨ã‚’æ–‡å­—åˆ—ã«ã™ã‚‹ */
     if (bas != NULL && bas->format_ints > 0) {
       if (exp >= 0)
         sprintf(ints_str, "%*.*s", bas->format_ints, ints, fra);
@@ -1002,7 +1002,7 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
         sprintf(ints_str, "%s0", sign);
     }
 
-    /* ƒRƒ“ƒ}‚ğ•t‚¯‚é */
+    /* ã‚³ãƒ³ãƒã‚’ä»˜ã‘ã‚‹ */
     if (bas != NULL && bas->format_comma)
       for (p = ints_str + strlen(ints_str) - 3;
            p > ints_str && isdigit(*(p - 1)); p -= 3) {
@@ -1010,13 +1010,13 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
         *p = ',';
       }
 
-    /* ¬”•”‚ğ•¶š—ñ‚É‚·‚é */
+    /* å°æ•°éƒ¨ã‚’æ–‡å­—åˆ—ã«ã™ã‚‹ */
     if (exp < 0)
       sprintf(decs_str, "%.*s%.*s", -exp - 1, "0000000000", digits, fra);
     else
       sprintf(decs_str, "%.*s", digits - ints, fra + ints);
 
-    /* Œ‹‡‚·‚é */
+    /* çµåˆã™ã‚‹ */
     if (bas == NULL || bas->format_ints == 0) {
       for (p = decs_str + strlen(decs_str) - 1; p >= decs_str && *p == '0'; p--)
         *p = 0;
@@ -1031,14 +1031,14 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
 }
 
 /*
-        ”’l‚ğ•¶š—ñ‚É•ÏŠ·‚·‚é
+        æ•°å€¤ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 */
 int decodeNum(uint8 *str, const uint8 *num) {
   return decodeNumFormat(NULL, str, num, TRUE);
 }
 
 /*
-        ”’l‚ğ•‚“®¬”“_‚É•ÏŠ·‚·‚é
+        æ•°å€¤ã‚’æµ®å‹•å°æ•°ç‚¹ã«å¤‰æ›ã™ã‚‹
 */
 int decodeNum_f(double *f, const uint8 *num) {
   int err;
@@ -1059,7 +1059,7 @@ int decodeNum_f(double *f, const uint8 *num) {
 }
 
 /*
-        ”’l‚ğ®”‚É•ÏŠ·‚·‚é
+        æ•°å€¤ã‚’æ•´æ•°ã«å¤‰æ›ã™ã‚‹
 */
 int decodeNum_i(int *i, const uint8 *num) {
   double f;
@@ -1080,7 +1080,7 @@ int decodeNum_i(int *i, const uint8 *num) {
 }
 
 /*
-        ”’l‚ğƒ‰ƒWƒAƒ“‚É•ÏŠ·‚·‚é
+        æ•°å€¤ã‚’ãƒ©ã‚¸ã‚¢ãƒ³ã«å¤‰æ›ã™ã‚‹
 */
 int decodeNum_r(const struct Basic *bas, double *r, const uint8 *num) {
   int err;
@@ -1098,7 +1098,7 @@ int decodeNum_r(const struct Basic *bas, double *r, const uint8 *num) {
 }
 
 /*
-        w’è‚ÌƒXƒe[ƒg”•ª‘Ò‚Â
+        æŒ‡å®šã®ã‚¹ãƒ†ãƒ¼ãƒˆæ•°åˆ†å¾…ã¤
 */
 static void ssleep(int states) {
   int f = freqCPU / (csClk ? 2 : 1);
@@ -1138,7 +1138,7 @@ int opeAnd(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        + (‰ÁZ)
+        + (åŠ ç®—)
 */
 int opeAdd(struct Basic *bas, uint8 *x, uint8 *y) {
   int err, dms;
@@ -1155,12 +1155,12 @@ int opeAdd(struct Basic *bas, uint8 *x, uint8 *y) {
 
   if ((err = encodeNum_f(x, a + b)) < 0)
     return err;
-  x[1] = (x[1] & ~0x04) | dms;
+  x[1] = (x[1] & â€¾0x04) | dms;
   return ERR_OK;
 }
 
 /*
-        + (Œ‹‡)
+        + (çµåˆ)
 */
 int opeCat(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1174,7 +1174,7 @@ int opeCat(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        / (œZ)
+        / (é™¤ç®—)
 */
 int opeDiv(struct Basic *bas, uint8 *x, uint8 *y) {
   int err, dms;
@@ -1193,12 +1193,12 @@ int opeDiv(struct Basic *bas, uint8 *x, uint8 *y) {
 
   if ((err = encodeNum_f(x, a / b)) < 0)
     return err;
-  x[1] = (x[1] & ~0x04) | dms;
+  x[1] = (x[1] & â€¾0x04) | dms;
   return ERR_OK;
 }
 
 /*
-        = (“™‚µ‚¢‚©?)
+        = (ç­‰ã—ã„ã‹?)
 */
 int opeEq(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1208,7 +1208,7 @@ int opeEq(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        = (“™‚µ‚¢‚©?) (•¶š—ñ)
+        = (ç­‰ã—ã„ã‹?) (æ–‡å­—åˆ—)
 */
 int opeEqStr(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1218,7 +1218,7 @@ int opeEqStr(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        >= (ˆÈã‚©?)
+        >= (ä»¥ä¸Šã‹?)
 */
 int opeGe(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1228,7 +1228,7 @@ int opeGe(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        >= (ˆÈã‚©?) (•¶š—ñ)
+        >= (ä»¥ä¸Šã‹?) (æ–‡å­—åˆ—)
 */
 int opeGeStr(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1238,7 +1238,7 @@ int opeGeStr(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        > (‚æ‚è‘å‚«‚¢‚©?)
+        > (ã‚ˆã‚Šå¤§ãã„ã‹?)
 */
 int opeGt(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1248,7 +1248,7 @@ int opeGt(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        > (‚æ‚è‘å‚«‚¢‚©?) (•¶š—ñ)
+        > (ã‚ˆã‚Šå¤§ãã„ã‹?) (æ–‡å­—åˆ—)
 */
 int opeGtStr(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1258,7 +1258,7 @@ int opeGtStr(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        \ (œZ)
+        Â¥ (é™¤ç®—)
 */
 int opeIdiv(struct Basic *bas, uint8 *x, uint8 *y) {
   int err;
@@ -1276,7 +1276,7 @@ int opeIdiv(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        <= (ˆÈ‰º‚©?)
+        <= (ä»¥ä¸‹ã‹?)
 */
 int opeLe(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1286,7 +1286,7 @@ int opeLe(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        <= (ˆÈ‰º‚©?) (•¶š—ñ)
+        <= (ä»¥ä¸‹ã‹?) (æ–‡å­—åˆ—)
 */
 int opeLeStr(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1296,7 +1296,7 @@ int opeLeStr(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        < (–¢–‚©?)
+        < (æœªæº€ã‹?)
 */
 int opeLt(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1306,7 +1306,7 @@ int opeLt(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        < (–¢–‚©?) (•¶š—ñ)
+        < (æœªæº€ã‹?) (æ–‡å­—åˆ—)
 */
 int opeLtStr(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1333,7 +1333,7 @@ int opeMod(struct Basic *bas, uint8 *x, uint8 *y) {
   if ((err = funcRound(NULL, y)) < 0)
     return err;
 
-  /* Z = (X \ Y) * Y */
+  /* Z = (X Â¥ Y) * Y */
   if ((err = numLet(z, x)) < 0)
     return err;
   if ((err = opeIdiv(NULL, z, y)) < 0)
@@ -1346,7 +1346,7 @@ int opeMod(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
- * (ÏZ)
+ * (ç©ç®—)
  */
 int opeMul(struct Basic *bas, uint8 *x, uint8 *y) {
   int err, dms;
@@ -1363,12 +1363,12 @@ int opeMul(struct Basic *bas, uint8 *x, uint8 *y) {
 
   if ((err = encodeNum_f(x, a * b)) < 0)
     return err;
-  x[1] = (x[1] & ~0x04) | dms;
+  x[1] = (x[1] & â€¾0x04) | dms;
   return ERR_OK;
 }
 
 /*
-        <> (“™‚µ‚­‚È‚¢‚©?)
+        <> (ç­‰ã—ããªã„ã‹?)
 */
 int opeNe(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1378,7 +1378,7 @@ int opeNe(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        <> (“™‚µ‚­‚È‚¢‚©?) (•¶š—ñ)
+        <> (ç­‰ã—ããªã„ã‹?) (æ–‡å­—åˆ—)
 */
 int opeNeStr(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
@@ -1388,7 +1388,7 @@ int opeNeStr(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        - (•„†)
+        - (ç¬¦å·)
 */
 int opeNeg(struct Basic *bas, uint8 *x) {
   if (bas != NULL)
@@ -1434,7 +1434,7 @@ int opeOr(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        + (•„†)
+        + (ç¬¦å·)
 */
 int opePos(struct Basic *bas, uint8 *x) {
   if (bas != NULL)
@@ -1444,7 +1444,7 @@ int opePos(struct Basic *bas, uint8 *x) {
 }
 
 /*
-        ^ (ƒxƒLæ)
+        ^ (ãƒ™ã‚­ä¹—)
 */
 int opePow(struct Basic *bas, uint8 *x, uint8 *y) {
   int err;
@@ -1462,7 +1462,7 @@ int opePow(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        - (Œ¸Z)
+        - (æ¸›ç®—)
 */
 int opeSub(struct Basic *bas, uint8 *x, uint8 *y) {
   int err, dms;
@@ -1479,7 +1479,7 @@ int opeSub(struct Basic *bas, uint8 *x, uint8 *y) {
 
   if ((err = encodeNum_f(x, a - b)) < 0)
     return err;
-  x[1] = (x[1] & ~0x04) | dms;
+  x[1] = (x[1] & â€¾0x04) | dms;
   return ERR_OK;
 }
 
@@ -1540,7 +1540,7 @@ int funcAhc(struct Basic *bas, uint8 *x) {
   if (bas != NULL)
     ssleep(10804);
 
-  /* X < 1‚©? */
+  /* X < 1ã‹? */
   if (numCmp(x, NUM_1) < 0)
     return ERR_22;
 
@@ -1604,11 +1604,11 @@ int funcAht(struct Basic *bas, uint8 *x) {
   if (bas != NULL)
     ssleep(257641);
 
-  /* X >= 1‚©? */
+  /* X >= 1ã‹? */
   if (numCmp(x, NUM_1) >= 0)
     return ERR_22;
 
-  /* X <= -1‚©? */
+  /* X <= -1ã‹? */
   if (numCmp(x, NUM_MINUS1) <= 0)
     return ERR_22;
 
@@ -1738,7 +1738,7 @@ int funcDeg(struct Basic *bas, uint8 *x) {
   if (bas != NULL)
     ssleep(51525);
 
-  x[1] &= ~0x04;
+  x[1] &= â€¾0x04;
   return ERR_OK;
 }
 
@@ -1991,14 +1991,14 @@ int funcInkeyS(struct Basic *bas, uint8 *x) {
       0x08, /* BASIC */
       0x09, /* TEXT */
       0x15, /* CAPS */
-      0x14, /* ƒJƒi */
+      0x14, /* ã‚«ãƒŠ */
       0x0a, /* TAB */
       0x20, /* SPACE */
-      0x05, /* « */
+      0x05, /* â†“ */
 
-      0x04, /* ª */
-      0x0f, /* © */
-      0x0e, /* ¨ */
+      0x04, /* â†‘ */
+      0x0f, /* â† */
+      0x0e, /* â†’ */
       0x07, /* ANS */
       0x30, /* 0 */
       0x2e, /* . */
@@ -2021,10 +2021,10 @@ int funcInkeyS(struct Basic *bas, uint8 *x) {
       0x35, /* 5 */
       0x36, /* 6 */
       0x2a, /* * */
-      0x18, /* RECM */
+      0x18, /* Rãƒ»CM */
       0x50, /* P */
       0x17, /* BS */
-      0xfb, /* ƒÎ */
+      0xfb, /* Ï€ */
       0x37, /* 7 */
       0x38, /* 8 */
       0x39, /* 9 */
@@ -2032,8 +2032,8 @@ int funcInkeyS(struct Basic *bas, uint8 *x) {
 
       0x29, /* ) */
       0x9d, /* nPr */
-      0x9b, /* ¨DEG */
-      0xfc, /* ã */
+      0x9b, /* â†’DEG */
+      0xfc, /* âˆš */
       0x88, /* x^2 */
       0x5e, /* ^ */
       0x28, /* ( */
@@ -2045,7 +2045,7 @@ int funcInkeyS(struct Basic *bas, uint8 *x) {
       0x91, /* ln */
       0x92, /* log */
       0x97, /* tan */
-      0x9c, /* F©¨E */
+      0x9c, /* Fâ†â†’E */
 
       0x02, /* CLS */
       0x00, /* BREAK */
@@ -2366,7 +2366,7 @@ int funcPol(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
     ssleep(411636);
 
-  /* ƒÆ = ATN(Y / X) */
+  /* Î¸ = ATN(Y / X) */
   if ((err = decodeNum_f(&a, x)) < 0)
     return err;
   if ((err = decodeNum_f(&b, y)) < 0)
@@ -2417,7 +2417,7 @@ int funcRec(struct Basic *bas, uint8 *x, uint8 *y) {
   if (bas != NULL)
     ssleep(625379);
 
-  /* y = r * SIN(ƒÆ) */
+  /* y = r * SIN(Î¸) */
   if ((err = numLet(bas->fixed_var[0], y)) < 0)
     return err;
   if ((err = funcSin(NULL, bas->fixed_var[0])) < 0)
@@ -2425,7 +2425,7 @@ int funcRec(struct Basic *bas, uint8 *x, uint8 *y) {
   if ((err = opeMul(NULL, bas->fixed_var[0], x)) < 0)
     return err;
 
-  /* x = r * cos(ƒÆ) */
+  /* x = r * cos(Î¸) */
   if ((err = numLet(bas->fixed_var[1], y)) < 0)
     return err;
   if ((err = funcCos(NULL, bas->fixed_var[1])) < 0)
@@ -2481,7 +2481,7 @@ int funcRnd(struct Basic *bas, uint8 *x) {
 }
 
 /*
-        ROUND (‰¼‘zŠÖ”)
+        ROUND (ä»®æƒ³é–¢æ•°)
 */
 int funcRound(struct Basic *bas, uint8 *x) {
   int err;
@@ -2632,11 +2632,11 @@ int funcVdeg(struct Basic *bas, uint8 *x) {
   if (x[len] != 0)
     return ERR_22;
 
-  tmp[1] &= ~0x04;
+  tmp[1] &= â€¾0x04;
   return numLet(x, tmp);
 }
 
-/* ŠÖ”E‰‰Zq•\ */
+/* é–¢æ•°ãƒ»æ¼”ç®—å­è¡¨ */
 const struct Operator opeTable[] = {
     {NULL},                                               /* 00 */
     {NULL},                                               /* 01 */
@@ -2899,7 +2899,7 @@ const struct Operator opeTable[] = {
     {opeSub, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 101 - */
     {opeMul, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 102 * */
     {opeDiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 103 / */
-    {opeIdiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},            /* 104 \ */
+    {opeIdiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},            /* 104 Â¥ */
     {opePow, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 105 ^ */
     {opeEq, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x10f]},  /* 106 = */
     {opeNe, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x110]},  /* 107 <> */
@@ -2920,7 +2920,7 @@ const struct Operator opeTable[] = {
 };
 
 /*
-        ƒXƒ^ƒbƒN‚É”’l‚ğÏ‚Ş
+        ã‚¹ã‚¿ãƒƒã‚¯ã«æ•°å€¤ã‚’ç©ã‚€
 */
 int pushNum(const uint8 *num) {
   if (typeSp >= &typeStack[sizeof(typeStack) / sizeof(typeStack[0]) - 1])
@@ -2934,7 +2934,7 @@ int pushNum(const uint8 *num) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚É”’l‚ğÏ‚Ş(•‚“®¬”“_)
+        ã‚¹ã‚¿ãƒƒã‚¯ã«æ•°å€¤ã‚’ç©ã‚€(æµ®å‹•å°æ•°ç‚¹)
 */
 int pushNum_f(double f) {
   int err;
@@ -2946,7 +2946,7 @@ int pushNum_f(double f) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚É”’l‚ğÏ‚Ş(®”)
+        ã‚¹ã‚¿ãƒƒã‚¯ã«æ•°å€¤ã‚’ç©ã‚€(æ•´æ•°)
 */
 int pushNum_i(int i) {
   int err;
@@ -2958,7 +2958,7 @@ int pushNum_i(int i) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚É”’l‚ğÏ‚Ş
+        ã‚¹ã‚¿ãƒƒã‚¯ã«æ•°å€¤ã‚’ç©ã‚€
 */
 int pushNum_s(char *str) {
   int err;
@@ -2970,7 +2970,7 @@ int pushNum_s(char *str) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚Ìæ“ª‚Ì”’l‚ğ“¾‚é
+        ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã®æ•°å€¤ã‚’å¾—ã‚‹
 */
 int peekNum(uint8 **num) {
   if (typeSp < typeStack)
@@ -2983,7 +2983,7 @@ int peekNum(uint8 **num) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚Ìæ“ª‚Ì”’l‚ğ•‚“®¬”“_‚Æ‚µ‚Ä“¾‚é
+        ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã®æ•°å€¤ã‚’æµ®å‹•å°æ•°ç‚¹ã¨ã—ã¦å¾—ã‚‹
 */
 /*
 int peekNum_f(double *d)
@@ -2998,7 +2998,7 @@ int peekNum_f(double *d)
 */
 
 /*
-        ƒXƒ^ƒbƒN‚Ìæ“ª‚Ì”’l‚ğ®”‚Æ‚µ‚Ä“¾‚é
+        ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã®æ•°å€¤ã‚’æ•´æ•°ã¨ã—ã¦å¾—ã‚‹
 */
 int peekNum_i(int *i) {
   int err;
@@ -3010,7 +3010,7 @@ int peekNum_i(int *i) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚©‚ç”’l‚ğ~‚ë‚·
+        ã‚¹ã‚¿ãƒƒã‚¯ã‹ã‚‰æ•°å€¤ã‚’é™ã‚ã™
 */
 int popNum(uint8 **num) {
   int err;
@@ -3023,7 +3023,7 @@ int popNum(uint8 **num) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚©‚ç”’l‚ğ®”‚Æ‚µ‚Ä~‚ë‚·
+        ã‚¹ã‚¿ãƒƒã‚¯ã‹ã‚‰æ•°å€¤ã‚’æ•´æ•°ã¨ã—ã¦é™ã‚ã™
 */
 int popNum_i(int *i) {
   int err;
@@ -3035,7 +3035,7 @@ int popNum_i(int *i) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚©‚ç”’l‚ğ•‚“®¬”“_‚Æ‚µ‚Ä~‚ë‚·
+        ã‚¹ã‚¿ãƒƒã‚¯ã‹ã‚‰æ•°å€¤ã‚’æµ®å‹•å°æ•°ç‚¹ã¨ã—ã¦é™ã‚ã™
 */
 int popNum_f(double *f) {
   int err;
@@ -3047,7 +3047,7 @@ int popNum_f(double *f) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚É•¶š—ñ‚ğÏ‚Ş
+        ã‚¹ã‚¿ãƒƒã‚¯ã«æ–‡å­—åˆ—ã‚’ç©ã‚€
 */
 int pushStr(const uint8 *str, int size) {
   if (typeSp >= &typeStack[sizeof(typeStack) / sizeof(typeStack[0]) - 1])
@@ -3062,7 +3062,7 @@ int pushStr(const uint8 *str, int size) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚Ìæ“ª‚Ì•¶š—ñ‚ğ“¾‚é
+        ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã®æ–‡å­—åˆ—ã‚’å¾—ã‚‹
 */
 int peekStr(uint8 **str) {
   if (typeSp < typeStack)
@@ -3075,7 +3075,7 @@ int peekStr(uint8 **str) {
 }
 
 /*
-        ƒXƒ^ƒbƒN‚©‚ç•¶š—ñ‚ğ~‚ë‚·
+        ã‚¹ã‚¿ãƒƒã‚¯ã‹ã‚‰æ–‡å­—åˆ—ã‚’é™ã‚ã™
 */
 int popStr(uint8 **str) {
   int err;
@@ -3088,12 +3088,12 @@ int popStr(uint8 **str) {
 }
 
 /*
-        ‹ó”’‚©?
+        ç©ºç™½ã‹?
 */
-int isBlank(const uint8 **p) { return **p == ' ' || **p == '\t'; }
+int isBlank(const uint8 **p) { return **p == ' ' || **p == 'Â¥t'; }
 
 /*
-        ‹ó”’‚ğ”ò‚Î‚·
+        ç©ºç™½ã‚’é£›ã°ã™
 */
 uint8 *skipBlank(const uint8 **p) {
   while (isBlank(p))
@@ -3102,7 +3102,7 @@ uint8 *skipBlank(const uint8 **p) {
 }
 
 /*
-        ‹L†‚©’²‚×‚é
+        è¨˜å·ã‹èª¿ã¹ã‚‹
 */
 int peekSymbol(const uint8 **p, const uint8 *symbol) {
   return memicmp(*p, symbol, strlen(symbol)) == 0;
@@ -3110,7 +3110,7 @@ int peekSymbol(const uint8 **p, const uint8 *symbol) {
 #define peekSymbol(p, symbol) peekSymbol(p, (const uint8 *)(symbol))
 
 /*
-        ‹L†‚ğ“¾‚é
+        è¨˜å·ã‚’å¾—ã‚‹
 */
 int fetchSymbol(const uint8 **p, const uint8 *symbol) {
   if (peekSymbol(p, symbol)) {
@@ -3123,20 +3123,20 @@ int fetchSymbol(const uint8 **p, const uint8 *symbol) {
 #define fetchSymbol(p, symbol) fetchSymbol(p, (const uint8 *)(symbol))
 
 /*
-        ¶ƒJƒbƒR‚ğ“¾‚é
+        å·¦ã‚«ãƒƒã‚³ã‚’å¾—ã‚‹
 */
 int fetchLParen(const uint8 **p) { return fetchSymbol(p, "("); }
 
 /*
-        ‰EƒJƒbƒR‚ğ“¾‚é
+        å³ã‚«ãƒƒã‚³ã‚’å¾—ã‚‹
 */
 int fetchRParen(const uint8 **p) { return fetchSymbol(p, ")"); }
 
 /*
-        ¶ƒ_ƒuƒ‹ƒNƒI[ƒe[ƒVƒ‡ƒ“‚ğ“¾‚é
+        å·¦ãƒ€ãƒ–ãƒ«ã‚¯ã‚ªãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹
 */
 int fetchLDquote(const uint8 **p) {
-  if (**p != '\"')
+  if (**p != 'Â¥"')
     return FALSE;
 
   (*p)++;
@@ -3144,17 +3144,17 @@ int fetchLDquote(const uint8 **p) {
 }
 
 /*
-        ‰Eƒ_ƒuƒ‹ƒNƒI[ƒe[ƒVƒ‡ƒ“‚ğ“¾‚é
+        å³ãƒ€ãƒ–ãƒ«ã‚¯ã‚ªãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹
 */
-int fetchRDquote(const uint8 **p) { return fetchSymbol(p, "\""); }
+int fetchRDquote(const uint8 **p) { return fetchSymbol(p, "Â¥""); }
 
 /*
-        ƒRƒ“ƒ}‚ğ“¾‚é
+        ã‚³ãƒ³ãƒã‚’å¾—ã‚‹
 */
 int fetchComma(const uint8 **p) { return fetchSymbol(p, ","); }
 
 /*
-        •Ï”–¼‚©‚çí•ÊEŒ^‚ğ“¾‚é
+        å¤‰æ•°åã‹ã‚‰ç¨®åˆ¥ãƒ»å‹ã‚’å¾—ã‚‹
 */
 int getVarType(const uint8 *name, int *kind, int *type) {
   int len = 0;
@@ -3184,19 +3184,19 @@ int getVarType(const uint8 *name, int *kind, int *type) {
 }
 
 /*
-        “o˜^‚³‚ê‚½•Ï”‚ğŒŸõ‚·‚é
+        ç™»éŒ²ã•ã‚ŒãŸå¤‰æ•°ã‚’æ¤œç´¢ã™ã‚‹
 */
 int findVar(struct Basic *bas, uint8 **var, uint8 *ret_name1, const uint8 *name,
             int kind, int type) {
   uint8 name1, **v;
 
-  /* ŒÅ’è•Ï”‚È‚ç‚Î‚»‚ê‚ğ–ß‚· */
+  /* å›ºå®šå¤‰æ•°ãªã‚‰ã°ãã‚Œã‚’æˆ»ã™ */
   if (kind == KIND_FIXED) {
     *var = bas->fixed_var['Z' - name[0]];
     return ERR_OK;
   }
 
-  /* •Ï”‚Ì“à•”‚Ì2•¶š–Ú‚ğ‹‚ß‚é */
+  /* å¤‰æ•°ã®å†…éƒ¨ã®2æ–‡å­—ç›®ã‚’æ±‚ã‚ã‚‹ */
   if (kind == KIND_SIMPLE) {
     if (type == TYPE_NUM)
       name1 = name[1];
@@ -3210,40 +3210,40 @@ int findVar(struct Basic *bas, uint8 **var, uint8 *ret_name1, const uint8 *name,
   }
   if (ret_name1 != NULL)
     *ret_name1 = name1;
-  /*printf("DEBUG: namer=%02x%02x, type=%d\n", name[0], name1, type);*/
+  /*printf("DEBUG: namer=%02x%02x, type=%dÂ¥n", name[0], name1, type);*/
 
-  /* •Ï”‚ğŒŸõ‚·‚é */
+  /* å¤‰æ•°ã‚’æ¤œç´¢ã™ã‚‹ */
   for (v = bas->vars; *v != NULL; v++)
     if ((*v)[0] == name[0] && (*v)[1] == name1) {
       *var = *v;
       return ERR_OK;
     }
 
-  /* •Ï”‚ª‚È‚©‚Á‚½ */
+  /* å¤‰æ•°ãŒãªã‹ã£ãŸ */
   *var = NULL;
   return (kind == KIND_ARRAY ? ERR_31 : 0);
 }
 
 /*
-        •Ï”‚ğ“o˜^‚·‚é
+        å¤‰æ•°ã‚’ç™»éŒ²ã™ã‚‹
 */
 int allocVar(struct Basic *bas, uint8 **var, const uint8 *name, int kind,
              int type, int array_size0, int array_size1, int len) {
   int n, var_size;
   uint8 **v, *p, name1;
 
-  /* Šm•ÛÏ‚İ‚©? */
+  /* ç¢ºä¿æ¸ˆã¿ã‹? */
   findVar(bas, &p, &name1, name, kind, type);
   if (p != NULL)
     return ERR_OK;
 
-  /* •Ï”•\‚Ì—Ìˆæ‚ğŠm•Û‚·‚é */
+  /* å¤‰æ•°è¡¨ã®é ˜åŸŸã‚’ç¢ºä¿ã™ã‚‹ */
   for (v = bas->vars, n = 0; *v != NULL; v++, n++)
     ;
   bas->vars = realloc(bas->vars, (n + 2) * sizeof(*bas->vars));
   v = &bas->vars[n];
 
-  /* •Ï”‚Ì—Ìˆæ‚ğŠm•Û‚·‚é */
+  /* å¤‰æ•°ã®é ˜åŸŸã‚’ç¢ºä¿ã™ã‚‹ */
   if (type == TYPE_NUM)
     len = 8;
   else if (kind == KIND_SIMPLE)
@@ -3253,7 +3253,7 @@ int allocVar(struct Basic *bas, uint8 **var, const uint8 *name, int kind,
   *v++ = *var = p = malloc(7 + var_size);
   *v = NULL;
 
-  /* •Ï”‚Ìî•ñ‚ğ‘‚«‚Ş */
+  /* å¤‰æ•°ã®æƒ…å ±ã‚’æ›¸ãè¾¼ã‚€ */
   *p++ = name[0];
   *p++ = name1;
   *p++ = (var_size + 3) >> 8;
@@ -3266,7 +3266,7 @@ int allocVar(struct Basic *bas, uint8 **var, const uint8 *name, int kind,
 }
 
 /*
-        •Ï”‚ğ‰ğ•ú‚·‚é
+        å¤‰æ•°ã‚’è§£æ”¾ã™ã‚‹
 */
 int freeVar(struct Basic *bas, const uint8 *name, int kind, int type) {
   int err;
@@ -3292,7 +3292,7 @@ int freeVar(struct Basic *bas, const uint8 *name, int kind, int type) {
 }
 
 /*
-        ‘S‚Ä‚Ì•Ï”‚ğ‰ğ•ú‚·‚é
+        å…¨ã¦ã®å¤‰æ•°ã‚’è§£æ”¾ã™ã‚‹
 */
 int freeAllVars(struct Basic *bas) {
   uint8 **v;
@@ -3306,7 +3306,7 @@ int freeAllVars(struct Basic *bas) {
 }
 
 /*
-        ‘S‚Ä‚Ì•Ï”‚ğ‰Šú‰»‚·‚é
+        å…¨ã¦ã®å¤‰æ•°ã‚’åˆæœŸåŒ–ã™ã‚‹
 */
 int clearAllVars(struct Basic *bas) {
   memset(bas->fixed_var, 0, sizeof(*bas->fixed_var) * 26);
@@ -3314,39 +3314,39 @@ int clearAllVars(struct Basic *bas) {
 }
 
 /*
-        ’Pƒ•Ï”‚Ì’l‚ğ“¾‚é
+        å˜ç´”å¤‰æ•°ã®å€¤ã‚’å¾—ã‚‹
 */
 int getSimpleVal(uint8 **val, int *type, int *size, uint8 *var) {
-  /* Œ^‚ğ“¾‚é */
+  /* å‹ã‚’å¾—ã‚‹ */
   if (var[1] < 0x70)
     *type = TYPE_NUM;
   else
     *type = TYPE_STR;
-  /*printf("DEBUG: var=%02x%02x, type=%d\n", var[0], var[1], *type);*/
+  /*printf("DEBUG: var=%02x%02x, type=%dÂ¥n", var[0], var[1], *type);*/
 
-  /* ’·‚³‚ğ“¾‚é */
+  /* é•·ã•ã‚’å¾—ã‚‹ */
   *size = var[6];
 
-  /* ’l‚ğ“¾‚é */
+  /* å€¤ã‚’å¾—ã‚‹ */
   *val = &var[7];
   return ERR_OK;
 }
 
 /*
-        ”z—ñ•Ï”‚Ì’l‚ğ“¾‚é
+        é…åˆ—å¤‰æ•°ã®å€¤ã‚’å¾—ã‚‹
 */
 int getArrayVal(uint8 **val, int *type, int *size, uint8 *var, int index0,
                 int index1) {
   int array_size0, array_size1;
 
-  /* Œ^‚ğ“¾‚é */
+  /* å‹ã‚’å¾—ã‚‹ */
   if (0x20 <= var[1] && var[1] < 0xf0 && var[1] != 0xa0)
     *type = TYPE_NUM;
   else
     *type = TYPE_STR;
-  /*printf("DEBUG: var=%02x%02x, type=%d\n", var[0], var[1], *type);*/
+  /*printf("DEBUG: var=%02x%02x, type=%dÂ¥n", var[0], var[1], *type);*/
 
-  /* 2ŸŒ³–Ú‚Ì—v‘f”‚ğ“¾‚é */
+  /* 2æ¬¡å…ƒç›®ã®è¦ç´ æ•°ã‚’å¾—ã‚‹ */
   array_size1 = var[4];
 
   if (index1 < 0)
@@ -3354,7 +3354,7 @@ int getArrayVal(uint8 **val, int *type, int *size, uint8 *var, int index0,
   if (index1 > array_size1)
     return ERR_31;
 
-  /* 1ŸŒ³–Ú‚Ì—v‘f”‚ğ“¾‚é */
+  /* 1æ¬¡å…ƒç›®ã®è¦ç´ æ•°ã‚’å¾—ã‚‹ */
   array_size0 = var[5];
 
   if (index0 < 0)
@@ -3362,16 +3362,16 @@ int getArrayVal(uint8 **val, int *type, int *size, uint8 *var, int index0,
   if (index0 > array_size0)
     return ERR_31;
 
-  /* ’·‚³‚ğ“¾‚é */
+  /* é•·ã•ã‚’å¾—ã‚‹ */
   *size = var[6];
 
-  /* ’l‚ğ“¾‚é */
+  /* å€¤ã‚’å¾—ã‚‹ */
   *val = &var[7 + (index1 * (array_size0 + 1) + index0) * *size];
   return ERR_OK;
 }
 
 /*
-        •Ï”‚É’l‚ğ‘ã“ü‚·‚é
+        å¤‰æ•°ã«å€¤ã‚’ä»£å…¥ã™ã‚‹
 */
 int setVarVal(uint8 *var, int kind, int type, int size, const uint8 *val) {
   if (type == TYPE_NUM)
@@ -3385,19 +3385,19 @@ int setVarVal(uint8 *var, int kind, int type, int size, const uint8 *val) {
 }
 
 /*
-        ƒŠƒeƒ‰ƒ‹•¶š—ñ‚ğ“¾‚é (_pushParam‚Ì‰º¿‚¯)
+        ãƒªãƒ†ãƒ©ãƒ«æ–‡å­—åˆ—ã‚’å¾—ã‚‹ (_pushParamã®ä¸‹è«‹ã‘)
 */
 static int fetchLitStr(struct Element *e, const uint8 **p) {
-  if (**p == '\"') {
+  if (**p == 'Â¥"') {
     (*p)++;
 
     e->priority = PRIORITY_VAL;
     e->ele_type = ELE_TYPE_STR;
     e->x.str = *p;
 
-    while (**p != '\"' && **p != '\r')
+    while (**p != 'Â¥"' && **p != 'Â¥r')
       (*p)++;
-    if (**p == '\"')
+    if (**p == 'Â¥"')
       (*p)++;
 
     skipBlank(p);
@@ -3407,7 +3407,7 @@ static int fetchLitStr(struct Element *e, const uint8 **p) {
 }
 
 /*
-        ƒŠƒeƒ‰ƒ‹”’l‚ğ“¾‚é (_pushParam‚Ì‰º¿‚¯)
+        ãƒªãƒ†ãƒ©ãƒ«æ•°å€¤ã‚’å¾—ã‚‹ (_pushParamã®ä¸‹è«‹ã‘)
 */
 static int fetchLitNum(struct Element *e, const uint8 **p, int dms) {
   int len;
@@ -3425,7 +3425,7 @@ static int fetchLitNum(struct Element *e, const uint8 **p, int dms) {
 }
 
 /*
-        ŠÖ”‚ğ“¾‚é (_pushParam‚Ì‰º¿‚¯)
+        é–¢æ•°ã‚’å¾—ã‚‹ (_pushParamã®ä¸‹è«‹ã‘)
 */
 static int fetchFunc(struct Element *e, const uint8 **p) {
   if (**p == CODE_RESERVED) {
@@ -3454,7 +3454,7 @@ static int fetchFunc(struct Element *e, const uint8 **p) {
 }
 
 /*
-        •Ï”‚ğ“¾‚é (_pushParam‚Ì‰º¿‚¯)
+        å¤‰æ•°ã‚’å¾—ã‚‹ (_pushParamã®ä¸‹è«‹ã‘)
 */
 static int fetchVar(struct Element *e, struct Basic *bas, const uint8 **p) {
   int len, err, kind, type;
@@ -3467,17 +3467,17 @@ static int fetchVar(struct Element *e, struct Basic *bas, const uint8 **p) {
 
   if (kind == KIND_FIXED) {
     if (type == TYPE_STR) {
-      if (memcmp(e->x.var, "\0\0\0\0\0\0\0\0", 8) == 0) { /* –¢‰Šú‰»‚©? */
+      if (memcmp(e->x.var, "Â¥0Â¥0Â¥0Â¥0Â¥0Â¥0Â¥0Â¥0", 8) == 0) { /* æœªåˆæœŸåŒ–ã‹? */
         e->ele_type = ELE_TYPE_STR;
         e->priority = PRIORITY_VAL;
         e->x.str = (const uint8 *)"";
         return 1;
       }
 
-      if (e->x.var[0] != 0xf5) /* •Ï”‚Æ’l‚ÌŒ^‚ªˆÙ‚È‚é‚©? */
+      if (e->x.var[0] != 0xf5) /* å¤‰æ•°ã¨å€¤ã®å‹ãŒç•°ãªã‚‹ã‹? */
         return ERR_91;
     } else {
-      if (e->x.var[0] == 0xf5) /* •Ï”‚Æ’l‚ÌŒ^‚ªˆÙ‚È‚é‚©? */
+      if (e->x.var[0] == 0xf5) /* å¤‰æ•°ã¨å€¤ã®å‹ãŒç•°ãªã‚‹ã‹? */
         return ERR_91;
     }
 
@@ -3510,7 +3510,7 @@ static int fetchVar(struct Element *e, struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        ‰‰Zq‚ğ“¾‚é (_pushParam‚Ì‰º¿‚¯)
+        æ¼”ç®—å­ã‚’å¾—ã‚‹ (_pushParamã®ä¸‹è«‹ã‘)
 */
 static int fetchOpe(struct Element *e, const uint8 **p) {
   if (**p == CODE_RESERVED) {
@@ -3580,7 +3580,7 @@ static int fetchOpe(struct Element *e, const uint8 **p) {
   } else if (**p == '/') {
     e->x.ope = CODE_DIV;
     e->priority = PRIORITY_OPE + 4;
-  } else if (**p == '\\') {
+  } else if (**p == 'Â¥Â¥') {
     e->x.ope = CODE_IDIV;
     e->priority = PRIORITY_OPE + 4;
   } else if (**p == '^') {
@@ -3596,7 +3596,7 @@ static int fetchOpe(struct Element *e, const uint8 **p) {
 }
 
 /*
-        —v‘f‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş (_pushParam‚Ì‰º¿‚¯)
+        è¦ç´ ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€ (_pushParamã®ä¸‹è«‹ã‘)
 */
 static int pushEle(const struct Element *e) {
   if (top >= &stack[sizeof(stack) / sizeof(stack[0]) - 1])
@@ -3608,18 +3608,18 @@ static int pushEle(const struct Element *e) {
 }
 
 /*
-        ƒŠƒeƒ‰ƒ‹•¶š—ñ‚Ì’·‚³‚ğ“¾‚é (popEle‚Ì‰º¿‚¯)
+        ãƒªãƒ†ãƒ©ãƒ«æ–‡å­—åˆ—ã®é•·ã•ã‚’å¾—ã‚‹ (popEleã®ä¸‹è«‹ã‘)
 */
 static int getStrLen(const uint8 *str) {
   const uint8 *p;
 
-  for (p = str; *p != 0 && *p != '\"' && *p != '\r'; p++)
+  for (p = str; *p != 0 && *p != 'Â¥"' && *p != 'Â¥r'; p++)
     ;
   return (int)(p - str);
 }
 
 /*
-        ‰‰ZqEŠÖ”‚ğÀs‚·‚é (popEle‚Ì‰º¿‚¯)
+        æ¼”ç®—å­ãƒ»é–¢æ•°ã‚’å®Ÿè¡Œã™ã‚‹ (popEleã®ä¸‹è«‹ã‘)
 */
 static int exeOpe(struct Basic *bas, int ope) {
   const struct Operator *o;
@@ -3659,7 +3659,7 @@ static int exeOpe(struct Basic *bas, int ope) {
 }
 
 /*
-        —v‘f‚ğƒXƒ^ƒbƒN‚©‚ç~‚ë‚· (_pushParam‚Ì‰º¿‚¯)
+        è¦ç´ ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã‹ã‚‰é™ã‚ã™ (_pushParamã®ä¸‹è«‹ã‘)
 */
 static int popEle(struct Basic *bas) {
   int err, type, size, index0, index1;
@@ -3669,19 +3669,19 @@ static int popEle(struct Basic *bas) {
     return ERR_10;
 
   switch (top->ele_type) {
-  case ELE_TYPE_NUM: /* ƒŠƒeƒ‰ƒ‹”’l */
+  case ELE_TYPE_NUM: /* ãƒªãƒ†ãƒ©ãƒ«æ•°å€¤ */
     pushNum(top->x.num);
     break;
-  case ELE_TYPE_STR: /* ƒŠƒeƒ‰ƒ‹•¶š—ñ */
+  case ELE_TYPE_STR: /* ãƒªãƒ†ãƒ©ãƒ«æ–‡å­—åˆ— */
     pushStr(top->x.str, getStrLen(top->x.str));
     break;
-  case ELE_TYPE_FIXED: /* ŒÅ’è•Ï” */
+  case ELE_TYPE_FIXED: /* å›ºå®šå¤‰æ•° */
     if (top->x.var[0] != 0xf5)
       pushNum(top->x.var);
     else
       pushStr(top->x.var + 1, 7);
     break;
-  case ELE_TYPE_SIMPLE: /* ’Pƒ•Ï” */
+  case ELE_TYPE_SIMPLE: /* å˜ç´”å¤‰æ•° */
     if ((err = getSimpleVal(&val, &type, &size, top->x.var)) < 0)
       return err;
     if (type == TYPE_NUM)
@@ -3689,7 +3689,7 @@ static int popEle(struct Basic *bas) {
     else
       pushStr(val, size);
     break;
-  case ELE_TYPE_ARRAY: /* ”z—ñ•Ï” */
+  case ELE_TYPE_ARRAY: /* é…åˆ—å¤‰æ•° */
     if ((err = popNum_i(&index1)) < 0)
       return err;
     if ((err = popNum_i(&index0)) < 0)
@@ -3701,7 +3701,7 @@ static int popEle(struct Basic *bas) {
     else
       pushStr(val, size);
     break;
-  case ELE_TYPE_OPE: /* ‰‰ZqEŠÖ” */
+  case ELE_TYPE_OPE: /* æ¼”ç®—å­ãƒ»é–¢æ•° */
     if ((err = exeOpe(bas, top->x.ope)) < 0)
       return err;
     break;
@@ -3714,14 +3714,14 @@ static int popEle(struct Basic *bas) {
 }
 
 /*
-        ƒ}ƒjƒ…ƒAƒ‹ƒ‚[ƒh‚©?
+        ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ãƒ¢ãƒ¼ãƒ‰ã‹?
 */
 static int isManual(struct Basic *bas, const uint8 *p) {
   return (p < bas->prog || p >= bas->prog + bas->prog_size);
 }
 
 /*
-        ’l‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş (pushParam‚Ì‰º¿‚¯)
+        å€¤ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€ (pushParamã®ä¸‹è«‹ã‘)
 */
 static int _pushParam(struct Basic *bas, struct Element *bottom,
                       const uint8 **p) {
@@ -3790,7 +3790,7 @@ static int _pushParam(struct Basic *bas, struct Element *bottom,
 }
 
 /*
-        ’l‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş
+        å€¤ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€
 */
 int pushParam(struct Basic *bas, const uint8 **p) {
   top = stack;
@@ -3798,7 +3798,7 @@ int pushParam(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        ’l‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş
+        å€¤ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€
 */
 int pushParamOrEmpty(struct Basic *bas, const uint8 **p) {
   int err;
@@ -3811,7 +3811,7 @@ int pushParamOrEmpty(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        ’l‚ğ“¾‚é
+        å€¤ã‚’å¾—ã‚‹
 */
 int fetchParam(struct Basic *bas, uint8 **param, int *type, const uint8 **p) {
   int err;
@@ -3834,7 +3834,7 @@ int fetchParam(struct Basic *bas, uint8 **param, int *type, const uint8 **p) {
 }
 
 /*
-        ’l(”’l)‚ğ“¾‚é
+        å€¤(æ•°å€¤)ã‚’å¾—ã‚‹
 */
 int fetchNum(struct Basic *bas, uint8 **num, const uint8 **p) {
   int err;
@@ -3847,7 +3847,7 @@ int fetchNum(struct Basic *bas, uint8 **num, const uint8 **p) {
 }
 
 /*
-        ’l(”’l)‚ğ“¾‚é
+        å€¤(æ•°å€¤)ã‚’å¾—ã‚‹
 */
 int fetchNumOrEmpty(struct Basic *bas, uint8 **num, const uint8 **p) {
   int err;
@@ -3860,7 +3860,7 @@ int fetchNumOrEmpty(struct Basic *bas, uint8 **num, const uint8 **p) {
 }
 
 /*
-        ’l(”’l)‚ğ®”‚Æ‚µ‚Ä“¾‚é
+        å€¤(æ•°å€¤)ã‚’æ•´æ•°ã¨ã—ã¦å¾—ã‚‹
 */
 int fetchNum_i(struct Basic *bas, int *i, const uint8 **p) {
   int err;
@@ -3871,7 +3871,7 @@ int fetchNum_i(struct Basic *bas, int *i, const uint8 **p) {
 }
 
 /*
-        ’l(”’l)‚ğ®”‚Æ‚µ‚Ä“¾‚é
+        å€¤(æ•°å€¤)ã‚’æ•´æ•°ã¨ã—ã¦å¾—ã‚‹
 */
 int fetchNumOrEmpty_i(struct Basic *bas, int *i, const uint8 **p) {
   int err;
@@ -3882,7 +3882,7 @@ int fetchNumOrEmpty_i(struct Basic *bas, int *i, const uint8 **p) {
 }
 
 /*
-        ’l(”’l)‚ğ•‚“®¬”“_‚Æ‚µ‚Ä“¾‚é
+        å€¤(æ•°å€¤)ã‚’æµ®å‹•å°æ•°ç‚¹ã¨ã—ã¦å¾—ã‚‹
 */
 int fetchNum_f(struct Basic *bas, double *f, const uint8 **p) {
   int err;
@@ -3893,7 +3893,7 @@ int fetchNum_f(struct Basic *bas, double *f, const uint8 **p) {
 }
 
 /*
-        ’l(”’l)‚ğ•‚“®¬”“_‚Æ‚µ‚Ä“¾‚é
+        å€¤(æ•°å€¤)ã‚’æµ®å‹•å°æ•°ç‚¹ã¨ã—ã¦å¾—ã‚‹
 */
 int fetchNumOrEmpty_f(struct Basic *bas, double *f, const uint8 **p) {
   int err;
@@ -3904,7 +3904,7 @@ int fetchNumOrEmpty_f(struct Basic *bas, double *f, const uint8 **p) {
 }
 
 /*
-        ’l(•¶š—ñ)‚ğ“¾‚é
+        å€¤(æ–‡å­—åˆ—)ã‚’å¾—ã‚‹
 */
 int fetchStr(struct Basic *bas, uint8 **str, const uint8 **p) {
   int err;
@@ -3915,7 +3915,7 @@ int fetchStr(struct Basic *bas, uint8 **str, const uint8 **p) {
 }
 
 /*
-        ’l(•¶š—ñ)‚ğ“¾‚é
+        å€¤(æ–‡å­—åˆ—)ã‚’å¾—ã‚‹
 */
 int fetchStrOrEmpty(struct Basic *bas, uint8 **str, const uint8 **p) {
   int err;
@@ -3926,20 +3926,20 @@ int fetchStrOrEmpty(struct Basic *bas, uint8 **str, const uint8 **p) {
 }
 
 /*
-        •Ï”‚ğ“¾‚é
+        å¤‰æ•°ã‚’å¾—ã‚‹
 */
 int fetchVarVal(struct Basic *bas, uint8 **val, int *kind, int *type, int *size,
                 const uint8 **p) {
   int err, len, index0, index1;
   uint8 *var, name1;
 
-  /* •Ï”‚ÌƒAƒhƒŒƒX‚ğ“¾‚é */
+  /* å¤‰æ•°ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å¾—ã‚‹ */
   if ((len = getVarType(*p, kind, type)) <= 0)
     return ERR_10;
   if ((err = findVar(bas, &var, &name1, *p, *kind, *type)) < 0)
     return err;
 
-  /* ’l‚ÌƒAƒhƒŒƒX‚ğ“¾‚é */
+  /* å€¤ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å¾—ã‚‹ */
   if (*kind == KIND_FIXED) {
     *val = var;
     *size = 8;
@@ -3987,7 +3987,7 @@ int fetchVarVal(struct Basic *bas, uint8 **val, int *kind, int *type, int *size,
 }
 
 /*
-        —\–ñŒê‚©ƒ`ƒFƒbƒN‚·‚é
+        äºˆç´„èªã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 */
 int isKeyword(const uint8 **p, uint8 code) {
   if (**p != CODE_RESERVED)
@@ -3998,7 +3998,7 @@ int isKeyword(const uint8 **p, uint8 code) {
 }
 
 /*
-        —\–ñŒê‚ğ“¾‚é
+        äºˆç´„èªã‚’å¾—ã‚‹
 */
 int fetchKeyword(const uint8 **p, uint8 code) {
   if (!isKeyword(p, code))
@@ -4010,7 +4010,7 @@ int fetchKeyword(const uint8 **p, uint8 code) {
 }
 
 /*
-        —\–ñŒê‚ğ“¾‚é
+        äºˆç´„èªã‚’å¾—ã‚‹
 */
 int fetchAnyKeyword(const uint8 **p) {
   if (**p != CODE_RESERVED)
@@ -4022,19 +4022,19 @@ int fetchAnyKeyword(const uint8 **p) {
 }
 
 /*
-        s‚ÌI’[‚©?
+        è¡Œã®çµ‚ç«¯ã‹?
 */
 int isLineTerm(const uint8 **p) {
-  return p == NULL || **p == '\r' || **p == '\'';
+  return p == NULL || **p == 'Â¥r' || **p == 'Â¥'';
 }
 
 /*
-        ƒXƒe[ƒgƒƒ“ƒg‚ÌI’[‚©?
+        ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®çµ‚ç«¯ã‹?
 */
 int isStaTerm(const uint8 **p) { return p == NULL || **p == ':'; }
 
 /*
-        I’[‚©?
+        çµ‚ç«¯ã‹?
 */
 int isTerm(const uint8 **p) {
   return isLineTerm(p) || isStaTerm(p) || isKeyword(p, CODE_THEN) ||
@@ -4042,12 +4042,12 @@ int isTerm(const uint8 **p) {
 }
 
 /*
-        s”Ô†‚©?
+        è¡Œç•ªå·ã‹?
 */
 int isLineNo(const uint8 **p) { return isdigit(**p); }
 
 /*
-        s”Ô†‚ğ“¾‚é
+        è¡Œç•ªå·ã‚’å¾—ã‚‹
 */
 int fetchLineNoOnly(const uint8 **p) {
   int i, line_no = 0;
@@ -4066,7 +4066,7 @@ int fetchLineNoOnly(const uint8 **p) {
 }
 
 /*
-        s”Ô†‚ğ“¾‚é
+        è¡Œç•ªå·ã‚’å¾—ã‚‹
 */
 int fetchLineNo(const uint8 **p) {
   int line_no;
@@ -4079,24 +4079,24 @@ int fetchLineNo(const uint8 **p) {
 }
 
 /*
-        ƒ‰ƒxƒ‹‚©?
+        ãƒ©ãƒ™ãƒ«ã‹?
 */
 int isLabel(const uint8 **p) {
-  return (**p == '*' || **p == '\"') && isalpha(*(*p + 1));
+  return (**p == '*' || **p == 'Â¥"') && isalpha(*(*p + 1));
 }
 
 /*
-        ƒ‰ƒxƒ‹‚ğ“¾‚é
+        ãƒ©ãƒ™ãƒ«ã‚’å¾—ã‚‹
 */
 int fetchLabel(const uint8 **p) {
   if (fetchSymbol(p, "*")) {
     do {
     } while (isalnum(*++(*p)));
-  } else if (fetchSymbol(p, "\"")) {
+  } else if (fetchSymbol(p, "Â¥"")) {
     do {
     } while (isalnum(*++(*p)));
 
-    fetchSymbol(p, "\"");
+    fetchSymbol(p, "Â¥"");
   } else
     return FALSE;
 
@@ -4105,8 +4105,8 @@ int fetchLabel(const uint8 **p) {
 }
 
 /*
-        —\–ñŒê‚Æ•¶š—ñ‚ğ”äŠr‚·‚é (getKeywordFromText,
-   getKeywordFromCode‚Ì‰º¿‚¯)
+        äºˆç´„èªã¨æ–‡å­—åˆ—ã‚’æ¯”è¼ƒã™ã‚‹ (getKeywordFromText,
+   getKeywordFromCodeã®ä¸‹è«‹ã‘)
 */
 static int cmpKeyword(const uint8 *keyword, const uint8 *str) {
   const uint8 *p, *q;
@@ -4127,7 +4127,7 @@ static int cmpKeyword(const uint8 *keyword, const uint8 *str) {
 }
 
 /*
-        s”Ô†‚ğ•œ†‰»‚·‚é
+        è¡Œç•ªå·ã‚’å¾©å·åŒ–ã™ã‚‹
 */
 int decodeLineNo(int *line_no, int *len, const uint8 *src) {
   const uint8 *p = src;
@@ -4144,7 +4144,7 @@ int decodeLineNo(int *line_no, int *len, const uint8 *src) {
 }
 
 /*
-        ƒR[ƒh‚©‚ç—\–ñŒê‚ğŒŸõ‚·‚é
+        ã‚³ãƒ¼ãƒ‰ã‹ã‚‰äºˆç´„èªã‚’æ¤œç´¢ã™ã‚‹
 */
 int getKeywordFromCode(uint8 *name, int code) {
   const struct KeywordTable *k;
@@ -4160,7 +4160,7 @@ int getKeywordFromCode(uint8 *name, int code) {
 }
 
 /*
-        ’†ŠÔƒR[ƒh‚ğƒeƒLƒXƒg‚É•ÏŠ·‚·‚é
+        ä¸­é–“ã‚³ãƒ¼ãƒ‰ã‚’ãƒ†ã‚­ã‚¹ãƒˆã«å¤‰æ›ã™ã‚‹
 */
 int decodeProg(uint8 *dst, const uint8 *src) {
   const uint8 *p = src;
@@ -4169,7 +4169,7 @@ int decodeProg(uint8 *dst, const uint8 *src) {
   if (*p == 0xff)
     return 0;
 
-  while (*p != '\r' && *p != 0) {
+  while (*p != 'Â¥r' && *p != 0) {
     if (*p == CODE_RESERVED) {
       p++;
       q += getKeywordFromCode(q, *p++);
@@ -4184,7 +4184,7 @@ int decodeProg(uint8 *dst, const uint8 *src) {
 }
 
 /*
-        s”Ô†‚Æ’†ŠÔƒR[ƒh‚ğƒeƒLƒXƒg‚É•ÏŠ·‚·‚é
+        è¡Œç•ªå·ã¨ä¸­é–“ã‚³ãƒ¼ãƒ‰ã‚’ãƒ†ã‚­ã‚¹ãƒˆã«å¤‰æ›ã™ã‚‹
 */
 int decodeLineNoProg(uint8 *dst, const uint8 *src, const uint8 *sep) {
   int line_no = 0, len;
@@ -4201,11 +4201,11 @@ int decodeLineNoProg(uint8 *dst, const uint8 *src, const uint8 *sep) {
 
   return (int)(p - src);
 }
-#define decodeLineNoProg(dst, src, sep)                                        \
+#define decodeLineNoProg(dst, src, sep)                                        Â¥
   decodeLineNoProg((uint8 *)(dst), (const uint8 *)(src), (const uint8 *)(sep))
 
 /*
-        w’è‚Ìs‚ÉˆÚ“®‚·‚é
+        æŒ‡å®šã®è¡Œã«ç§»å‹•ã™ã‚‹
 */
 int jumpToLineNo(const uint8 **p, const uint8 *top, int line_no) {
   for (*p = top; !IS_LAST(*p) && LINE_NO(*p) < line_no; *p += LINE_SIZE(*p))
@@ -4215,7 +4215,7 @@ int jumpToLineNo(const uint8 **p, const uint8 *top, int line_no) {
 }
 
 /*
-        ÅIs‚ÉˆÚ“®‚·‚é
+        æœ€çµ‚è¡Œã«ç§»å‹•ã™ã‚‹
 */
 int jumpToLast(const uint8 **p, const uint8 *top) {
   int line_no = 0;
@@ -4230,7 +4230,7 @@ int jumpToLast(const uint8 **p, const uint8 *top) {
 }
 
 /*
-        ƒ‰ƒxƒ‹‚ğ”äŠr‚·‚é (jumpToLabel‚Ì‰º¿‚¯)
+        ãƒ©ãƒ™ãƒ«ã‚’æ¯”è¼ƒã™ã‚‹ (jumpToLabelã®ä¸‹è«‹ã‘)
 */
 static int cmpLabel(const uint8 *label, const uint8 *p) {
   skipBlank(&p);
@@ -4249,10 +4249,10 @@ static int cmpLabel(const uint8 *label, const uint8 *p) {
 }
 
 /*
-        w’è‚Ìƒ‰ƒxƒ‹‚ÉˆÚ“®‚·‚é
+        æŒ‡å®šã®ãƒ©ãƒ™ãƒ«ã«ç§»å‹•ã™ã‚‹
 */
 int jumpToLabel(const uint8 **p, const uint8 *top, const uint8 *label) {
-  if (*label == '*' || *label == '\"') {
+  if (*label == '*' || *label == 'Â¥"') {
     int len, line_no, size;
 
     *p = top;
@@ -4270,7 +4270,7 @@ int jumpToLabel(const uint8 **p, const uint8 *top, const uint8 *label) {
 }
 
 /*
-        s‚Ü‚½‚Íƒ‰ƒxƒ‹‚ğŒŸõ‚·‚é
+        è¡Œã¾ãŸã¯ãƒ©ãƒ™ãƒ«ã‚’æ¤œç´¢ã™ã‚‹
 */
 int findLine(const uint8 **p, const uint8 **found, const uint8 *top) {
   int line_no;
@@ -4295,12 +4295,12 @@ int findLine(const uint8 **p, const uint8 **found, const uint8 *top) {
 }
 
 /*
-        Ÿ‚ÌƒR[ƒh‚ÉˆÚ“®‚·‚é
+        æ¬¡ã®ã‚³ãƒ¼ãƒ‰ã«ç§»å‹•ã™ã‚‹
 */
 int goNext(const uint8 **p) {
   if (**p == CODE_RESERVED)
     *p += 2;
-  else if (**p == '\r') {
+  else if (**p == 'Â¥r') {
     (*p)++;
 
     if (**p == 0xff) {
@@ -4315,7 +4315,7 @@ int goNext(const uint8 **p) {
 }
 
 /*
-        Ÿ‚Ìs‚ÉˆÚ“®‚·‚é
+        æ¬¡ã®è¡Œã«ç§»å‹•ã™ã‚‹
 */
 int goNextLine(const uint8 **p) {
   if (*p == NULL || **p == 0xff) {
@@ -4323,7 +4323,7 @@ int goNextLine(const uint8 **p) {
     return FALSE;
   }
 
-  while (**p != '\r')
+  while (**p != 'Â¥r')
     goNext(p);
   (*p)++;
 
@@ -4336,7 +4336,7 @@ int goNextLine(const uint8 **p) {
 }
 
 /*
-        Ÿ‚Ìs‚ÌÅ‰‚ÌƒR[ƒh‚ÉˆÚ“®‚·‚é
+        æ¬¡ã®è¡Œã®æœ€åˆã®ã‚³ãƒ¼ãƒ‰ã«ç§»å‹•ã™ã‚‹
 */
 int goNextLineCode(const uint8 **p) {
   int line_no, size;
@@ -4351,7 +4351,7 @@ int goNextLineCode(const uint8 **p) {
 }
 
 /*
-        DATA‚Ì“Ç‚İ‚İˆÊ’u‚ğİ’è‚·‚é
+        DATAã®èª­ã¿è¾¼ã¿ä½ç½®ã‚’è¨­å®šã™ã‚‹
 */
 static const uint8 *restoreData(const uint8 *p) {
   int len, line_no, size;
@@ -4371,14 +4371,14 @@ static const uint8 *restoreData(const uint8 *p) {
 }
 
 /*
-        ƒtƒ[§ŒäƒXƒ^ƒbƒN‚Ìæ“ª‚ği‚ß‚é
+        ãƒ•ãƒ­ãƒ¼åˆ¶å¾¡ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã‚’é€²ã‚ã‚‹
 */
 static int pushFlow(struct Basic *bas, void **top, int kind) {
   if (++bas->top >= &bas->stack[sizeof(bas->stack) / sizeof(bas->stack[0])])
     return ERR_54;
 
   /*
-  printf("%*cPUSH LINE=%d KIND=%d DEPTH=%d\n", (int )(bas->top - bas->stack), '
+  printf("%*cPUSH LINE=%d KIND=%d DEPTH=%dÂ¥n", (int )(bas->top - bas->stack), '
   ', bas->line_no, kind, (int )(bas->top - bas->stack));
   */
 
@@ -4388,7 +4388,7 @@ static int pushFlow(struct Basic *bas, void **top, int kind) {
 }
 
 /*
-        ƒtƒ[§ŒäƒXƒ^ƒbƒN‚Ìæ“ª‚ğ“¾‚é
+        ãƒ•ãƒ­ãƒ¼åˆ¶å¾¡ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã‚’å¾—ã‚‹
 */
 static int peekFlow(struct Basic *bas, void **top, int kind) {
   if (bas->top < bas->stack || bas->top->kind != kind) {
@@ -4412,13 +4412,13 @@ static int peekFlow(struct Basic *bas, void **top, int kind) {
 }
 
 /*
-        ƒtƒ[§ŒäƒXƒ^ƒbƒN‚Ìæ“ª‚ğ–ß‚·
+        ãƒ•ãƒ­ãƒ¼åˆ¶å¾¡ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã‚’æˆ»ã™
 */
 static int popFlow(struct Basic *bas, void **top, int kind) {
   int err;
 
   /*
-  printf("%*cPOP LINE=%d KIND=%d DEPTH=%d\n", (int )(bas->top - bas->stack), '
+  printf("%*cPOP LINE=%d KIND=%d DEPTH=%dÂ¥n", (int )(bas->top - bas->stack), '
   ', bas->line_no, kind, (int )(bas->top - bas->stack));
   */
 
@@ -4515,12 +4515,12 @@ static int staWhile(struct Basic *, const uint8 **);
 static int staAuto(struct Basic *bas, const uint8 **p) {
   int start = -1, step = -1;
 
-  /* ŠJn”Ô†‚ğ“¾‚é */
+  /* é–‹å§‹ç•ªå·ã‚’å¾—ã‚‹ */
   if (isLineNo(p))
     if ((start = fetchLineNo(p)) < 0)
       return ERR_10;
 
-  /* ‘•ª‚ğ“¾‚é */
+  /* å¢—åˆ†ã‚’å¾—ã‚‹ */
   if (fetchComma(p))
     if ((step = fetchLineNo(p)) < 0)
       return ERR_10;
@@ -4539,7 +4539,7 @@ static int staAuto(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        ƒuƒU[‰¹‚ğo—Í‚·‚é (staBeep‚Ì‰º¿‚¯)
+        ãƒ–ã‚¶ãƒ¼éŸ³ã‚’å‡ºåŠ›ã™ã‚‹ (staBeepã®ä¸‹è«‹ã‘)
 */
 static void buzz(int hz) {
   int pos, len;
@@ -4638,7 +4638,7 @@ static int staBload(struct Basic *bas, const uint8 **p) {
     if (!loadBas(bas))
       return ERR_80;
     break;
-  case 1: /* ƒ}ƒVƒ“Œê */
+  case 1: /* ãƒã‚·ãƒ³èª */
     if (address < 0) {
       if (readHex((char *)filename, memory, &begin, 0x8000, FALSE) == 0)
         return ERR_80;
@@ -4649,7 +4649,7 @@ static int staBload(struct Basic *bas, const uint8 **p) {
     }
     storeRAM(pathRAM);
     break;
-  case 2: /*”äŠr */
+  case 2: /*æ¯”è¼ƒ */
     if (!cmpFile((char *)filename, pathBasic))
       return ERR_82;
     break;
@@ -4699,7 +4699,7 @@ static int staBsave(struct Basic *bas, const uint8 **p) {
     if (!exportBas((char *)filename))
       return ERR_80;
     break;
-  case 1: /* ƒ}ƒVƒ“Œê */
+  case 1: /* ãƒã‚·ãƒ³èª */
     if (writeHex((char *)filename, memory, start, end - start + 1) <= 0)
       return ERR_80;
     break;
@@ -4737,7 +4737,7 @@ static int staCall(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        CASE(ƒuƒƒbƒN\•¶)
+        CASE(ãƒ–ãƒ­ãƒƒã‚¯æ§‹æ–‡)
 */
 static int staCase(struct Basic *bas, const uint8 **p) {
   struct SwitchCase *switch_case;
@@ -4754,16 +4754,16 @@ static int staCase(struct Basic *bas, const uint8 **p) {
   }
 }
 
-/* “h‚è‚Â‚Ô‚µ‚Ì‚½‚ß‚Ìˆê—Ìˆæ */
+/* å¡—ã‚Šã¤ã¶ã—ã®ãŸã‚ã®ä¸€æ™‚é ˜åŸŸ */
 static uint8 dot[6][144];
 
 /*
-        ˆê—Ìˆæ‚ğÁ‹‚·‚é (‰º¿‚¯)
+        ä¸€æ™‚é ˜åŸŸã‚’æ¶ˆå»ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static void cleardot(void) { memset(dot, 0, sizeof(dot)); }
 
 /*
-        ˆê—Ìˆæ‚É“_‚ğ•`‚­ (paint‚Ì‰º¿‚¯)
+        ä¸€æ™‚é ˜åŸŸã«ç‚¹ã‚’æã (paintã®ä¸‹è«‹ã‘)
 */
 static void putdot(uint16 x, uint16 y, uint8 mode) {
   if (x < 0 || x >= lcdWidth || y < 0 || y >= lcdHeight)
@@ -4773,7 +4773,7 @@ static void putdot(uint16 x, uint16 y, uint8 mode) {
 }
 
 /*
-        ˆê—Ìˆæ‚É“_‚ª‚ ‚é‚ª’²‚×‚é (paint‚Ì‰º¿‚¯)
+        ä¸€æ™‚é ˜åŸŸã«ç‚¹ãŒã‚ã‚‹ãŒèª¿ã¹ã‚‹ (paintã®ä¸‹è«‹ã‘)
 */
 static int getdot(uint16 x, uint16 y) {
   if (x < 0 || x >= lcdWidth || y < 0 || y >= lcdHeight)
@@ -4783,14 +4783,14 @@ static int getdot(uint16 x, uint16 y) {
 }
 
 /*
-        VRAM‚É“_‚ª‚ ‚é‚ª’²‚×‚é (paint‚Ì‰º¿‚¯)
+        VRAMã«ç‚¹ãŒã‚ã‚‹ãŒèª¿ã¹ã‚‹ (paintã®ä¸‹è«‹ã‘)
 */
 static int getdot_vram(int16 x, int16 y) {
   return point(x, y) & (1 << (y % 8));
 }
 
 /*
-        1s“h‚è‚Â‚Ô‚· (paint‚Ì‰º¿‚¯)
+        1è¡Œå¡—ã‚Šã¤ã¶ã™ (paintã®ä¸‹è«‹ã‘)
 */
 static int paint_line(int16 x, int16 y) {
   int i, n = 0;
@@ -4806,7 +4806,7 @@ static int paint_line(int16 x, int16 y) {
 }
 
 /*
-        ˆê—Ìˆæ‚©‚çVRAM‚É“]‘—‚·‚é (staCircle, staPaint‚Ì‰º¿‚¯)
+        ä¸€æ™‚é ˜åŸŸã‹ã‚‰VRAMã«è»¢é€ã™ã‚‹ (staCircle, staPaintã®ä¸‹è«‹ã‘)
 */
 static int draw(uint8 pat, uint8 mode) {
   int i, j, n = 0;
@@ -5036,7 +5036,7 @@ static int staData(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        DEFAULT(ƒuƒƒbƒN\•¶)
+        DEFAULT(ãƒ–ãƒ­ãƒƒã‚¯æ§‹æ–‡)
 */
 static int staDefault(struct Basic *bas, const uint8 **p) {
   return staCase(bas, p);
@@ -5062,14 +5062,14 @@ static int staDelete(struct Basic *bas, const uint8 **p) {
   int start, end, line_no;
   uint8 buf[256];
 
-  /* ŠJns”Ô†‚ğ“¾‚é */
+  /* é–‹å§‹è¡Œç•ªå·ã‚’å¾—ã‚‹ */
   if (isLineNo(p)) {
     if ((start = fetchLineNo(p)) < 0 && start != -12)
       return start;
   } else
     start = 1;
 
-  /* I—¹s”Ô†‚ğ“¾‚é */
+  /* çµ‚äº†è¡Œç•ªå·ã‚’å¾—ã‚‹ */
   if (fetchSymbol(p, "-")) {
     if (isLineNo(p)) {
       if ((end = fetchLineNo(p)) < 0)
@@ -5105,17 +5105,17 @@ static int staDim(struct Basic *bas, const uint8 **p) {
   do {
     ssleep(7349); /* ??? */
 
-    /* •Ï”–¼‚ğ“¾‚é */
+    /* å¤‰æ•°åã‚’å¾—ã‚‹ */
     name = *p;
     if ((len = getVarType(*p, &kind, &type)) == 0)
       return ERR_10;
     *p += len;
 
-    /* Šm•ÛÏ‚İ‚©? */
+    /* ç¢ºä¿æ¸ˆã¿ã‹? */
     if (findVar(bas, &var, NULL, name, KIND_ARRAY, type) == 0)
       return ERR_30;
 
-    /* —v‘f”‚ğ“¾‚é */
+    /* è¦ç´ æ•°ã‚’å¾—ã‚‹ */
     if (!fetchLParen(p))
       return ERR_10;
 
@@ -5139,7 +5139,7 @@ static int staDim(struct Basic *bas, const uint8 **p) {
     if (!fetchRParen(p))
       return ERR_10;
 
-    /* •¶š—ñ‚Ì’·‚³‚ğ“¾‚é */
+    /* æ–‡å­—åˆ—ã®é•·ã•ã‚’å¾—ã‚‹ */
     if (fetchSymbol(p, "*")) {
       if (type != TYPE_STR)
         return ERR_10;
@@ -5150,7 +5150,7 @@ static int staDim(struct Basic *bas, const uint8 **p) {
     } else
       size = 16;
 
-    /* ”z—ñ•Ï”‚ğŠm•Û‚·‚é */
+    /* é…åˆ—å¤‰æ•°ã‚’ç¢ºä¿ã™ã‚‹ */
     if ((err = allocVar(bas, &var, name, KIND_ARRAY, type, max0, max1, size)) <
         0)
       return err;
@@ -5170,7 +5170,7 @@ static int staElse(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        ELSE(ƒuƒƒbƒN\•¶)
+        ELSE(ãƒ–ãƒ­ãƒƒã‚¯æ§‹æ–‡)
 */
 static int staBlockElse(struct Basic *bas, const uint8 **p) {
   int depth = 0;
@@ -5214,7 +5214,7 @@ static int staEnd(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        ENDIF(ƒuƒƒbƒN\•¶)
+        ENDIF(ãƒ–ãƒ­ãƒƒã‚¯æ§‹æ–‡)
 */
 static int staEndif(struct Basic *bas, const uint8 **p) {
   if (!isTerm(p))
@@ -5223,7 +5223,7 @@ static int staEndif(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        ENDSWITCH(ƒuƒƒbƒN\•¶)
+        ENDSWITCH(ãƒ–ãƒ­ãƒƒã‚¯æ§‹æ–‡)
 */
 static int staEndswitch(struct Basic *bas, const uint8 **p) {
   struct SwitchCase *switch_case;
@@ -5275,7 +5275,7 @@ static int staFiles(struct Basic *bas, const uint8 **p) {
   ch = selectFile(path);
   popVram();
 
-  if (ch == '\r' && strcmp(path, "") != 0) {
+  if (ch == 'Â¥r' && strcmp(path, "") != 0) {
     if (!inportBas(path))
       return ERR_94;
     if (!loadBas(bas))
@@ -5292,11 +5292,11 @@ static int staFor(struct Basic *bas, const uint8 **p) {
   int err, kind, type, size;
   uint8 *val, *num;
 
-  /* ƒtƒ[§ŒäƒXƒ^ƒbƒN‚Ìæ“ª‚ği‚ß‚é */
+  /* ãƒ•ãƒ­ãƒ¼åˆ¶å¾¡ã‚¹ã‚¿ãƒƒã‚¯ã®å…ˆé ­ã‚’é€²ã‚ã‚‹ */
   if ((err = pushFlow(bas, (void **)&for_loop, CODE_FOR)) < 0)
     return err;
 
-  /* •Ï”‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş */
+  /* å¤‰æ•°ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€ */
   for_loop->var = *p;
 
   if ((err = fetchVarVal(bas, &val, &kind, &type, &size, p)) < 0)
@@ -5310,14 +5310,14 @@ static int staFor(struct Basic *bas, const uint8 **p) {
   if ((err = setVarVal(val, kind, type, size, num)) < 0)
     return err;
 
-  /* TO‚Ì’l‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş */
+  /* TOã®å€¤ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€ */
   if (!fetchKeyword(p, CODE_TO))
     return ERR_10;
   if ((err = fetchNum(bas, &num, p)) < 0)
     return err;
   numLet(for_loop->to, num);
 
-  /* STEP‚Ì’l‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş */
+  /* STEPã®å€¤ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€ */
   if (!fetchKeyword(p, CODE_STEP))
     numLet(for_loop->step, NUM_1);
   else {
@@ -5328,7 +5328,7 @@ static int staFor(struct Basic *bas, const uint8 **p) {
   if (!isTerm(p))
     return ERR_10;
 
-  /* –ß‚èˆÊ’u‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş */
+  /* æˆ»ã‚Šä½ç½®ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€ */
   for_loop->line_no = bas->line_no;
   for_loop->ret = *p;
   return ERR_OK_NEXT;
@@ -5420,7 +5420,7 @@ static void pause(struct Basic *bas) {
 }
 
 /*
-        ƒpƒ^[ƒ“‚ğ•`‚­ (staGprint‚Ì‰º¿‚¯)
+        ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’æã (staGprintã®ä¸‹è«‹ã‘)
 */
 static void gprint1(struct Basic *bas, uint16 x, uint16 y, uint8 pat) {
   pset(x, y - 7, pat & 0x01 ? 1 : 0);
@@ -5509,7 +5509,7 @@ static int staHdcopy(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        “¯‚¶s‚ÌELSE‚Ü‚ÅˆÚ“®‚·‚é (staIf, staBlockIf‚Ì‰º¿‚¯)
+        åŒã˜è¡Œã®ELSEã¾ã§ç§»å‹•ã™ã‚‹ (staIf, staBlockIfã®ä¸‹è«‹ã‘)
 */
 static int goElse(struct Basic *bas, const uint8 **p) {
   int depth = 1;
@@ -5565,7 +5565,7 @@ static int staIf(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        IF(ƒuƒƒbƒN\•¶)
+        IF(ãƒ–ãƒ­ãƒƒã‚¯æ§‹æ–‡)
 */
 static int staBlockIf(struct Basic *bas, const uint8 **p) {
   int err, type, zero;
@@ -5580,25 +5580,25 @@ static int staBlockIf(struct Basic *bas, const uint8 **p) {
   else
     return ERR_10;
 
-  if (!zero) { /* ^ */
+  if (!zero) { /* çœŸ */
     ssleep(13163);
 
-    if (!fetchKeyword(p, CODE_THEN)) /* THEN‚ª‚È‚¢ */
-      return ERR_OK_NEXT;            /* Ÿ‚ÌƒXƒe[ƒgƒƒ“ƒg‚ğÀs */
-    if (isLineNo(p) || isLabel(p))   /* s”Ô†‚Ü‚½‚Íƒ‰ƒxƒ‹ */
-      return staGoto(bas, p);        /* ‚»‚±‚ÖˆÚ“®‚·‚é */
+    if (!fetchKeyword(p, CODE_THEN)) /* THENãŒãªã„ */
+      return ERR_OK_NEXT;            /* æ¬¡ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’å®Ÿè¡Œ */
+    if (isLineNo(p) || isLabel(p))   /* è¡Œç•ªå·ã¾ãŸã¯ãƒ©ãƒ™ãƒ« */
+      return staGoto(bas, p);        /* ãã“ã¸ç§»å‹•ã™ã‚‹ */
     return ERR_OK_NEXT;
-  } else { /* ‹U */
+  } else { /* å½ */
     int depth = 0;
 
     ssleep(12814);
 
-    if (!fetchKeyword(p, CODE_THEN)) /* THEN‚ª‚È‚¢ */
-      return goElse(bas, p);         /* “¯‚¶s‚ÌELSE‚ÉƒWƒƒƒ“ƒv‚·‚é(’Êí‚ÌIF) */
-    if (!isLineTerm(p))              /* s––‚Å‚È‚¢ */
-      return goElse(bas, p);         /* “¯‚¶s‚ÌELSE‚ÉƒWƒƒƒ“ƒv‚·‚é(’Êí‚ÌIF) */
+    if (!fetchKeyword(p, CODE_THEN)) /* THENãŒãªã„ */
+      return goElse(bas, p);         /* åŒã˜è¡Œã®ELSEã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹(é€šå¸¸ã®IF) */
+    if (!isLineTerm(p))              /* è¡Œæœ«ã§ãªã„ */
+      return goElse(bas, p);         /* åŒã˜è¡Œã®ELSEã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹(é€šå¸¸ã®IF) */
 
-    /* ELSE‚Ü‚½‚ÍENDIF‚Ìs‚Ü‚ÅˆÚ“®‚·‚é */
+    /* ELSEã¾ãŸã¯ENDIFã®è¡Œã¾ã§ç§»å‹•ã™ã‚‹ */
     for (;;) {
       if (!goNextLineCode(p))
         return ERR_OK_JUMP;
@@ -5656,17 +5656,17 @@ static int fetchArrayWild(struct Basic *bas, uint8 **var, int *type,
 }
 
 /*
-        ƒtƒ@ƒCƒ‹‚©‚ç’l‚ğ“Ç‚İ‚Ş
+        ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å€¤ã‚’èª­ã¿è¾¼ã‚€
 */
 static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
   int ch, in_quote = FALSE;
   char buf[256 + 1], *p = buf;
 
-  /* Å‰‚Ì‹ó”’‚ğ“Ç‚İ”ò‚Î‚· */
+  /* æœ€åˆã®ç©ºç™½ã‚’èª­ã¿é£›ã°ã™ */
   for (;;) {
     if ((ch = getc(fp)) < 0)
       break;
-    else if (ch != ' ' && ch != '\t') {
+    else if (ch != ' ' && ch != 'Â¥t') {
       ungetc(ch, fp);
       break;
     }
@@ -5674,27 +5674,27 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
   if (ch < 0)
     return ERR_85;
 
-  /* ’l‚ğ“¾‚é */
+  /* å€¤ã‚’å¾—ã‚‹ */
   for (;;) {
     if ((ch = getc(fp)) < 0)
       break;
-    else if (ch == '\n' || ch == '\r')
+    else if (ch == 'Â¥n' || ch == 'Â¥r')
       break;
-    else if (ch == ' ' || ch == '\t' || ch == ',') {
+    else if (ch == ' ' || ch == 'Â¥t' || ch == ',') {
       if (!in_quote)
         break;
-    } else if (ch == '\"') {
+    } else if (ch == 'Â¥"') {
       if (p == buf) {
         in_quote = TRUE;
         continue;
       } else if (in_quote) {
-        /* ,‚ÌŒã‚Ì‹ó”’‚ğ“Ç‚İ”ò‚Î‚· */
+        /* ,ã®å¾Œã®ç©ºç™½ã‚’èª­ã¿é£›ã°ã™ */
         for (;;) {
           if ((ch = getc(fp)) < 0)
             break;
-          else if (ch == ',' || ch == '\n' || ch == '\r')
+          else if (ch == ',' || ch == 'Â¥n' || ch == 'Â¥r')
             break;
-          else if (ch != ' ' && ch != '\t') {
+          else if (ch != ' ' && ch != 'Â¥t') {
             ungetc(ch, fp);
             break;
           }
@@ -5711,18 +5711,18 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
   }
   *p = 0;
 
-  /* Œã‚Ì‹ó”’‚ğ“Ç‚İ”ò‚Î‚· */
+  /* å¾Œã®ç©ºç™½ã‚’èª­ã¿é£›ã°ã™ */
   if (ch >= 0)
     for (;;) {
       if ((ch = getc(fp)) < 0)
         break;
-      else if (ch != ' ' && ch != '\t') {
+      else if (ch != ' ' && ch != 'Â¥t') {
         ungetc(ch, fp);
         break;
       }
     }
 
-  /* •ÏŠ·‚·‚é */
+  /* å¤‰æ›ã™ã‚‹ */
   if (type == TYPE_NUM) {
     if (encodeNum(val, (uint8 *)buf) < 0)
       numLet(val, NUM_0);
@@ -5809,7 +5809,7 @@ static int staInput(struct Basic *bas, const uint8 **p) {
     return staInputFile(bas, p);
 
   do {
-    /* ƒvƒƒ“ƒvƒg‚ğ•\¦‚·‚é */
+    /* ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’è¡¨ç¤ºã™ã‚‹ */
     if (**p == '"') {
       if ((err = fetchStr(bas, &prompt, p)) < 0)
         return err;
@@ -5823,12 +5823,12 @@ static int staInput(struct Basic *bas, const uint8 **p) {
     } else
       prompt = (uint8 *)"?";
 
-    /* •Ï”‚ğ“¾‚é */
+    /* å¤‰æ•°ã‚’å¾—ã‚‹ */
     if ((err = fetchVarVal(bas, &val, &kind, &type, &size, p)) < 0)
       return err;
 
     for (;;) {
-      /* ƒ†[ƒU‚Ì“ü—Í‚ğ“¾‚é */
+      /* ãƒ¦ãƒ¼ã‚¶ã®å…¥åŠ›ã‚’å¾—ã‚‹ */
       waitRelease();
 
       for (;;) {
@@ -5840,13 +5840,13 @@ static int staInput(struct Basic *bas, const uint8 **p) {
           return ERR_END;
       }
 
-      for (q = buf; *q != 0 && *q != '\r' && *q != '\n'; q++)
+      for (q = buf; *q != 0 && *q != 'Â¥r' && *q != 'Â¥n'; q++)
         ;
       *q = 0;
 
-      gprintf("%s\r", buf);
+      gprintf("%sÂ¥r", buf);
 
-      /* •Ï”‚É‘ã“ü‚·‚é */
+      /* å¤‰æ•°ã«ä»£å…¥ã™ã‚‹ */
       err = 0;
 
       if (type == TYPE_STR) {
@@ -5863,14 +5863,14 @@ static int staInput(struct Basic *bas, const uint8 **p) {
           err = ERR_90;
         else if ((err = setVarVal(val, kind, type, size, num_or_str)) < 0)
           ;
-        else if (*q != 0 && *q != '\r' && *q != '\n')
+        else if (*q != 0 && *q != 'Â¥r' && *q != 'Â¥n')
           err = ERR_90;
       }
 
-      /* ƒGƒ‰[‚©? */
+      /* ã‚¨ãƒ©ãƒ¼ã‹? */
       if (err < 0) {
         glocate(0, *curRow);
-        gprintf("ERROR %d\r", -err);
+        gprintf("ERROR %dÂ¥r", -err);
       } else
         break;
     }
@@ -6170,7 +6170,7 @@ static int staMon(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        Às’†î•ñ‚ğÁ‹‚·‚é
+        å®Ÿè¡Œä¸­æƒ…å ±ã‚’æ¶ˆå»ã™ã‚‹
 */
 static void clearCont(struct Basic *bas) {
   bas->p = NULL;
@@ -6202,7 +6202,7 @@ static int staNext(struct Basic *bas, const uint8 **p) {
 
   ssleep(8500);
 
-  /* NEXT‚ÌŒã‚ë‚Ì•Ï”‚ğ“¾‚é */
+  /* NEXTã®å¾Œã‚ã®å¤‰æ•°ã‚’å¾—ã‚‹ */
   if (isTerm(p))
     val_next = NULL;
   else {
@@ -6214,7 +6214,7 @@ static int staNext(struct Basic *bas, const uint8 **p) {
       return ERR_10;
   }
 
-  /* ƒ‹[ƒv•Ï”‚ğ“¾‚é */
+  /* ãƒ«ãƒ¼ãƒ—å¤‰æ•°ã‚’å¾—ã‚‹ */
   for (;;) {
     if ((err = peekFlow(bas, (void **)&for_loop, CODE_FOR)) < 0)
       return err;
@@ -6230,14 +6230,14 @@ static int staNext(struct Basic *bas, const uint8 **p) {
       return err;
   }
 
-  /* STEP‚Ì•„†‚ğ“¾‚é */
+  /* STEPã®ç¬¦å·ã‚’å¾—ã‚‹ */
   dir = numSgn(for_loop->step);
 
-  /* STEPŒã‚Ì•Ï”‚Ì’l‚ğ‹‚ß‚é */
+  /* STEPå¾Œã®å¤‰æ•°ã®å€¤ã‚’æ±‚ã‚ã‚‹ */
   if ((err = opeAdd(NULL, val, for_loop->step)) < 0)
     return err;
 
-  /* ƒ‹[ƒv‚·‚é‚©? */
+  /* ãƒ«ãƒ¼ãƒ—ã™ã‚‹ã‹? */
   numLet(result, for_loop->to);
   if (dir > 0)
     err = opeGe(NULL, result, val);
@@ -6385,7 +6385,7 @@ static int staOut(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        “h‚è‚Â‚Ô‚· (staCircle, staPaint‚Ì‰º¿‚¯)
+        å¡—ã‚Šã¤ã¶ã™ (staCircle, staPaintã®ä¸‹è«‹ã‘)
 */
 static int paint(int16 x, int16 y, uint8 pat) {
   int i, j, redo;
@@ -6595,14 +6595,14 @@ static int staPrintFile(struct Basic *bas, const uint8 **p) {
           break;
         if ((err = formatVal(buf, num_or_str, type)) < 0)
           return err;
-        fprintf(bas->fp[fileno], "%s\n", buf);
+        fprintf(bas->fp[fileno], "%sÂ¥n", buf);
 
         for (j = 1;; j++) {
           if (getArrayVal(&num_or_str, &type, &size, array, i, j) < 0)
             break;
           if ((err = formatVal(buf, num_or_str, type)) < 0)
             return err;
-          fprintf(bas->fp[fileno], "%s\n", buf);
+          fprintf(bas->fp[fileno], "%sÂ¥n", buf);
         }
       }
 
@@ -6629,7 +6629,7 @@ static int staPrintFile(struct Basic *bas, const uint8 **p) {
         else
           fprintf(bas->fp[fileno], "%s ", buf);
         if (!fetchSymbol(p, ";"))
-          fprintf(bas->fp[fileno], "\n");
+          fprintf(bas->fp[fileno], "Â¥n");
       }
     }
   } while (!isTerm(p));
@@ -6638,7 +6638,7 @@ static int staPrintFile(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        ‘®‚ğ‰Šú‰»‚·‚é (‰º¿‚¯)
+        æ›¸å¼ã‚’åˆæœŸåŒ–ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static void initFormat(struct Basic *bas) {
   bas->format_comma = bas->format_period = bas->format_exp = bas->format_ints =
@@ -6646,7 +6646,7 @@ static void initFormat(struct Basic *bas) {
 }
 
 /*
-        ‘®‚ğİ’è‚·‚é (PRINT, USING‚Ì‰º¿‚¯)
+        æ›¸å¼ã‚’è¨­å®šã™ã‚‹ (PRINT, USINGã®ä¸‹è«‹ã‘)
 */
 static int _staUsing(struct Basic *bas, const uint8 **p) {
   int err;
@@ -6662,11 +6662,11 @@ static int _staUsing(struct Basic *bas, const uint8 **p) {
   if ((err = fetchStr(bas, &format, p)) < 0)
     return err;
 
-  /* •¶š—ñ‚Ì‘®‚ğ“¾‚é */
+  /* æ–‡å­—åˆ—ã®æ›¸å¼ã‚’å¾—ã‚‹ */
   for (f = format; *f == '&'; f++)
     bas->format_strs++;
 
-  /* ”’l‚Ì‘®‚ğ“¾‚é */
+  /* æ•°å€¤ã®æ›¸å¼ã‚’å¾—ã‚‹ */
   for (;; f++)
     if (*f == '#')
       bas->format_ints++;
@@ -6685,7 +6685,7 @@ static int _staUsing(struct Basic *bas, const uint8 **p) {
     bas->format_exp = TRUE;
   }
 
-  /* •¶š—ñ‚Ì‘®‚ğ“¾‚é */
+  /* æ–‡å­—åˆ—ã®æ›¸å¼ã‚’å¾—ã‚‹ */
   if (*f == '&')
     for (f = f + 1; *f == '&'; f++)
       bas->format_strs++;
@@ -6731,7 +6731,7 @@ static int staPrint(struct Basic *bas, const uint8 **p) {
         return ERR_10;
     }
 
-    /* ’l‚ğ“¾‚é */
+    /* å€¤ã‚’å¾—ã‚‹ */
     if ((err = fetchParam(bas, &val, &type, p)) < 0)
       return err;
     if (type == TYPE_STR)
@@ -6746,7 +6746,7 @@ static int staPrint(struct Basic *bas, const uint8 **p) {
     } else
       return ERR_10;
 
-    /* ’l‚ğ•\¦‚·‚é */
+    /* å€¤ã‚’è¡¨ç¤ºã™ã‚‹ */
     if (type == TYPE_NUM) {
       if (!cat && i == 0 && isTerm(p))
         while (*curCol != lcdCols - len)
@@ -6760,7 +6760,7 @@ static int staPrint(struct Basic *bas, const uint8 **p) {
         while (*curCol != lcdCols - len)
           moveCursor(0x1c);
       else {
-        moveCursor('\r');
+        moveCursor('Â¥r');
         while (*curCol != lcdCols / 2 - len)
           moveCursor(0x1c);
       }
@@ -6781,10 +6781,10 @@ static int staPrint(struct Basic *bas, const uint8 **p) {
         while (*curCol != lcdCols / 2)
           moveCursor(0x1c);
       else
-        moveCursor('\r');
+        moveCursor('Â¥r');
     }
 
-    /* Ÿ‚Ì’l‚ÖˆÚ‚é */
+    /* æ¬¡ã®å€¤ã¸ç§»ã‚‹ */
     if (isTerm(p)) {
       *noWrap = 0x00;
       break;
@@ -6805,7 +6805,7 @@ static int staPrint(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        DATA‚ğƒXƒ^ƒbƒN‚ÉÏ‚Ş (staRead‚Ì‰º¿‚¯)
+        DATAã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚€ (staReadã®ä¸‹è«‹ã‘)
 */
 static int pushData(struct Basic *bas, const uint8 **p, int type) {
   int err;
@@ -6980,7 +6980,7 @@ static int staRem(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        íœ‚·‚é
+        å‰Šé™¤ã™ã‚‹
 */
 static int _delete(uint8 *area, int area_size, uint8 *p, int len) {
   memmove(p, p + len, (int)((area + area_size) - (p + len)));
@@ -6988,7 +6988,7 @@ static int _delete(uint8 *area, int area_size, uint8 *p, int len) {
 }
 
 /*
-        s‚ÌŒê‚ğíœ‚·‚é
+        è¡Œã®èªã‚’å‰Šé™¤ã™ã‚‹
 */
 static int deleteWord(uint8 *area, int area_size, uint8 *line, uint8 *p,
                       int len) {
@@ -6998,12 +6998,12 @@ static int deleteWord(uint8 *area, int area_size, uint8 *line, uint8 *p,
 }
 
 /*
-        ‘}“ü‚·‚é
+        æŒ¿å…¥ã™ã‚‹
 */
 static int _insert(uint8 *area, int area_size, uint8 *p, int len) {
   uint8 *last;
 
-  /* ƒI[ƒo[‚·‚é‚©? */
+  /* ã‚ªãƒ¼ãƒãƒ¼ã™ã‚‹ã‹? */
   for (last = area; !IS_LAST(last); last += LINE_SIZE(last))
     ;
   last++;
@@ -7011,13 +7011,13 @@ static int _insert(uint8 *area, int area_size, uint8 *p, int len) {
   if ((int)(last - area) + len >= area_size)
     return ERR_60;
 
-  /* ‘}“ü‚·‚é */
+  /* æŒ¿å…¥ã™ã‚‹ */
   memmove(p + len, p, (int)((area + area_size) - (p + len)));
   return ERR_OK;
 }
 
 /*
-        s‚ÌŒê‚ğ‘}“ü‚·‚é
+        è¡Œã®èªã‚’æŒ¿å…¥ã™ã‚‹
 */
 static int insertWord(uint8 *area, int area_size, uint8 *line, uint8 *p,
                       const uint8 *word, int len) {
@@ -7034,7 +7034,7 @@ static int insertWord(uint8 *area, int area_size, uint8 *line, uint8 *p,
 }
 
 /*
-        s”Ô†‚ğ•t‚¯’¼‚· (staRenum‚Ì‰º¿‚¯)
+        è¡Œç•ªå·ã‚’ä»˜ã‘ç›´ã™ (staRenumã®ä¸‹è«‹ã‘)
 */
 static void _renum(struct Basic *bas, int line_no_old, int line_no_new) {
   uint8 *line, *p, *q, *r;
@@ -7042,10 +7042,10 @@ static void _renum(struct Basic *bas, int line_no_old, int line_no_new) {
   uint8 buf[8];
 
   for (line = bas->prog; !IS_LAST(line); line += LINE_SIZE(line)) {
-    for (p = line + 3; *p != '\r'; goNext((const uint8 **)&p)) {
+    for (p = line + 3; *p != 'Â¥r'; goNext((const uint8 **)&p)) {
       q = p;
 
-      /* s”Ô†‚Ü‚½‚Íƒ‰ƒxƒ‹‚ªƒpƒ‰ƒ[ƒ^‚ÌƒXƒe[ƒgƒƒ“ƒg‚Å‚È‚¯‚ê‚Îˆ—‚µ‚È‚¢ */
+      /* è¡Œç•ªå·ã¾ãŸã¯ãƒ©ãƒ™ãƒ«ãŒãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã§ãªã‘ã‚Œã°å‡¦ç†ã—ãªã„ */
       if (*q != CODE_RESERVED)
         continue;
       q++;
@@ -7063,26 +7063,26 @@ static void _renum(struct Basic *bas, int line_no_old, int line_no_new) {
       do {
 
         if (isLabel((const uint8 **)&q)) {
-          /* ƒ‰ƒxƒ‹‚ğ“Ç‚İ”ò‚Î‚· */
+          /* ãƒ©ãƒ™ãƒ«ã‚’èª­ã¿é£›ã°ã™ */
           fetchLabel((const uint8 **)&q);
         } else if (isLineNo((const uint8 **)&q)) {
-          /* s”Ô†‚ğ“¾‚é */
+          /* è¡Œç•ªå·ã‚’å¾—ã‚‹ */
           r = q;
           line_no = fetchLineNoOnly((const uint8 **)&r);
 
-          /* •ÏŠ·‘O‚Ìs”Ô†‚©? */
+          /* å¤‰æ›å‰ã®è¡Œç•ªå·ã‹? */
           if (line_no == line_no_old) {
-            /* s”Ô†‚ğíœ‚·‚é */
+            /* è¡Œç•ªå·ã‚’å‰Šé™¤ã™ã‚‹ */
             len = (int)(r - q);
             deleteWord(bas->prog, bas->prog_size, line, q, len);
 
-            /* s”Ô†‚ğ‘}“ü‚·‚é */
+            /* è¡Œç•ªå·ã‚’æŒ¿å…¥ã™ã‚‹ */
             sprintf((char *)buf, "%d", line_no_new);
             insertWord(bas->prog, bas->prog_size, line, q, buf,
                        strlen((char *)buf));
           }
 
-          /* s”Ô†‚ğ“Ç‚İ”ò‚Î‚· */
+          /* è¡Œç•ªå·ã‚’èª­ã¿é£›ã°ã™ */
           fetchLineNo((const uint8 **)&q);
         }
       } while (fetchComma((const uint8 **)&q));
@@ -7114,20 +7114,20 @@ static int staRenum(struct Basic *bas, const uint8 **p) {
   if (!isTerm(p))
     return ERR_10;
 
-  /* ŠJn”Ô†‚ÆV”Ô†‚ğƒ`ƒFƒbƒN‚·‚é */
+  /* é–‹å§‹ç•ªå·ã¨æ–°ç•ªå·ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ */
   for (line = bas->prog; LINE_NO(line) <= line_no_start && !IS_LAST(line);
        line += LINE_SIZE(line))
     if (LINE_NO(line) > line_no_new)
       return ERR_43;
 
-  /* ŠJn”Ô†‚Ü‚ÅˆÚ“®‚·‚é */
+  /* é–‹å§‹ç•ªå·ã¾ã§ç§»å‹•ã™ã‚‹ */
   for (line = bas->prog; LINE_NO(line) < line_no_start && !IS_LAST(line);
        line += LINE_SIZE(line))
     ;
   if (IS_LAST(line))
     return ERR_OK;
 
-  /* s”Ô†‚ğ•t‚¯’¼‚· */
+  /* è¡Œç•ªå·ã‚’ä»˜ã‘ç›´ã™ */
   for (line_no = line_no_new; !IS_LAST(line);
        line_no += step, line += LINE_SIZE(line)) {
     line_no_old = line[0] * 0x100 + line[1];
@@ -7273,7 +7273,7 @@ static int staStop(struct Basic *bas, const uint8 **p) {
 }
 
 /*
-        SWITCH(ƒuƒƒbƒN\•¶)
+        SWITCH(ãƒ–ãƒ­ãƒƒã‚¯æ§‹æ–‡)
 */
 static int staSwitch(struct Basic *bas, const uint8 **p) {
   struct SwitchCase *switch_case;
@@ -7464,7 +7464,7 @@ static int staWhile(struct Basic *bas, const uint8 **p) {
   }
 }
 
-/* ƒXƒe[ƒgƒƒ“ƒg•\ */
+/* ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆè¡¨ */
 struct Statement staTable[] = {
     {NULL},                                         /* 00 */
     {NULL},                                         /* 01 */
@@ -7597,35 +7597,35 @@ struct Statement staTable[] = {
 };
 
 /*
-        1ƒXƒe[ƒgƒƒ“ƒgÀs‚·‚é
+        1ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆå®Ÿè¡Œã™ã‚‹
 */
 int runSta1(struct Basic *bas, const uint8 **p) {
   int err;
   const uint8 *exe;
 
-  /* I—¹‚©? */
+  /* çµ‚äº†ã‹? */
   if (*p == NULL)
     return ERR_OK_JUMP;
 
-  /* BUSY‚ğ•\¦‚·‚é */
+  /* BUSYã‚’è¡¨ç¤ºã™ã‚‹ */
   putstatus(STATUS_BUSY, TRUE);
 
-  /* ‹æØ‚è‚Æ‹ó”’‚ğ“Ç‚İ”ò‚Î‚· */
+  /* åŒºåˆ‡ã‚Šã¨ç©ºç™½ã‚’èª­ã¿é£›ã°ã™ */
   while (isStaTerm(p) || isBlank(p))
     (*p)++;
 
-  /* BREAK‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©? */
+  /* BREAKãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹? */
   updateKey();
   if (peekKeycode() == GKEY_BREAK)
     return ERR_BREAK;
 
-  /* s––‚©? */
-  if (**p == '\r' || **p == '\'') {
+  /* è¡Œæœ«ã‹? */
+  if (**p == 'Â¥r' || **p == 'Â¥'') {
     goNextLine(p);
     return ERR_OK_JUMP;
   }
 
-  /* ƒXƒe[ƒgƒƒ“ƒg‚ğÀs‚·‚é */
+  /* ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ */
   exe = *p;
 
   if (*exe == CODE_RESERVED) {
@@ -7637,11 +7637,11 @@ int runSta1(struct Basic *bas, const uint8 **p) {
       return ERR_10;
 
     if (sta->mode & MODE_RUN & *mode)
-      ; /* RUNƒ‚[ƒh */
+      ; /* RUNãƒ¢ãƒ¼ãƒ‰ */
     else if ((sta->mode & MODE_MAN) && (*mode & MODE_RUN) && isManual(bas, exe))
-      ; /* MANUALƒ‚[ƒh */
+      ; /* MANUALãƒ¢ãƒ¼ãƒ‰ */
     else if (sta->mode & MODE_PRO & *mode)
-      ; /* PROƒ‚[ƒh */
+      ; /* PROãƒ¢ãƒ¼ãƒ‰ */
     else
       return ERR_12;
 
@@ -7658,39 +7658,39 @@ int runSta1(struct Basic *bas, const uint8 **p) {
 
   *p = exe;
 
-  /* BREAK‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©? */
+  /* BREAKãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹? */
   if (peekKeycode() == GKEY_BREAK)
     return ERR_BREAK;
   return err;
 }
 
 /*
-        •¡”‚ÌƒXƒe[ƒgƒƒ“ƒg‚ğÀs‚·‚é (runProg, runLine‚Ì‰º¿‚¯)
+        è¤‡æ•°ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ (runProg, runLineã®ä¸‹è«‹ã‘)
 */
 static int runSta(struct Basic *bas, const uint8 **p) {
   int err;
 
   while ((err = runSta1(bas, p)) == ERR_OK_NEXT)
     updateLCD();
-  if (*p == NULL) /* I—¹ */
+  if (*p == NULL) /* çµ‚äº† */
     return ERR_END;
-  if (err == ERR_BREAK) { /* ’†’f */
-    gprintf("\rBREAK");
+  if (err == ERR_BREAK) { /* ä¸­æ–­ */
+    gprintf("Â¥rBREAK");
     return err;
-  } else if (IS_ERROR(err)) { /* ƒGƒ‰[ */
-    gprintf("\rERROR %d", -err);
+  } else if (IS_ERROR(err)) { /* ã‚¨ãƒ©ãƒ¼ */
+    gprintf("Â¥rERROR %d", -err);
     return err;
   } else
     return err;
 }
 
 /*
-        1sÀs‚·‚é (runProg‚Ì‰º¿‚¯)
+        1è¡Œå®Ÿè¡Œã™ã‚‹ (runProgã®ä¸‹è«‹ã‘)
 */
 static int runLine(struct Basic *bas, const uint8 **p) {
   int err;
 
-  /* ƒuƒƒbƒN§Œä–½—ß‚ğÀs‚·‚é */
+  /* ãƒ–ãƒ­ãƒƒã‚¯åˆ¶å¾¡å‘½ä»¤ã‚’å®Ÿè¡Œã™ã‚‹ */
   skipBlank(p);
   if (fetchKeyword(p, CODE_IF))
     err = staBlockIf(bas, p);
@@ -7709,37 +7709,37 @@ static int runLine(struct Basic *bas, const uint8 **p) {
   else
     err = ERR_OK_NEXT;
   if (err < 0) {
-    gprintf("\rERROR %d", -err);
+    gprintf("Â¥rERROR %d", -err);
     return err;
   } else if (err == ERR_OK_JUMP)
     return err;
 
-  /* ƒXƒe[ƒgƒƒ“ƒg‚ğÀs‚·‚é */
+  /* ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ */
   return runSta(bas, p);
 }
 
 /*
-        •¶š—ñ‚©‚ç—\–ñŒê‚ğŒŸõ‚·‚é (encodeProg‚Ì‰º¿‚¯)
+        æ–‡å­—åˆ—ã‹ã‚‰äºˆç´„èªã‚’æ¤œç´¢ã™ã‚‹ (encodeProgã®ä¸‹è«‹ã‘)
 */
 static int getKeywordFromName(int *code, const uint8 *name) {
   const struct KeywordTable *k;
   int len;
   const uint8 *p;
 
-  /* ˆê——‚©‚ç—\–ñŒê‚ğŒŸõ‚·‚é */
+  /* ä¸€è¦§ã‹ã‚‰äºˆç´„èªã‚’æ¤œç´¢ã™ã‚‹ */
   for (k = keywordTable; k->name != NULL; k++)
     if ((len = cmpKeyword(k->name, name)) > 0 && k->level <= machineSub) {
       *code = k->code;
       return len;
     }
 
-  /* RESERVED‚©? */
+  /* RESERVEDã‹? */
   if (strnicmp((const char *)name, "RESERVED", 8) != 0)
     return ERR_OK;
   for (p = name + 8; *p == ' '; p++)
     ;
 
-  /* 16i”2Œ…‚Ì’l‚ğ“¾‚é */
+  /* 16é€²æ•°2æ¡ã®å€¤ã‚’å¾—ã‚‹ */
   if (!isxdigit(p[0]) || !isxdigit(p[1]))
     return ERR_OK;
   sscanf((const char *)p, "%02x", code);
@@ -7749,7 +7749,7 @@ static int getKeywordFromName(int *code, const uint8 *name) {
 }
 
 /*
-        ƒŠƒeƒ‰ƒ‹•¶š—ñ‚ğ’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é (encodeProg‚Ì‰º¿‚¯)
+        ãƒªãƒ†ãƒ©ãƒ«æ–‡å­—åˆ—ã‚’ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ (encodeProgã®ä¸‹è«‹ã‘)
 */
 static void encodeStr(uint8 **dst, const uint8 **src) {
   if (**src != '"')
@@ -7757,20 +7757,20 @@ static void encodeStr(uint8 **dst, const uint8 **src) {
 
   do {
     *(*dst)++ = *(*src)++;
-  } while (**src != '"' && **src != '\r' && **src != '\n' && **src != 0);
+  } while (**src != '"' && **src != 'Â¥r' && **src != 'Â¥n' && **src != 0);
 
   if (**src == '"')
     *(*dst)++ = *(*src)++;
 }
 
 /*
-        DATA‚ğ’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é (encodeProg‚Ì‰º¿‚¯)
+        DATAã‚’ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ (encodeProgã®ä¸‹è«‹ã‘)
 */
 static void encodeData(uint8 **dst, const uint8 **src) {
   int in_str = FALSE;
 
-  while ((**src != ':' || (**src == ':' && in_str)) && **src != '\r' &&
-         **src != '\n' && **src != 0) {
+  while ((**src != ':' || (**src == ':' && in_str)) && **src != 'Â¥r' &&
+         **src != 'Â¥n' && **src != 0) {
     if (**src == '"')
       in_str = !in_str;
     *(*dst)++ = *(*src)++;
@@ -7778,10 +7778,10 @@ static void encodeData(uint8 **dst, const uint8 **src) {
 }
 
 /*
-        ƒ‰ƒxƒ‹‚ğ’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é (encodeProg‚Ì‰º¿‚¯)
+        ãƒ©ãƒ™ãƒ«ã‚’ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ (encodeProgã®ä¸‹è«‹ã‘)
 */
 static void encodeLabel(uint8 **dst, const uint8 **src) {
-  while (**src == ' ' || **src == '\t')
+  while (**src == ' ' || **src == 'Â¥t')
     *(*dst)++ = *(*src)++;
 
   if (**src != '*')
@@ -7797,15 +7797,15 @@ static void encodeLabel(uint8 **dst, const uint8 **src) {
 }
 
 /*
-        ƒRƒƒ“ƒg‚ğ’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é (encodeProg‚Ì‰º¿‚¯)
+        ã‚³ãƒ¡ãƒ³ãƒˆã‚’ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ (encodeProgã®ä¸‹è«‹ã‘)
 */
 static void encodeRem(uint8 **dst, const uint8 **src) {
-  while (**src != '\r' && **src != '\n' && **src != 0)
+  while (**src != 'Â¥r' && **src != 'Â¥n' && **src != 0)
     *(*dst)++ = *(*src)++;
 }
 
 /*
-        16i”‚ğ’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é (encodeProg‚Ì‰º¿‚¯)
+        16é€²æ•°ã‚’ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ (encodeProgã®ä¸‹è«‹ã‘)
 */
 static void encodeHex(uint8 **dst, const uint8 **src) {
   if (**src == '&') {
@@ -7821,26 +7821,26 @@ static void encodeHex(uint8 **dst, const uint8 **src) {
 }
 
 /*
-        10i”‚ğ’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é (encodeProg‚Ì‰º¿‚¯)
+        10é€²æ•°ã‚’ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ (encodeProgã®ä¸‹è«‹ã‘)
 */
 static void encodeDec(uint8 **dst, const uint8 **src) {
   const uint8 *p;
 
-  /* ‰¼”•” */
+  /* ä»®æ•°éƒ¨ */
   while (isdigit(**src) || **src == '.')
     *(*dst)++ = *(*src)++;
 
-  /* w”•”‚ª‚ ‚é‚©? */
+  /* æŒ‡æ•°éƒ¨ãŒã‚ã‚‹ã‹? */
   for (p = *src; isspace(*p); p++)
     ;
   if (toupper(*p) != 'E')
     return;
-  for (; *p == ' ' || *p == '\t'; p++)
+  for (; *p == ' ' || *p == 'Â¥t'; p++)
     ;
   if (!isdigit(*p) && *p != '+' && *p != '-')
     return;
 
-  /* w”•” */
+  /* æŒ‡æ•°éƒ¨ */
   while (isspace(**src))
     (*src)++;
   while (toupper(**src) == 'E')
@@ -7852,7 +7852,7 @@ static void encodeDec(uint8 **dst, const uint8 **src) {
 }
 
 /*
-        ƒeƒLƒXƒg‚©‚ç’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é (runProg, insertProg‚Ì‰º¿‚¯)
+        ãƒ†ã‚­ã‚¹ãƒˆã‹ã‚‰ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ (runProg, insertProgã®ä¸‹è«‹ã‘)
 */
 static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
   int len, code;
@@ -7862,9 +7862,9 @@ static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
   encodeLabel(&q, &p);
 
   for (;;) {
-    if (*p == '\r' || *p == '\n' || *p == 0)
+    if (*p == 'Â¥r' || *p == 'Â¥n' || *p == 0)
       break;
-    else if (*p == '\'' && mode != MODE_MAN)
+    else if (*p == 'Â¥'' && mode != MODE_MAN)
       encodeRem(&q, &p);
     else if (isdigit(*p) || *p == '.')
       encodeDec(&q, &p);
@@ -7874,7 +7874,7 @@ static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
       encodeStr(&q, &p);
     else if ((len = getKeywordFromName(&code, p)) > 0) {
       p += len;
-      if (*p == ' ' || *p == '\t')
+      if (*p == ' ' || *p == 'Â¥t')
         p++;
       *q++ = CODE_RESERVED;
       *q++ = code;
@@ -7901,13 +7901,13 @@ static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
                   q--;
   */
   if ((int)(q - dst) > 0)
-    *q++ = '\r';
+    *q++ = 'Â¥r';
   *q = 0;
   return (int)(q - dst);
 }
 
 /*
-        s‚ğ‘}“ü‚·‚é (insertProg‚Ì‰º¿‚¯)
+        è¡Œã‚’æŒ¿å…¥ã™ã‚‹ (insertProgã®ä¸‹è«‹ã‘)
 */
 static int insertLine(uint8 *area, int area_size, int line_no,
                       const uint8 *line, int len, uint8 **ret_p) {
@@ -7915,22 +7915,22 @@ static int insertLine(uint8 *area, int area_size, int line_no,
   uint8 *p;
   const uint8 *q;
 
-  /* ‘}“üæ‚Ìs‚ÌƒAƒhƒŒƒX‚ğ“¾‚é */
+  /* æŒ¿å…¥å…ˆã®è¡Œã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å¾—ã‚‹ */
   if ((del = jumpToLineNo((const uint8 **)&p, area, line_no))) {
-    /* Šù‚É“¯‚¶s‚ª‚ ‚ê‚Îíœ‚·‚é */
+    /* æ—¢ã«åŒã˜è¡ŒãŒã‚ã‚Œã°å‰Šé™¤ã™ã‚‹ */
     _delete(area, area_size, p, LINE_SIZE(p));
   }
 
-  /* ‹ós‚È‚ç‚Î–ß‚é */
-  for (q = line; q < line + len && (*q == ' ' || *q == '\t'); q++)
+  /* ç©ºè¡Œãªã‚‰ã°æˆ»ã‚‹ */
+  for (q = line; q < line + len && (*q == ' ' || *q == 'Â¥t'); q++)
     ;
-  if (q >= line + len || *q == '\r' || *q == '\n' || *q == 0x1a || *q == 0) {
+  if (q >= line + len || *q == 'Â¥r' || *q == 'Â¥n' || *q == 0x1a || *q == 0) {
     if (ret_p != NULL)
       *ret_p = (del ? p : NULL);
     return 1;
   }
 
-  /* s‚ğ‘}“ü‚·‚é */
+  /* è¡Œã‚’æŒ¿å…¥ã™ã‚‹ */
   if ((err = _insert(area, area_size, p, len + 3)) < 0)
     return err;
 
@@ -7945,7 +7945,7 @@ static int insertLine(uint8 *area, int area_size, int line_no,
 }
 
 /*
-        ƒvƒƒOƒ‰ƒ€‚ğ‘}“ü‚·‚é
+        ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æŒ¿å…¥ã™ã‚‹
 */
 int insertProg(struct Basic *bas, const uint8 *line, int *ret_line_no,
                uint8 **ret_prog) {
@@ -7958,26 +7958,26 @@ int insertProg(struct Basic *bas, const uint8 *line, int *ret_line_no,
   if (ret_prog != NULL)
     *ret_prog = NULL;
 
-  /* ‹ós‚È‚ç‚Î–ß‚é */
+  /* ç©ºè¡Œãªã‚‰ã°æˆ»ã‚‹ */
   skipBlank(&p);
-  if (*p == '\r' || *p == '\n' || *p == 0x1a || *p == 0)
+  if (*p == 'Â¥r' || *p == 'Â¥n' || *p == 0x1a || *p == 0)
     return ERR_OK;
 
-  /* s”Ô†‚ğ“¾‚é */
+  /* è¡Œç•ªå·ã‚’å¾—ã‚‹ */
   if (!isLineNo(&p))
     return ERR_12;
   if ((line_no = fetchLineNoOnly(&p)) >= 0xff00)
     return ERR_41;
 
-  /* ƒvƒƒOƒ‰ƒ€‚ğ’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é */
-  if (*p == ' ' || *p == '\t')
+  /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ */
+  if (*p == ' ' || *p == 'Â¥t')
     p++;
   if ((len = encodeProg(q, p, MODE_PRO)) < 0)
     return len;
   if (bas == NULL)
     return ERR_OK;
 
-  /* ƒvƒƒOƒ‰ƒ€‚ğ‘}“ü‚·‚é */
+  /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æŒ¿å…¥ã™ã‚‹ */
   err = insertLine(bas->prog, bas->prog_size, line_no, buf, len, ret_prog);
   if (ret_line_no != NULL) {
     if (err == 0)
@@ -7990,17 +7990,17 @@ int insertProg(struct Basic *bas, const uint8 *line, int *ret_line_no,
 }
 
 /*
-        BASICƒvƒƒOƒ‰ƒ€‚ğ“Ç‚İ‚Ş
+        BASICãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’èª­ã¿è¾¼ã‚€
 */
 int inportBas(const char *path) { return copyFile(path, pathBasic); }
 
 /*
-        BASICƒvƒƒOƒ‰ƒ€‚ğ‘‚«‚Ş
+        BASICãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æ›¸ãè¾¼ã‚€
 */
 int exportBas(const char *path) { return copyFile(pathBasic, path); }
 
 /*
-        ƒvƒƒOƒ‰ƒ€‚ğÁ‹‚·‚é
+        ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æ¶ˆå»ã™ã‚‹
 */
 static int clearBas(struct Basic *bas) {
   if (bas == NULL)
@@ -8012,7 +8012,7 @@ static int clearBas(struct Basic *bas) {
 }
 
 /*
-        ƒvƒƒOƒ‰ƒ€‚ğ“Ç‚İ‚Ş
+        ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’èª­ã¿è¾¼ã‚€
 */
 static int loadBas(struct Basic *bas) {
   FILE *fp = NULL;
@@ -8059,7 +8059,7 @@ fail:;
 }
 
 /*
-        ƒvƒƒOƒ‰ƒ€‚ğ‘‚«‚Ş
+        ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æ›¸ãè¾¼ã‚€
 */
 static int saveBas(struct Basic *bas) {
   FILE *fp;
@@ -8076,7 +8076,7 @@ static int saveBas(struct Basic *bas) {
     prog += len;
     prog += decodeProg(buf, prog);
 
-    fprintf(fp, "%d%.*s\n", line_no, strlen(buf), buf);
+    fprintf(fp, "%d%.*sÂ¥n", line_no, strlen(buf), buf);
   }
 
   fclose(fp);
@@ -8084,7 +8084,7 @@ static int saveBas(struct Basic *bas) {
 }
 
 /*
-        ƒvƒƒOƒ‰ƒ€‚ğÀs‚·‚é
+        ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’å®Ÿè¡Œã™ã‚‹
 */
 int runProg(struct Basic *bas, uint8 *buf) {
   int err, len, size, type = 0;
@@ -8094,15 +8094,15 @@ int runProg(struct Basic *bas, uint8 *buf) {
   skipBlank(&p);
   p = buf;
 
-  /* ’†ŠÔƒR[ƒh‚É•ÏŠ·‚·‚é */
+  /* ä¸­é–“ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹ */
   if ((len = encodeProg(prog, p, MODE_MAN)) <= 0)
     return 1;
   decodeProg(buf, prog);
-  gprintf("%s\r", buf);
+  gprintf("%sÂ¥r", buf);
 
   p = prog;
   if ((err = runSta1(bas, &p)) == ERR_OK_JUMP || err == ERR_OK_CONT) {
-    /* ƒvƒƒOƒ‰ƒ€‚ğÀs‚·‚é */
+    /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’å®Ÿè¡Œã™ã‚‹ */
     if (err == ERR_OK_CONT)
       goto cont;
     bas->p = p;
@@ -8116,12 +8116,12 @@ int runProg(struct Basic *bas, uint8 *buf) {
       if (peekSymbol(&bas->p, "*"))
         fetchLabel(&bas->p);
       /*
-                              printf("LINE=%d\n", bas->line_no);
+                              printf("LINE=%dÂ¥n", bas->line_no);
       */
     } while ((err = runLine(bas, &bas->p)) >= 0);
 
     if (IS_ERROR(err) || err == ERR_BREAK)
-      gprintf(" IN %d\r", bas->line_no);
+      gprintf(" IN %dÂ¥r", bas->line_no);
 
     /*
                     if(err != ERR_BREAK)
@@ -8133,7 +8133,7 @@ int runProg(struct Basic *bas, uint8 *buf) {
     buf[0] = 0;
     return 0;
   } else if (err == ERR_OK_NEXT || err == ERR_END) {
-    /* ƒ}ƒjƒ…ƒAƒ‹ƒ‚[ƒh‚Å‚ÌÀs‚ª³íI—¹ */
+    /* ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ãƒ¢ãƒ¼ãƒ‰ã§ã®å®Ÿè¡ŒãŒæ­£å¸¸çµ‚äº† */
     if (isLineTerm(&p)) {
       buf[0] = 0;
       return 0;
@@ -8142,20 +8142,20 @@ int runProg(struct Basic *bas, uint8 *buf) {
     err = ERR_10;
   } else if (err == ERR_10) {
     if (*mode & MODE_RUN) {
-      /* ’l‚ğ‹‚ß‚é */
+      /* å€¤ã‚’æ±‚ã‚ã‚‹ */
       p = prog;
       if ((err = fetchParam(bas, &ans, &type, &p)) == 0)
         if (!isLineTerm(&p))
           err = ERR_10;
     } else {
-      /* ƒvƒƒOƒ‰ƒ€ƒ‚[ƒh */
+      /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ãƒ¢ãƒ¼ãƒ‰ */
       err = ERR_12;
     }
   }
 
-  /* ƒGƒ‰[‚©? */
+  /* ã‚¨ãƒ©ãƒ¼ã‹? */
   if (IS_ERROR(err)) {
-    gprintf("\rERROR %d\r", -err);
+    gprintf("Â¥rERROR %dÂ¥r", -err);
 
     for (;;) {
       if ((k = getKeycode()) == GKEY_CLS) {
@@ -8168,17 +8168,17 @@ int runProg(struct Basic *bas, uint8 *buf) {
   } else if (err < 0)
     return err;
 
-  /* Œ‹‰Ê‚ğ•\¦‚·‚é */
+  /* çµæœã‚’è¡¨ç¤ºã™ã‚‹ */
   if (type == TYPE_NUM) {
     numCorrect(ans);
     numLet(answer, ans);
 
     numCorrect9(ans);
     decodeNum(prog, ans);
-    gprintf("%24s\r", prog);
+    gprintf("%24sÂ¥r", prog);
   } else {
     strcpy(prog, "");
-    gprintf("%s\r", ans);
+    gprintf("%sÂ¥r", ans);
   }
 
   if ((k = getKeycode()) == GKEY_LEFT || k == GKEY_RIGHT)
@@ -8190,7 +8190,7 @@ int runProg(struct Basic *bas, uint8 *buf) {
 }
 
 /*
-        BASICƒvƒƒOƒ‰ƒ€‚ğ•\¦‚·‚é (basRun, basPro‚Ì‰º¿‚¯)
+        BASICãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’è¡¨ç¤ºã™ã‚‹ (basRun, basProã®ä¸‹è«‹ã‘)
 */
 static void browseProg(struct Basic *bas, const uint8 *sep, const uint8 *cur) {
   int pos = 0;
@@ -8220,7 +8220,7 @@ static void browseProg(struct Basic *bas, const uint8 *sep, const uint8 *cur) {
 }
 
 /*
-        w’è‚Ìs‚ÖˆÚ“®‚·‚é (basRun, basPro‚Ì‰º¿‚¯)
+        æŒ‡å®šã®è¡Œã¸ç§»å‹•ã™ã‚‹ (basRun, basProã®ä¸‹è«‹ã‘)
 */
 static int jumpLine(struct Basic *bas, uint8 **cur, int line_no) {
   uint8 *p;
@@ -8234,7 +8234,7 @@ static int jumpLine(struct Basic *bas, uint8 **cur, int line_no) {
 }
 
 /*
-        BASICƒCƒ“ƒ^[ƒvƒŠƒ^(RUN MODE)‚ğ‹N“®‚·‚é
+        BASICã‚¤ãƒ³ã‚¿ãƒ¼ãƒ—ãƒªã‚¿(RUN MODE)ã‚’èµ·å‹•ã™ã‚‹
 */
 int basRun(struct Basic *bas) {
   int err, newline;
@@ -8244,7 +8244,7 @@ int basRun(struct Basic *bas) {
   clearCont(bas);
 
   gcls();
-  gprintf("RUN MODE\r");
+  gprintf("RUN MODEÂ¥r");
 
   while (*mode == MODE_RUN && !isoff()) {
     newline = (buf[0] == 0);
@@ -8259,9 +8259,9 @@ int basRun(struct Basic *bas) {
       err = runProg(bas, buf);
 
       if (err > 0 && newline)
-        gprintf("\r");
+        gprintf("Â¥r");
       break;
-    case 0x1e: /* ª */
+    case 0x1e: /* â†‘ */
       if (bas->line_no <= 0)
         break;
       if (!jumpLine(bas, &cur, bas->line_no))
@@ -8270,9 +8270,9 @@ int basRun(struct Basic *bas) {
       waitRelease();
       gcls();
       break;
-    case 0x1c: /* ¨ */
-    case 0x1d: /* © */
-    case 0x1f: /* « */
+    case 0x1c: /* â†’ */
+    case 0x1d: /* â† */
+    case 0x1f: /* â†“ */
       break;
     default:
       setMode(ch);
@@ -8283,7 +8283,7 @@ int basRun(struct Basic *bas) {
 }
 
 /*
-        1s•\¦‚·‚é (basPro‚Ì‰º¿‚¯)
+        1è¡Œè¡¨ç¤ºã™ã‚‹ (basProã®ä¸‹è«‹ã‘)
 */
 static int dispLine(int row, const uint8 *cur) {
   int size, len;
@@ -8311,16 +8311,16 @@ static int dispLine(int row, const uint8 *cur) {
 }
 
 /*
-        Ÿ‚Ìs‚ÖˆÚ“®‚·‚é (basPro‚Ì‰º¿‚¯)
+        æ¬¡ã®è¡Œã¸ç§»å‹•ã™ã‚‹ (basProã®ä¸‹è«‹ã‘)
 */
 static int jumpNext(struct Basic *bas, uint8 **cur, int *pos, int *row) {
   int len;
 
-  /* ––”ö‚©? */
+  /* æœ«å°¾ã‹? */
   if (*cur == NULL || **cur == 0xff)
     return FALSE;
 
-  /* Ÿ‚Ìs‚ÖˆÚ“®‚·‚é */
+  /* æ¬¡ã®è¡Œã¸ç§»å‹•ã™ã‚‹ */
   if (row != NULL) {
     len = dispLine(*row, *cur);
 
@@ -8350,16 +8350,16 @@ static int jumpNext(struct Basic *bas, uint8 **cur, int *pos, int *row) {
 }
 
 /*
-        ‘O‚Ìs‚ÖˆÚ“®‚·‚é (basPro‚Ì‰º¿‚¯)
+        å‰ã®è¡Œã¸ç§»å‹•ã™ã‚‹ (basProã®ä¸‹è«‹ã‘)
 */
 static int jumpPrev(struct Basic *bas, uint8 **cur, int *pos, int *row) {
   uint8 *prev_cur = *cur, *p;
 
-  /* æ“ª‚©? */
+  /* å…ˆé ­ã‹? */
   if (*cur == bas->prog)
     return FALSE;
 
-  /* ‘O‚Ìs‚ÖˆÚ“®‚·‚é */
+  /* å‰ã®è¡Œã¸ç§»å‹•ã™ã‚‹ */
   if (row != NULL)
     dispLine(*row, *cur);
 
@@ -8389,11 +8389,11 @@ static int jumpPrev(struct Basic *bas, uint8 **cur, int *pos, int *row) {
 }
 
 /*
-        w’è‚Ìs‚ÖˆÚ“®‚·‚é (basPro‚Ì‰º¿‚¯)
+        æŒ‡å®šã®è¡Œã¸ç§»å‹•ã™ã‚‹ (basProã®ä¸‹è«‹ã‘)
 */
 static int jumpTo(struct Basic *bas, uint8 *prev, uint8 *cur, int *pos,
                   int *row) {
-  /* ˆÚ“®‚·‚é */
+  /* ç§»å‹•ã™ã‚‹ */
   if (prev > cur) {
     while (prev > cur)
       if (!jumpPrev(bas, &prev, pos, row))
@@ -8411,7 +8411,7 @@ static int jumpTo(struct Basic *bas, uint8 *prev, uint8 *cur, int *pos,
 }
 
 /*
-        ÅŒã‚Ìs‚ÖˆÚ“®‚·‚é (basPro‚Ì‰º¿‚¯)
+        æœ€å¾Œã®è¡Œã¸ç§»å‹•ã™ã‚‹ (basProã®ä¸‹è«‹ã‘)
 */
 static int jumpLast(struct Basic *bas, uint8 **cur, int *row) {
   uint8 *p = bas->prog, *next_p = bas->prog;
@@ -8434,7 +8434,7 @@ static int jumpLast(struct Basic *bas, uint8 **cur, int *row) {
 }
 
 /*
-        BASICƒCƒ“ƒ^[ƒvƒŠƒ^(PROGRAM MODE)‚ğ‹N“®‚·‚é
+        BASICã‚¤ãƒ³ã‚¿ãƒ¼ãƒ—ãƒªã‚¿(PROGRAM MODE)ã‚’èµ·å‹•ã™ã‚‹
 */
 int basPro(struct Basic *bas) {
   int err, pos = -1, row = -1, mod = FALSE, line_no;
@@ -8445,11 +8445,11 @@ int basPro(struct Basic *bas) {
   loadBas(bas);
 
   gcls();
-  gprintf("PROGRAM MODE\r");
+  gprintf("PROGRAM MODEÂ¥r");
 
   while (*mode == MODE_PRO && !isoff()) {
     if (bas->auto_step > 0 &&
-        !jumpLine(bas, NULL, bas->auto_line_no)) { /* ©“®“ü—Í */
+        !jumpLine(bas, NULL, bas->auto_line_no)) { /* è‡ªå‹•å…¥åŠ› */
       int tmp_pos, tmp_row = *curRow, tmp_mod;
 
       row = pos = -1;
@@ -8459,13 +8459,13 @@ int basPro(struct Basic *bas) {
       tmp_pos = strlen(buf);
       bas->auto_line_no += bas->auto_step;
       ch = ggetline(buf, NULL, GETLINE_PRO, &tmp_pos, &tmp_row, &tmp_mod);
-    } else if (cur == NULL) { /* “ü—Í‘Ò‚¿ */
+    } else if (cur == NULL) { /* å…¥åŠ›å¾…ã¡ */
       strcpy(buf, "");
       ch = ggetline(buf, (const uint8 *)">", GETLINE_MAN);
-    } else if (pos < 0) { /* ‰{——’† */
+    } else if (pos < 0) { /* é–²è¦§ä¸­ */
       strcpy(buf, "");
       ch = ggetline(buf, NULL, GETLINE_MAN);
-    } else { /* •ÒW’† */
+    } else { /* ç·¨é›†ä¸­ */
       decodeLineNoProg(buf, cur, " ");
       ch = ggetline(buf, NULL, GETLINE_PRO, &pos, &row, &mod);
     }
@@ -8476,97 +8476,97 @@ int basPro(struct Basic *bas) {
     case 0x0c: /* CLS */
       gcls();
     case 0x05: /* BREAK */
-      /* ‰{——E•ÒWE©“®“ü—ÍI—¹ */
+      /* é–²è¦§ãƒ»ç·¨é›†ãƒ»è‡ªå‹•å…¥åŠ›çµ‚äº† */
       cur = NULL;
       bas->auto_step = 0;
       break;
-    case 0x1c:         /* ¨ */
-      if (cur == NULL) /* “ü—Í‘Ò‚¿ */
-        ;              /* ‰½‚à‚µ‚È‚¢ */
-      else {           /* ‰{——’† */
-        row = pos = 0; /* •ÒWŠJn */
+    case 0x1c:         /* â†’ */
+      if (cur == NULL) /* å…¥åŠ›å¾…ã¡ */
+        ;              /* ä½•ã‚‚ã—ãªã„ */
+      else {           /* é–²è¦§ä¸­ */
+        row = pos = 0; /* ç·¨é›†é–‹å§‹ */
         browseProg(bas, (const uint8 *)" ", cur);
       }
       break;
     case 0x0d: /* RETURN */
       if ((err = insertProg(bas, buf, &line_no, &cur)) >= 0 &&
-          cur != NULL) { /* ‘}“ü */
-        /* •Û‘¶‚·‚é */
+          cur != NULL) { /* æŒ¿å…¥ */
+        /* ä¿å­˜ã™ã‚‹ */
         saveBas(bas);
         clearCont(bas);
 
-        if (pos < 0) { /* ‰{——’† */
-          /* “ü—Í‚µ‚½s‚ğ•\¦‚·‚é */
+        if (pos < 0) { /* é–²è¦§ä¸­ */
+          /* å…¥åŠ›ã—ãŸè¡Œã‚’è¡¨ç¤ºã™ã‚‹ */
           if (line_no > 0) {
             decodeLineNoProg(buf, cur, ":");
             gprintf("%s", buf);
-            moveCursor('\r');
+            moveCursor('Â¥r');
           }
-        } else { /* •ÒW’† */
+        } else { /* ç·¨é›†ä¸­ */
           if (cur != prev)
             jumpTo(bas, prev, cur, &pos, &row);
           else
             jumpNext(bas, &cur, &pos, &row);
           pos = 0;
         }
-      } else if (err >= 0) { /* ‹ós */
-        moveCursor('\r');
-        pos = bas->auto_step = -1; /* •ÒWE©“®“ü—ÍI—¹ */
-      } else if ((err = runProg(bas, buf)) == ERR_AUTO) { /* ©“®“ü—ÍŠJn */
-        moveCursor('\r');
-      } else if (err == ERR_LIST) { /* ‰{——ŠJn */
+      } else if (err >= 0) { /* ç©ºè¡Œ */
+        moveCursor('Â¥r');
+        pos = bas->auto_step = -1; /* ç·¨é›†ãƒ»è‡ªå‹•å…¥åŠ›çµ‚äº† */
+      } else if ((err = runProg(bas, buf)) == ERR_AUTO) { /* è‡ªå‹•å…¥åŠ›é–‹å§‹ */
+        moveCursor('Â¥r');
+      } else if (err == ERR_LIST) { /* é–²è¦§é–‹å§‹ */
         jumpLine(bas, &cur, bas->line_no);
         clearCont(bas);
-        pos = bas->auto_step = -1; /* •ÒWE©“®“ü—ÍI—¹ */
-      } else if (err > 0) {        /* ³íI—¹ */
+        pos = bas->auto_step = -1; /* ç·¨é›†ãƒ»è‡ªå‹•å…¥åŠ›çµ‚äº† */
+      } else if (err > 0) {        /* æ­£å¸¸çµ‚äº† */
         saveBas(bas);
         clearCont(bas);
-        moveCursor('\r');
-        cur = NULL, pos = bas->auto_step = -1; /* ‰{——E•ÒWE©“®“ü—ÍI—¹ */
-      } else {                                 /* ƒGƒ‰[ */
-        cur = NULL, pos = bas->auto_step = -1; /* ‰{——E•ÒWE©“®“ü—ÍI—¹ */
+        moveCursor('Â¥r');
+        cur = NULL, pos = bas->auto_step = -1; /* é–²è¦§ãƒ»ç·¨é›†ãƒ»è‡ªå‹•å…¥åŠ›çµ‚äº† */
+      } else {                                 /* ã‚¨ãƒ©ãƒ¼ */
+        cur = NULL, pos = bas->auto_step = -1; /* é–²è¦§ãƒ»ç·¨é›†ãƒ»è‡ªå‹•å…¥åŠ›çµ‚äº† */
       }
       break;
-    case 0x1e:           /* ª */
-      if (cur == NULL) { /* “ü—Í‘Ò‚¿ */
+    case 0x1e:           /* â†‘ */
+      if (cur == NULL) { /* å…¥åŠ›å¾…ã¡ */
         if (bas->line_no <= 0 || !jumpLine(bas, &cur, bas->line_no))
-          if (jumpLast(bas, &cur, &row)) /* ––”ö‚Ö */
+          if (jumpLast(bas, &cur, &row)) /* æœ«å°¾ã¸ */
             browseProg(bas, (const uint8 *)":", cur);
-      } else if (pos < 0) {              /* ‰{——’† */
-        jumpPrev(bas, &cur, NULL, NULL); /* ‘O‚Ìs‚Ö */
+      } else if (pos < 0) {              /* é–²è¦§ä¸­ */
+        jumpPrev(bas, &cur, NULL, NULL); /* å‰ã®è¡Œã¸ */
         browseProg(bas, (const uint8 *)":", cur);
-      } else { /* •ÒW’† */
-        /* •ÏX‚³‚ê‚½‚È‚ç‚Î‘}“ü‚·‚é */
+      } else { /* ç·¨é›†ä¸­ */
+        /* å¤‰æ›´ã•ã‚ŒãŸãªã‚‰ã°æŒ¿å…¥ã™ã‚‹ */
         if (mod)
           if (insertProg(bas, buf, &line_no, &cur) >= 0) {
             saveBas(bas);
             clearCont(bas);
           }
 
-        /* ‘O‚Ìs‚ÖˆÚ“®‚·‚é */
+        /* å‰ã®è¡Œã¸ç§»å‹•ã™ã‚‹ */
         if (cur != prev)
           jumpTo(bas, prev, cur, &pos, &row);
         jumpPrev(bas, &cur, &pos, &row);
       }
       break;
-    case 0x1f:           /* « */
-      if (cur == NULL) { /* “ü—Í‘Ò‚¿ */
+    case 0x1f:           /* â†“ */
+      if (cur == NULL) { /* å…¥åŠ›å¾…ã¡ */
         if (bas->line_no <= 0 || !jumpLine(bas, &cur, bas->line_no)) {
-          cur = bas->prog; /* æ“ª‚Ö */
+          cur = bas->prog; /* å…ˆé ­ã¸ */
           browseProg(bas, (const uint8 *)":", cur);
         }
-      } else if (pos < 0) {              /* ‰{——’† */
-        jumpNext(bas, &cur, NULL, NULL); /* Ÿ‚Ìs‚Ö */
+      } else if (pos < 0) {              /* é–²è¦§ä¸­ */
+        jumpNext(bas, &cur, NULL, NULL); /* æ¬¡ã®è¡Œã¸ */
         browseProg(bas, (const uint8 *)":", cur);
-      } else { /* •ÒW’† */
-        /* •ÏX‚³‚ê‚½‚È‚ç‚Î‘}“ü‚·‚é */
+      } else { /* ç·¨é›†ä¸­ */
+        /* å¤‰æ›´ã•ã‚ŒãŸãªã‚‰ã°æŒ¿å…¥ã™ã‚‹ */
         if (mod)
           if (insertProg(bas, buf, &line_no, &cur) >= 0) {
             saveBas(bas);
             clearCont(bas);
           }
 
-        /* Ÿ‚Ìs‚ÖˆÚ“®‚·‚é */
+        /* æ¬¡ã®è¡Œã¸ç§»å‹•ã™ã‚‹ */
         if (cur != prev)
           jumpTo(bas, prev, cur, &pos, &row);
         jumpNext(bas, &cur, &pos, &row);
@@ -8581,7 +8581,7 @@ int basPro(struct Basic *bas) {
 }
 
 /*
-        BASICƒCƒ“ƒ^[ƒvƒŠƒ^‚ğ‰Šú‰»‚·‚é
+        BASICã‚¤ãƒ³ã‚¿ãƒ¼ãƒ—ãƒªã‚¿ã‚’åˆæœŸåŒ–ã™ã‚‹
 */
 int initBasic(struct Basic *bas) {
   int i;
@@ -8607,7 +8607,7 @@ int initBasic(struct Basic *bas) {
 }
 
 /*
-        Copyright 2005 ~ 2023 maruhiro
+        Copyright 2005 â€¾ 2023 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

@@ -10,7 +10,7 @@
 #if defined(Z80_PROF)
 
 /*
-        ƒvƒƒtƒ@ƒCƒ‰‚ð‰Šú‰»‚·‚é
+        ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ©ã‚’åˆæœŸåŒ–ã™ã‚‹
 */
 void z80prof_init(Z80stat *z, int use) {
   Z80prof *prof = &z->i.prof;
@@ -32,7 +32,7 @@ void z80prof_init(Z80stat *z, int use) {
 }
 
 /*
-        ‹L˜^‚ðÁ‹Ž‚·‚é
+        è¨˜éŒ²ã‚’æ¶ˆåŽ»ã™ã‚‹
 */
 void z80prof_clear(Z80stat *z) {
   Z80prof *prof = &z->i.prof;
@@ -55,7 +55,7 @@ void z80prof_clear(Z80stat *z) {
 }
 
 /*
-        ŒÄ‚Ño‚µ‚ð‹L˜^‚·‚é
+        å‘¼ã³å‡ºã—ã‚’è¨˜éŒ²ã™ã‚‹
 */
 void z80prof_call(Z80stat *z, int call_states) {
   Z80prof *prof = &z->i.prof;
@@ -75,7 +75,7 @@ void z80prof_call(Z80stat *z, int call_states) {
 }
 
 /*
-        Œo‰ßƒXƒe[ƒg”‚ð‹‚ß‚é (z80prof_ret‚Ì‰º¿‚¯)
+        çµŒéŽã‚¹ãƒ†ãƒ¼ãƒˆæ•°ã‚’æ±‚ã‚ã‚‹ (z80prof_retã®ä¸‹è«‹ã‘)
 */
 static int z80elapsed(Z80stat *z, int states) {
   int elapsed = Z80_STATES(z) - states;
@@ -87,7 +87,7 @@ static int z80elapsed(Z80stat *z, int states) {
 }
 
 /*
-        ŒÄ‚Ño‚µ‹L˜^‚ðŒŸõ‚·‚é (z80prof_ret‚Ì‰º¿‚¯)
+        å‘¼ã³å‡ºã—è¨˜éŒ²ã‚’æ¤œç´¢ã™ã‚‹ (z80prof_retã®ä¸‹è«‹ã‘)
 */
 static Z80record *z80prof_find(Z80prof *prof, uint16 bank, uint16 address) {
   int n;
@@ -103,7 +103,7 @@ static Z80record *z80prof_find(Z80prof *prof, uint16 bank, uint16 address) {
 }
 
 /*
-        •œ‹A‚ð‹L˜^‚·‚é
+        å¾©å¸°ã‚’è¨˜éŒ²ã™ã‚‹
 */
 void z80prof_ret(Z80stat *z, int ret_states) {
   Z80prof *prof = &z->i.prof;
@@ -172,7 +172,7 @@ void z80prof_ret(Z80stat *z, int ret_states) {
 }
 
 /*
-        ’Ê‰ß‚ð‹L˜^‚·‚é
+        é€šéŽã‚’è¨˜éŒ²ã™ã‚‹
 */
 void z80prof_path(Z80stat *z) {
   Z80prof *prof = &z->i.prof;
@@ -194,7 +194,7 @@ void z80prof_path(Z80stat *z) {
 }
 
 /*
-        ŽÀs‚ð‹L˜^‚·‚é
+        å®Ÿè¡Œã‚’è¨˜éŒ²ã™ã‚‹
 */
 void z80prof_exec(Z80stat *z, int states) {
   Z80prof *prof = &z->i.prof;
@@ -219,7 +219,7 @@ void z80prof_exec(Z80stat *z, int states) {
 }
 
 /*
-        ðŒ¬—§E•s¬—§‚ð‹L˜^‚·‚é
+        æ¡ä»¶æˆç«‹ãƒ»ä¸æˆç«‹ã‚’è¨˜éŒ²ã™ã‚‹
 */
 void z80prof_cond(Z80stat *z, int cond) {
   Z80prof *prof = &z->i.prof;
@@ -237,7 +237,7 @@ void z80prof_cond(Z80stat *z, int cond) {
 #endif
 
 /*
-        Copyright 2005 ~ 2024 maruhiro
+        Copyright 2005 â€¾ 2024 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

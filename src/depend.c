@@ -1,6 +1,6 @@
 /*
         SHARP PC-G800 series emulator
-        ŠÂ‹«ˆË‘¶•”•ª
+        ç’°å¢ƒä¾å­˜éƒ¨åˆ†
 */
 
 #include "SDL.h"
@@ -25,53 +25,53 @@
 #define O_BINARY 0
 #endif
 
-/* LCDEVRAM */
-#define MAX_ZOOM 3              /* ƒXƒe[ƒ^ƒX•\¦•”‚ÌŠg‘å‚ÌÅ‘å’l */
-#define MAX_SCALE (360 / 8 + 1) /* ŠK’²‚ÌÅ‘å’l */
-#define SCREEN(x, y)                                                           \
-  ((Uint8 *)screen->pixels + (y) * screen->pitch +                             \
-   screen->format->BytesPerPixel * (x)) /* ƒsƒNƒZƒ‹‚ÌƒAƒhƒŒƒX */
-#define VRAM_OFF(col, row, top)                                                \
-  (((row + (top) / 8) % 8) * vramWidth +                                       \
-   (col) * cellWidth) /* ‰¼‘zVRAM‚ÌƒIƒtƒZƒbƒg */
-#define VRAM(col, row, top)                                                    \
-  &vram[VRAM_OFF(col, row, top)] /* ‰¼‘zVRAM‚ÌƒAƒhƒŒƒX */
-#define OLD_VRAM(col, row, top)                                                \
-  &oldVram[VRAM_OFF(col, row, top)] /* 1ƒtƒŒ[ƒ€‘O‚Ì‰¼‘zVRAM‚ÌƒAƒhƒŒƒX */
+/* LCDãƒ»VRAM */
+#define MAX_ZOOM 3              /* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹è¡¨ç¤ºéƒ¨ã®æ‹¡å¤§ã®æœ€å¤§å€¤ */
+#define MAX_SCALE (360 / 8 + 1) /* éšèª¿ã®æœ€å¤§å€¤ */
+#define SCREEN(x, y)                                                           Â¥
+  ((Uint8 *)screen->pixels + (y) * screen->pitch +                             Â¥
+   screen->format->BytesPerPixel * (x)) /* ãƒ”ã‚¯ã‚»ãƒ«ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ */
+#define VRAM_OFF(col, row, top)                                                Â¥
+  (((row + (top) / 8) % 8) * vramWidth +                                       Â¥
+   (col) * cellWidth) /* ä»®æƒ³VRAMã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ */
+#define VRAM(col, row, top)                                                    Â¥
+  &vram[VRAM_OFF(col, row, top)] /* ä»®æƒ³VRAMã®ã‚¢ãƒ‰ãƒ¬ã‚¹ */
+#define OLD_VRAM(col, row, top)                                                Â¥
+  &oldVram[VRAM_OFF(col, row, top)] /* 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ä»®æƒ³VRAMã®ã‚¢ãƒ‰ãƒ¬ã‚¹ */
 
-/* FEPixelƒe[ƒuƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX”Ô† */
-#define COLOR_BODY 0        /* –{‘Ì‚ÌF */
-#define COLOR_GRAY 1        /* ƒL[‚ÌF ŠD */
-#define COLOR_GREEN 2       /* ƒL[‚ÌF —Î */
-#define COLOR_YELLOW 3      /* ƒL[‚ÌF ‰© */
-#define COLOR_RED 4         /* ƒL[‚ÌF Ô */
-#define COLOR_LIGHTGRAY 5   /* ƒL[‚ÌF –¾‚é‚¢ŠD */
-#define COLOR_LIGHTGREEN 6  /* ƒL[‚ÌF –¾‚é‚¢—Î */
-#define COLOR_LIGHTYELLOW 7 /* ƒL[‚ÌF –¾‚é‚¢‰© */
-#define COLOR_LIGHTRED 8    /* ƒL[‚ÌF –¾‚é‚¢Ô */
-#define COLOR_DARKGRAY 9    /* ƒL[‚ÌF ˆÃ‚¢ŠD */
-#define COLOR_DARKGREEN 10  /* ƒL[‚ÌF ˆÃ‚¢—Î */
-#define COLOR_DARKYELLOW 11 /* ƒL[‚ÌF ˆÃ‚¢‰©F */
-#define COLOR_DARKRED 12    /* ƒL[‚ÌF ˆÃ‚¢Ô */
+/* è‰²ãƒ»Pixelãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç•ªå· */
+#define COLOR_BODY 0        /* æœ¬ä½“ã®è‰² */
+#define COLOR_GRAY 1        /* ã‚­ãƒ¼ã®è‰² ç° */
+#define COLOR_GREEN 2       /* ã‚­ãƒ¼ã®è‰² ç·‘ */
+#define COLOR_YELLOW 3      /* ã‚­ãƒ¼ã®è‰² é»„ */
+#define COLOR_RED 4         /* ã‚­ãƒ¼ã®è‰² èµ¤ */
+#define COLOR_LIGHTGRAY 5   /* ã‚­ãƒ¼ã®è‰² æ˜ã‚‹ã„ç° */
+#define COLOR_LIGHTGREEN 6  /* ã‚­ãƒ¼ã®è‰² æ˜ã‚‹ã„ç·‘ */
+#define COLOR_LIGHTYELLOW 7 /* ã‚­ãƒ¼ã®è‰² æ˜ã‚‹ã„é»„ */
+#define COLOR_LIGHTRED 8    /* ã‚­ãƒ¼ã®è‰² æ˜ã‚‹ã„èµ¤ */
+#define COLOR_DARKGRAY 9    /* ã‚­ãƒ¼ã®è‰² æš—ã„ç° */
+#define COLOR_DARKGREEN 10  /* ã‚­ãƒ¼ã®è‰² æš—ã„ç·‘ */
+#define COLOR_DARKYELLOW 11 /* ã‚­ãƒ¼ã®è‰² æš—ã„é»„è‰² */
+#define COLOR_DARKRED 12    /* ã‚­ãƒ¼ã®è‰² æš—ã„èµ¤ */
 #define COLOR_MIDGREEN 13
 #define COLOR_MIDYELLOW 14
 #define COLOR_MIDRED 15
-#define COLOR_LCD_START 16 /* LCD‚ÌF‚Ìæ“ª */
+#define COLOR_LCD_START 16 /* LCDã®è‰²ã®å…ˆé ­ */
 
-/* ”Ä—p */
-#define MAX(x, y) ((x) > (y) ? (x) : (y)) /* ‘å‚«‚¢‚Ù‚¤‚Ì’l */
+/* æ±ç”¨ */
+#define MAX(x, y) ((x) > (y) ? (x) : (y)) /* å¤§ãã„ã»ã†ã®å€¤ */
 
-/* ƒXƒe[ƒ^ƒX‚ÌBitmap */
+/* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®Bitmap */
 static Bitmap *bmpStatus[] = {bmpStatus1, bmpStatus2, bmpStatus3};
 
-/* ƒL[ƒgƒbƒv‚ÌBitmap */
+/* ã‚­ãƒ¼ãƒˆãƒƒãƒ—ã®Bitmap */
 static Bitmap *bmpKeytop[] = {bmpKeytop1, bmpKeytop2, bmpKeytop3};
 
-/* ƒL[ƒgƒbƒv‚ÌBitmap (PC-E220) */
+/* ã‚­ãƒ¼ãƒˆãƒƒãƒ—ã®Bitmap (PC-E220) */
 static Bitmap *bmpKeytopE220[] = {bmpKeytopE220_1, bmpKeytopE220_2,
                                   bmpKeytopE220_3};
 
-/* ƒL[‚Ì”wŒiF */
+/* ã‚­ãƒ¼ã®èƒŒæ™¯è‰² */
 static uint8 keyBackColor[] = {
     COLOR_GRAY,   COLOR_GRAY, /* OFF */
     COLOR_GRAY,               /* Q */
@@ -100,13 +100,13 @@ static uint8 keyBackColor[] = {
     COLOR_GREEN,              /* BASIC */
     COLOR_GREEN,              /* TEXT */
     COLOR_GRAY,               /* CAPS */
-    COLOR_GRAY,               /* ƒJƒi */
+    COLOR_GRAY,               /* ã‚«ãƒŠ */
     COLOR_GRAY,               /* TAB */
     COLOR_GRAY,               /* SPACE */
-    COLOR_GRAY,               /* « */
-    COLOR_GRAY,               /* ª */
-    COLOR_GRAY,               /* © */
-    COLOR_GRAY,               /* ¨ */
+    COLOR_GRAY,               /* â†“ */
+    COLOR_GRAY,               /* â†‘ */
+    COLOR_GRAY,               /* â† */
+    COLOR_GRAY,               /* â†’ */
     COLOR_GRAY,               /* ANS */
     COLOR_GRAY,               /* 0 */
     COLOR_GRAY,               /* . */
@@ -128,10 +128,10 @@ static uint8 keyBackColor[] = {
     COLOR_GRAY,               /* 5 */
     COLOR_GRAY,               /* 6 */
     COLOR_GRAY,               /* * */
-    COLOR_GRAY,               /* RECM */
+    COLOR_GRAY,               /* Rãƒ»CM */
     COLOR_GRAY,               /* P */
     COLOR_GRAY,               /* BS */
-    COLOR_GRAY,               /* ƒÎ */
+    COLOR_GRAY,               /* Ï€ */
     COLOR_GRAY,               /* 7 */
     COLOR_GRAY,               /* 8 */
     COLOR_GRAY,               /* 9 */
@@ -139,7 +139,7 @@ static uint8 keyBackColor[] = {
     COLOR_GRAY,               /* ) */
     COLOR_GRAY,               /* nPr */
     COLOR_GRAY,               /* DEG */
-    COLOR_GRAY,               /* ã */
+    COLOR_GRAY,               /* âˆš */
     COLOR_GRAY,               /* x^2 */
     COLOR_GRAY,               /* ^ */
     COLOR_GRAY,               /* ( */
@@ -151,12 +151,12 @@ static uint8 keyBackColor[] = {
     COLOR_GRAY,               /* ln */
     COLOR_GRAY,               /* log */
     COLOR_GRAY,               /* tan */
-    COLOR_GRAY,               /* F©¨E */
+    COLOR_GRAY,               /* Fâ†â†’E */
     COLOR_RED,                /* CLS */
     COLOR_GRAY                /* ON */
 };
 
-/* ƒL[‚Ì‘OŒiF */
+/* ã‚­ãƒ¼ã®å‰æ™¯è‰² */
 static uint8 keyForeColor[] = {
     COLOR_LIGHTGRAY,   COLOR_LIGHTGRAY, /* OFF */
     COLOR_LIGHTGRAY,                    /* Q */
@@ -185,13 +185,13 @@ static uint8 keyForeColor[] = {
     COLOR_LIGHTGREEN,                   /* BASIC */
     COLOR_LIGHTGREEN,                   /* TEXT */
     COLOR_LIGHTGRAY,                    /* CAPS */
-    COLOR_LIGHTGRAY,                    /* ƒJƒi */
+    COLOR_LIGHTGRAY,                    /* ã‚«ãƒŠ */
     COLOR_LIGHTGRAY,                    /* TAB */
     COLOR_LIGHTGRAY,                    /* SPACE */
-    COLOR_LIGHTGRAY,                    /* « */
-    COLOR_LIGHTGRAY,                    /* ª */
-    COLOR_LIGHTGRAY,                    /* © */
-    COLOR_LIGHTGRAY,                    /* ¨ */
+    COLOR_LIGHTGRAY,                    /* â†“ */
+    COLOR_LIGHTGRAY,                    /* â†‘ */
+    COLOR_LIGHTGRAY,                    /* â† */
+    COLOR_LIGHTGRAY,                    /* â†’ */
     COLOR_LIGHTGRAY,                    /* ANS */
     COLOR_LIGHTGRAY,                    /* 0 */
     COLOR_LIGHTGRAY,                    /* . */
@@ -213,10 +213,10 @@ static uint8 keyForeColor[] = {
     COLOR_LIGHTGRAY,                    /* 5 */
     COLOR_LIGHTGRAY,                    /* 6 */
     COLOR_LIGHTGRAY,                    /* * */
-    COLOR_LIGHTGRAY,                    /* RECM */
+    COLOR_LIGHTGRAY,                    /* Rãƒ»CM */
     COLOR_LIGHTGRAY,                    /* P */
     COLOR_LIGHTGRAY,                    /* BS */
-    COLOR_LIGHTGRAY,                    /* ƒÎ */
+    COLOR_LIGHTGRAY,                    /* Ï€ */
     COLOR_LIGHTGRAY,                    /* 7 */
     COLOR_LIGHTGRAY,                    /* 8 */
     COLOR_LIGHTGRAY,                    /* 9 */
@@ -224,7 +224,7 @@ static uint8 keyForeColor[] = {
     COLOR_LIGHTGRAY,                    /* ) */
     COLOR_LIGHTGRAY,                    /* nPr */
     COLOR_LIGHTGRAY,                    /* DEG */
-    COLOR_LIGHTGRAY,                    /* ã */
+    COLOR_LIGHTGRAY,                    /* âˆš */
     COLOR_LIGHTGRAY,                    /* x^2 */
     COLOR_LIGHTGRAY,                    /* ^ */
     COLOR_LIGHTGRAY,                    /* ( */
@@ -236,61 +236,61 @@ static uint8 keyForeColor[] = {
     COLOR_LIGHTGRAY,                    /* ln */
     COLOR_LIGHTGRAY,                    /* log */
     COLOR_LIGHTGRAY,                    /* tan */
-    COLOR_LIGHTGRAY,                    /* F©¨E */
+    COLOR_LIGHTGRAY,                    /* Fâ†â†’E */
     COLOR_LIGHTRED,                     /* CLS */
     COLOR_LIGHTGRAY                     /* ON */
 };
 
-/* ƒL[‚Ì‘OŒiF(PC-G815) */
+/* ã‚­ãƒ¼ã®å‰æ™¯è‰²(PC-G815) */
 const static uint8 keyForeColorG815[] = {};
 
-/* PC‚Ìî•ñEİ’è */
+/* PCã®æƒ…å ±ãƒ»è¨­å®š */
 #if SDL_MAJOR_VERSION == 1
-const static SDL_VideoInfo *videoInfo; /* ƒrƒfƒI */
+const static SDL_VideoInfo *videoInfo; /* ãƒ“ãƒ‡ã‚ª */
 #endif
-static SDL_Joystick *joy;   /* ƒWƒ‡ƒCƒXƒeƒBƒbƒN */
-static SDL_AudioSpec audio; /* ƒTƒEƒ“ƒh */
+static SDL_Joystick *joy;   /* ã‚¸ãƒ§ã‚¤ã‚¹ãƒ†ã‚£ãƒƒã‚¯ */
+static SDL_AudioSpec audio; /* ã‚µã‚¦ãƒ³ãƒ‰ */
 
 /* LCD */
-static SDL_Rect rectLCD;                        /* LCD‘S‘Ì‚Ì”ÍˆÍ */
-static SDL_Rect rectLCDmain;                    /* LCDƒƒCƒ“•”‚Ì”ÍˆÍ */
-static SDL_Rect rectLCDstatus[STATUS_LAST + 1]; /* LCD‚ÌƒXƒe[ƒ^ƒX•”‚Ì”ÍˆÍ */
-static int statusRow[STATUS_LAST + 1];          /* ƒXƒe[ƒ^ƒX‚ÌVRAMã‚Ì—ñ */
-static uint8 statusMask[STATUS_LAST + 1]; /* ƒXƒe[ƒ^ƒX‚ÌVRAMã‚ÌbitˆÊ’u */
-static int zoomedBpp;                     /* Šg‘åŒã‚Ì1pixel‚Ìbit” */
-static int zoomedPitch;                   /* Šg‘åŒã‚ÌLCDƒƒCƒ“•”‚Ì•‚Ìbyte” */
-static SDL_Color colorTable[256];         /* Fƒe[ƒuƒ‹ */
-static Uint32 pixelTable[256];            /* pixelƒe[ƒuƒ‹ */
+static SDL_Rect rectLCD;                        /* LCDå…¨ä½“ã®ç¯„å›² */
+static SDL_Rect rectLCDmain;                    /* LCDãƒ¡ã‚¤ãƒ³éƒ¨ã®ç¯„å›² */
+static SDL_Rect rectLCDstatus[STATUS_LAST + 1]; /* LCDã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹éƒ¨ã®ç¯„å›² */
+static int statusRow[STATUS_LAST + 1];          /* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®VRAMä¸Šã®åˆ— */
+static uint8 statusMask[STATUS_LAST + 1]; /* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®VRAMä¸Šã®bitä½ç½® */
+static int zoomedBpp;                     /* æ‹¡å¤§å¾Œã®1pixelã®bitæ•° */
+static int zoomedPitch;                   /* æ‹¡å¤§å¾Œã®LCDãƒ¡ã‚¤ãƒ³éƒ¨ã®å¹…ã®byteæ•° */
+static SDL_Color colorTable[256];         /* è‰²ãƒ†ãƒ¼ãƒ–ãƒ« */
+static Uint32 pixelTable[256];            /* pixelãƒ†ãƒ¼ãƒ–ãƒ« */
 
-/* Surface‚ÆPixmap(Pixel‚ÌW‚Ü‚è) */
+/* Surfaceã¨Pixmap(Pixelã®é›†ã¾ã‚Š) */
 #if SDL_MAJOR_VERSION == 2
 static SDL_Window *window; /* Window */
 #endif
-static SDL_Surface *screen;      /* Window‚Ìsurface */
-static Uint8 *pixmapBack = NULL; /* LCD‚Ì”wŒi‚Ìpixmap */
-static Uint8 *pixmapDotOff;      /* LCD‚Ìƒhƒbƒg‚Ìpixmap (OFF) */
-static Uint8 *pixmapDotOn;       /* LCD‚Ìƒhƒbƒg‚Ìpixmap (ON) */
+static SDL_Surface *screen;      /* Windowã®surface */
+static Uint8 *pixmapBack = NULL; /* LCDã®èƒŒæ™¯ã®pixmap */
+static Uint8 *pixmapDotOff;      /* LCDã®ãƒ‰ãƒƒãƒˆã®pixmap (OFF) */
+static Uint8 *pixmapDotOn;       /* LCDã®ãƒ‰ãƒƒãƒˆã®pixmap (ON) */
 static Uint8
-    *pixmapStatusOff[STATUS_LAST + 1]; /* LCD‚ÌƒXƒe[ƒ^ƒX‚Ìpixmap (OFF) */
+    *pixmapStatusOff[STATUS_LAST + 1]; /* LCDã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®pixmap (OFF) */
 static Uint8
-    *pixmapStatusOn[STATUS_LAST + 1];    /* LCD‚ÌƒXƒe[ƒ^ƒX‚Ìpixmap (ON) */
-static Uint8 *pixmapDotTable[MAX_SCALE]; /* LCD‚Ìƒhƒbƒg‚Ìpixmap (ŠeŠK’²) */
-static Uint8 *pixmapStatusTable[MAX_SCALE][STATUS_LAST + 1]; /* LCD‚ÌƒXƒe[ƒ^ƒX‚Ìpixmap
-                                                                (ŠeŠK’²) */
-static Uint8 *pixmapButton; /* ƒ{ƒ^ƒ“‚Ìpixmap */
+    *pixmapStatusOn[STATUS_LAST + 1];    /* LCDã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®pixmap (ON) */
+static Uint8 *pixmapDotTable[MAX_SCALE]; /* LCDã®ãƒ‰ãƒƒãƒˆã®pixmap (å„éšèª¿) */
+static Uint8 *pixmapStatusTable[MAX_SCALE][STATUS_LAST + 1]; /* LCDã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®pixmap
+                                                                (å„éšèª¿) */
+static Uint8 *pixmapButton; /* ãƒœã‚¿ãƒ³ã®pixmap */
 
 /* VRAM */
-static uint8 oldVram[166 * 9]; /* 1ƒtƒŒ[ƒ€‘O‚ÌVRAM */
-static uint8 oldLcdTop;        /* 1ƒtƒŒ[ƒ€‘O‚ÌVRAM‚Ì•\¦ˆÊ’u */
+static uint8 oldVram[166 * 9]; /* 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®VRAM */
+static uint8 oldLcdTop;        /* 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®VRAMã®è¡¨ç¤ºä½ç½® */
 
-/* ƒL[ */
-static SDL_Rect rectKey[GKEY_DOUBLE]; /* ƒ\ƒtƒgƒEƒFƒAƒL[‚Ì”ÍˆÍ */
-static uint8 autoKey;                 /* ©“®ƒL[“ü—Í’†‚ÌƒL[ƒR[ƒh */
-static int autoKeyCount = 0;          /* ©“®ƒL[“ü—ÍƒJƒEƒ“ƒ^ */
+/* ã‚­ãƒ¼ */
+static SDL_Rect rectKey[GKEY_DOUBLE]; /* ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ã‚­ãƒ¼ã®ç¯„å›² */
+static uint8 autoKey;                 /* è‡ªå‹•ã‚­ãƒ¼å…¥åŠ›ä¸­ã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ */
+static int autoKeyCount = 0;          /* è‡ªå‹•ã‚­ãƒ¼å…¥åŠ›ã‚«ã‚¦ãƒ³ã‚¿ */
 
 #if SDL_MAJOR_VERSION == 2
 /*
-        %xx%xx...Œ`®‚Ìƒtƒ@ƒCƒ‹–¼‚ğƒfƒR[ƒh‚·‚é (‰º¿‚¯)
+        %xx%xx...å½¢å¼ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ãƒ‡ã‚³ãƒ¼ãƒ‰ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static char *decodeString(const char *bin) {
   static char str[PATH_MAX];
@@ -317,7 +317,7 @@ static char *decodeString(const char *bin) {
 #endif
 
 /*
-        ƒoƒCƒiƒŠƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+        ãƒã‚¤ãƒŠãƒªãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 */
 int readBin(const char *path, void *mem, int mem_size) {
   SDL_RWops *rw;
@@ -343,7 +343,7 @@ int readBin(const char *path, void *mem, int mem_size) {
 }
 
 /*
-        ƒoƒCƒiƒŠƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş
+        ãƒã‚¤ãƒŠãƒªãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€
 */
 int writeBin(const char *path, const void *mem, int size) {
   SDL_RWops *rw;
@@ -365,7 +365,7 @@ int writeBin(const char *path, const void *mem, int size) {
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 */
 int readHex(const char *path, void *mem, int *off, int mem_size, int check) {
   Sint64 size, off64;
@@ -381,7 +381,7 @@ int readHex(const char *path, void *mem, int *off, int mem_size, int check) {
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş(ƒtƒ@ƒCƒ‹“à‚ÌƒAƒhƒŒƒX‚ğ–³‹‚·‚é)
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€(ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç„¡è¦–ã™ã‚‹)
 */
 int readHexAbs(const char *path, void *mem, int *off, int mem_size, int check) {
   Sint64 size, off64;
@@ -397,7 +397,7 @@ int readHexAbs(const char *path, void *mem, int *off, int mem_size, int check) {
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€
 */
 int writeHex(const char *path, const void *mem, int off, int size) {
   if (path == NULL || strcmp(path, "") == 0)
@@ -406,7 +406,7 @@ int writeHex(const char *path, const void *mem, int off, int size) {
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş(ƒtƒ@ƒCƒ‹“à‚ÌƒAƒhƒŒƒX‚ğ–³‹‚·‚é)
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€(ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç„¡è¦–ã™ã‚‹)
 */
 int writeHexAbs(const char *path, const void *mem, int off, int size) {
   if (path == NULL || strcmp(path, "") == 0)
@@ -415,7 +415,7 @@ int writeHexAbs(const char *path, const void *mem, int off, int size) {
 }
 
 /*
-        ƒtƒ@ƒCƒ‹‚ğƒRƒs[‚·‚é
+        ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 */
 int copyFile(const char *src, const char *dst) {
   uint8 buf[0x8000];
@@ -427,7 +427,7 @@ int copyFile(const char *src, const char *dst) {
 }
 
 /*
-        ƒtƒ@ƒCƒ‹‚ğíœ‚·‚é
+        ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹
 */
 int removeFile(const char *path) {
   SDL_RWops *rw;
@@ -448,7 +448,7 @@ int removeFile(const char *path) {
 }
 
 /*
-        ƒtƒ@ƒCƒ‹‚ğ”äŠr‚·‚é
+        ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¯”è¼ƒã™ã‚‹
 */
 int cmpFile(const char *path1, const char *path2) {
   uint8 buf1[0x8000], buf2[0x8000];
@@ -462,7 +462,7 @@ int cmpFile(const char *path1, const char *path2) {
 }
 
 /*
-        LCD‚Ì”Z“x‚ÌÅ‘å’l‚ğ“¾‚é (‰º¿‚¯)
+        LCDã®æ¿ƒåº¦ã®æœ€å¤§å€¤ã‚’å¾—ã‚‹ (ä¸‹è«‹ã‘)
 */
 static inline int getScaleMax(void) {
   if (lcdScales == 2)
@@ -472,7 +472,7 @@ static inline int getScaleMax(void) {
 }
 
 /*
-        ƒƒCƒ“LCD‚É“_‚ğ•`‚­ (‰º¿‚¯)
+        ãƒ¡ã‚¤ãƒ³LCDã«ç‚¹ã‚’æã (ä¸‹è«‹ã‘)
 */
 static inline void putDot(Uint8 *dst, const void *pix) {
   Uint8 *p = dst;
@@ -482,7 +482,7 @@ static inline void putDot(Uint8 *dst, const void *pix) {
 }
 
 /*
-        Pixmap‚ğ•`‚­ (‰º¿‚¯)
+        Pixmapã‚’æã (ä¸‹è«‹ã‘)
 */
 static inline void putPixmap(Uint8 *dst, const Uint8 *pix, int w, int h) {
   Uint8 *p;
@@ -494,64 +494,64 @@ static inline void putPixmap(Uint8 *dst, const Uint8 *pix, int w, int h) {
 }
 
 /*
-        ƒXƒe[ƒ^ƒX‚ğ•\¦‚·‚é(updateLCD1‚Ì‰º¿‚¯)
+        ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹(updateLCD1ã®ä¸‹è«‹ã‘)
 */
 static inline void updateStatus(SDL_Rect **rect, int status, int chk) {
   int row = statusRow[status], shift = lcdTop % 8;
   uint8 mask = statusMask[status], pat, *old_pat;
   SDL_Rect *r;
 
-  /* VRAM‚ÌƒAƒhƒŒƒX‚ğ“¾‚é */
+  /* VRAMã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å¾—ã‚‹ */
   pat = *VRAM(lcdCols, row, lcdTop) >> shift | *VRAM(lcdCols, row + 1, lcdTop)
                                                    << (8 - shift);
   old_pat = OLD_VRAM(lcdCols, row, lcdTop);
 
-  /* ƒXƒe[ƒ^ƒX‚ª•Ï‰»‚µ‚Ä‚¢‚È‚¢‚È‚ç–ß‚é */
+  /* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãŒå¤‰åŒ–ã—ã¦ã„ãªã„ãªã‚‰æˆ»ã‚‹ */
   if (!((pat ^ *old_pat) & mask) && chk)
     return;
 
-  /* ƒXƒe[ƒ^ƒX‚ğ•`‚­ */
+  /* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’æã */
   r = &rectLCDstatus[status];
   if (pat & mask) {
     putPixmap(SCREEN(r->x, r->y), pixmapStatusOn[status], r->w, r->h);
     *old_pat |= mask;
   } else {
     putPixmap(SCREEN(r->x, r->y), pixmapStatusOff[status], r->w, r->h);
-    *old_pat &= ~mask;
+    *old_pat &= â€¾mask;
   }
 
-  /* XV”ÍˆÍ‚ğ‘‚«‚Ş */
+  /* æ›´æ–°ç¯„å›²ã‚’æ›¸ãè¾¼ã‚€ */
   *(*rect)++ = *r;
 }
 
 /*
-        cell‚ğ•\¦‚·‚é(updateLCD1‚Ì‰º¿‚¯)
+        cellã‚’è¡¨ç¤ºã™ã‚‹(updateLCD1ã®ä¸‹è«‹ã‘)
 */
 static inline void updateCell(SDL_Rect **rect, int col, int row, int chk) {
   int begin, d, end;
   uint8 *p_vram, *p_oldvram, pat, changed, mask;
   Uint8 *p_screen, *p_screen0, *p_screen00;
 
-  /* ‰¼‘zVRAM‚ÌƒAƒhƒŒƒX‚ğ“¾‚é */
+  /* ä»®æƒ³VRAMã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å¾—ã‚‹ */
   p_vram = VRAM(col, row, lcdTop);
   p_oldvram = OLD_VRAM(col, row, 0);
   if (chk) {
-    /* •Ï‰»‚È‚µ‚È‚ç–ß‚é */
+    /* å¤‰åŒ–ãªã—ãªã‚‰æˆ»ã‚‹ */
     if (memcmp(p_vram, p_oldvram, 6) == 0)
       return;
   } else {
-    /* 1ƒtƒŒ[ƒ€‘O‚Ì‰¼‘zVRAM‚ğ”½“]‚·‚é(Ä•`‰æ‚Ì‚½‚ß) */
+    /* 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ä»®æƒ³VRAMã‚’åè»¢ã™ã‚‹(å†æç”»ã®ãŸã‚) */
     mask = 0xff >> (8 - cellHeight);
-    *(p_oldvram + 0) = ~*(p_vram + 0) & mask;
-    *(p_oldvram + 1) = ~*(p_vram + 1) & mask;
-    *(p_oldvram + 2) = ~*(p_vram + 2) & mask;
-    *(p_oldvram + 3) = ~*(p_vram + 3) & mask;
-    *(p_oldvram + 4) = ~*(p_vram + 4) & mask;
+    *(p_oldvram + 0) = â€¾*(p_vram + 0) & mask;
+    *(p_oldvram + 1) = â€¾*(p_vram + 1) & mask;
+    *(p_oldvram + 2) = â€¾*(p_vram + 2) & mask;
+    *(p_oldvram + 3) = â€¾*(p_vram + 3) & mask;
+    *(p_oldvram + 4) = â€¾*(p_vram + 4) & mask;
     if (cellWidth == 6)
-      *(p_oldvram + 5) = ~*(p_vram + 5) & mask;
+      *(p_oldvram + 5) = â€¾*(p_vram + 5) & mask;
   }
 
-  /* Cell“à‚Ì•\¦ŠJnI—¹yÀ•W‚ğ‹‚ß‚é */
+  /* Cellå†…ã®è¡¨ç¤ºé–‹å§‹çµ‚äº†yåº§æ¨™ã‚’æ±‚ã‚ã‚‹ */
   if ((d = lcdTop % 8) == 0)
     end = begin = 0;
   else if (row == 0) {
@@ -563,14 +563,14 @@ static inline void updateCell(SDL_Rect **rect, int col, int row, int chk) {
   } else
     end = begin = 0;
 
-  /* XV”ÍˆÍ‚Æsurface‚ÌƒAƒhƒŒƒX‚ğ‹‚ß‚é */
+  /* æ›´æ–°ç¯„å›²ã¨surfaceã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ±‚ã‚ã‚‹ */
   (*rect)->x = zoom * col * 6 + rectLCDmain.x;
   (*rect)->y = zoom * (row * 8 + begin - d) + rectLCDmain.y;
   (*rect)->w = zoom * cellWidth;
   (*rect)->h = zoom * (cellHeight - end - begin);
   p_screen00 = SCREEN((*rect)->x, (*rect)->y);
 
-  /* Cell‚ğ•`‚­ */
+  /* Cellã‚’æã */
   for (p_screen0 = p_screen00;
        p_screen0 != p_screen00 + (*rect)->w * screen->format->BytesPerPixel;
        p_screen0 += zoomedBpp) {
@@ -587,7 +587,7 @@ static inline void updateCell(SDL_Rect **rect, int col, int row, int chk) {
     p_oldvram++;
   }
 
-  /* XV”ÍˆÍ‚ğ‘‚«‚Ş */
+  /* æ›´æ–°ç¯„å›²ã‚’æ›¸ãè¾¼ã‚€ */
   if ((*rect)->y == (*rect - 1)->y &&
       (*rect)->x == (*rect - 1)->x + (*rect - 1)->w)
     (*rect - 1)->w += (*rect)->w;
@@ -596,14 +596,14 @@ static inline void updateCell(SDL_Rect **rect, int col, int row, int chk) {
 }
 
 /*
-        LCD‚ğXV‚·‚é(c‘œ‚È‚µ) (updateLCD‚Ì‰º¿‚¯)
+        LCDã‚’æ›´æ–°ã™ã‚‹(æ®‹åƒãªã—) (updateLCDã®ä¸‹è«‹ã‘)
 */
 static int updateLCD1(void) {
   static SDL_Rect rect[255] = {{0, 0, 0, 0}};
   SDL_Rect *p_rect = &rect[1];
   int chk, col, row, status, must_lock;
 
-  /* •\¦ŠJnˆÊ’u‚ª•Ï‚í‚Á‚½‚©? */
+  /* è¡¨ç¤ºé–‹å§‹ä½ç½®ãŒå¤‰ã‚ã£ãŸã‹? */
   if (lcdTop == oldLcdTop)
     chk = TRUE;
   else {
@@ -611,7 +611,7 @@ static int updateLCD1(void) {
     oldLcdTop = lcdTop;
   }
 
-  /* Surface‚É‘‚«‚Ş */
+  /* Surfaceã«æ›¸ãè¾¼ã‚€ */
   if ((must_lock = SDL_MUSTLOCK(screen)))
     if (SDL_LockSurface(screen) < 0)
       return FALSE;
@@ -623,7 +623,7 @@ static int updateLCD1(void) {
   if (must_lock)
     SDL_UnlockSurface(screen);
 
-  /* XV‚·‚é */
+  /* æ›´æ–°ã™ã‚‹ */
   if (p_rect == &rect[1])
     return FALSE;
 #if SDL_MAJOR_VERSION == 2
@@ -636,7 +636,7 @@ static int updateLCD1(void) {
 }
 
 /*
-        LCD‚ğXV‚·‚é(c‘œ‚ ‚è) (updateLCD‚Ì‰º¿‚¯)
+        LCDã‚’æ›´æ–°ã™ã‚‹(æ®‹åƒã‚ã‚Š) (updateLCDã®ä¸‹è«‹ã‘)
 */
 static int updateLCD2(void) {
   static struct {
@@ -649,16 +649,16 @@ static int updateLCD2(void) {
   Uint8 *p_screen00, *p_screen0, *p_screen, *p;
   uint8 pat, bit, *p_vram0, *p_vram1, *p_oldpat;
 
-  /* «‚±‚Ì‚æ‚¤‚É‚µ‚È‚¢‚ÆÅ“K‰»‚µ‚½‚Æ‚«³í‚É“®ì‚µ‚È‚¢ (gcc4.8.1 win32) */
+  /* â†“ã“ã®ã‚ˆã†ã«ã—ãªã„ã¨æœ€é©åŒ–ã—ãŸã¨ãæ­£å¸¸ã«å‹•ä½œã—ãªã„ (gcc4.8.1 win32) */
   if (p_page == NULL)
     p_page = &page[1];
-  /* ª */
+  /* â†‘ */
 
   if (SDL_MUSTLOCK(screen))
     if (SDL_LockSurface(screen) < 0)
       return FALSE;
 
-  /* ƒXƒe[ƒ^ƒX‚ğ‘‚«‚Ş */
+  /* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’æ›¸ãè¾¼ã‚€ */
   shift = lcdTop % 8;
   p_scale = lcd_scale;
   for (status = STATUS_FIRST; status != STATUS_LAST + 1; status++) {
@@ -686,10 +686,10 @@ static int updateLCD2(void) {
     if (pat & statusMask[status])
       *p_oldpat |= statusMask[status];
     else
-      *p_oldpat &= ~statusMask[status];
+      *p_oldpat &= â€¾statusMask[status];
   }
 
-  /* ƒƒCƒ“LCD‚ğ‘‚«‚Ş */
+  /* ãƒ¡ã‚¤ãƒ³LCDã‚’æ›¸ãè¾¼ã‚€ */
   p_vram0 = &vram[((lcdTop / 8) + 0) * vramWidth];
   p_vram1 = p_vram0 + vramWidth;
   p_oldpat = p_page->oldpat;
@@ -743,7 +743,7 @@ static int updateLCD2(void) {
   if (SDL_MUSTLOCK(screen))
     SDL_UnlockSurface(screen);
 
-  /* XV‚·‚é */
+  /* æ›´æ–°ã™ã‚‹ */
   if (p_rect == &rect[1])
     return FALSE;
 #if SDL_MAJOR_VERSION == 2
@@ -756,7 +756,7 @@ static int updateLCD2(void) {
 }
 
 /*
-        ó‘Ô•\¦‚ğXV‚·‚é (updateLCD‚Ì‰º¿‚¯)
+        çŠ¶æ…‹è¡¨ç¤ºã‚’æ›´æ–°ã™ã‚‹ (updateLCDã®ä¸‹è«‹ã‘)
 */
 static void updateCaption(void) {
   static char old_caption[512] = "*";
@@ -788,7 +788,7 @@ static void updateCaption(void) {
 }
 
 /*
-        LCD‚ğXV‚·‚é
+        LCDã‚’æ›´æ–°ã™ã‚‹
 */
 int updateLCD(void) {
   updateCaption();
@@ -799,12 +799,12 @@ int updateLCD(void) {
 }
 
 /*
-        LCD‚ğƒNƒŠƒA‚·‚é (updateLCDContrast‚Ì‰º¿‚¯)
+        LCDã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ (updateLCDContrastã®ä¸‹è«‹ã‘)
 */
 static void clearLCD(void) {
   Uint8 *p;
 
-  /* Surface‚ğƒNƒŠƒA‚·‚é */
+  /* Surfaceã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ */
   if (SDL_MUSTLOCK(screen))
     if (SDL_LockSurface(screen) < 0)
       return;
@@ -817,7 +817,7 @@ static void clearLCD(void) {
   if (SDL_MUSTLOCK(screen))
     SDL_UnlockSurface(screen);
 
-    /* XV‚·‚é */
+    /* æ›´æ–°ã™ã‚‹ */
 #if SDL_MAJOR_VERSION == 2
   SDL_UpdateWindowSurface(window);
 #elif SDL_MAJOR_VERSION == 1
@@ -828,7 +828,7 @@ static void clearLCD(void) {
 }
 
 /*
-        “h‚è‚Â‚Ô‚µ‚½Pixmap‚ğì¬‚·‚é (updateLCDContrast‚Ì‰º¿‚¯)
+        å¡—ã‚Šã¤ã¶ã—ãŸPixmapã‚’ä½œæˆã™ã‚‹ (updateLCDContrastã®ä¸‹è«‹ã‘)
 */
 static Uint8 *fillPixmap(Uint8 *pixmap, const void *pix, int size) {
   Uint8 *p;
@@ -839,7 +839,7 @@ static Uint8 *fillPixmap(Uint8 *pixmap, const void *pix, int size) {
 }
 
 /*
-        Bitmap‚ğPixmap‚É•ÏŠ·‚·‚é (updateLCDContrast‚Ì‰º¿‚¯)
+        Bitmapã‚’Pixmapã«å¤‰æ›ã™ã‚‹ (updateLCDContrastã®ä¸‹è«‹ã‘)
 */
 static Uint8 *makePixmap(Uint8 *pixmap, SDL_Rect rect, Bitmap bitmap,
                          const void *pix0, const void *pix1) {
@@ -869,7 +869,7 @@ static Uint8 *makePixmap(Uint8 *pixmap, SDL_Rect rect, Bitmap bitmap,
 }
 
 /*
-        LCD“dˆ³‚ğ‹‚ß‚é (UpdateLCDContrast‚Ì‰º¿‚¯)
+        LCDé›»åœ§ã‚’æ±‚ã‚ã‚‹ (UpdateLCDContrastã®ä¸‹è«‹ã‘)
 */
 static int getLcdVoltage(void) {
   int voltage;
@@ -889,13 +889,13 @@ static int getLcdVoltage(void) {
 }
 
 /*
-        LCD‚ÌF‚ğ‹‚ß‚é (UpdateLCDContrast‚Ì‰º¿‚¯)
+        LCDã®è‰²ã‚’æ±‚ã‚ã‚‹ (UpdateLCDContrastã®ä¸‹è«‹ã‘)
 */
 static SDL_Color *getLcdColors(SDL_Color *colors, int voltage) {
   SDL_Color back = {0}, on = {0}, off = {0};
   int c1, c2;
 
-  /* F‚ğ“¾‚é */
+  /* è‰²ã‚’å¾—ã‚‹ */
   back.r = (colorBack >> 16) & 0xff;
   back.g = (colorBack >> 8) & 0xff;
   back.b = (colorBack >> 0) & 0xff;
@@ -940,7 +940,7 @@ static SDL_Color *getLcdColors(SDL_Color *colors, int voltage) {
 }
 
 /*
-        LCD‚ÌF(c‘œ)‚ğ‹‚ß‚é (UpdateLCDContrast‚Ì‰º¿‚¯)
+        LCDã®è‰²(æ®‹åƒ)ã‚’æ±‚ã‚ã‚‹ (UpdateLCDContrastã®ä¸‹è«‹ã‘)
 */
 static SDL_Color getLcdColorScale(SDL_Color off, SDL_Color on, int max, int i) {
   SDL_Color result = {0};
@@ -954,7 +954,7 @@ static SDL_Color getLcdColorScale(SDL_Color off, SDL_Color on, int max, int i) {
 }
 
 /*
-        ƒRƒ“ƒgƒ‰ƒXƒg‚ğXV‚·‚é
+        ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆã‚’æ›´æ–°ã™ã‚‹
 */
 void updateLCDContrast(void) {
   const SDL_Color color_black = {0x00, 0x00, 0x00, 0xff};
@@ -973,7 +973,7 @@ void updateLCDContrast(void) {
   SDL_Color base[3];
   int i, cont, z, status, voltage = getLcdVoltage(), max = getScaleMax();
 
-  /* F‚ğì‚é */
+  /* è‰²ã‚’ä½œã‚‹ */
   colorTable[COLOR_BODY] = color_black;
   colorTable[COLOR_GRAY] = color_gray;
   colorTable[COLOR_GREEN] = color_green;
@@ -993,13 +993,13 @@ void updateLCDContrast(void) {
     colorTable[COLOR_LIGHTRED] = color_lightred;
   }
 
-  /* LCD‚ÌF‚ğì‚é */
+  /* LCDã®è‰²ã‚’ä½œã‚‹ */
   getLcdColors(base, voltage);
   colorTable[COLOR_LCD_START + 0] = base[0];
   for (cont = 0, i = COLOR_LCD_START + 1; cont <= max; cont++, i++)
     colorTable[i] = getLcdColorScale(base[1], base[2], max, cont);
 
-  /* Pixel‚ğì‚é */
+  /* Pixelã‚’ä½œã‚‹ */
   if (screen->format->BytesPerPixel == 1) {
     for (i = 0; i < 256; i++)
       *(Uint8 *)&pixelTable[i] = i;
@@ -1016,7 +1016,7 @@ void updateLCDContrast(void) {
                                  colorTable[i].g, colorTable[i].b);
   }
 
-  /* ‰æ‘œ(ƒRƒs[Œ³)‚ğì‚é */
+  /* ç”»åƒ(ã‚³ãƒ”ãƒ¼å…ƒ)ã‚’ä½œã‚‹ */
   fillPixmap(pixmapBack, &pixelTable[COLOR_LCD_START + 0], zoomedPitch);
   for (cont = 0, i = COLOR_LCD_START + 1; cont <= max; cont++, i++)
     fillPixmap(pixmapDotTable[cont], &pixelTable[i], zoomedBpp);
@@ -1031,13 +1031,13 @@ void updateLCDContrast(void) {
                  &pixelTable[i]);
   }
 
-  /* ‰æ–Ê‚ğÄ•\¦‚·‚é */
+  /* ç”»é¢ã‚’å†è¡¨ç¤ºã™ã‚‹ */
   clearLCD();
   updateLCD1();
 }
 
 /*
-        ˆÊ’u‚ğŒˆ‚ß‚é (updateLayout‚Ì‰º¿‚¯)
+        ä½ç½®ã‚’æ±ºã‚ã‚‹ (updateLayoutã®ä¸‹è«‹ã‘)
 */
 static SDL_Rect setLayout(Rect r) {
   SDL_Rect result;
@@ -1050,7 +1050,7 @@ static SDL_Rect setLayout(Rect r) {
 }
 
 /*
-        ƒŒƒCƒAƒEƒg‚ğXV‚·‚é
+        ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’æ›´æ–°ã™ã‚‹
 */
 void updateLayout(void) {
   const Machineinfo *m;
@@ -1062,7 +1062,7 @@ void updateLayout(void) {
                                    info_bmp_err = FALSE;
   char buf[256];
 
-  /* ƒ^ƒCƒgƒ‹ƒo[‚Éƒ}ƒVƒ“–¼‚ğ•\¦‚·‚é */
+  /* ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã«ãƒã‚·ãƒ³åã‚’è¡¨ç¤ºã™ã‚‹ */
   m = machineInfo[machine];
   sprintf(buf, "POCKET COMPUTER %s", machineName[machineSub]);
 #if SDL_MAJOR_VERSION == 2
@@ -1071,11 +1071,11 @@ void updateLayout(void) {
   SDL_WM_SetCaption(buf, NULL);
 #endif
 
-  /* ƒXƒe[ƒ^ƒX‚ÌVRAMã‚ÌˆÊ’u‚ğİ’è‚·‚é */
+  /* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®VRAMä¸Šã®ä½ç½®ã‚’è¨­å®šã™ã‚‹ */
   memcpy(statusRow, m->status_row, sizeof(statusRow));
   memcpy(statusMask, m->status_mask, sizeof(statusMask));
 
-  /* à–¾‰æ‘œ‚ğ“Ç‚İ‚Ş */
+  /* èª¬æ˜ç”»åƒã‚’èª­ã¿è¾¼ã‚€ */
   if (pathInfoImage == NULL)
     info_image = &none;
   else if ((info_image = SDL_LoadBMP(pathInfoImage)) == NULL) {
@@ -1083,7 +1083,7 @@ void updateLayout(void) {
     info_bmp_err = TRUE;
   }
 
-  /* ƒŒƒCƒAƒEƒg‚ğİ’è‚·‚é */
+  /* ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’è¨­å®šã™ã‚‹ */
   rectLCD = setLayout(m->pos_lcd);
   rectLCD.y += info_image->h;
 
@@ -1102,7 +1102,7 @@ void updateLayout(void) {
 
   rect_function_key = setLayout(m->pos_function_key);
 
-  /* ƒEƒBƒ“ƒhƒE‚ğ•\¦‚·‚é */
+  /* ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤ºã™ã‚‹ */
   w = MAX(rectLCD.x + rectLCD.w + (useSoftwareKey ? rect_function_key.w : 0),
           info_image->w);
   h = rectLCD.y + rectLCD.h;
@@ -1111,7 +1111,7 @@ void updateLayout(void) {
   SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
   SDL_ShowWindow(window);
   if ((screen = SDL_GetWindowSurface(window)) == NULL) {
-    fprintf(stderr, "SDL_GetWindowSurface fail. %s\n", SDL_GetError());
+    fprintf(stderr, "SDL_GetWindowSurface fail. %sÂ¥n", SDL_GetError());
     exit(1);
   }
 #elif SDL_MAJOR_VERSION == 1
@@ -1119,12 +1119,12 @@ void updateLayout(void) {
            w, h, videoInfo->vfmt->BitsPerPixel,
            SDL_HWSURFACE | (videoInfo->vfmt->BitsPerPixel <= 8 ? SDL_HWPALETTE
                                                                : 0))) == NULL) {
-    fprintf(stderr, "SDL_SetVideoMode fail. %s\n", SDL_GetError());
+    fprintf(stderr, "SDL_SetVideoMode fail. %sÂ¥n", SDL_GetError());
     exit(1);
   }
 #endif
 
-  /* Pixmap‚ğì¬‚·‚é */
+  /* Pixmapã‚’ä½œæˆã™ã‚‹ */
   zoomedBpp = screen->format->BytesPerPixel * zoom;
   zoomedPitch = screen->pitch * zoom;
   pixmapBack = (first ? malloc(zoomedPitch) : realloc(pixmapBack, zoomedPitch));
@@ -1146,16 +1146,16 @@ void updateLayout(void) {
     pixmapStatusOn[status] = pixmapStatusTable[getScaleMax()][status];
   }
 
-  /* ƒRƒ“ƒgƒ‰ƒXƒg‚ğXV‚·‚é */
+  /* ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆã‚’æ›´æ–°ã™ã‚‹ */
   updateLCDContrast();
 
-  /* à–¾‰æ‘œ‚ğ•\¦‚·‚é */
+  /* èª¬æ˜ç”»åƒã‚’è¡¨ç¤ºã™ã‚‹ */
   if (info_image->pixels != NULL) {
     SDL_BlitSurface(info_image, NULL, screen, NULL);
     SDL_FreeSurface(info_image);
   }
 
-  /* ƒ{ƒ^ƒ“‚ğ•\¦‚·‚é */
+  /* ãƒœã‚¿ãƒ³ã‚’è¡¨ç¤ºã™ã‚‹ */
   if (useSoftwareKey) {
     size = rectKey[GKEY_OFF].w * rectKey[GKEY_OFF].h *
            screen->format->BytesPerPixel;
@@ -1172,13 +1172,13 @@ void updateLayout(void) {
     }
   }
 
-  /* à–¾‰æ‘œ‚ª“Ç‚İ‚ß‚È‚©‚Á‚½‚Æ‚«ƒGƒ‰[‚ğ•\¦‚·‚é */
+  /* èª¬æ˜ç”»åƒãŒèª­ã¿è¾¼ã‚ãªã‹ã£ãŸã¨ãã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹ */
   if (info_bmp_err)
     popup("!", "CANNOT OPEN %s", pathInfoImage);
 }
 
 /*
-        ƒL[‚ğ‰Ÿ‚·(updateKey‚Ì‰º¿‚¯)
+        ã‚­ãƒ¼ã‚’æŠ¼ã™(updateKeyã®ä¸‹è«‹ã‘)
 */
 static inline uint8 pressKey(uint8 k) {
   switch (k) {
@@ -1237,21 +1237,21 @@ static inline uint8 pressKey(uint8 k) {
 }
 
 /*
-        ƒL[‚ğ—£‚·(updateKey‚Ì‰º¿‚¯)
+        ã‚­ãƒ¼ã‚’é›¢ã™(updateKeyã®ä¸‹è«‹ã‘)
 */
 static inline void releaseKey(uint8 k) {
   switch (k) {
   case GKEY_NONE:
     break;
   case GKEY_BREAK:
-    keyBreak &= ~0x80;
+    keyBreak &= â€¾0x80;
     break;
   default:
     k = (k & 0xff) - 1;
-    keyMatrix[k / 8] &= ~(1 << (k % 8));
+    keyMatrix[k / 8] &= â€¾(1 << (k % 8));
     break;
   case GKEY_SHIFT:
-    keyShift &= ~0x01;
+    keyShift &= â€¾0x01;
     break;
   case GKEY_RESET:
     keyReset = FALSE;
@@ -1267,42 +1267,42 @@ static inline void releaseKey(uint8 k) {
     z80.i.trace = !z80.i.trace;
     break;
   case GKEY_11PIN1:
-    pin11In &= ~0x01;
+    pin11In &= â€¾0x01;
     updateSerial();
     break;
   case GKEY_11PIN2:
-    pin11In &= ~0x02;
+    pin11In &= â€¾0x02;
     updateSerial();
     break;
   case GKEY_11PIN3:
-    pin11In &= ~0x04;
+    pin11In &= â€¾0x04;
     updateSerial();
     break;
   case GKEY_11PIN4:
-    pin11In &= ~0x08;
+    pin11In &= â€¾0x08;
     updateSerial();
     break;
   case GKEY_11PIN5:
-    pin11In &= ~0x10;
+    pin11In &= â€¾0x10;
     updateSerial();
     break;
   case GKEY_11PIN6:
-    pin11In &= ~0x20;
+    pin11In &= â€¾0x20;
     updateSerial();
     break;
   case GKEY_11PIN7:
-    pin11In &= ~0x40;
+    pin11In &= â€¾0x40;
     updateSerial();
     break;
   case GKEY_11PIN8:
-    pin11In &= ~0x80;
+    pin11In &= â€¾0x80;
     updateSerial();
     break;
   }
 }
 
 /*
-        ƒL[ó‘Ô‚ğXV‚·‚é
+        ã‚­ãƒ¼çŠ¶æ…‹ã‚’æ›´æ–°ã™ã‚‹
 */
 uint8 updateKey(void) {
   static uint16 pressedKey[KEY_LAST + 1];
@@ -1318,11 +1318,11 @@ uint8 updateKey(void) {
   uint16 gkey;
   uint8 itype = 0;
 
-  /* ƒCƒxƒ“ƒgˆ— */
+  /* ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç† */
   while (SDL_PollEvent(&e)) {
     switch (e.type) {
-    case SDL_KEYDOWN: /* ƒL[‚ğ‰Ÿ‚µ‚½ */
-                      /* SDL‚ÌƒL[ƒR[ƒh‚ğ“¾‚é */
+    case SDL_KEYDOWN: /* ã‚­ãƒ¼ã‚’æŠ¼ã—ãŸ */
+                      /* SDLã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å¾—ã‚‹ */
 #if SDL_MAJOR_VERSION == 2
       if (e.key.repeat)
         break;
@@ -1333,7 +1333,7 @@ uint8 updateKey(void) {
       if (key == 0)
         break;
 
-      /* PC-G800‚ÌƒL[ƒR[ƒh‚ğ“¾‚é */
+      /* PC-G800ã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å¾—ã‚‹ */
       mod = SDL_GetModState();
       if ((mod & KMOD_CTRL) && (gkey = keyConvCtrl[key]) != 0)
         gkey = keyConvCtrl[key];
@@ -1346,16 +1346,16 @@ uint8 updateKey(void) {
       if (gkey == KEY_NONE)
         break;
 
-      /* ‰Ÿ‚µ‚½SDL‚ÌƒL[‚ÉŠ„‚è•t‚¯‚ç‚ê‚½PC-G800‚ÌƒL[‚ğ‹L‰¯‚·‚é */
-      pressedKey[key] = gkey & ~GMODKEY_MASK;
+      /* æŠ¼ã—ãŸSDLã®ã‚­ãƒ¼ã«å‰²ã‚Šä»˜ã‘ã‚‰ã‚ŒãŸPC-G800ã®ã‚­ãƒ¼ã‚’è¨˜æ†¶ã™ã‚‹ */
+      pressedKey[key] = gkey & â€¾GMODKEY_MASK;
 
 #if SDL_MAJOR_VERSION == 2
-      /* ƒNƒŠƒbƒvƒ{[ƒh‚©‚ç‚Ì“\‚è•t‚¯‚© */
+      /* ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã‹ã‚‰ã®è²¼ã‚Šä»˜ã‘ã‹ */
       if (gkey == GKEY_PASTE) {
         if (SDL_HasClipboardText())
           setAutoKeyText(SDL_GetClipboardText(), TRUE);
         break;
-        /* ƒNƒŠƒbƒvƒ{[ƒh‚Ö‚ÌƒRƒs[‚©? */
+        /* ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã¸ã®ã‚³ãƒ”ãƒ¼ã‹? */
       } else if (gkey == GKEY_COPY) {
         uint8 ans[32];
         if (decodeNum(ans, &memory[0x79a0]) >= 0) {
@@ -1365,7 +1365,7 @@ uint8 updateKey(void) {
       }
 #endif
 
-      /* ƒƒbƒN‚³‚ê‚éƒL[‚Ìê‡‚Í©“®“ü—Í‚Æ‚µ‚Äˆ—‚·‚é */
+      /* ãƒ­ãƒƒã‚¯ã•ã‚Œã‚‹ã‚­ãƒ¼ã®å ´åˆã¯è‡ªå‹•å…¥åŠ›ã¨ã—ã¦å‡¦ç†ã™ã‚‹ */
       if (
 #if SDL_MAJOR_VERSION == 2
           key == KEY_CAPSLOCK
@@ -1377,10 +1377,10 @@ uint8 updateKey(void) {
         break;
       }
 
-      /* PC-G800‚ÌƒL[‚ğ‰Ÿ‚· */
-      itype |= pressKey(gkey & ~GMODKEY_MASK);
+      /* PC-G800ã®ã‚­ãƒ¼ã‚’æŠ¼ã™ */
+      itype |= pressKey(gkey & â€¾GMODKEY_MASK);
 
-      /* ƒVƒtƒgƒL[‚ğ‰Ÿ‚·E—£‚· */
+      /* ã‚·ãƒ•ãƒˆã‚­ãƒ¼ã‚’æŠ¼ã™ãƒ»é›¢ã™ */
       if ((gkey & GMODKEY_NOSHIFT) && (keyShift & 0x01)) {
         releaseKey(GKEY_SHIFT);
         pressedKey[key] |= GMODKEY_NOSHIFT;
@@ -1389,8 +1389,8 @@ uint8 updateKey(void) {
         pressedKey[key] |= GMODKEY_SHIFT;
       }
       break;
-    case SDL_KEYUP: /* ƒL[‚ğ—£‚µ‚½ */
-                    /* SDL‚ÌƒL[ƒR[ƒh‚ğ“¾‚é */
+    case SDL_KEYUP: /* ã‚­ãƒ¼ã‚’é›¢ã—ãŸ */
+                    /* SDLã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å¾—ã‚‹ */
 #if SDL_MAJOR_VERSION == 2
       if (e.key.repeat)
         break;
@@ -1401,21 +1401,21 @@ uint8 updateKey(void) {
       if (key == 0)
         break;
 
-      /* PC-G800‚ÌƒL[ƒR[ƒh‚ğ“¾‚é */
+      /* PC-G800ã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å¾—ã‚‹ */
       gkey = pressedKey[key];
 
 #if SDL_MAJOR_VERSION == 1
-      /* SDL1.2‚Ìê‡‚ÍƒL[‚ÌƒƒbƒN‚ğ‰ğœ‚µ‚½‚Æ‚«‚à‰Ÿ‚µ‚½ˆ—‚ğ‚·‚é */
+      /* SDL1.2ã®å ´åˆã¯ã‚­ãƒ¼ã®ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã—ãŸã¨ãã‚‚æŠ¼ã—ãŸå‡¦ç†ã‚’ã™ã‚‹ */
       if (key == KEY_CAPSLOCK || key == KEY_NUMLOCK || key == KEY_SCROLLOCK) {
         setAutoKey(gkey);
         break;
       }
 #endif
 
-      /* PC-G800‚ÌƒL[‚ğ—£‚· */
-      releaseKey(gkey & ~GMODKEY_MASK);
+      /* PC-G800ã®ã‚­ãƒ¼ã‚’é›¢ã™ */
+      releaseKey(gkey & â€¾GMODKEY_MASK);
 
-      /* ƒVƒtƒgƒL[‚ğ‰Ÿ‚·E—£‚· */
+      /* ã‚·ãƒ•ãƒˆã‚­ãƒ¼ã‚’æŠ¼ã™ãƒ»é›¢ã™ */
       if (gkey & GMODKEY_NOSHIFT) {
         if (!(keyShift & 0x01) &&
             (pressedKey[KEY_LSHIFT] || pressedKey[KEY_RSHIFT]))
@@ -1427,7 +1427,7 @@ uint8 updateKey(void) {
       }
       pressedKey[key] = GKEY_NONE;
       break;
-    case SDL_JOYAXISMOTION: /* ƒWƒ‡ƒCƒpƒbƒh‚ğ“®‚©‚µ‚½ */
+    case SDL_JOYAXISMOTION: /* ã‚¸ãƒ§ã‚¤ãƒ‘ãƒƒãƒ‰ã‚’å‹•ã‹ã—ãŸ */
       if (e.jaxis.axis == 0) {
         if (e.jaxis.value < -32768 / 10)
           itype |= pressKey(joyLeft);
@@ -1448,19 +1448,19 @@ uint8 updateKey(void) {
           releaseKey(joyDown);
       }
       break;
-    case SDL_JOYBUTTONDOWN: /* ƒWƒ‡ƒCƒpƒbƒh‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½ */
+    case SDL_JOYBUTTONDOWN: /* ã‚¸ãƒ§ã‚¤ãƒ‘ãƒƒãƒ‰ã®ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸ */
       if (e.jbutton.button >= JOY_BUTTONS ||
           joyButton[e.jbutton.button] == 0xff)
         break;
       itype |= pressKey(joyButton[e.jbutton.button]);
       break;
-    case SDL_JOYBUTTONUP: /* ƒWƒ‡ƒCƒpƒbƒh‚Ìƒ{ƒ^ƒ“‚ğ—£‚µ‚½ */
+    case SDL_JOYBUTTONUP: /* ã‚¸ãƒ§ã‚¤ãƒ‘ãƒƒãƒ‰ã®ãƒœã‚¿ãƒ³ã‚’é›¢ã—ãŸ */
       if (e.jbutton.button >= JOY_BUTTONS ||
           joyButton[e.jbutton.button] == 0xff)
         break;
       releaseKey(joyButton[e.jbutton.button]);
       break;
-    case SDL_MOUSEBUTTONDOWN: /* ƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½ */
+    case SDL_MOUSEBUTTONDOWN: /* ãƒã‚¦ã‚¹ã®ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸ */
       if (e.button.button == SDL_BUTTON_LEFT) {
         if (!useSoftwareKey)
           break;
@@ -1480,7 +1480,7 @@ uint8 updateKey(void) {
 #endif
       }
       break;
-    case SDL_MOUSEBUTTONUP: /* ƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ğ—£‚µ‚½ */
+    case SDL_MOUSEBUTTONUP: /* ãƒã‚¦ã‚¹ã®ãƒœã‚¿ãƒ³ã‚’é›¢ã—ãŸ */
       if (!useSoftwareKey)
         break;
       if (pressedSwKey == GKEY_NONE)
@@ -1489,7 +1489,7 @@ uint8 updateKey(void) {
       pressedSwKey = GKEY_NONE;
       break;
 #if SDL_MAJOR_VERSION == 2
-    case SDL_DROPFILE: /* ƒtƒ@ƒCƒ‹‚ğƒhƒƒbƒv‚µ‚½ */
+    case SDL_DROPFILE: /* ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ‰ãƒ­ãƒƒãƒ—ã—ãŸ */
       SDL_RaiseWindow(window);
 
       if (useROM) {
@@ -1510,7 +1510,7 @@ uint8 updateKey(void) {
         SDL_UpdateWindowSurface(window);
       break;
 #endif
-    case SDL_QUIT: /* I—¹‚µ‚½ */
+    case SDL_QUIT: /* çµ‚äº†ã—ãŸ */
       if (!closeAsOff)
         exit(0);
       pressKey(GKEY_OFF);
@@ -1518,22 +1518,22 @@ uint8 updateKey(void) {
     }
   }
 
-  /* ©“®ƒL[“ü—Íˆ— */
+  /* è‡ªå‹•ã‚­ãƒ¼å…¥åŠ›å‡¦ç† */
   if (autoKeyCount == 0) {
-    /* ƒL[‚ğ‰Ÿ‚· */
+    /* ã‚­ãƒ¼ã‚’æŠ¼ã™ */
     if ((autoKey = getAutoKey()) != KEY_NONE) {
       itype |= pressKey(autoKey);
       autoKeyCount++;
     }
   } else if (autoKeyCount == freqUpdateIO / 20) {
-    /* ƒL[‚ğ—£‚· */
+    /* ã‚­ãƒ¼ã‚’é›¢ã™ */
     releaseKey(autoKey);
     autoKeyCount++;
   } else if (autoKeyCount == 2 * freqUpdateIO / 20) {
-    /* Ÿ‚ÌƒL[‚ğ“¾‚é */
+    /* æ¬¡ã®ã‚­ãƒ¼ã‚’å¾—ã‚‹ */
     autoKeyCount = 0;
   } else {
-    /* ‘Ò‚Â */
+    /* å¾…ã¤ */
     autoKeyCount++;
   }
 
@@ -1541,7 +1541,7 @@ uint8 updateKey(void) {
 }
 
 /*
-        ‘Ò‚Â
+        å¾…ã¤
 */
 int delay(int interval) {
   static Uint32 last = 0, left;
@@ -1563,7 +1563,7 @@ int delay(int interval) {
 }
 
 /*
-        ƒVƒŠƒAƒ‹ƒ|[ƒg‚ğXV‚·‚é(ƒeƒXƒg)
+        ã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ãƒˆã‚’æ›´æ–°ã™ã‚‹(ãƒ†ã‚¹ãƒˆ)
 */
 void updateSerial(void) {
   char buf[256];
@@ -1613,7 +1613,7 @@ void updateSerial(void) {
 }
 
 /*
-        ‰¹‚ğo—Í‚·‚é (ƒR[ƒ‹ƒoƒbƒNŠÖ”)
+        éŸ³ã‚’å‡ºåŠ›ã™ã‚‹ (ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°)
 */
 static SDLCALL void playSound(void *unused, Uint8 *stream, int len) {
 #if SDL_MAJOR_VERSION == 2
@@ -1624,7 +1624,7 @@ static SDLCALL void playSound(void *unused, Uint8 *stream, int len) {
 }
 
 /*
-        ŠÂ‹«ˆË‘¶•”•ª‚ğI—¹‚·‚é (ƒR[ƒ‹ƒoƒbƒNŠÖ”)
+        ç’°å¢ƒä¾å­˜éƒ¨åˆ†ã‚’çµ‚äº†ã™ã‚‹ (ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°)
 */
 void quitDepend(void) {
   if (buzzer != BUZZER_NONE)
@@ -1633,7 +1633,7 @@ void quitDepend(void) {
 }
 
 /*
-        ŠÂ‹«ˆË‘¶•”•ª‚ğ‰Šú‰»‚·‚é
+        ç’°å¢ƒä¾å­˜éƒ¨åˆ†ã‚’åˆæœŸåŒ–ã™ã‚‹
 */
 int initDepend(void) {
   SDL_Surface *icon;
@@ -1648,31 +1648,31 @@ int initDepend(void) {
 #endif
   }
 
-  /* SDL‚ğ‰Šú‰»‚·‚é */
+  /* SDLã‚’åˆæœŸåŒ–ã™ã‚‹ */
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER |
                (useJoy ? SDL_INIT_JOYSTICK : 0) |
                (buzzer != BUZZER_NONE ? SDL_INIT_AUDIO : 0))) {
-    fprintf(stderr, "SDL_Init fail. %s\n", SDL_GetError());
+    fprintf(stderr, "SDL_Init fail. %sÂ¥n", SDL_GetError());
     exit(1);
   }
 
 #if SDL_MAJOR_VERSION == 2
-  /* Window‚ğ‰Šú‰»‚·‚é */
+  /* Windowã‚’åˆæœŸåŒ–ã™ã‚‹ */
   if ((window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED,
                                  SDL_WINDOWPOS_UNDEFINED, 0, 0,
                                  SDL_WINDOW_HIDDEN)) == NULL) {
-    fprintf(stderr, "SDL_CreateWindow fail. %s\n", SDL_GetError());
+    fprintf(stderr, "SDL_CreateWindow fail. %sÂ¥n", SDL_GetError());
     exit(1);
   }
 #elif SDL_MAJOR_VERSION == 1
-  /* ƒrƒfƒIî•ñ‚ğ“¾‚é */
+  /* ãƒ“ãƒ‡ã‚ªæƒ…å ±ã‚’å¾—ã‚‹ */
   if ((videoInfo = SDL_GetVideoInfo()) == NULL) {
-    fprintf(stderr, "SDL_GetVideoInfo fail. %s\n", SDL_GetError());
+    fprintf(stderr, "SDL_GetVideoInfo fail. %sÂ¥n", SDL_GetError());
     exit(1);
   }
 #endif
 
-  /* ƒAƒCƒRƒ“‚ğİ’è‚·‚é */
+  /* ã‚¢ã‚¤ã‚³ãƒ³ã‚’è¨­å®šã™ã‚‹ */
   if ((icon = SDL_CreateRGBSurfaceFromXpm(g800icon_xpm, mask)) != NULL) {
 #if SDL_MAJOR_VERSION == 2
     SDL_SetWindowIcon(window, icon);
@@ -1682,16 +1682,16 @@ int initDepend(void) {
   }
 
 #if SDL_MAJOR_VERSION == 1
-  /* ƒL[ƒŠƒs[ƒg‚ğİ’è‚·‚é */
+  /* ã‚­ãƒ¼ãƒªãƒ”ãƒ¼ãƒˆã‚’è¨­å®šã™ã‚‹ */
   SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 #endif
 
-  /* ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ‰Šú‰» */
+  /* ã‚¸ãƒ§ã‚¤ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’åˆæœŸåŒ– */
   if (useJoy)
     if ((joy = SDL_JoystickOpen(0)) == NULL)
       ;
 
-  /* ‰¹º‚ğ‰Šú‰»‚·‚é */
+  /* éŸ³å£°ã‚’åˆæœŸåŒ–ã™ã‚‹ */
   if (buzzer != BUZZER_NONE) {
     audio.freq = FREQ_SOUND;
     audio.format = AUDIO_S8;
@@ -1699,13 +1699,13 @@ int initDepend(void) {
     audio.samples = soundBufferSize;
     audio.callback = playSound;
     if (SDL_OpenAudio(&audio, NULL) < 0) {
-      fprintf(stderr, "SDL_OpenAudio fail. %s\n", SDL_GetError());
+      fprintf(stderr, "SDL_OpenAudio fail. %sÂ¥n", SDL_GetError());
       exit(1);
     }
     SDL_PauseAudio(0);
   }
 
-  /* PC-E220‚È‚ç‚ÎƒL[ƒgƒbƒv‚ğ•Ï‚¦‚é */
+  /* PC-E220ãªã‚‰ã°ã‚­ãƒ¼ãƒˆãƒƒãƒ—ã‚’å¤‰ãˆã‚‹ */
   if (machineSub == MACHINE_SUB_PCE220) {
     for (i = 0; i < sizeof(bmpKeytop) / sizeof(bmpKeytop[0]); i++) {
       bmpKeytop[i][GKEY_HAT] = bmpKeytop[i][GKEY_SQU];
@@ -1720,7 +1720,7 @@ int initDepend(void) {
     }
   }
 
-  /* PC-E200EPC-E220EPC-G815‚È‚ç‚ÎƒL[‚ÌF‚ğ•Ï‚¦‚é */
+  /* PC-E200ãƒ»PC-E220ãƒ»PC-G815ãªã‚‰ã°ã‚­ãƒ¼ã®è‰²ã‚’å¤‰ãˆã‚‹ */
   if (machine == MACHINE_E200) {
     keyForeColor[GKEY_2NDF] = COLOR_BODY;
   } else if (machine == MACHINE_G815) {
@@ -1734,14 +1734,14 @@ int initDepend(void) {
     keyForeColor[GKEY_CLS] = COLOR_MIDRED;
   }
 
-  /* ƒŒƒCƒAƒEƒg‚ğ‰Šú‰»‚·‚é */
+  /* ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’åˆæœŸåŒ–ã™ã‚‹ */
   updateLayout();
 
   return 0;
 }
 
 /*
-        Copyright 2005 ~ 2022 maruhiro
+        Copyright 2005 â€¾ 2022 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

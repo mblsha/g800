@@ -11,106 +11,106 @@
 #define FALSE 0
 #define TRUE 1
 
-/* ÉåÉWÉXÉ^ */
-#define A z->r.a                         /* ÉAÉLÉÖÉÄÉåÅ[É^ */
-#define F z->r.f                         /* ÉtÉâÉO */
-#define B z->r.b                         /* îƒópÉåÉWÉXÉ^B */
-#define C z->r.c                         /* îƒópÉåÉWÉXÉ^C */
-#define D z->r.d                         /* îƒópÉåÉWÉXÉ^D */
-#define E z->r.e                         /* îƒópÉåÉWÉXÉ^E */
-#define H z->r.h                         /* îƒópÉåÉWÉXÉ^H */
-#define L z->r.l                         /* îƒópÉåÉWÉXÉ^L */
-#define R ((rnd = rnd * 8197 + 1) >> 25) /* ÉäÉtÉåÉbÉVÉÖÉåÉWÉXÉ^ */
-#define I z->r.i                         /* ÉCÉìÉ^ÉâÉvÉgÉåÉWÉXÉ^I */
-#define IXH z->r.ixh                     /* ÉCÉìÉfÉbÉNÉXÉåÉWÉXÉ^IXh */
-#define IXL z->r.ixl                     /* ÉCÉìÉfÉbÉNÉXÉåÉWÉXÉ^IXl */
-#define IYH z->r.iyh                     /* ÉCÉìÉfÉbÉNÉXÉåÉWÉXÉ^IYh */
-#define IYL z->r.iyl                     /* ÉCÉìÉfÉbÉNÉXÉåÉWÉXÉ^IYl */
-#define AF z->r16.af                     /* ÉyÉAÉåÉWÉXÉ^AF */
-#define BC z->r16.bc                     /* ÉyÉAÉåÉWÉXÉ^BC */
-#define DE z->r16.de                     /* ÉyÉAÉåÉWÉXÉ^DE */
-#define HL z->r16.hl                     /* ÉyÉAÉåÉWÉXÉ^HL */
-#define IX z->r16.ix                     /* ÉCÉìÉfÉbÉNÉXÉåÉWÉXÉ^IX */
-#define IY z->r16.iy                     /* ÉCÉìÉfÉbÉNÉXÉåÉWÉXÉ^IY */
-#define SP z->r16.sp                     /* ÉXÉ^ÉbÉNÉ|ÉCÉìÉ^SP */
-#define PC z->r16.pc                     /* ÉvÉçÉOÉâÉÄÉJÉEÉìÉ^PC */
-#define AF_D z->r16.af_d                 /* ï‚èïÉåÉWÉXÉ^AF' */
-#define BC_D z->r16.bc_d                 /* ï‚èïÉåÉWÉXÉ^BC' */
-#define DE_D z->r16.de_d                 /* ï‚èïÉåÉWÉXÉ^DE' */
-#define HL_D z->r16.hl_d                 /* ï‚èïÉåÉWÉXÉ^HL' */
+/* „É¨„Ç∏„Çπ„Çø */
+#define A z->r.a                         /* „Ç¢„Ç≠„É•„É†„É¨„Éº„Çø */
+#define F z->r.f                         /* „Éï„É©„Ç∞ */
+#define B z->r.b                         /* Ê±éÁî®„É¨„Ç∏„Çπ„ÇøB */
+#define C z->r.c                         /* Ê±éÁî®„É¨„Ç∏„Çπ„ÇøC */
+#define D z->r.d                         /* Ê±éÁî®„É¨„Ç∏„Çπ„ÇøD */
+#define E z->r.e                         /* Ê±éÁî®„É¨„Ç∏„Çπ„ÇøE */
+#define H z->r.h                         /* Ê±éÁî®„É¨„Ç∏„Çπ„ÇøH */
+#define L z->r.l                         /* Ê±éÁî®„É¨„Ç∏„Çπ„ÇøL */
+#define R ((rnd = rnd * 8197 + 1) >> 25) /* „É™„Éï„É¨„ÉÉ„Ç∑„É•„É¨„Ç∏„Çπ„Çø */
+#define I z->r.i                         /* „Ç§„É≥„Çø„É©„Éó„Éà„É¨„Ç∏„Çπ„ÇøI */
+#define IXH z->r.ixh                     /* „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„É¨„Ç∏„Çπ„ÇøIXh */
+#define IXL z->r.ixl                     /* „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„É¨„Ç∏„Çπ„ÇøIXl */
+#define IYH z->r.iyh                     /* „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„É¨„Ç∏„Çπ„ÇøIYh */
+#define IYL z->r.iyl                     /* „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„É¨„Ç∏„Çπ„ÇøIYl */
+#define AF z->r16.af                     /* „Éö„Ç¢„É¨„Ç∏„Çπ„ÇøAF */
+#define BC z->r16.bc                     /* „Éö„Ç¢„É¨„Ç∏„Çπ„ÇøBC */
+#define DE z->r16.de                     /* „Éö„Ç¢„É¨„Ç∏„Çπ„ÇøDE */
+#define HL z->r16.hl                     /* „Éö„Ç¢„É¨„Ç∏„Çπ„ÇøHL */
+#define IX z->r16.ix                     /* „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„É¨„Ç∏„Çπ„ÇøIX */
+#define IY z->r16.iy                     /* „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„É¨„Ç∏„Çπ„ÇøIY */
+#define SP z->r16.sp                     /* „Çπ„Çø„ÉÉ„ÇØ„Éù„Ç§„É≥„ÇøSP */
+#define PC z->r16.pc                     /* „Éó„É≠„Ç∞„É©„É†„Ç´„Ç¶„É≥„ÇøPC */
+#define AF_D z->r16.af_d                 /* Ë£úÂä©„É¨„Ç∏„Çπ„ÇøAF' */
+#define BC_D z->r16.bc_d                 /* Ë£úÂä©„É¨„Ç∏„Çπ„ÇøBC' */
+#define DE_D z->r16.de_d                 /* Ë£úÂä©„É¨„Ç∏„Çπ„ÇøDE' */
+#define HL_D z->r16.hl_d                 /* Ë£úÂä©„É¨„Ç∏„Çπ„ÇøHL' */
 
-/* ÉtÉâÉO */
-#define MASK_CY 0x01              /* ÉLÉÉÉäÅ[ÉtÉâÉO É}ÉXÉN */
-#define MASK_N 0x02               /* å∏éZÉtÉâÉO É}ÉXÉN */
-#define MASK_PV 0x04              /* ÉpÉäÉeÉB/ÉIÅ[ÉoÅ[ÉtÉçÅ[ÉtÉâÉO É}ÉXÉN */
-#define MASK_HC 0x10              /* ÉnÅ[ÉtÉLÉÉÉäÅ[ÉtÉâÉO É}ÉXÉN */
-#define MASK_Z 0x40               /* É[ÉçÉtÉâÉO É}ÉXÉN */
-#define MASK_S 0x80               /* ÉTÉCÉìÉtÉâÉO É}ÉXÉN */
-#define CY (z->r.f & MASK_CY)     /* ÉLÉÉÉäÅ[ÉtÉâÉO */
-#define N (z->r.f & MASK_N)       /* å∏éZÉtÉâÉO */
-#define PV (z->r.f & MASK_PV)     /* ÉpÉäÉeÉB/ÉIÅ[ÉoÅ[ÉtÉçÅ[ÉtÉâÉO */
-#define HC (z->r.f & MASK_HC)     /* ÉnÅ[ÉtÉLÉÉÉäÅ[ÉtÉâÉO */
-#define Z (z->r.f & MASK_Z)       /* É[ÉçÉtÉâÉO */
-#define S (z->r.f & MASK_S)       /* ÉTÉCÉìÉtÉâÉO */
-#define X (z->r.f & MASK_X)       /* ñ¢íËã`ÉtÉâÉO X */
-#define Y (z->r.f & MASK_Y)       /* ñ¢íËã`ÉtÉâÉO Y */
-#define CC_NZ !(z->r.f & MASK_Z)  /* èåè É[ÉçÉtÉâÉO OFF */
-#define CC_Z (z->r.f & MASK_Z)    /* èåè É[ÉçÉtÉâÉO ON */
-#define CC_NC !(z->r.f & MASK_CY) /* èåè ÉLÉÉÉäÅ[ÉtÉâÉO OFF */
-#define CC_C (z->r.f & MASK_CY)   /* èåè ÉLÉÉÉäÅ[ÉtÉâÉO ON */
-#define CC_PO !(z->r.f & MASK_PV) /* èåè ÉpÉäÉeÉB/ÉIÅ[ÉoÅ[ÉtÉçÅ[ÉtÉâÉO OFF */
-#define CC_PE (z->r.f & MASK_PV)  /* èåè ÉpÉäÉeÉB/ÉIÅ[ÉoÅ[ÉtÉçÅ[ÉtÉâÉO ON */
-#define CC_P !(z->r.f & MASK_S)   /* èåè ÉTÉCÉìÉtÉâÉO OFF */
-#define CC_M (z->r.f & MASK_S)    /* èåè ÉTÉCÉìÉtÉâÉO ON */
+/* „Éï„É©„Ç∞ */
+#define MASK_CY 0x01              /* „Ç≠„É£„É™„Éº„Éï„É©„Ç∞ „Éû„Çπ„ÇØ */
+#define MASK_N 0x02               /* Ê∏õÁÆó„Éï„É©„Ç∞ „Éû„Çπ„ÇØ */
+#define MASK_PV 0x04              /* „Éë„É™„ÉÜ„Ç£/„Ç™„Éº„Éê„Éº„Éï„É≠„Éº„Éï„É©„Ç∞ „Éû„Çπ„ÇØ */
+#define MASK_HC 0x10              /* „Éè„Éº„Éï„Ç≠„É£„É™„Éº„Éï„É©„Ç∞ „Éû„Çπ„ÇØ */
+#define MASK_Z 0x40               /* „Çº„É≠„Éï„É©„Ç∞ „Éû„Çπ„ÇØ */
+#define MASK_S 0x80               /* „Çµ„Ç§„É≥„Éï„É©„Ç∞ „Éû„Çπ„ÇØ */
+#define CY (z->r.f & MASK_CY)     /* „Ç≠„É£„É™„Éº„Éï„É©„Ç∞ */
+#define N (z->r.f & MASK_N)       /* Ê∏õÁÆó„Éï„É©„Ç∞ */
+#define PV (z->r.f & MASK_PV)     /* „Éë„É™„ÉÜ„Ç£/„Ç™„Éº„Éê„Éº„Éï„É≠„Éº„Éï„É©„Ç∞ */
+#define HC (z->r.f & MASK_HC)     /* „Éè„Éº„Éï„Ç≠„É£„É™„Éº„Éï„É©„Ç∞ */
+#define Z (z->r.f & MASK_Z)       /* „Çº„É≠„Éï„É©„Ç∞ */
+#define S (z->r.f & MASK_S)       /* „Çµ„Ç§„É≥„Éï„É©„Ç∞ */
+#define X (z->r.f & MASK_X)       /* Êú™ÂÆöÁæ©„Éï„É©„Ç∞ X */
+#define Y (z->r.f & MASK_Y)       /* Êú™ÂÆöÁæ©„Éï„É©„Ç∞ Y */
+#define CC_NZ !(z->r.f & MASK_Z)  /* Êù°‰ª∂ „Çº„É≠„Éï„É©„Ç∞ OFF */
+#define CC_Z (z->r.f & MASK_Z)    /* Êù°‰ª∂ „Çº„É≠„Éï„É©„Ç∞ ON */
+#define CC_NC !(z->r.f & MASK_CY) /* Êù°‰ª∂ „Ç≠„É£„É™„Éº„Éï„É©„Ç∞ OFF */
+#define CC_C (z->r.f & MASK_CY)   /* Êù°‰ª∂ „Ç≠„É£„É™„Éº„Éï„É©„Ç∞ ON */
+#define CC_PO !(z->r.f & MASK_PV) /* Êù°‰ª∂ „Éë„É™„ÉÜ„Ç£/„Ç™„Éº„Éê„Éº„Éï„É≠„Éº„Éï„É©„Ç∞ OFF */
+#define CC_PE (z->r.f & MASK_PV)  /* Êù°‰ª∂ „Éë„É™„ÉÜ„Ç£/„Ç™„Éº„Éê„Éº„Éï„É≠„Éº„Éï„É©„Ç∞ ON */
+#define CC_P !(z->r.f & MASK_S)   /* Êù°‰ª∂ „Çµ„Ç§„É≥„Éï„É©„Ç∞ OFF */
+#define CC_M (z->r.f & MASK_S)    /* Êù°‰ª∂ „Çµ„Ç§„É≥„Éï„É©„Ç∞ ON */
 
-/* ÉÅÉÇÉä */
-#define MEM8(x) z80read8(z, x)                /* 8bitsÉÅÉÇÉä */
-#define IMM8 z80read8(z, z->r16.pc + 1)       /* 8bitsë¶íl */
-#define EQ ((int8)z80read8(z, z->r16.pc + 1)) /* ëäëŒÉAÉhÉåÉX */
-#define STORE8(x, y) z80write8(z, x, y)       /* 8bitsèëÇ´çûÇ› */
-#define MEM16(x) z80read16(z, x)              /* 16bitsÉÅÉÇÉä */
-#define IMM16 z80read16(z, z->r16.pc + 1)     /* 16bitsë¶íl */
-#define STORE16(x, y) z80write16(z, x, y)     /* 16bitsèëÇ´çûÇ› */
+/* „É°„É¢„É™ */
+#define MEM8(x) z80read8(z, x)                /* 8bits„É°„É¢„É™ */
+#define IMM8 z80read8(z, z->r16.pc + 1)       /* 8bitsÂç≥ÂÄ§ */
+#define EQ ((int8)z80read8(z, z->r16.pc + 1)) /* Áõ∏ÂØæ„Ç¢„Éâ„É¨„Çπ */
+#define STORE8(x, y) z80write8(z, x, y)       /* 8bitsÊõ∏„ÅçËæº„Åø */
+#define MEM16(x) z80read16(z, x)              /* 16bits„É°„É¢„É™ */
+#define IMM16 z80read16(z, z->r16.pc + 1)     /* 16bitsÂç≥ÂÄ§ */
+#define STORE16(x, y) z80write16(z, x, y)     /* 16bitsÊõ∏„ÅçËæº„Åø */
 
-/* ÉLÉÉÉäÅ[ÉtÉâÉOÉZÉbÉg */
+/* „Ç≠„É£„É™„Éº„Éï„É©„Ç∞„Çª„ÉÉ„Éà */
 #define SET_CY8(acc) ((acc) & 0x00000100L ? MASK_CY : 0)
 #define SET_CY16(acc) ((acc) & 0x00010000L ? MASK_CY : 0)
 #define SET_CYS(acc) ((acc) & 0x80000000L ? MASK_CY : 0)
 
-/* ÉpÉäÉeÉB/ÉIÅ[ÉoÅ[ÉtÉçÅ[ÉtÉâÉOÉZÉbÉg */
+/* „Éë„É™„ÉÜ„Ç£/„Ç™„Éº„Éê„Éº„Éï„É≠„Éº„Éï„É©„Ç∞„Çª„ÉÉ„Éà */
 #define SET_P(acc) parity[(acc) & 0xff]
-#define SET_V8(acc, a, x)                                                      \
+#define SET_V8(acc, a, x)                                                      ¬•
   (((a) ^ (x)) & 0x80 ? 0 : (((a) ^ acc) & 0x80 ? MASK_PV : 0))
-#define SET_V16(acc, x, y)                                                     \
+#define SET_V16(acc, x, y)                                                     ¬•
   (((x) ^ (y)) & 0x8000 ? 0 : (((x) ^ acc) & 0x8000 ? MASK_PV : 0))
-#define SET_VS8(acc, a, x)                                                     \
+#define SET_VS8(acc, a, x)                                                     ¬•
   (((a) ^ (x)) & 0x80 ? (((a) ^ acc) & 0x80 ? MASK_PV : 0) : 0)
-#define SET_VS16(acc, x, y)                                                    \
+#define SET_VS16(acc, x, y)                                                    ¬•
   (((x) ^ (y)) & 0x8000 ? (((x) ^ acc) & 0x8000 ? MASK_PV : 0) : 0)
 
-/* ÉnÅ[ÉtÉLÉÉÉäÅ[ÉZÉbÉg */
+/* „Éè„Éº„Éï„Ç≠„É£„É™„Éº„Çª„ÉÉ„Éà */
 #define SET_HC8_CY(a, x, cy) ((((a) & 0x0f) + ((x) & 0x0f) + cy) & 0x10)
 #define SET_HC8(a, x) SET_HC8_CY(a, x, 0)
 #define SET_HCS8_CY(a, x, cy) ((((a) & 0x0f) - ((x) & 0x0f) - cy) & 0x10)
 #define SET_HCS8(a, x) SET_HCS8_CY(a, x, 0)
-#define SET_HC16_CY(x, y, cy)                                                  \
+#define SET_HC16_CY(x, y, cy)                                                  ¬•
   ((((x) & 0x0fff) + ((y) & 0x0fff) + cy) & 0x1000 ? MASK_HC : 0)
 #define SET_HC16(x, y) SET_HC16_CY(x, y, 0)
-#define SET_HCS16_CY(x, y, cy)                                                 \
+#define SET_HCS16_CY(x, y, cy)                                                 ¬•
   ((((x) & 0x0fff) - ((y) & 0x0fff) - cy) & 0x1000 ? MASK_HC : 0)
 #define SET_HCS16(x, y) SET_HCS16_CY(x, y, 0)
 
-/* É[ÉçÉtÉâÉOÉZÉbÉg */
+/* „Çº„É≠„Éï„É©„Ç∞„Çª„ÉÉ„Éà */
 #define SET_Z8(acc) ((acc) & 0x000000ffL ? 0 : MASK_Z)
 #define SET_Z16(acc) ((acc) & 0x0000ffffL ? 0 : MASK_Z)
 
-/* ÉTÉCÉìÉtÉâÉOÉZÉbÉg */
+/* „Çµ„Ç§„É≥„Éï„É©„Ç∞„Çª„ÉÉ„Éà */
 #define SET_S8(acc) ((acc) & 0x00000080L ? MASK_S : 0)
 #define SET_S16(acc) ((acc) & 0x00008000L ? MASK_S : 0)
 
-/* ñΩóﬂÉtÉFÉbÉ` */
-#define FETCH(state_table, len_table, off)                                     \
-  (op = z80read8(z, z->r16.pc + off), _state = state_table[op],                \
+/* ÂëΩ‰ª§„Éï„Çß„ÉÉ„ÉÅ */
+#define FETCH(state_table, len_table, off)                                     ¬•
+  (op = z80read8(z, z->r16.pc + off), _state = state_table[op],                ¬•
    _length = len_table[op], op)
 #define FETCH_XX() FETCH(state_xx, len_xx, 0)
 #define FETCH_CB_XX() FETCH(state_cb_xx, len_cb_xx, 0)
@@ -120,7 +120,7 @@
 #define FETCH_FD_XX() FETCH(state_dd_xx, len_dd_xx, 0)
 #define FETCH_FD_CB_XX() FETCH(state_dd_cb_xx, len_dd_cb_xx, 2)
 
-/* ÉvÉçÉtÉ@ÉCÉâ */
+/* „Éó„É≠„Éï„Ç°„Ç§„É© */
 #if defined(Z80_PROF)
 #define PROF_CALL() z80prof_call(z, _state)
 #define PROF_RET() z80prof_ret(z, _state)
@@ -133,928 +133,928 @@
 #define PROF_COND(cond)
 #endif
 
-/* ñΩóﬂ */
-#define ADC8(x)                                                                \
-  {                                                                            \
-    uint32 _acc = (uint32)A + (x) + CY;                                        \
-    F = SET_CY8(_acc) | SET_V8(_acc, A, x) | SET_HC8_CY(A, x, CY) |            \
-        SET_Z8(_acc) | SET_S8(_acc);                                           \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+/* ÂëΩ‰ª§ */
+#define ADC8(x)                                                                ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A + (x) + CY;                                        ¬•
+    F = SET_CY8(_acc) | SET_V8(_acc, A, x) | SET_HC8_CY(A, x, CY) |            ¬•
+        SET_Z8(_acc) | SET_S8(_acc);                                           ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define ADC16(x, y)                                                            \
-  {                                                                            \
-    uint32 _acc = (uint32)(x) + (y) + CY;                                      \
-    F = SET_CY16(_acc) | SET_V16(_acc, x, y) | SET_HC16_CY(x, y, CY) |         \
-        SET_Z16(_acc) | SET_S16(_acc);                                         \
-    (x) = _acc;                                                                \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define ADC16(x, y)                                                            ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)(x) + (y) + CY;                                      ¬•
+    F = SET_CY16(_acc) | SET_V16(_acc, x, y) | SET_HC16_CY(x, y, CY) |         ¬•
+        SET_Z16(_acc) | SET_S16(_acc);                                         ¬•
+    (x) = _acc;                                                                ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define ADD8(x)                                                                \
-  {                                                                            \
-    uint32 _acc = (uint32)A + (x);                                             \
-    F = SET_CY8(_acc) | SET_V8(_acc, A, x) | SET_HC8(A, x) | SET_Z8(_acc) |    \
-        SET_S8(_acc);                                                          \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define ADD8(x)                                                                ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A + (x);                                             ¬•
+    F = SET_CY8(_acc) | SET_V8(_acc, A, x) | SET_HC8(A, x) | SET_Z8(_acc) |    ¬•
+        SET_S8(_acc);                                                          ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define ADD16(x, y)                                                            \
-  {                                                                            \
-    uint32 _acc = (uint32)(x) + (y);                                           \
-    F = SET_CY16(_acc) | Z | PV | S | SET_HC16(x, y);                          \
-    (x) = _acc;                                                                \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define ADD16(x, y)                                                            ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)(x) + (y);                                           ¬•
+    F = SET_CY16(_acc) | Z | PV | S | SET_HC16(x, y);                          ¬•
+    (x) = _acc;                                                                ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define AND(x)                                                                 \
-  {                                                                            \
-    uint32 _acc = (uint32)A & (x);                                             \
-    F = SET_P(_acc) | MASK_HC | SET_Z8(_acc) | SET_S8(_acc);                   \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define AND(x)                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A & (x);                                             ¬•
+    F = SET_P(_acc) | MASK_HC | SET_Z8(_acc) | SET_S8(_acc);                   ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define BIT(x, y)                                                              \
-  F = CY | ((y) & (1 << (x)) ? 0 : MASK_PV) | MASK_HC |                        \
-      ((y) & (1 << (x)) ? 0 : MASK_Z) | ((y) & 0x80 & (1 << (x)));             \
-  PROF_EXEC();                                                                 \
+#define BIT(x, y)                                                              ¬•
+  F = CY | ((y) & (1 << (x)) ? 0 : MASK_PV) | MASK_HC |                        ¬•
+      ((y) & (1 << (x)) ? 0 : MASK_Z) | ((y) & 0x80 & (1 << (x)));             ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define CALL(x, y)                                                             \
-  if (x) {                                                                     \
-    int s;                                                                     \
-    PROF_COND(1);                                                              \
-    _state += 7;                                                               \
-    PROF_EXEC();                                                               \
-    if (z->i.emulate_subroutine && (s = z80subroutine(z, y)) >= 0) {           \
-      if (SP > z->i.stack_under)                                               \
-        return Z80_UNDERFLOW;                                                  \
-      _state += s;                                                             \
-      PC += _length;                                                           \
-    } else {                                                                   \
-      SP -= 2;                                                                 \
-      STORE16(SP, PC + _length);                                               \
-      PC = y;                                                                  \
-      PROF_CALL();                                                             \
-    }                                                                          \
-  } else {                                                                     \
-    PROF_COND(0);                                                              \
-    PROF_EXEC();                                                               \
-    PC += _length;                                                             \
+#define CALL(x, y)                                                             ¬•
+  if (x) {                                                                     ¬•
+    int s;                                                                     ¬•
+    PROF_COND(1);                                                              ¬•
+    _state += 7;                                                               ¬•
+    PROF_EXEC();                                                               ¬•
+    if (z->i.emulate_subroutine && (s = z80subroutine(z, y)) >= 0) {           ¬•
+      if (SP > z->i.stack_under)                                               ¬•
+        return Z80_UNDERFLOW;                                                  ¬•
+      _state += s;                                                             ¬•
+      PC += _length;                                                           ¬•
+    } else {                                                                   ¬•
+      SP -= 2;                                                                 ¬•
+      STORE16(SP, PC + _length);                                               ¬•
+      PC = y;                                                                  ¬•
+      PROF_CALL();                                                             ¬•
+    }                                                                          ¬•
+  } else {                                                                     ¬•
+    PROF_COND(0);                                                              ¬•
+    PROF_EXEC();                                                               ¬•
+    PC += _length;                                                             ¬•
   }
 
-#define CCF()                                                                  \
-  F = (CY ^ MASK_CY) | PV | (CY ? MASK_HC : 0) | Z | S;                        \
-  PROF_EXEC();                                                                 \
+#define CCF()                                                                  ¬•
+  F = (CY ^ MASK_CY) | PV | (CY ? MASK_HC : 0) | Z | S;                        ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define CP(x)                                                                  \
-  {                                                                            \
-    uint32 _acc = (uint32)A - (x);                                             \
-    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, x) | SET_HCS8(A, x) |        \
-        SET_Z8(_acc) | SET_S8(_acc);                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define CP(x)                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A - (x);                                             ¬•
+    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, x) | SET_HCS8(A, x) |        ¬•
+        SET_Z8(_acc) | SET_S8(_acc);                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define CPD()                                                                  \
-  {                                                                            \
-    uint32 _acc = (uint32)A - MEM8(HL);                                        \
-    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, MEM8(HL)) |                  \
-        SET_HCS8(A, MEM8(HL)) | SET_Z8(_acc) | SET_S8(_acc);                   \
-    BC--;                                                                      \
-    HL--;                                                                      \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define CPD()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A - MEM8(HL);                                        ¬•
+    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, MEM8(HL)) |                  ¬•
+        SET_HCS8(A, MEM8(HL)) | SET_Z8(_acc) | SET_S8(_acc);                   ¬•
+    BC--;                                                                      ¬•
+    HL--;                                                                      ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define CPDR()                                                                 \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    do {                                                                       \
-      _acc = (uint32)A - MEM8(HL);                                             \
-      F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, MEM8(HL)) |                \
-          SET_HCS8(A, MEM8(HL)) | SET_Z8(_acc) | SET_S8(_acc);                 \
-      BC--;                                                                    \
-      HL--;                                                                    \
-      _state += 21;                                                            \
-    } while (BC && _acc);                                                      \
-    _state -= 5;                                                               \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define CPDR()                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    do {                                                                       ¬•
+      _acc = (uint32)A - MEM8(HL);                                             ¬•
+      F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, MEM8(HL)) |                ¬•
+          SET_HCS8(A, MEM8(HL)) | SET_Z8(_acc) | SET_S8(_acc);                 ¬•
+      BC--;                                                                    ¬•
+      HL--;                                                                    ¬•
+      _state += 21;                                                            ¬•
+    } while (BC && _acc);                                                      ¬•
+    _state -= 5;                                                               ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define CPI()                                                                  \
-  {                                                                            \
-    uint32 _acc = (uint32)A - MEM8(HL);                                        \
-    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, MEM8(HL)) |                  \
-        SET_HCS8(A, MEM8(HL)) | SET_Z8(_acc) | SET_S8(_acc);                   \
-    BC--;                                                                      \
-    HL++;                                                                      \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define CPI()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A - MEM8(HL);                                        ¬•
+    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, MEM8(HL)) |                  ¬•
+        SET_HCS8(A, MEM8(HL)) | SET_Z8(_acc) | SET_S8(_acc);                   ¬•
+    BC--;                                                                      ¬•
+    HL++;                                                                      ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define CPIR()                                                                 \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    do {                                                                       \
-      _acc = (uint32)A - MEM8(HL);                                             \
-      F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, MEM8(HL)) |                \
-          SET_HCS8(A, MEM8(HL)) | SET_Z8(_acc) | SET_S8(_acc);                 \
-      BC--;                                                                    \
-      HL++;                                                                    \
-      _state += 21;                                                            \
-    } while (BC && _acc);                                                      \
-  }                                                                            \
-  _state -= 5;                                                                 \
-  PROF_EXEC();                                                                 \
+#define CPIR()                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    do {                                                                       ¬•
+      _acc = (uint32)A - MEM8(HL);                                             ¬•
+      F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, MEM8(HL)) |                ¬•
+          SET_HCS8(A, MEM8(HL)) | SET_Z8(_acc) | SET_S8(_acc);                 ¬•
+      BC--;                                                                    ¬•
+      HL++;                                                                    ¬•
+      _state += 21;                                                            ¬•
+    } while (BC && _acc);                                                      ¬•
+  }                                                                            ¬•
+  _state -= 5;                                                                 ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define CPL()                                                                  \
-  {                                                                            \
-    uint32 _acc = ~A;                                                          \
-    F |= MASK_N | MASK_HC;                                                     \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define CPL()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = ‚ÄæA;                                                          ¬•
+    F |= MASK_N | MASK_HC;                                                     ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define DAA()                                                                  \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    uint8 x, c;                                                                \
-    daa_result(&x, &c, A, F);                                                  \
-    _acc = (uint32)A + x;                                                      \
-    F = c | N | SET_P(_acc) | SET_HC8(A, x) | SET_Z8(_acc) | SET_S8(_acc);     \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define DAA()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    uint8 x, c;                                                                ¬•
+    daa_result(&x, &c, A, F);                                                  ¬•
+    _acc = (uint32)A + x;                                                      ¬•
+    F = c | N | SET_P(_acc) | SET_HC8(A, x) | SET_Z8(_acc) | SET_S8(_acc);     ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _DEC8(x)                                                               \
-  _acc = (uint32)(x) - 1;                                                      \
-  F = CY | MASK_N | SET_VS8(_acc, x, 1) | SET_HCS8(x, 1) | SET_Z8(_acc) |      \
+#define _DEC8(x)                                                               ¬•
+  _acc = (uint32)(x) - 1;                                                      ¬•
+  F = CY | MASK_N | SET_VS8(_acc, x, 1) | SET_HCS8(x, 1) | SET_Z8(_acc) |      ¬•
       SET_S8(_acc)
-#define DEC8(x)                                                                \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _DEC8(x);                                                                  \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define DEC8(x)                                                                ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _DEC8(x);                                                                  ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define DEC8_M(x)                                                              \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _DEC8(MEM8(x));                                                            \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define DEC16(x)                                                               \
-  (x)--;                                                                       \
-  PROF_EXEC();                                                                 \
+#define DEC8_M(x)                                                              ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _DEC8(MEM8(x));                                                            ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define DI()                                                                   \
-  z->r.iff = 0;                                                                \
-  PROF_EXEC();                                                                 \
+#define DEC16(x)                                                               ¬•
+  (x)--;                                                                       ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define DJNZ(x)                                                                \
-  if (--B) {                                                                   \
-    PROF_COND(1);                                                              \
-    _state += 5;                                                               \
-    PROF_EXEC();                                                               \
-    PC += (x) + _length;                                                       \
-  } else {                                                                     \
-    PROF_COND(0);                                                              \
-    PROF_EXEC();                                                               \
-    PC += _length;                                                             \
+#define DI()                                                                   ¬•
+  z->r.iff = 0;                                                                ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+#define DJNZ(x)                                                                ¬•
+  if (--B) {                                                                   ¬•
+    PROF_COND(1);                                                              ¬•
+    _state += 5;                                                               ¬•
+    PROF_EXEC();                                                               ¬•
+    PC += (x) + _length;                                                       ¬•
+  } else {                                                                     ¬•
+    PROF_COND(0);                                                              ¬•
+    PROF_EXEC();                                                               ¬•
+    PC += _length;                                                             ¬•
   }
 
-#define EI()                                                                   \
-  PROF_EXEC();                                                                 \
-  PC += _length;                                                               \
-  if (z->r.iff != 3) {                                                         \
-    z->r.iff = 3;                                                              \
-    z->i.states -= _state;                                                     \
-    goto redo;                                                                 \
+#define EI()                                                                   ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length;                                                               ¬•
+  if (z->r.iff != 3) {                                                         ¬•
+    z->r.iff = 3;                                                              ¬•
+    z->i.states -= _state;                                                     ¬•
+    goto redo;                                                                 ¬•
   }
 
-#define EX_R(x, y)                                                             \
-  {                                                                            \
-    uint16 tmp;                                                                \
-    tmp = x;                                                                   \
-    x = y;                                                                     \
-    y = tmp;                                                                   \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define EX_R(x, y)                                                             ¬•
+  {                                                                            ¬•
+    uint16 tmp;                                                                ¬•
+    tmp = x;                                                                   ¬•
+    x = y;                                                                     ¬•
+    y = tmp;                                                                   ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define EX_M(x, y)                                                             \
-  {                                                                            \
-    uint16 tmp;                                                                \
-    tmp = MEM16(x);                                                            \
-    STORE16(x, y);                                                             \
-    y = tmp;                                                                   \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define EXX()                                                                  \
-  {                                                                            \
-    uint16 tmp;                                                                \
-    tmp = BC;                                                                  \
-    BC = BC_D;                                                                 \
-    BC_D = tmp;                                                                \
-    tmp = DE;                                                                  \
-    DE = DE_D;                                                                 \
-    DE_D = tmp;                                                                \
-    tmp = HL;                                                                  \
-    HL = HL_D;                                                                 \
-    HL_D = tmp;                                                                \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define EX_M(x, y)                                                             ¬•
+  {                                                                            ¬•
+    uint16 tmp;                                                                ¬•
+    tmp = MEM16(x);                                                            ¬•
+    STORE16(x, y);                                                             ¬•
+    y = tmp;                                                                   ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define HALT()                                                                 \
-  z->r.halt = 1;                                                               \
-  z->i.states = 0;                                                             \
-  PROF_EXEC();                                                                 \
+#define EXX()                                                                  ¬•
+  {                                                                            ¬•
+    uint16 tmp;                                                                ¬•
+    tmp = BC;                                                                  ¬•
+    BC = BC_D;                                                                 ¬•
+    BC_D = tmp;                                                                ¬•
+    tmp = DE;                                                                  ¬•
+    DE = DE_D;                                                                 ¬•
+    DE_D = tmp;                                                                ¬•
+    tmp = HL;                                                                  ¬•
+    HL = HL_D;                                                                 ¬•
+    HL_D = tmp;                                                                ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define IM(x)                                                                  \
-  z->r.im = x;                                                                 \
-  PROF_EXEC();                                                                 \
+#define HALT()                                                                 ¬•
+  z->r.halt = 1;                                                               ¬•
+  z->i.states = 0;                                                             ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define IN_N(x, y)                                                             \
-  _state += z80inport(z, &x, y);                                               \
-  PROF_EXEC();                                                                 \
-  PC += _length
-#define IN_C(x, y)                                                             \
-  _state += z80inport(z, &x, y);                                               \
-  F = CY | SET_P(x) | SET_Z8(x) | SET_S8(x);                                   \
-  PROF_EXEC();                                                                 \
+#define IM(x)                                                                  ¬•
+  z->r.im = x;                                                                 ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define IND()                                                                  \
-  {                                                                            \
-    uint8 tmp;                                                                 \
-    _state += z80inport(z, &tmp, C);                                           \
-    STORE8(HL, tmp);                                                           \
-    B--;                                                                       \
-    F = CY | (B ? 0 : MASK_Z) | PV | S | (MEM8(HL) & 0x80 ? MASK_N : 0) | HC;  \
-    HL--;                                                                      \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define IN_N(x, y)                                                             ¬•
+  _state += z80inport(z, &x, y);                                               ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+#define IN_C(x, y)                                                             ¬•
+  _state += z80inport(z, &x, y);                                               ¬•
+  F = CY | SET_P(x) | SET_Z8(x) | SET_S8(x);                                   ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define INDR()                                                                 \
-  while (B) {                                                                  \
-    uint8 tmp;                                                                 \
-    _state += z80inport(z, &tmp, C);                                           \
-    STORE8(HL, tmp);                                                           \
-    B--;                                                                       \
-    HL--;                                                                      \
-    _state += 21;                                                              \
-  }                                                                            \
-  _state -= 5;                                                                 \
-  F = CY | MASK_Z | PV | S | MASK_N | HC;                                      \
-  PROF_EXEC();                                                                 \
+#define IND()                                                                  ¬•
+  {                                                                            ¬•
+    uint8 tmp;                                                                 ¬•
+    _state += z80inport(z, &tmp, C);                                           ¬•
+    STORE8(HL, tmp);                                                           ¬•
+    B--;                                                                       ¬•
+    F = CY | (B ? 0 : MASK_Z) | PV | S | (MEM8(HL) & 0x80 ? MASK_N : 0) | HC;  ¬•
+    HL--;                                                                      ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define INI()                                                                  \
-  {                                                                            \
-    uint8 tmp;                                                                 \
-    _state += z80inport(z, &tmp, C);                                           \
-    STORE8(HL, tmp);                                                           \
-    B--;                                                                       \
-    HL++;                                                                      \
-    F = CY | (B ? 0 : MASK_Z) | PV | S | MASK_N | HC;                          \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define INDR()                                                                 ¬•
+  while (B) {                                                                  ¬•
+    uint8 tmp;                                                                 ¬•
+    _state += z80inport(z, &tmp, C);                                           ¬•
+    STORE8(HL, tmp);                                                           ¬•
+    B--;                                                                       ¬•
+    HL--;                                                                      ¬•
+    _state += 21;                                                              ¬•
+  }                                                                            ¬•
+  _state -= 5;                                                                 ¬•
+  F = CY | MASK_Z | PV | S | MASK_N | HC;                                      ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define INIR()                                                                 \
-  while (B) {                                                                  \
-    uint8 tmp;                                                                 \
-    _state += z80inport(z, &tmp, C);                                           \
-    STORE8(HL, tmp);                                                           \
-    B--;                                                                       \
-    HL++;                                                                      \
-    _state += 21;                                                              \
-  }                                                                            \
-  _state -= 5;                                                                 \
-  F = CY | MASK_Z | PV | S | MASK_N | HC;                                      \
-  PROF_EXEC();                                                                 \
+#define INI()                                                                  ¬•
+  {                                                                            ¬•
+    uint8 tmp;                                                                 ¬•
+    _state += z80inport(z, &tmp, C);                                           ¬•
+    STORE8(HL, tmp);                                                           ¬•
+    B--;                                                                       ¬•
+    HL++;                                                                      ¬•
+    F = CY | (B ? 0 : MASK_Z) | PV | S | MASK_N | HC;                          ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _INC8(x)                                                               \
-  _acc = (uint32)(x) + 1;                                                      \
+#define INIR()                                                                 ¬•
+  while (B) {                                                                  ¬•
+    uint8 tmp;                                                                 ¬•
+    _state += z80inport(z, &tmp, C);                                           ¬•
+    STORE8(HL, tmp);                                                           ¬•
+    B--;                                                                       ¬•
+    HL++;                                                                      ¬•
+    _state += 21;                                                              ¬•
+  }                                                                            ¬•
+  _state -= 5;                                                                 ¬•
+  F = CY | MASK_Z | PV | S | MASK_N | HC;                                      ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+#define _INC8(x)                                                               ¬•
+  _acc = (uint32)(x) + 1;                                                      ¬•
   F = CY | SET_V8(_acc, x, 1) | SET_HC8(x, 1) | SET_Z8(_acc) | SET_S8(_acc)
-#define INC8(x)                                                                \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _INC8(x);                                                                  \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define INC8(x)                                                                ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _INC8(x);                                                                  ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define INC8_M(x)                                                              \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _INC8(MEM8(x));                                                            \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define INC16(x)                                                               \
-  (x)++;                                                                       \
-  PROF_EXEC();                                                                 \
+#define INC8_M(x)                                                              ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _INC8(MEM8(x));                                                            ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define JP(x, y)                                                               \
-  if (x) {                                                                     \
-    int s;                                                                     \
-    PROF_COND(1);                                                              \
-    PROF_EXEC();                                                               \
-    PC = y;                                                                    \
-    if (z->i.emulate_subroutine && (s = z80subroutine(z, PC)) >= 0) {          \
-      PC = MEM16(SP);                                                          \
-      SP += 2;                                                                 \
-      if (SP > z->i.stack_under)                                               \
-        return Z80_UNDERFLOW;                                                  \
-      _state += s;                                                             \
-    }                                                                          \
-  } else {                                                                     \
-    PROF_COND(0);                                                              \
-    PROF_EXEC();                                                               \
-    PC += _length;                                                             \
+#define INC16(x)                                                               ¬•
+  (x)++;                                                                       ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+#define JP(x, y)                                                               ¬•
+  if (x) {                                                                     ¬•
+    int s;                                                                     ¬•
+    PROF_COND(1);                                                              ¬•
+    PROF_EXEC();                                                               ¬•
+    PC = y;                                                                    ¬•
+    if (z->i.emulate_subroutine && (s = z80subroutine(z, PC)) >= 0) {          ¬•
+      PC = MEM16(SP);                                                          ¬•
+      SP += 2;                                                                 ¬•
+      if (SP > z->i.stack_under)                                               ¬•
+        return Z80_UNDERFLOW;                                                  ¬•
+      _state += s;                                                             ¬•
+    }                                                                          ¬•
+  } else {                                                                     ¬•
+    PROF_COND(0);                                                              ¬•
+    PROF_EXEC();                                                               ¬•
+    PC += _length;                                                             ¬•
   }
 
-#define JR(x, y)                                                               \
-  if (x) {                                                                     \
-    PROF_COND(1);                                                              \
-    _state += 5;                                                               \
-    PROF_EXEC();                                                               \
-    PC += (y) + _length;                                                       \
-  } else {                                                                     \
-    PROF_COND(0);                                                              \
-    PROF_EXEC();                                                               \
-    PC += _length;                                                             \
+#define JR(x, y)                                                               ¬•
+  if (x) {                                                                     ¬•
+    PROF_COND(1);                                                              ¬•
+    _state += 5;                                                               ¬•
+    PROF_EXEC();                                                               ¬•
+    PC += (y) + _length;                                                       ¬•
+  } else {                                                                     ¬•
+    PROF_COND(0);                                                              ¬•
+    PROF_EXEC();                                                               ¬•
+    PC += _length;                                                             ¬•
   }
 
-#define LD(x, y)                                                               \
-  x = y;                                                                       \
-  PROF_EXEC();                                                                 \
+#define LD(x, y)                                                               ¬•
+  x = y;                                                                       ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define LD_A_I()                                                               \
-  {                                                                            \
-    uint32 _acc = I;                                                           \
-    F = CY | (z->r.iff & 0x02 ? 0 : MASK_PV) | SET_Z8(_acc) | SET_S8(_acc);    \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define LD_A_I()                                                               ¬•
+  {                                                                            ¬•
+    uint32 _acc = I;                                                           ¬•
+    F = CY | (z->r.iff & 0x02 ? 0 : MASK_PV) | SET_Z8(_acc) | SET_S8(_acc);    ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define LD_A_R()                                                               \
-  {                                                                            \
-    uint32 _acc = R;                                                           \
-    F = CY | (z->r.iff & 0x02 ? 0 : MASK_PV) | SET_Z8(_acc) | SET_S8(_acc);    \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define LD_A_R()                                                               ¬•
+  {                                                                            ¬•
+    uint32 _acc = R;                                                           ¬•
+    F = CY | (z->r.iff & 0x02 ? 0 : MASK_PV) | SET_Z8(_acc) | SET_S8(_acc);    ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define ST8(x, y)                                                              \
-  STORE8(x, y);                                                                \
-  PROF_EXEC();                                                                 \
+#define ST8(x, y)                                                              ¬•
+  STORE8(x, y);                                                                ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define ST16(x, y)                                                             \
-  STORE16(x, y);                                                               \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define LDD()                                                                  \
-  STORE8(DE, MEM8(HL));                                                        \
-  DE--;                                                                        \
-  HL--;                                                                        \
-  BC--;                                                                        \
-  F = CY | (BC ? MASK_PV : 0) | Z | S;                                         \
-  PROF_EXEC();                                                                 \
+#define ST16(x, y)                                                             ¬•
+  STORE16(x, y);                                                               ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define LDDR()                                                                 \
-  do {                                                                         \
-    STORE8(DE, MEM8(HL));                                                      \
-    DE--;                                                                      \
-    HL--;                                                                      \
-    BC--;                                                                      \
-    _state += 21;                                                              \
-  } while (BC);                                                                \
-  _state -= 5;                                                                 \
-  F = CY | Z | S;                                                              \
-  PROF_EXEC();                                                                 \
+#define LDD()                                                                  ¬•
+  STORE8(DE, MEM8(HL));                                                        ¬•
+  DE--;                                                                        ¬•
+  HL--;                                                                        ¬•
+  BC--;                                                                        ¬•
+  F = CY | (BC ? MASK_PV : 0) | Z | S;                                         ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define LDI()                                                                  \
-  STORE8(DE, MEM8(HL));                                                        \
-  BC--;                                                                        \
-  F = CY | (BC ? MASK_PV : 0) | Z | S;                                         \
-  DE++;                                                                        \
-  HL++;                                                                        \
-  PROF_EXEC();                                                                 \
+#define LDDR()                                                                 ¬•
+  do {                                                                         ¬•
+    STORE8(DE, MEM8(HL));                                                      ¬•
+    DE--;                                                                      ¬•
+    HL--;                                                                      ¬•
+    BC--;                                                                      ¬•
+    _state += 21;                                                              ¬•
+  } while (BC);                                                                ¬•
+  _state -= 5;                                                                 ¬•
+  F = CY | Z | S;                                                              ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define LDIR()                                                                 \
-  do {                                                                         \
-    STORE8(DE, MEM8(HL));                                                      \
-    DE++;                                                                      \
-    HL++;                                                                      \
-    BC--;                                                                      \
-    _state += 21;                                                              \
-  } while (BC);                                                                \
-  _state -= 5;                                                                 \
-  F = CY | Z | S;                                                              \
-  PROF_EXEC();                                                                 \
+#define LDI()                                                                  ¬•
+  STORE8(DE, MEM8(HL));                                                        ¬•
+  BC--;                                                                        ¬•
+  F = CY | (BC ? MASK_PV : 0) | Z | S;                                         ¬•
+  DE++;                                                                        ¬•
+  HL++;                                                                        ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define NEG()                                                                  \
-  {                                                                            \
-    uint32 _acc = -(uint32)A;                                                  \
-    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, 0, A) | SET_HCS8(0, A) |        \
-        SET_Z8(_acc) | SET_S8(_acc);                                           \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define LDIR()                                                                 ¬•
+  do {                                                                         ¬•
+    STORE8(DE, MEM8(HL));                                                      ¬•
+    DE++;                                                                      ¬•
+    HL++;                                                                      ¬•
+    BC--;                                                                      ¬•
+    _state += 21;                                                              ¬•
+  } while (BC);                                                                ¬•
+  _state -= 5;                                                                 ¬•
+  F = CY | Z | S;                                                              ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define NOP()                                                                  \
-  PROF_EXEC();                                                                 \
+#define NEG()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = -(uint32)A;                                                  ¬•
+    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, 0, A) | SET_HCS8(0, A) |        ¬•
+        SET_Z8(_acc) | SET_S8(_acc);                                           ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define OR(x)                                                                  \
-  {                                                                            \
-    uint32 _acc = (uint32)A | (x);                                             \
-    F = SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc);                             \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define NOP()                                                                  ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define OUT(x, y)                                                              \
-  _state += z80outport(z, x, y);                                               \
-  PROF_EXEC();                                                                 \
+#define OR(x)                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A | (x);                                             ¬•
+    F = SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc);                             ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define OUTD()                                                                 \
-  _state += z80outport(z, C, MEM8(HL));                                        \
-  B--;                                                                         \
-  HL--;                                                                        \
-  F = CY | MASK_N | PV | HC | (B ? 0 : MASK_Z) | S;                            \
-  PROF_EXEC();                                                                 \
+#define OUT(x, y)                                                              ¬•
+  _state += z80outport(z, x, y);                                               ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define OTDR()                                                                 \
-  while (B) {                                                                  \
-    _state += z80outport(z, C, MEM8(HL));                                      \
-    B--;                                                                       \
-    HL--;                                                                      \
-    _state += 21;                                                              \
-  }                                                                            \
-  _state -= 5;                                                                 \
-  F = CY | MASK_N | PV | HC | MASK_Z | S;                                      \
-  PROF_EXEC();                                                                 \
+#define OUTD()                                                                 ¬•
+  _state += z80outport(z, C, MEM8(HL));                                        ¬•
+  B--;                                                                         ¬•
+  HL--;                                                                        ¬•
+  F = CY | MASK_N | PV | HC | (B ? 0 : MASK_Z) | S;                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define OUTI()                                                                 \
-  _state += z80outport(z, C, MEM8(HL));                                        \
-  B--;                                                                         \
-  HL++;                                                                        \
-  F = CY | MASK_N | PV | HC | (B ? 0 : MASK_Z) | S;                            \
-  PROF_EXEC();                                                                 \
+#define OTDR()                                                                 ¬•
+  while (B) {                                                                  ¬•
+    _state += z80outport(z, C, MEM8(HL));                                      ¬•
+    B--;                                                                       ¬•
+    HL--;                                                                      ¬•
+    _state += 21;                                                              ¬•
+  }                                                                            ¬•
+  _state -= 5;                                                                 ¬•
+  F = CY | MASK_N | PV | HC | MASK_Z | S;                                      ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define OTIR()                                                                 \
-  while (B) {                                                                  \
-    _state += z80outport(z, C, MEM8(HL));                                      \
-    B--;                                                                       \
-    HL++;                                                                      \
-    _state += 21;                                                              \
-  }                                                                            \
-  _state -= 5;                                                                 \
-  F = CY | MASK_N | PV | HC | MASK_Z | S;                                      \
-  PROF_EXEC();                                                                 \
+#define OUTI()                                                                 ¬•
+  _state += z80outport(z, C, MEM8(HL));                                        ¬•
+  B--;                                                                         ¬•
+  HL++;                                                                        ¬•
+  F = CY | MASK_N | PV | HC | (B ? 0 : MASK_Z) | S;                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define POP(x)                                                                 \
-  x = MEM16(SP);                                                               \
-  SP += 2;                                                                     \
-  PROF_EXEC();                                                                 \
+#define OTIR()                                                                 ¬•
+  while (B) {                                                                  ¬•
+    _state += z80outport(z, C, MEM8(HL));                                      ¬•
+    B--;                                                                       ¬•
+    HL++;                                                                      ¬•
+    _state += 21;                                                              ¬•
+  }                                                                            ¬•
+  _state -= 5;                                                                 ¬•
+  F = CY | MASK_N | PV | HC | MASK_Z | S;                                      ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define PUSH(x)                                                                \
-  SP -= 2;                                                                     \
-  STORE16(SP, x);                                                              \
-  PROF_EXEC();                                                                 \
+#define POP(x)                                                                 ¬•
+  x = MEM16(SP);                                                               ¬•
+  SP += 2;                                                                     ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define RES(x, y)                                                              \
-  y &= ~(1 << (x));                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-#define RES_M(x, y)                                                            \
-  STORE8(y, MEM8(y) & ~(1 << (x)));                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-#define RES_M_R(x, y, z)                                                       \
-  z = MEM8(y) & ~(1 << (x));                                                   \
-  STORE8(y, z);                                                                \
-  PROF_EXEC();                                                                 \
+#define PUSH(x)                                                                ¬•
+  SP -= 2;                                                                     ¬•
+  STORE16(SP, x);                                                              ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define RET(x)                                                                 \
-  if (x) {                                                                     \
-    PROF_COND(1);                                                              \
-    _state += 6;                                                               \
-    PROF_EXEC();                                                               \
-    PC = MEM16(SP);                                                            \
-    SP += 2;                                                                   \
-    PROF_RET();                                                                \
-    if (SP > z->i.stack_under)                                                 \
-      return Z80_UNDERFLOW;                                                    \
-  } else {                                                                     \
-    PROF_COND(0);                                                              \
-    PROF_EXEC();                                                               \
-    PC += _length;                                                             \
+#define RES(x, y)                                                              ¬•
+  y &= ‚Äæ(1 << (x));                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+#define RES_M(x, y)                                                            ¬•
+  STORE8(y, MEM8(y) & ‚Äæ(1 << (x)));                                            ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+#define RES_M_R(x, y, z)                                                       ¬•
+  z = MEM8(y) & ‚Äæ(1 << (x));                                                   ¬•
+  STORE8(y, z);                                                                ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+#define RET(x)                                                                 ¬•
+  if (x) {                                                                     ¬•
+    PROF_COND(1);                                                              ¬•
+    _state += 6;                                                               ¬•
+    PROF_EXEC();                                                               ¬•
+    PC = MEM16(SP);                                                            ¬•
+    SP += 2;                                                                   ¬•
+    PROF_RET();                                                                ¬•
+    if (SP > z->i.stack_under)                                                 ¬•
+      return Z80_UNDERFLOW;                                                    ¬•
+  } else {                                                                     ¬•
+    PROF_COND(0);                                                              ¬•
+    PROF_EXEC();                                                               ¬•
+    PC += _length;                                                             ¬•
   }
 
 #define RETI() RET(TRUE)
 
-#define RETN()                                                                 \
-  z->r.iff = (z->r.iff << 1) & 0x03;                                           \
+#define RETN()                                                                 ¬•
+  z->r.iff = (z->r.iff << 1) & 0x03;                                           ¬•
   RET(TRUE)
 
-#define _RL(x)                                                                 \
-  _acc = ((x) << 1) | CY;                                                      \
+#define _RL(x)                                                                 ¬•
+  _acc = ((x) << 1) | CY;                                                      ¬•
   F = ((x) & 0x80 ? MASK_CY : 0) | SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc)
-#define RL(x)                                                                  \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RL(x);                                                                    \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RL(x)                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RL(x);                                                                    ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define RL_M(x)                                                                \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RL(MEM8(x));                                                              \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RL_M(x)                                                                ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RL(MEM8(x));                                                              ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define RL_M_R(x, y)                                                           \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RL(MEM8(x));                                                              \
-    y = _acc;                                                                  \
-    STORE8(x, y);                                                              \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define RLA()                                                                  \
-  {                                                                            \
-    uint32 _acc = (A << 1) | CY;                                               \
-    F = (A & 0x80 ? MASK_CY : 0) | PV | Z | S;                                 \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RL_M_R(x, y)                                                           ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RL(MEM8(x));                                                              ¬•
+    y = _acc;                                                                  ¬•
+    STORE8(x, y);                                                              ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _RLC(x)                                                                \
-  _acc = ((x) << 1) | ((x) & 0x80 ? 0x01 : 0);                                 \
+#define RLA()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = (A << 1) | CY;                                               ¬•
+    F = (A & 0x80 ? MASK_CY : 0) | PV | Z | S;                                 ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+#define _RLC(x)                                                                ¬•
+  _acc = ((x) << 1) | ((x) & 0x80 ? 0x01 : 0);                                 ¬•
   F = ((x) & 0x80 ? MASK_CY : 0) | SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc)
-#define RLC(x)                                                                 \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RLC(x);                                                                   \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RLC(x)                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RLC(x);                                                                   ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define RLC_M(x)                                                               \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RLC(MEM8(x));                                                             \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RLC_M(x)                                                               ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RLC(MEM8(x));                                                             ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define RLC_M_R(x, y)                                                          \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RLC(MEM8(x));                                                             \
-    y = _acc;                                                                  \
-    STORE8(x, y);                                                              \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define RLCA()                                                                 \
-  {                                                                            \
-    uint32 _acc = (A << 1) | (A & 0x80 ? 0x01 : 0);                            \
-    F = (A & 0x80 ? MASK_CY : 0) | PV | Z | S;                                 \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RLC_M_R(x, y)                                                          ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RLC(MEM8(x));                                                             ¬•
+    y = _acc;                                                                  ¬•
+    STORE8(x, y);                                                              ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define RLD()                                                                  \
-  {                                                                            \
-    uint32 _acc = (A & 0xf0) | (MEM8(HL) >> 4);                                \
-    STORE8(HL, (MEM8(HL) << 4) | (A & 0x0f));                                  \
-    F = CY | SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc);                        \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RLCA()                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc = (A << 1) | (A & 0x80 ? 0x01 : 0);                            ¬•
+    F = (A & 0x80 ? MASK_CY : 0) | PV | Z | S;                                 ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _RR(x)                                                                 \
-  _acc = ((x) >> 1) | (CY ? 0x80 : 0);                                         \
+#define RLD()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = (A & 0xf0) | (MEM8(HL) >> 4);                                ¬•
+    STORE8(HL, (MEM8(HL) << 4) | (A & 0x0f));                                  ¬•
+    F = CY | SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc);                        ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+#define _RR(x)                                                                 ¬•
+  _acc = ((x) >> 1) | (CY ? 0x80 : 0);                                         ¬•
   F = ((x) & 0x01) | SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc)
-#define RR(x)                                                                  \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RR(x);                                                                    \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RR(x)                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RR(x);                                                                    ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define RR_M(x)                                                                \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RR(MEM8(x));                                                              \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RR_M(x)                                                                ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RR(MEM8(x));                                                              ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define RR_M_R(x, y)                                                           \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RR(MEM8(y));                                                              \
-    y = _acc;                                                                  \
-    STORE8(x, y);                                                              \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define RRA()                                                                  \
-  {                                                                            \
-    uint32 _acc = (A >> 1) | (CY ? 0x80 : 0);                                  \
-    F = (A & 0x01) | PV | Z | S;                                               \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RR_M_R(x, y)                                                           ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RR(MEM8(y));                                                              ¬•
+    y = _acc;                                                                  ¬•
+    STORE8(x, y);                                                              ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _RRC(x)                                                                \
-  _acc = ((x) >> 1) | ((x) & 0x01 ? 0x80 : 0);                                 \
+#define RRA()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc = (A >> 1) | (CY ? 0x80 : 0);                                  ¬•
+    F = (A & 0x01) | PV | Z | S;                                               ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+#define _RRC(x)                                                                ¬•
+  _acc = ((x) >> 1) | ((x) & 0x01 ? 0x80 : 0);                                 ¬•
   F = ((x) & 0x01) | SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc)
-#define RRC(x)                                                                 \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RRC(x);                                                                   \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RRC(x)                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RRC(x);                                                                   ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define RRC_M(x)                                                               \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RRC(MEM8(x));                                                             \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RRC_M(x)                                                               ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RRC(MEM8(x));                                                             ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define RRC_M_R(x, y)                                                          \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _RRC(MEM8(x));                                                             \
-    y = _acc;                                                                  \
-    STORE8(x, y);                                                              \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define RRCA()                                                                 \
-  {                                                                            \
-    uint32 _acc = (A >> 1) | (A & 0x01 ? 0x80 : 0);                            \
-    F = (A & 0x01) | PV | Z | S;                                               \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RRC_M_R(x, y)                                                          ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _RRC(MEM8(x));                                                             ¬•
+    y = _acc;                                                                  ¬•
+    STORE8(x, y);                                                              ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define RRD()                                                                  \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _acc = (A & 0xf0) | (MEM8(HL) & 0x0f);                                     \
-    STORE8(HL, (MEM8(HL) >> 4) | (A << 4));                                    \
-    F = CY | SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc);                        \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define RRCA()                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc = (A >> 1) | (A & 0x01 ? 0x80 : 0);                            ¬•
+    F = (A & 0x01) | PV | Z | S;                                               ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+#define RRD()                                                                  ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _acc = (A & 0xf0) | (MEM8(HL) & 0x0f);                                     ¬•
+    STORE8(HL, (MEM8(HL) >> 4) | (A << 4));                                    ¬•
+    F = CY | SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc);                        ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
 #define RST(x) CALL(TRUE, x)
 
-#define SBC8(x)                                                                \
-  {                                                                            \
-    uint32 _acc = A - (x) - CY;                                                \
-    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, x) | SET_HCS8_CY(A, x, CY) | \
-        SET_Z8(_acc) | SET_S8(_acc);                                           \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SBC8(x)                                                                ¬•
+  {                                                                            ¬•
+    uint32 _acc = A - (x) - CY;                                                ¬•
+    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, x) | SET_HCS8_CY(A, x, CY) | ¬•
+        SET_Z8(_acc) | SET_S8(_acc);                                           ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define SBC16(x, y)                                                            \
-  {                                                                            \
-    uint32 _acc = (x) - (y) - CY;                                              \
-    F = SET_CYS(_acc) | MASK_N | SET_VS16(_acc, x, y) |                        \
-        SET_HCS16_CY(x, y, CY) | SET_Z16(_acc) | SET_S16(_acc);                \
-    (x) = _acc;                                                                \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SBC16(x, y)                                                            ¬•
+  {                                                                            ¬•
+    uint32 _acc = (x) - (y) - CY;                                              ¬•
+    F = SET_CYS(_acc) | MASK_N | SET_VS16(_acc, x, y) |                        ¬•
+        SET_HCS16_CY(x, y, CY) | SET_Z16(_acc) | SET_S16(_acc);                ¬•
+    (x) = _acc;                                                                ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define SCF()                                                                  \
-  F |= MASK_CY;                                                                \
-  PROF_EXEC();                                                                 \
+#define SCF()                                                                  ¬•
+  F |= MASK_CY;                                                                ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define SET(x, y)                                                              \
-  y |= (1 << (x));                                                             \
-  PROF_EXEC();                                                                 \
+#define SET(x, y)                                                              ¬•
+  y |= (1 << (x));                                                             ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SET_M(x, y)                                                            \
-  STORE8(y, MEM8(y) | (1 << (x)));                                             \
-  PROF_EXEC();                                                                 \
+#define SET_M(x, y)                                                            ¬•
+  STORE8(y, MEM8(y) | (1 << (x)));                                             ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SET_M_R(x, y, z)                                                       \
-  z = MEM8(y) | (1 << (x));                                                    \
-  STORE8(y, z);                                                                \
-  PROF_EXEC();                                                                 \
+#define SET_M_R(x, y, z)                                                       ¬•
+  z = MEM8(y) | (1 << (x));                                                    ¬•
+  STORE8(y, z);                                                                ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _SLA(x)                                                                \
-  _acc = (x) << 1;                                                             \
+#define _SLA(x)                                                                ¬•
+  _acc = (x) << 1;                                                             ¬•
   F = ((x) & 0x80 ? MASK_CY : 0) | SET_P(_acc) | SET_S8(_acc) | SET_Z8(_acc)
-#define SLA(x)                                                                 \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SLA(x);                                                                   \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SLA(x)                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SLA(x);                                                                   ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SLA_M(x)                                                               \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SLA(MEM8(x));                                                             \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SLA_M(x)                                                               ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SLA(MEM8(x));                                                             ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SLA_M_R(x, y)                                                          \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SLA(MEM8(x));                                                             \
-    y = _acc;                                                                  \
-    STORE8(x, y);                                                              \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SLA_M_R(x, y)                                                          ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SLA(MEM8(x));                                                             ¬•
+    y = _acc;                                                                  ¬•
+    STORE8(x, y);                                                              ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _SLL(x)                                                                \
-  _acc = (x) << 1 | 1;                                                         \
+#define _SLL(x)                                                                ¬•
+  _acc = (x) << 1 | 1;                                                         ¬•
   F = ((x) & 0x80 ? MASK_CY : 0) | SET_P(_acc) | SET_S8(_acc) | SET_Z8(_acc)
-#define SLL(x)                                                                 \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SLL(x);                                                                   \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SLL(x)                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SLL(x);                                                                   ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SLL_M(x)                                                               \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SLL(MEM8(x));                                                             \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SLL_M(x)                                                               ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SLL(MEM8(x));                                                             ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SLL_M_R(x, y)                                                          \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SLL(MEM8(x));                                                             \
-    y = _acc;                                                                  \
-    STORE8(x, y);                                                              \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SLL_M_R(x, y)                                                          ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SLL(MEM8(x));                                                             ¬•
+    y = _acc;                                                                  ¬•
+    STORE8(x, y);                                                              ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _SRA(x)                                                                \
-  _acc = ((x) >> 1) | ((x) & 0x80);                                            \
+#define _SRA(x)                                                                ¬•
+  _acc = ((x) >> 1) | ((x) & 0x80);                                            ¬•
   F = ((x) & 0x01 ? MASK_CY : 0) | SET_P(_acc) | SET_S8(_acc) | SET_Z8(_acc)
-#define SRA(x)                                                                 \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SRA(x);                                                                   \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SRA(x)                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SRA(x);                                                                   ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SRA_M(x)                                                               \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SRA(MEM8(x));                                                             \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SRA_M(x)                                                               ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SRA(MEM8(x));                                                             ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SRA_M_R(x, y)                                                          \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SRA(MEM8(x));                                                             \
-    y = _acc;                                                                  \
-    STORE8(x, y);                                                              \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SRA_M_R(x, y)                                                          ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SRA(MEM8(x));                                                             ¬•
+    y = _acc;                                                                  ¬•
+    STORE8(x, y);                                                              ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define _SRL(x)                                                                \
-  _acc = (x) >> 1;                                                             \
+#define _SRL(x)                                                                ¬•
+  _acc = (x) >> 1;                                                             ¬•
   F = ((x) & 0x01 ? MASK_CY : 0) | SET_P(_acc) | SET_S8(_acc) | SET_Z8(_acc)
-#define SRL(x)                                                                 \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SRL(x);                                                                   \
-    x = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SRL(x)                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SRL(x);                                                                   ¬•
+    x = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SRL_M(x)                                                               \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SRL(MEM8(x));                                                             \
-    STORE8(x, _acc);                                                           \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SRL_M(x)                                                               ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SRL(MEM8(x));                                                             ¬•
+    STORE8(x, _acc);                                                           ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
-#define SRL_M_R(x, y)                                                          \
-  {                                                                            \
-    uint32 _acc;                                                               \
-    _SRL(MEM8(x));                                                             \
-    y = _acc;                                                                  \
-    STORE8(x, y);                                                              \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
-  PC += _length
-
-#define SUB8(x)                                                                \
-  {                                                                            \
-    uint32 _acc = (uint32)A - (x);                                             \
-    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, x) | SET_HCS8(A, x) |        \
-        SET_Z8(_acc) | SET_S8(_acc);                                           \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SRL_M_R(x, y)                                                          ¬•
+  {                                                                            ¬•
+    uint32 _acc;                                                               ¬•
+    _SRL(MEM8(x));                                                             ¬•
+    y = _acc;                                                                  ¬•
+    STORE8(x, y);                                                              ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-#define XOR(x)                                                                 \
-  {                                                                            \
-    uint32 _acc = (uint32)A ^ (x);                                             \
-    F = SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc);                             \
-    A = _acc;                                                                  \
-  }                                                                            \
-  PROF_EXEC();                                                                 \
+#define SUB8(x)                                                                ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A - (x);                                             ¬•
+    F = SET_CYS(_acc) | MASK_N | SET_VS8(_acc, A, x) | SET_HCS8(A, x) |        ¬•
+        SET_Z8(_acc) | SET_S8(_acc);                                           ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
   PC += _length
 
-/* ÉXÉeÅ[Égêî(xx) */
+#define XOR(x)                                                                 ¬•
+  {                                                                            ¬•
+    uint32 _acc = (uint32)A ^ (x);                                             ¬•
+    F = SET_P(_acc) | SET_Z8(_acc) | SET_S8(_acc);                             ¬•
+    A = _acc;                                                                  ¬•
+  }                                                                            ¬•
+  PROF_EXEC();                                                                 ¬•
+  PC += _length
+
+/* „Çπ„ÉÜ„Éº„ÉàÊï∞(xx) */
 const static int state_xx[256] = {
     4,  10, 7,  6,  4,  4,  7,  4,  4,  11, 7,  6,  4,  4,  7,  4,  8,  10, 7,
     6,  4,  4,  7,  4,  7,  11, 7,  6,  4,  4,  7,  4,  7,  10, 16, 6,  4,  4,
@@ -1071,7 +1071,7 @@ const static int state_xx[256] = {
     10, 11, 7,  11, 5,  4,  10, 4,  10, 0,  7,  11, 5,  10, 10, 4,  10, 11, 7,
     11, 5,  6,  10, 4,  10, 0,  7,  11};
 
-/* ÉXÉeÅ[Égêî(CB xx) */
+/* „Çπ„ÉÜ„Éº„ÉàÊï∞(CB xx) */
 const static int state_cb_xx[256] = {
     8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8,
     8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8,
@@ -1085,7 +1085,7 @@ const static int state_cb_xx[256] = {
     8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8,
     8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8};
 
-/* ÉXÉeÅ[Égêî(DD/FD xx) */
+/* „Çπ„ÉÜ„Éº„ÉàÊï∞(DD/FD xx) */
 const static int state_dd_xx[256] = {
     8, 8,  8,  8,  8, 8,  8,  8,  8, 10, 8,  8, 8,  8,  8,  8,  8,  8,  8,  8,
     8, 8,  8,  8,  8, 10, 8,  8,  8, 8,  8,  8, 8,  14, 20, 10, 8,  8,  12, 8,
@@ -1101,7 +1101,7 @@ const static int state_dd_xx[256] = {
     8, 8,  8,  8,  8, 14, 8,  23, 8, 15, 8,  8, 8,  8,  8,  8,  8,  8,  8,  8,
     8, 8,  8,  8,  8, 8,  8,  8,  8, 10, 8,  8, 8,  8,  8,  8};
 
-/* ÉXÉeÅ[Égêî(DD/FD CB xx) */
+/* „Çπ„ÉÜ„Éº„ÉàÊï∞(DD/FD CB xx) */
 const static int state_dd_cb_xx[256] = {
     12, 12, 12, 12, 12, 12, 23, 12, 12, 12, 12, 12, 12, 12, 23, 12, 12, 12, 12,
     12, 12, 12, 23, 12, 12, 12, 12, 12, 12, 12, 23, 12, 12, 12, 12, 12, 12, 12,
@@ -1118,7 +1118,7 @@ const static int state_dd_cb_xx[256] = {
     12, 12, 23, 12, 12, 12, 12, 12, 12, 12, 23, 12, 12, 12, 12, 12, 12, 12, 23,
     12, 12, 12, 12, 12, 12, 12, 23, 12};
 
-/* ÉXÉeÅ[Égêî(ED xx) */
+/* „Çπ„ÉÜ„Éº„ÉàÊï∞(ED xx) */
 const static int state_ed_xx[256] = {
     8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,
     8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,
@@ -1135,7 +1135,7 @@ const static int state_ed_xx[256] = {
     8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,
     8,  8,  8,  8,  8,  8,  8,  8,  8};
 
-/* ñΩóﬂí∑(xx) */
+/* ÂëΩ‰ª§Èï∑(xx) */
 const static uint16 len_xx[256] = {
     1, 3, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 3, 1, 1, 1, 1, 2, 1,
     2, 1, 1, 1, 1, 1, 2, 1, 2, 3, 3, 1, 1, 1, 2, 1, 2, 1, 3, 1, 1, 1, 2, 1,
@@ -1149,7 +1149,7 @@ const static uint16 len_xx[256] = {
     1, 1, 3, 2, 3, 0, 2, 1, 1, 1, 3, 1, 3, 1, 2, 1, 1, 1, 3, 1, 3, 0, 2, 1,
     1, 1, 3, 1, 3, 1, 2, 1, 1, 1, 3, 1, 3, 0, 2, 1};
 
-/* ñΩóﬂí∑(CB xx) */
+/* ÂëΩ‰ª§Èï∑(CB xx) */
 const static uint16 len_cb_xx[256] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -1163,7 +1163,7 @@ const static uint16 len_cb_xx[256] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-/* ñΩóﬂí∑(DD/FD xx) */
+/* ÂëΩ‰ª§Èï∑(DD/FD xx) */
 const static uint16 len_dd_xx[256] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 3, 1, 1, 1, 2, 1,
@@ -1177,7 +1177,7 @@ const static uint16 len_dd_xx[256] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-/* ñΩóﬂí∑(DD/FD CB xx) */
+/* ÂëΩ‰ª§Èï∑(DD/FD CB xx) */
 const static uint16 len_dd_cb_xx[256] = {
     3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
     3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
@@ -1191,7 +1191,7 @@ const static uint16 len_dd_cb_xx[256] = {
     3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
     3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
 
-/* ñΩóﬂí∑(ED xx) */
+/* ÂëΩ‰ª§Èï∑(ED xx) */
 const static uint16 len_ed_xx[256] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -1205,7 +1205,7 @@ const static uint16 len_ed_xx[256] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-/* ÉpÉäÉeÉB */
+/* „Éë„É™„ÉÜ„Ç£ */
 const static uint8 parity[256] = {
     MASK_PV, 0,       0,       MASK_PV, 0,       MASK_PV, MASK_PV, 0,
     0,       MASK_PV, MASK_PV, 0,       MASK_PV, 0,       0,       MASK_PV,
@@ -1240,11 +1240,11 @@ const static uint8 parity[256] = {
     MASK_PV, 0,       0,       MASK_PV, 0,       MASK_PV, MASK_PV, 0,
     0,       MASK_PV, MASK_PV, 0,       MASK_PV, 0,       0,       MASK_PV};
 
-/* RÉåÉWÉXÉ^ópóêêî */
+/* R„É¨„Ç∏„Çπ„ÇøÁî®‰π±Êï∞ */
 static uint32 rnd = 0xffffffff;
 
 /*
-        DAAé¿çséûÇ…AÉåÉWÉXÉ^Ç…â¡éZÇ≥ÇÍÇÈílÇ∆CYÉtÉâÉO
+        DAAÂÆüË°åÊôÇ„Å´A„É¨„Ç∏„Çπ„Çø„Å´Âä†ÁÆó„Åï„Çå„ÇãÂÄ§„Å®CY„Éï„É©„Ç∞
 */
 static inline void daa_result(uint8 *x, uint8 *c, uint8 a, uint8 f) {
   switch (f & (MASK_CY | MASK_N | MASK_HC)) {
@@ -1311,12 +1311,12 @@ static inline void daa_result(uint8 *x, uint8 *c, uint8 a, uint8 f) {
 }
 
 /*
-        RÉåÉWÉXÉ^ópóêêîseedÇê›íËÇ∑ÇÈ
+        R„É¨„Ç∏„Çπ„ÇøÁî®‰π±Êï∞seed„ÇíË®≠ÂÆö„Åô„Çã
 */
 void z80srand(uint32 seed) { rnd = seed; }
 
 /*
-        RESETêMçÜÇëóÇÈ
+        RESET‰ø°Âè∑„ÇíÈÄÅ„Çã
 */
 int z80reset(Z80stat *z) {
   z->r.im = 0;
@@ -1335,26 +1335,26 @@ int z80reset(Z80stat *z) {
 }
 
 /*
-        NMIêMçÜÇëóÇÈ
+        NMI‰ø°Âè∑„ÇíÈÄÅ„Çã
 */
 int z80nmi(Z80stat *z) {
   int _state = 0;
   uint16 _length = 0;
 
   z->r.halt = 0;
-  z->r.iff &= ~0x01;
+  z->r.iff &= ‚Äæ0x01;
   z->i.states -= 13;
   CALL(TRUE, 0x0066);
   return TRUE;
 }
 
 /*
-        INTêMçÜÇëóÇ¡ÇΩÇ∆Ç´äÑÇËçûÇ›Ç™î≠ê∂Ç∑ÇÈÇ©É`ÉFÉbÉNÇ∑ÇÈ (IM 0)
+        INT‰ø°Âè∑„ÇíÈÄÅ„Å£„Åü„Å®„ÅçÂâ≤„ÇäËæº„Åø„ÅåÁô∫Áîü„Åô„Çã„Åã„ÉÅ„Çß„ÉÉ„ÇØ„Åô„Çã (IM 0)
 */
 int z80int0chk(const Z80stat *z) { return z->r.im == 0 && z->r.iff == 3; }
 
 /*
-        INTêMçÜÇëóÇÈ (IM 0)
+        INT‰ø°Âè∑„ÇíÈÄÅ„Çã (IM 0)
 */
 int z80int0(Z80stat *z, uint8 op) {
   int _state = 0;
@@ -1395,12 +1395,12 @@ int z80int0(Z80stat *z, uint8 op) {
 }
 
 /*
-        INTêMçÜÇëóÇ¡ÇΩÇ∆Ç´äÑÇËçûÇ›Ç™î≠ê∂Ç∑ÇÈÇ©É`ÉFÉbÉNÇ∑ÇÈ (IM 1)
+        INT‰ø°Âè∑„ÇíÈÄÅ„Å£„Åü„Å®„ÅçÂâ≤„ÇäËæº„Åø„ÅåÁô∫Áîü„Åô„Çã„Åã„ÉÅ„Çß„ÉÉ„ÇØ„Åô„Çã (IM 1)
 */
 int z80int1chk(const Z80stat *z) { return z->r.im == 1 && z->r.iff == 3; }
 
 /*
-        INTêMçÜÇëóÇÈ (IM 1)
+        INT‰ø°Âè∑„ÇíÈÄÅ„Çã (IM 1)
 */
 int z80int1(Z80stat *z) {
   int _state = 0;
@@ -1416,12 +1416,12 @@ int z80int1(Z80stat *z) {
 }
 
 /*
-        INTêMçÜÇëóÇ¡ÇΩÇ∆Ç´äÑÇËçûÇ›Ç™î≠ê∂Ç∑ÇÈÇ©É`ÉFÉbÉNÇ∑ÇÈ (IM 2)
+        INT‰ø°Âè∑„ÇíÈÄÅ„Å£„Åü„Å®„ÅçÂâ≤„ÇäËæº„Åø„ÅåÁô∫Áîü„Åô„Çã„Åã„ÉÅ„Çß„ÉÉ„ÇØ„Åô„Çã (IM 2)
 */
 int z80int2chk(const Z80stat *z) { return z->r.im == 2 && z->r.iff == 3; }
 
 /*
-        INTêMçÜÇëóÇÈ (IM 2)
+        INT‰ø°Âè∑„ÇíÈÄÅ„Çã (IM 2)
 */
 int z80int2(Z80stat *z, uint8 vector) {
   int _state = 0;
@@ -1437,7 +1437,7 @@ int z80int2(Z80stat *z, uint8 vector) {
 }
 
 /*
-        ñΩóﬂÇé¿çsÇ∑ÇÈ
+        ÂëΩ‰ª§„ÇíÂÆüË°å„Åô„Çã
 */
 int z80exec(Z80stat *z) {
   int _state;
@@ -5275,7 +5275,7 @@ int z80exec(Z80stat *z) {
 }
 
 /*
-        èâä˙âªÇ∑ÇÈ
+        ÂàùÊúüÂåñ„Åô„Çã
 */
 void z80init(Z80stat *z) {
   memset(z, 0, sizeof(*z));
@@ -5289,7 +5289,7 @@ void z80init(Z80stat *z) {
 }
 
 /*
-        Copyright 2005 ~ 2024 maruhiro
+        Copyright 2005 ‚Äæ 2024 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

@@ -17,16 +17,16 @@
 #define strlen(x) strlen((const char *)(x))
 
 /*
-        É}ÉNÉç
+        „Éû„ÇØ„É≠
 */
-/* ê^ãU */
+/* ÁúüÂÅΩ */
 #define FALSE 0
 #define TRUE 1
 
-/* ÉGÉ~ÉÖÉåÅ[ÉgÇ≥ÇÍÇÈÉ}ÉVÉì */
+/* „Ç®„Éü„É•„É¨„Éº„Éà„Åï„Çå„Çã„Éû„Ç∑„É≥ */
 #define MACHINE_FIRST 0
-#define MACHINE_E200                                                                   \
-  0 /* PC-G801/PC-G802/PC-G803/PC-G805/PC-G811/PC-G813/PC-G820/PC-G830/PC-E200/PC-E220 \
+#define MACHINE_E200                                                                   ¬•
+  0 /* PC-G801/PC-G802/PC-G803/PC-G805/PC-G811/PC-G813/PC-G820/PC-G830/PC-E200/PC-E220 ¬•
      */
 #define MACHINE_G815 1 /* PC-G815 */
 #define MACHINE_G850 2 /* PC-G850/PC-G850S/PC-G850V/PC-G850VS */
@@ -66,7 +66,7 @@
 #define MACHINE_PCG850V (((MACHINE_G850 + 1) << 8) | MACHINE_SUB_PCG850V)
 #define MACHINE_PCG850VS (((MACHINE_G850 + 1) << 8) | MACHINE_SUB_PCG850VS)
 
-/* ÉLÅ[ÉRÅ[Éh */
+/* „Ç≠„Éº„Ç≥„Éº„Éâ */
 #define GKEY_NONE 0x00
 #define GKEY_OFF 0x01
 #define GKEY_Q 0x02
@@ -151,12 +151,12 @@
 #define GKEY_BREAK 0x51
 #define GKEY_DOUBLE 0x52
 
-/* ÉLÅ[ÉÇÉfÉtÉ@ÉCÉA */
+/* „Ç≠„Éº„É¢„Éá„Éï„Ç°„Ç§„Ç¢ */
 #define GMODKEY_NOSHIFT 0x100
 #define GMODKEY_SHIFT 0x200
 #define GMODKEY_MASK ((uint16)0xff00)
 
-/* âºëzÉLÅ[ÉRÅ[Éh */
+/* ‰ªÆÊÉ≥„Ç≠„Éº„Ç≥„Éº„Éâ */
 #define GKEY_SHIFT 0x53
 #define GKEY_RESET 0x54
 #define GKEY_DEBUG 0x55
@@ -172,49 +172,49 @@
 #define GKEY_COPY 0x5f
 #define GKEY_PASTE 0x60
 
-/* äÑÇËçûÇ›óvàˆ */
+/* Ââ≤„ÇäËæº„ÅøË¶ÅÂõ† */
 #define INTERRUPT_IA 0x01
 #define INTERRUPT_KON 0x02
 #define INTERRUPT_1S 0x04
 #define INTERRUPT_INT1 0x08
 
-/* É^ÉCÉ}äÑÇËçûÇ› */
+/* „Çø„Ç§„ÉûÂâ≤„ÇäËæº„Åø */
 #define TIMER_1S 0x01
 
-/* ÉVÉäÉAÉãÉ|Å[Ég */
-#define PIN11_BUSY 0x01 /* í[éqî‘çÜ4  BUSY */
-#define PIN11_DOUT 0x02 /* í[éqî‘çÜ5  Dout */
-#define PIN11_XIN 0x04  /* í[éqî‘çÜ6  Xin  */
-#define PIN11_XOUT 0x08 /* í[éqî‘çÜ7  Xout */
-#define PIN11_DIN 0x10  /* í[éqî‘çÜ8  Din  */
-#define PIN11_ACK 0x20  /* í[éqî‘çÜ9  ACK  */
-#define PIN11_10 0x40   /* í[éqî‘çÜ10 -    */
-#define PIN11_11 0x80   /* í[éqî‘çÜ11 -    */
+/* „Ç∑„É™„Ç¢„É´„Éù„Éº„Éà */
+#define PIN11_BUSY 0x01 /* Á´ØÂ≠êÁï™Âè∑4  BUSY */
+#define PIN11_DOUT 0x02 /* Á´ØÂ≠êÁï™Âè∑5  Dout */
+#define PIN11_XIN 0x04  /* Á´ØÂ≠êÁï™Âè∑6  Xin  */
+#define PIN11_XOUT 0x08 /* Á´ØÂ≠êÁï™Âè∑7  Xout */
+#define PIN11_DIN 0x10  /* Á´ØÂ≠êÁï™Âè∑8  Din  */
+#define PIN11_ACK 0x20  /* Á´ØÂ≠êÁï™Âè∑9  ACK  */
+#define PIN11_10 0x40   /* Á´ØÂ≠êÁï™Âè∑10 -    */
+#define PIN11_11 0x80   /* Á´ØÂ≠êÁï™Âè∑11 -    */
 
-/* ROM(c000h-ffffh)Ç÷ÇÃÉ|ÉCÉìÉ^ */
+/* ROM(c000h-ffffh)„Å∏„ÅÆ„Éù„Ç§„É≥„Çø */
 #define ROM(page) &rom[0x4000 * (page)]
 
-/* EXROM(8000h-bfffh)Ç÷ÇÃÉ|ÉCÉìÉ^ */
+/* EXROM(8000h-bfffh)„Å∏„ÅÆ„Éù„Ç§„É≥„Çø */
 #define EXROM(page) &exrom[0x4000 * (page)]
 
-/* ÉWÉáÉCÉXÉeÉBÉbÉNÇÃÉ{É^ÉìÇÃêî */
+/* „Ç∏„Éß„Ç§„Çπ„ÉÜ„Ç£„ÉÉ„ÇØ„ÅÆ„Éú„Çø„É≥„ÅÆÊï∞ */
 #define JOY_BUTTONS 12
 
-/* ÉTÉEÉìÉhèoóÕÇÃé¸îgêî */
+/* „Çµ„Ç¶„É≥„ÉâÂá∫Âäõ„ÅÆÂë®Ê≥¢Êï∞ */
 #define FREQ_SOUND 44100
 
-/* ÉJÅ[É\Éãå`èÛ */
-#define CURSOR_NONE 0 /* ÉJÅ[É\ÉãÇ»Çµ */
-#define CURSOR_NEW 1  /* êVÇµÇ¢ï∂éö */
-#define CURSOR_OVER 2 /* è„èëÇ´ */
-#define CURSOR_INS 3  /* ë}ì¸ */
+/* „Ç´„Éº„ÇΩ„É´ÂΩ¢Áä∂ */
+#define CURSOR_NONE 0 /* „Ç´„Éº„ÇΩ„É´„Å™„Åó */
+#define CURSOR_NEW 1  /* Êñ∞„Åó„ÅÑÊñáÂ≠ó */
+#define CURSOR_OVER 2 /* ‰∏äÊõ∏„Åç */
+#define CURSOR_INS 3  /* ÊåøÂÖ• */
 
-/* ì¸óÕÉÇÅ[Éh */
+/* ÂÖ•Âäõ„É¢„Éº„Éâ */
 #define GETLINE_MAN 0
 #define GETLINE_PRO 1
 #define GETLINE_RUN 2
 
-/* PC-E200 LCDÅEVRAMèÓïÒ */
+/* PC-E200 LCD„ÉªVRAMÊÉÖÂ†± */
 #define E200_CELL_WIDTH 5
 #define E200_CELL_HEIGHT 7
 #define E200_LCD_COLS 24
@@ -262,7 +262,7 @@
 #define E200_CPU_CLOCKS (4000 * 1000)
 #define E200_STATES_KEYSTROBE_CLEAR 26
 
-/* PC-G815 LCDÅEVRAMèÓïÒ */
+/* PC-G815 LCD„ÉªVRAMÊÉÖÂ†± */
 #define G815_CELL_WIDTH 6
 #define G815_CELL_HEIGHT 8
 #define G815_LCD_COLS 24
@@ -308,9 +308,9 @@
 #define G815_BATT_ROW 6
 #define G815_BATT_MASK 0x01
 #define G815_CPU_CLOCKS (4000 * 1000)
-#define G815_STATES_KEYSTROBE_CLEAR 26 /* ïsñæ */
+#define G815_STATES_KEYSTROBE_CLEAR 26 /* ‰∏çÊòé */
 
-/* PC-G850 LCDÅEVRAMèÓïÒ */
+/* PC-G850 LCD„ÉªVRAMÊÉÖÂ†± */
 #define G850_CELL_WIDTH 6
 #define G850_CELL_HEIGHT 8
 #define G850_LCD_COLS 24
@@ -356,7 +356,7 @@
 #define G850_CPU_CLOCKS (9000 * 1000)
 #define G850_STATES_KEYSTROBE_CLEAR 130
 
-/* ÉåÉCÉAÉEÉg */
+/* „É¨„Ç§„Ç¢„Ç¶„Éà */
 #define PIXEL_WIDTH 10
 #define PIXEL_HEIGHT 10
 #define STATUS_CHAR_WIDTH 30
@@ -402,20 +402,20 @@
 #define KEY_WIDTH 80
 #define KEY_HEIGHT 60
 
-/* ÉåÉCÉAÉEÉg PC-E200 */
+/* „É¨„Ç§„Ç¢„Ç¶„Éà PC-E200 */
 #define E200_MARGIN_UP 60
 #define E200_MARGIN_DOWN (60 - PIXEL_HEIGHT)
 #define E200_MARGIN_LEFT PIXEL_WIDTH
 #define E200_MARGIN_RIGHT 0
-#define E200_LCD_MAIN_WIDTH                                                    \
+#define E200_LCD_MAIN_WIDTH                                                    ¬•
   ((E200_CELL_WIDTH + 1) * E200_LCD_COLS * PIXEL_WIDTH)
-#define E200_LCD_MAIN_HEIGHT                                                   \
+#define E200_LCD_MAIN_HEIGHT                                                   ¬•
   ((E200_CELL_HEIGHT + 1) * E200_LCD_ROWS * PIXEL_HEIGHT)
 #define E200_LCD_X 0
 #define E200_LCD_Y 0
-#define E200_LCD_WIDTH                                                         \
+#define E200_LCD_WIDTH                                                         ¬•
   (E200_MARGIN_LEFT + E200_LCD_MAIN_WIDTH + E200_MARGIN_RIGHT)
-#define E200_LCD_HEIGHT                                                        \
+#define E200_LCD_HEIGHT                                                        ¬•
   (E200_MARGIN_UP + E200_LCD_MAIN_HEIGHT + E200_MARGIN_DOWN + PIXEL_HEIGHT)
 #define _E200_STATUS_X E200_MARGIN_LEFT
 #define _E200_USTATUS_Y (E200_MARGIN_UP - STATUS_HEIGHT - PIXEL_HEIGHT)
@@ -452,7 +452,7 @@
 #define E200_STATUS_PRINT_Y _E200_DSTATUS_Y
 #define E200_STATUS_BUSY_X (_E200_STATUS_X + PIXEL_WIDTH * 6 * 0)
 #define E200_STATUS_BUSY_Y _E200_USTATUS_Y
-#define E200_STATUS_BATT_X                                                     \
+#define E200_STATUS_BATT_X                                                     ¬•
   (E200_MARGIN_LEFT + E200_LCD_MAIN_WIDTH - STATUS_BATT_WIDTH)
 #define E200_STATUS_BATT_Y _E200_USTATUS_Y
 #define E200_STATUS_E_X (_E200_STATUS_X + PIXEL_WIDTH * 6 * 21)
@@ -514,7 +514,7 @@
 #define E200_RKAKKO_X (E200_FKEY_X + E200_FKEY_WIDTH * 8)
 #define E200_RKAKKO_Y (E200_FKEY_Y + E200_FKEY_HEIGHT * 2)
 
-/* ÉåÉCÉAÉEÉg PC-G815 */
+/* „É¨„Ç§„Ç¢„Ç¶„Éà PC-G815 */
 #define G815_MARGIN_UP E200_MARGIN_UP
 #define G815_MARGIN_DOWN E200_MARGIN_DOWN
 #define G815_MARGIN_LEFT E200_MARGIN_LEFT
@@ -523,9 +523,9 @@
 #define G815_LCD_MAIN_HEIGHT E200_LCD_MAIN_HEIGHT
 #define G815_LCD_X 0
 #define G815_LCD_Y 0
-#define G815_LCD_WIDTH                                                         \
+#define G815_LCD_WIDTH                                                         ¬•
   (G815_MARGIN_LEFT + G815_LCD_MAIN_WIDTH + G815_MARGIN_RIGHT)
-#define G815_LCD_HEIGHT                                                        \
+#define G815_LCD_HEIGHT                                                        ¬•
   (G815_MARGIN_UP + G815_LCD_MAIN_HEIGHT + G815_MARGIN_DOWN + PIXEL_HEIGHT)
 #define _G815_STATUS_X G815_MARGIN_LEFT
 #define _G815_USTATUS_Y (G815_MARGIN_UP - STATUS_HEIGHT - PIXEL_HEIGHT)
@@ -562,7 +562,7 @@
 #define G815_STATUS_PRINT_Y _G815_DSTATUS_Y
 #define G815_STATUS_BUSY_X (_G815_STATUS_X + PIXEL_WIDTH * 6 * 0)
 #define G815_STATUS_BUSY_Y _G815_USTATUS_Y
-#define G815_STATUS_BATT_X                                                     \
+#define G815_STATUS_BATT_X                                                     ¬•
   (G815_MARGIN_LEFT + G815_LCD_MAIN_WIDTH - STATUS_BATT_WIDTH)
 #define G815_STATUS_BATT_Y _G815_USTATUS_Y
 #define G815_STATUS_E_X (_G815_STATUS_X + PIXEL_WIDTH * 6 * 21)
@@ -624,7 +624,7 @@
 #define G815_RKAKKO_X (G815_FKEY_X + G815_FKEY_WIDTH * 8)
 #define G815_RKAKKO_Y (G815_FKEY_Y + G815_FKEY_HEIGHT * 2)
 
-/* ÉåÉCÉAÉEÉg PC-G850 */
+/* „É¨„Ç§„Ç¢„Ç¶„Éà PC-G850 */
 #define G850_MARGIN_UP 20
 #define G850_MARGIN_DOWN 20
 #define G850_MARGIN_LEFT 180
@@ -633,9 +633,9 @@
 #define G850_LCD_MAIN_HEIGHT (G850_CELL_HEIGHT * G850_LCD_ROWS * PIXEL_HEIGHT)
 #define G850_LCD_X 0
 #define G850_LCD_Y 0
-#define G850_LCD_WIDTH                                                         \
+#define G850_LCD_WIDTH                                                         ¬•
   (G850_MARGIN_LEFT + G850_LCD_MAIN_WIDTH + G850_MARGIN_RIGHT)
-#define G850_LCD_HEIGHT                                                        \
+#define G850_LCD_HEIGHT                                                        ¬•
   (G850_MARGIN_UP + G850_LCD_MAIN_HEIGHT + G850_MARGIN_DOWN)
 #define _G850_RSTATUS_X (G850_MARGIN_LEFT + G850_LCD_MAIN_WIDTH + PIXEL_WIDTH)
 #define _G850_LSTATUS_X PIXEL_WIDTH
@@ -739,9 +739,9 @@
 #define VRAM_XY(x, y) &vram[VRAMOFF_XY(x, y)]
 
 /*
-        ç\ë¢ëÃ
+        ÊßãÈÄ†‰Ωì
 */
-/* í∑ï˚å` */
+/* Èï∑ÊñπÂΩ¢ */
 typedef struct {
   int x;
   int y;
@@ -749,14 +749,14 @@ typedef struct {
   int h;
 } Rect;
 
-/* ÉrÉbÉgÉ}ÉbÉvâÊëú */
+/* „Éì„ÉÉ„Éà„Éû„ÉÉ„ÉóÁîªÂÉè */
 typedef struct {
   int width;
   int height;
   uint8 *image;
 } Bitmap;
 
-/* É}ÉVÉìèÓïÒ */
+/* „Éû„Ç∑„É≥ÊÉÖÂ†± */
 typedef struct {
   int machine;
   char *machine_name;
@@ -780,7 +780,7 @@ typedef struct {
 } Machineinfo;
 
 /*
-        ÉOÉçÅ[ÉoÉãïœêî
+        „Ç∞„É≠„Éº„Éê„É´Â§âÊï∞
 */
 #if defined(DEF_GLOBAL)
 #define EXTERN
@@ -788,7 +788,7 @@ typedef struct {
 #define EXTERN extern
 #endif
 
-/* PC-E200èÓïÒ */
+/* PC-E200ÊÉÖÂ†± */
 EXTERN const Machineinfo e200info
 #if defined(DEF_GLOBAL)
     = {MACHINE_E200,
@@ -930,7 +930,7 @@ EXTERN const Machineinfo e200info
 #endif
 ;
 
-/* PC-G815èÓïÒ */
+/* PC-G815ÊÉÖÂ†± */
 EXTERN const Machineinfo g815info
 #if defined(DEF_GLOBAL)
     = {MACHINE_G815,
@@ -1072,7 +1072,7 @@ EXTERN const Machineinfo g815info
 #endif
 ;
 
-/* PC-G850èÓïÒ */
+/* PC-G850ÊÉÖÂ†± */
 EXTERN const Machineinfo g850info
 #if defined(DEF_GLOBAL)
     = {MACHINE_G850,
@@ -1213,14 +1213,14 @@ EXTERN const Machineinfo g850info
 #endif
 ;
 
-/* ÉGÉ~ÉÖÉåÅ[ÉgÇ≥ÇÍÇÈÉ}ÉVÉìÇÃèÓïÒ */
+/* „Ç®„Éü„É•„É¨„Éº„Éà„Åï„Çå„Çã„Éû„Ç∑„É≥„ÅÆÊÉÖÂ†± */
 EXTERN const Machineinfo *machineInfo[MACHINE_LAST + 1]
 #if defined(DEF_GLOBAL)
     = {&e200info, &g815info, &g850info}
 #endif
 ;
 
-/* É}ÉVÉìñº */
+/* „Éû„Ç∑„É≥Âêç */
 EXTERN const char *machineName[]
 #if defined(DEF_GLOBAL)
     =
@@ -1234,80 +1234,80 @@ EXTERN const char *machineName[]
 #endif
 ;
 
-/* ÉtÉHÉìÉg */
+/* „Éï„Ç©„É≥„Éà */
 #include "font.h"
 
-/* CPU/ÉÅÉÇÉä */
-EXTERN Z80stat z80;           /* CPUèÛë‘ */
-EXTERN int freqCPU;           /* CPUé¸îgêî */
-EXTERN int romBanks;          /* ROMÉoÉìÉNêî */
-EXTERN int romBank;           /* åªç›ÇÃROMÉoÉìÉNî‘çÜ */
-EXTERN int exBanks;           /* EXROMÉoÉìÉNêî */
-EXTERN int exBank;            /* åªç›ÇÃEXROMÉoÉìÉNî‘çÜ */
-EXTERN int ramBank;           /* åªç›ÇÃRAMÉoÉìÉNî‘çÜ */
-EXTERN uint8 ioReset;         /* é¸ï”ã@äÌópÉäÉZÉbÉgêMçÜ */
-EXTERN uint8 onCd;            /* CDêMçÜÇ…ÇÊÇÈONêßå‰(PC-G850) */
-EXTERN uint8 m1Wait;          /* M1êMçÜå„waitêßå‰(PC-G850) */
+/* CPU/„É°„É¢„É™ */
+EXTERN Z80stat z80;           /* CPUÁä∂ÊÖã */
+EXTERN int freqCPU;           /* CPUÂë®Ê≥¢Êï∞ */
+EXTERN int romBanks;          /* ROM„Éê„É≥„ÇØÊï∞ */
+EXTERN int romBank;           /* ÁèæÂú®„ÅÆROM„Éê„É≥„ÇØÁï™Âè∑ */
+EXTERN int exBanks;           /* EXROM„Éê„É≥„ÇØÊï∞ */
+EXTERN int exBank;            /* ÁèæÂú®„ÅÆEXROM„Éê„É≥„ÇØÁï™Âè∑ */
+EXTERN int ramBank;           /* ÁèæÂú®„ÅÆRAM„Éê„É≥„ÇØÁï™Âè∑ */
+EXTERN uint8 ioReset;         /* Âë®Ëæ∫Ê©üÂô®Áî®„É™„Çª„ÉÉ„Éà‰ø°Âè∑ */
+EXTERN uint8 onCd;            /* CD‰ø°Âè∑„Å´„Çà„ÇãONÂà∂Âæ°(PC-G850) */
+EXTERN uint8 m1Wait;          /* M1‰ø°Âè∑ÂæåwaitÂà∂Âæ°(PC-G850) */
 EXTERN uint8 ioWait;          /* I/O wait(PC-G850) */
-EXTERN uint8 csClk;           /* çÇë¨ÅEí·ë¨ÉÇÅ[Éh(PC-G850) */
-EXTERN uint8 memory[0x10001]; /* ÉÅÉÇÉä */
+EXTERN uint8 csClk;           /* È´òÈÄü„Éª‰ΩéÈÄü„É¢„Éº„Éâ(PC-G850) */
+EXTERN uint8 memory[0x10001]; /* „É°„É¢„É™ */
 EXTERN uint8 *exram;          /* EXRAM */
 EXTERN uint8 *rom;            /* ROM */
 EXTERN uint8 *exrom;          /* EXROM */
 
-/* äÑÇËçûÇ› */
-EXTERN uint8 interruptType; /* äÑÇËçûÇ›óvàˆ */
-EXTERN uint8 interruptMask; /* äÑÇËçûÇ›É}ÉXÉN */
+/* Ââ≤„ÇäËæº„Åø */
+EXTERN uint8 interruptType; /* Ââ≤„ÇäËæº„ÅøË¶ÅÂõ† */
+EXTERN uint8 interruptMask; /* Ââ≤„ÇäËæº„Åø„Éû„Çπ„ÇØ */
 
-/* É^ÉCÉ} */
-EXTERN uint8 timer;       /* É^ÉCÉ} */
-EXTERN int timerInterval; /* É^ÉCÉ}é¸ä˙ */
-EXTERN int timerCount;    /* É^ÉCÉ}ópÉJÉEÉìÉ^ */
+/* „Çø„Ç§„Éû */
+EXTERN uint8 timer;       /* „Çø„Ç§„Éû */
+EXTERN int timerInterval; /* „Çø„Ç§„ÉûÂë®Êúü */
+EXTERN int timerCount;    /* „Çø„Ç§„ÉûÁî®„Ç´„Ç¶„É≥„Çø */
 
-/* ÉLÅ[É{Å[Éh */
-EXTERN uint16 keyStrobe;     /* ÉLÅ[ÉXÉgÉçÅ[Éu */
-EXTERN uint16 keyStrobeLast; /* ç≈å„Ç…ê›íËÇµÇΩÉLÅ[ÉXÉgÉçÅ[Éu */
-EXTERN uint8 keyMatrix[10];  /* ÉLÅ[èÛë‘ */
-EXTERN uint8 keyShift;       /* ÉVÉtÉgÉLÅ[èÛë‘ */
-EXTERN uint8 keyBreak;       /* ONÉLÅ[èÛë‘ */
-EXTERN int keyReset;         /* ÉäÉZÉbÉgÉ{É^ÉìèÛë‘ */
+/* „Ç≠„Éº„Éú„Éº„Éâ */
+EXTERN uint16 keyStrobe;     /* „Ç≠„Éº„Çπ„Éà„É≠„Éº„Éñ */
+EXTERN uint16 keyStrobeLast; /* ÊúÄÂæå„Å´Ë®≠ÂÆö„Åó„Åü„Ç≠„Éº„Çπ„Éà„É≠„Éº„Éñ */
+EXTERN uint8 keyMatrix[10];  /* „Ç≠„ÉºÁä∂ÊÖã */
+EXTERN uint8 keyShift;       /* „Ç∑„Éï„Éà„Ç≠„ÉºÁä∂ÊÖã */
+EXTERN uint8 keyBreak;       /* ON„Ç≠„ÉºÁä∂ÊÖã */
+EXTERN int keyReset;         /* „É™„Çª„ÉÉ„Éà„Éú„Çø„É≥Áä∂ÊÖã */
 EXTERN int
-    statesKeyStrobeLast; /* ÉLÅ[ÉXÉgÉçÅ[ÉuÇê›íËÇµÇΩÇ∆Ç´ÇÃó›êœÉXÉeÅ[Égêî */
-EXTERN int statesKeyStrobeClear; /* ÉLÅ[ÉXÉgÉçÅ[ÉuÇ™ÉNÉäÉAÇ≥ÇÍÇÈÉXÉeÅ[Égêî */
-EXTERN uint16 keyConv[KEY_LAST + 1];      /* ÉLÅ[ïœä∑ÉeÅ[ÉuÉã */
-EXTERN uint16 keyConvAlt[KEY_LAST + 1];   /* ÉLÅ[ïœä∑ÉeÅ[ÉuÉã */
-EXTERN uint16 keyConvCtrl[KEY_LAST + 1];  /* ÉLÅ[ïœä∑ÉeÅ[ÉuÉã */
-EXTERN uint16 keyConvShift[KEY_LAST + 1]; /* ÉLÅ[ïœä∑ÉeÅ[ÉuÉã */
+    statesKeyStrobeLast; /* „Ç≠„Éº„Çπ„Éà„É≠„Éº„Éñ„ÇíË®≠ÂÆö„Åó„Åü„Å®„Åç„ÅÆÁ¥ØÁ©ç„Çπ„ÉÜ„Éº„ÉàÊï∞ */
+EXTERN int statesKeyStrobeClear; /* „Ç≠„Éº„Çπ„Éà„É≠„Éº„Éñ„Åå„ÇØ„É™„Ç¢„Åï„Çå„Çã„Çπ„ÉÜ„Éº„ÉàÊï∞ */
+EXTERN uint16 keyConv[KEY_LAST + 1];      /* „Ç≠„ÉºÂ§âÊèõ„ÉÜ„Éº„Éñ„É´ */
+EXTERN uint16 keyConvAlt[KEY_LAST + 1];   /* „Ç≠„ÉºÂ§âÊèõ„ÉÜ„Éº„Éñ„É´ */
+EXTERN uint16 keyConvCtrl[KEY_LAST + 1];  /* „Ç≠„ÉºÂ§âÊèõ„ÉÜ„Éº„Éñ„É´ */
+EXTERN uint16 keyConvShift[KEY_LAST + 1]; /* „Ç≠„ÉºÂ§âÊèõ„ÉÜ„Éº„Éñ„É´ */
 
 /* LCD */
 EXTERN int lcdRead;
-EXTERN uint8 lcdX;           /* â°ÉAÉhÉåÉX */
-EXTERN uint8 lcdY;           /* ècÉAÉhÉåÉX */
-EXTERN uint8 lcdX2;          /* â°ÉAÉhÉåÉX2 (PC-G815) */
-EXTERN uint8 lcdY2;          /* ècÉAÉhÉåÉX2 (PC-G815) */
-EXTERN uint8 lcdBegin;       /* ï\é¶äJénÉAÉhÉåÉX(PC-E200/PC-G815) */
+EXTERN uint8 lcdX;           /* Ê®™„Ç¢„Éâ„É¨„Çπ */
+EXTERN uint8 lcdY;           /* Á∏¶„Ç¢„Éâ„É¨„Çπ */
+EXTERN uint8 lcdX2;          /* Ê®™„Ç¢„Éâ„É¨„Çπ2 (PC-G815) */
+EXTERN uint8 lcdY2;          /* Á∏¶„Ç¢„Éâ„É¨„Çπ2 (PC-G815) */
+EXTERN uint8 lcdBegin;       /* Ë°®Á§∫ÈñãÂßã„Ç¢„Éâ„É¨„Çπ(PC-E200/PC-G815) */
 EXTERN uint8 lcdDisabled;    /* LCD OFF(PC-G850) */
-EXTERN uint8 lcdTop;         /* ï\é¶äJénà íu(PC-G850) */
-EXTERN uint8 lcdContrast;    /* ÉRÉìÉgÉâÉXÉg(PC-G850) */
-EXTERN int lcdEffectMirror;  /* É~ÉâÅ[ÉÇÅ[Éh(PC-G850) */
-EXTERN int lcdEffectBlack;   /* çïìhÇËÇ¬Ç‘Çµ(PC-G850) */
-EXTERN int lcdEffectReverse; /* îΩì](PC-G850) */
-EXTERN int lcdEffectDark;    /* LCDìdà≥ëùâ¡(PC-G850) */
-EXTERN int lcdEffectWhite;   /* îíìhÇËÇ¬Ç‘Çµ(PC-G850) */
+EXTERN uint8 lcdTop;         /* Ë°®Á§∫ÈñãÂßã‰ΩçÁΩÆ(PC-G850) */
+EXTERN uint8 lcdContrast;    /* „Ç≥„É≥„Éà„É©„Çπ„Éà(PC-G850) */
+EXTERN int lcdEffectMirror;  /* „Éü„É©„Éº„É¢„Éº„Éâ(PC-G850) */
+EXTERN int lcdEffectBlack;   /* ÈªíÂ°ó„Çä„Å§„Å∂„Åó(PC-G850) */
+EXTERN int lcdEffectReverse; /* ÂèçËª¢(PC-G850) */
+EXTERN int lcdEffectDark;    /* LCDÈõªÂúßÂ¢óÂä†(PC-G850) */
+EXTERN int lcdEffectWhite;   /* ÁôΩÂ°ó„Çä„Å§„Å∂„Åó(PC-G850) */
 EXTERN int lcdMod;
-EXTERN uint8 lcdTrim;       /* ÉgÉäÉÄ(PC-G850) */
+EXTERN uint8 lcdTrim;       /* „Éà„É™„É†(PC-G850) */
 EXTERN uint8 vram[166 * 9]; /* VRAM */
 
 /* 11pin I/F */
-EXTERN uint8 pin11If;    /* 11pinI/FÇÃìÆçÏ */
+EXTERN uint8 pin11If;    /* 11pinI/F„ÅÆÂãï‰Ωú */
 #define PIN11IF_3IO 0    /* 3in 3out I/F */
 #define PIN11IF_8PIO 1   /* 8bits PIO    */
-#define PIN11IF_UART 2   /* ëS2èdí êM    */
-EXTERN uint8 pin11In;    /* 11pinì¸óÕèÛë‘ */
-EXTERN uint8 xinEnabled; /* Xinâ¬î€ */
-EXTERN uint8 io3Out;     /* XoutèÛë‘ */
-EXTERN uint8 pio8Io;     /* PIOì¸èoóÕï˚å¸ */
-EXTERN uint8 pio8Out;    /* PIOÉfÅ[É^ÉåÉWÉXÉ^(èoóÕ) */
+#define PIN11IF_UART 2   /* ÂÖ®2ÈáçÈÄö‰ø°    */
+EXTERN uint8 pin11In;    /* 11pinÂÖ•ÂäõÁä∂ÊÖã */
+EXTERN uint8 xinEnabled; /* XinÂèØÂê¶ */
+EXTERN uint8 io3Out;     /* XoutÁä∂ÊÖã */
+EXTERN uint8 pio8Io;     /* PIOÂÖ•Âá∫ÂäõÊñπÂêë */
+EXTERN uint8 pio8Out;    /* PIO„Éá„Éº„Çø„É¨„Ç∏„Çπ„Çø(Âá∫Âäõ) */
 EXTERN uint8 uartIo;
 #define UARTIO_UASEL 0x01
 #define UARTIO_SIOOUT 0x02
@@ -1330,79 +1330,79 @@ EXTERN uint8 uartStatus;
 #define UARTSTATUS_FRME 0x80
 
 /* SIO */
-EXTERN char pathSioIn[FILENAME_MAX];  /* SIOì¸óÕÉtÉ@ÉCÉãÇÃÉpÉXñº */
-EXTERN char pathSioOut[FILENAME_MAX]; /* SIOèoóÕÉtÉ@ÉCÉãÇÃÉpÉXñº */
-EXTERN int sioMode;                   /* SIOÇÃèÛë‘ */
-#define SIO_MODE_STOP 0               /* í‚é~ */
-#define SIO_MODE_IN 1                 /* ì¸óÕ */
-#define SIO_MODE_OUT 2                /* èoóÕ */
-EXTERN char sioBuffer[0x20000];       /* SIOÉoÉbÉtÉ@ */
-EXTERN int sioBufferSize;             /* SIOÉoÉbÉtÉ@ÇÃÉTÉCÉY */
-EXTERN int sioCount;                  /* SIOÉJÉEÉìÉ^ */
-EXTERN int sioBusy;                   /* éÛêMâ¬Ç©? */
+EXTERN char pathSioIn[FILENAME_MAX];  /* SIOÂÖ•Âäõ„Éï„Ç°„Ç§„É´„ÅÆ„Éë„ÇπÂêç */
+EXTERN char pathSioOut[FILENAME_MAX]; /* SIOÂá∫Âäõ„Éï„Ç°„Ç§„É´„ÅÆ„Éë„ÇπÂêç */
+EXTERN int sioMode;                   /* SIO„ÅÆÁä∂ÊÖã */
+#define SIO_MODE_STOP 0               /* ÂÅúÊ≠¢ */
+#define SIO_MODE_IN 1                 /* ÂÖ•Âäõ */
+#define SIO_MODE_OUT 2                /* Âá∫Âäõ */
+EXTERN char sioBuffer[0x20000];       /* SIO„Éê„ÉÉ„Éï„Ç° */
+EXTERN int sioBufferSize;             /* SIO„Éê„ÉÉ„Éï„Ç°„ÅÆ„Çµ„Ç§„Ç∫ */
+EXTERN int sioCount;                  /* SIO„Ç´„Ç¶„É≥„Çø */
+EXTERN int sioBusy;                   /* Âèó‰ø°ÂèØ„Åã? */
 
-/* ÉuÉUÅ[ */
-EXTERN int buzzer;               /* ÉuÉUÅ[ÉÇÅ[Éh */
-#define BUZZER_NONE 0            /* âπÇ»Çµ */
-#define BUZZER_USE 1             /* âπÇ†ÇË */
-#define BUZZER_SYNC 2            /* ìØä˙ÇÇ∆ÇÈ */
-EXTERN int soundBufferSize;      /* ÉTÉEÉìÉhÉoÉbÉtÉ@ÇÃÉTÉCÉY */
-EXTERN uint8 *soundReadBuffer;   /* ÉTÉEÉìÉhì«Ç›çûÇ›ÉoÉbÉtÉ@ */
-EXTERN uint8 *soundWriteBuffer;  /* ÉTÉEÉìÉhèëÇ´çûÇ›ÉoÉbÉtÉ@ */
-EXTERN volatile int soundPlayed; /* ÉTÉEÉìÉhÇèoóÕÇµÇΩÇ©? */
+/* „Éñ„Ç∂„Éº */
+EXTERN int buzzer;               /* „Éñ„Ç∂„Éº„É¢„Éº„Éâ */
+#define BUZZER_NONE 0            /* Èü≥„Å™„Åó */
+#define BUZZER_USE 1             /* Èü≥„ÅÇ„Çä */
+#define BUZZER_SYNC 2            /* ÂêåÊúü„Çí„Å®„Çã */
+EXTERN int soundBufferSize;      /* „Çµ„Ç¶„É≥„Éâ„Éê„ÉÉ„Éï„Ç°„ÅÆ„Çµ„Ç§„Ç∫ */
+EXTERN uint8 *soundReadBuffer;   /* „Çµ„Ç¶„É≥„ÉâË™≠„ÅøËæº„Åø„Éê„ÉÉ„Éï„Ç° */
+EXTERN uint8 *soundWriteBuffer;  /* „Çµ„Ç¶„É≥„ÉâÊõ∏„ÅçËæº„Åø„Éê„ÉÉ„Éï„Ç° */
+EXTERN volatile int soundPlayed; /* „Çµ„Ç¶„É≥„Éâ„ÇíÂá∫Âäõ„Åó„Åü„Åã? */
 
-/* ÉoÉbÉeÉäÅ[ */
+/* „Éê„ÉÉ„ÉÜ„É™„Éº */
 EXTERN int battChk;
 
-/* BASICÉCÉìÉ^Å[ÉvÉäÉ^ */
+/* BASIC„Ç§„É≥„Çø„Éº„Éó„É™„Çø */
 EXTERN struct Basic bas;
 EXTERN int useBasic;
 EXTERN char pathBasic[FILENAME_MAX];
 
-/* ê›íË */
-EXTERN int emulatorMode;     /* ÉGÉ~ÉÖÉåÅ[É^ÇÃÉÇÅ[Éh */
-#define EMULATOR_MODE_RUN 0  /* é¿çsíÜ */
-#define EMULATOR_MODE_MENU 1 /* ÉÅÉjÉÖÅ[ï\é¶íÜ */
-EXTERN int machine;          /* ÉGÉ~ÉÖÉåÅ[ÉgÇ≥ÇÍÇÈÉ}ÉVÉì */
+/* Ë®≠ÂÆö */
+EXTERN int emulatorMode;     /* „Ç®„Éü„É•„É¨„Éº„Çø„ÅÆ„É¢„Éº„Éâ */
+#define EMULATOR_MODE_RUN 0  /* ÂÆüË°å‰∏≠ */
+#define EMULATOR_MODE_MENU 1 /* „É°„Éã„É•„ÉºË°®Á§∫‰∏≠ */
+EXTERN int machine;          /* „Ç®„Éü„É•„É¨„Éº„Éà„Åï„Çå„Çã„Éû„Ç∑„É≥ */
 EXTERN int machineSub;
-EXTERN char dirROM[FILENAME_MAX];   /* ROMÉCÉÅÅ[ÉWÇÃÇ†ÇÈÉfÉBÉåÉNÉgÉä */
-EXTERN char pathRAM[FILENAME_MAX];  /* RAMï€ë∂ÉtÉ@ÉCÉãÇÃÉpÉXñº */
-EXTERN char pathProg[FILENAME_MAX]; /* ÉvÉçÉOÉâÉÄÇÃÉpÉXñº */
-EXTERN int useROM;                  /* é¿ã@ÇÃROMÇégÇ§Ç©? */
-EXTERN int freqUpdateIO;            /* I/OÇÃçXêVé¸ä˙ */
-EXTERN int beginProg;               /* ÉvÉçÉOÉâÉÄÇÃäJénÉAÉhÉåÉX */
-EXTERN int emulateIOCS;             /* IOCSÇÉGÉ~ÉÖÉåÅ[ÉgÇ∑ÇÈÇ©? */
-EXTERN int lcdScales;               /* LCDÇÃäKí≤êî */
-EXTERN int noWait;                  /* ÉEÉFÉCÉgÇ»ÇµÉÇÅ[Éh */
-EXTERN int zoom;                    /* LCDÇÃî{ó¶ */
-EXTERN uint32 colorBack;            /* LCDîwåiêF */
-EXTERN uint32 colorOff;             /* LCD OFFêF */
-EXTERN uint32 colorOn;              /* LCD ONêF */
-EXTERN int cellWidth;               /* cellÇÃïù */
-EXTERN int cellHeight;              /* cellÇÃçÇÇ≥ */
-EXTERN int lcdRows;                 /* LCDÇÃçsêî */
-EXTERN int lcdCols;                 /* LCDÇÃóÒêî */
-EXTERN int lcdWidth;                /* LCDÇÃïù */
-EXTERN int lcdHeight;               /* LCDÇÃçÇÇ≥ */
-EXTERN int vramRows;                /* VRAMÇÃçsêî */
-EXTERN int vramCols;                /* VRAMÇÃóÒêî */
-EXTERN int vramWidth;               /* VRAMÇÃïù */
-EXTERN int vramHeight;              /* VRAMÇÃçÇÇ≥ */
-EXTERN int closeAsOff;              /* Åuï¬Ç∂ÇÈÅvÇOFFÉLÅ[Ç∆ÇµÇƒàµÇ§Ç©? */
-EXTERN int useJoy;                  /* ÉWÉáÉCÉXÉeÉBÉbÉNÇégÇ§Ç©? */
-EXTERN uint8 joyUp;    /* ÉWÉáÉCÉXÉfÉBÉbÉNÇÃè„Ç…äÑÇËìñÇƒÇÁÇÍÇΩÉLÅ[ */
-EXTERN uint8 joyDown;  /* ÉWÉáÉCÉXÉeÉBÉbÉNÇÃâ∫Ç…äÑÇËìñÇƒÇÁÇÍÇΩÉLÅ[ */
-EXTERN uint8 joyLeft;  /* ÉWÉáÉCÉXÉeÉBÉbÉNÇÃç∂Ç…äÑÇËìñÇƒÇÁÇÍÇΩÉLÅ[ */
-EXTERN uint8 joyRight; /* ÉWÉáÉCÉXÉeÉBÉbÉNÇÃâEÇ…äÑÇËìñÇƒÇÁÇÍÇΩÉLÅ[ */
+EXTERN char dirROM[FILENAME_MAX];   /* ROM„Ç§„É°„Éº„Ç∏„ÅÆ„ÅÇ„Çã„Éá„Ç£„É¨„ÇØ„Éà„É™ */
+EXTERN char pathRAM[FILENAME_MAX];  /* RAM‰øùÂ≠ò„Éï„Ç°„Ç§„É´„ÅÆ„Éë„ÇπÂêç */
+EXTERN char pathProg[FILENAME_MAX]; /* „Éó„É≠„Ç∞„É©„É†„ÅÆ„Éë„ÇπÂêç */
+EXTERN int useROM;                  /* ÂÆüÊ©ü„ÅÆROM„Çí‰Ωø„ÅÜ„Åã? */
+EXTERN int freqUpdateIO;            /* I/O„ÅÆÊõ¥Êñ∞Âë®Êúü */
+EXTERN int beginProg;               /* „Éó„É≠„Ç∞„É©„É†„ÅÆÈñãÂßã„Ç¢„Éâ„É¨„Çπ */
+EXTERN int emulateIOCS;             /* IOCS„Çí„Ç®„Éü„É•„É¨„Éº„Éà„Åô„Çã„Åã? */
+EXTERN int lcdScales;               /* LCD„ÅÆÈöéË™øÊï∞ */
+EXTERN int noWait;                  /* „Ç¶„Çß„Ç§„Éà„Å™„Åó„É¢„Éº„Éâ */
+EXTERN int zoom;                    /* LCD„ÅÆÂÄçÁéá */
+EXTERN uint32 colorBack;            /* LCDËÉåÊôØËâ≤ */
+EXTERN uint32 colorOff;             /* LCD OFFËâ≤ */
+EXTERN uint32 colorOn;              /* LCD ONËâ≤ */
+EXTERN int cellWidth;               /* cell„ÅÆÂπÖ */
+EXTERN int cellHeight;              /* cell„ÅÆÈ´ò„Åï */
+EXTERN int lcdRows;                 /* LCD„ÅÆË°åÊï∞ */
+EXTERN int lcdCols;                 /* LCD„ÅÆÂàóÊï∞ */
+EXTERN int lcdWidth;                /* LCD„ÅÆÂπÖ */
+EXTERN int lcdHeight;               /* LCD„ÅÆÈ´ò„Åï */
+EXTERN int vramRows;                /* VRAM„ÅÆË°åÊï∞ */
+EXTERN int vramCols;                /* VRAM„ÅÆÂàóÊï∞ */
+EXTERN int vramWidth;               /* VRAM„ÅÆÂπÖ */
+EXTERN int vramHeight;              /* VRAM„ÅÆÈ´ò„Åï */
+EXTERN int closeAsOff;              /* „ÄåÈñâ„Åò„Çã„Äç„ÇíOFF„Ç≠„Éº„Å®„Åó„Å¶Êâ±„ÅÜ„Åã? */
+EXTERN int useJoy;                  /* „Ç∏„Éß„Ç§„Çπ„ÉÜ„Ç£„ÉÉ„ÇØ„Çí‰Ωø„ÅÜ„Åã? */
+EXTERN uint8 joyUp;    /* „Ç∏„Éß„Ç§„Çπ„Éá„Ç£„ÉÉ„ÇØ„ÅÆ‰∏ä„Å´Ââ≤„ÇäÂΩì„Å¶„Çâ„Çå„Åü„Ç≠„Éº */
+EXTERN uint8 joyDown;  /* „Ç∏„Éß„Ç§„Çπ„ÉÜ„Ç£„ÉÉ„ÇØ„ÅÆ‰∏ã„Å´Ââ≤„ÇäÂΩì„Å¶„Çâ„Çå„Åü„Ç≠„Éº */
+EXTERN uint8 joyLeft;  /* „Ç∏„Éß„Ç§„Çπ„ÉÜ„Ç£„ÉÉ„ÇØ„ÅÆÂ∑¶„Å´Ââ≤„ÇäÂΩì„Å¶„Çâ„Çå„Åü„Ç≠„Éº */
+EXTERN uint8 joyRight; /* „Ç∏„Éß„Ç§„Çπ„ÉÜ„Ç£„ÉÉ„ÇØ„ÅÆÂè≥„Å´Ââ≤„ÇäÂΩì„Å¶„Çâ„Çå„Åü„Ç≠„Éº */
 EXTERN uint8
-    joyButton[JOY_BUTTONS]; /* ÉWÉáÉCÉXÉeÉBÉbÉNÇÃÉ{É^ÉìÇ…äÑÇËìñÇƒÇÁÇÍÇΩÉLÅ[ */
-EXTERN int useSoftwareKey;  /* É\ÉtÉgÉEÉFÉAÉLÅ[ÇégÇ§Ç©? */
-EXTERN int serialTest;      /* ÉVÉäÉAÉãÉ|Å[ÉgÇÃÉeÉXÉgÇçsÇ§Ç©? */
-EXTERN int useFileFilter;   /* ÉtÉ@ÉCÉãÉtÉBÉãÉ^ÇégÇ§Ç©? */
-EXTERN const char *pathInfoImage; /* èÓïÒâÊëú */
+    joyButton[JOY_BUTTONS]; /* „Ç∏„Éß„Ç§„Çπ„ÉÜ„Ç£„ÉÉ„ÇØ„ÅÆ„Éú„Çø„É≥„Å´Ââ≤„ÇäÂΩì„Å¶„Çâ„Çå„Åü„Ç≠„Éº */
+EXTERN int useSoftwareKey;  /* „ÇΩ„Éï„Éà„Ç¶„Çß„Ç¢„Ç≠„Éº„Çí‰Ωø„ÅÜ„Åã? */
+EXTERN int serialTest;      /* „Ç∑„É™„Ç¢„É´„Éù„Éº„Éà„ÅÆ„ÉÜ„Çπ„Éà„ÇíË°å„ÅÜ„Åã? */
+EXTERN int useFileFilter;   /* „Éï„Ç°„Ç§„É´„Éï„Ç£„É´„Çø„Çí‰Ωø„ÅÜ„Åã? */
+EXTERN const char *pathInfoImage; /* ÊÉÖÂ†±ÁîªÂÉè */
 
 /*
-        ä÷êîÉvÉçÉgÉ^ÉCÉv
+        Èñ¢Êï∞„Éó„É≠„Éà„Çø„Ç§„Éó
 */
 /* depend.c */
 int readBin(const char *, void *, int);
@@ -1514,7 +1514,7 @@ int exec(int);
 #endif
 
 /*
-        Copyright 2005 ~ 2017 maruhiro
+        Copyright 2005 ‚Äæ 2017 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

@@ -1,6 +1,6 @@
 /*
         SHARP PC-G800 series emulator
-        ‰Šú‰»
+        åˆæœŸåŒ–
 */
 
 #include "g800.h"
@@ -8,21 +8,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* ƒL[ƒ{[ƒh */
-#define KEYBOARD_EN 0 /* ‰pŒê */
-#define KEYBOARD_JP 1 /* “ú–{Œê */
+/* ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ */
+#define KEYBOARD_EN 0 /* è‹±èª */
+#define KEYBOARD_JP 1 /* æ—¥æœ¬èª */
 
-/* ƒGƒ~ƒ…ƒŒ[ƒg‚·‚é‘¤‚ÌƒL[–¼‚ğİ’è‚·‚é */
-#define SET_TABLE_KEY(t, key, code)                                            \
-  setOptTable(t, key, code);                                                   \
-  setOptTable(t, "%" key, MODKEY_ALT | code);                                  \
-  setOptTable(t, "^" key, MODKEY_CTRL | code);                                 \
+/* ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹å´ã®ã‚­ãƒ¼åã‚’è¨­å®šã™ã‚‹ */
+#define SET_TABLE_KEY(t, key, code)                                            Â¥
+  setOptTable(t, key, code);                                                   Â¥
+  setOptTable(t, "%" key, MODKEY_ALT | code);                                  Â¥
+  setOptTable(t, "^" key, MODKEY_CTRL | code);                                 Â¥
   setOptTable(t, "+" key, MODKEY_SHIFT | code)
 
-/* ƒL[Š„‚è“–‚Ä */
+/* ã‚­ãƒ¼å‰²ã‚Šå½“ã¦ */
 struct KeyAssign {
-  int key;     /* ƒGƒ~ƒ…ƒŒ[ƒg‚·‚é‘¤‚ÌƒL[ƒR[ƒh */
-  uint16 gkey; /* PC-G800‚ÌƒL[ƒR[ƒh */
+  int key;     /* ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹å´ã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ */
+  uint16 gkey; /* PC-G800ã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ */
 };
 
 /* Yes/No */
@@ -30,7 +30,7 @@ const static OptTable tableYesNo[] = {{"y", TRUE},  {"yes", TRUE}, {"1", TRUE},
                                       {"n", FALSE}, {"no", FALSE}, {"0", FALSE},
                                       {NULL, 0}};
 
-/* ƒ}ƒVƒ“–¼ */
+/* ãƒã‚·ãƒ³å */
 const static OptTable tableMachine[] = {
     {"e200", MACHINE_E200},          {"g815", MACHINE_G815},
     {"g850", MACHINE_G850},          {"e220", MACHINE_PCE220},
@@ -43,17 +43,17 @@ const static OptTable tableMachine[] = {
     {"PC-G850S", MACHINE_PCG850S},   {"PC-G850V", MACHINE_PCG850V},
     {"PC-G850VS", MACHINE_PCG850VS}, {NULL, 0}};
 
-/* ƒuƒU[ */
+/* ãƒ–ã‚¶ãƒ¼ */
 const static OptTable tableBuzzer[] = {
     {"n", BUZZER_NONE},    {"no", BUZZER_NONE}, {"0", BUZZER_NONE},
     {"y", BUZZER_USE},     {"yes", BUZZER_USE}, {"1", BUZZER_USE},
     {"sync", BUZZER_SYNC}, {"2", BUZZER_SYNC},  {NULL, 0}};
 
-/* ƒL[ƒ{[ƒh */
+/* ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ */
 const static OptTable tableKeyboard[] = {
     {"en", KEYBOARD_EN}, {"jp", KEYBOARD_JP}, {NULL, 0}};
 
-/* PC-G800‚ÌƒL[–¼ */
+/* PC-G800ã®ã‚­ãƒ¼å */
 const static OptTable tableGkey[] = {{"off", GKEY_OFF},
                                      {"q", GKEY_Q},
                                      {"w", GKEY_W},
@@ -151,7 +151,7 @@ const static OptTable tableGkey[] = {{"off", GKEY_OFF},
                                      {"copy", GKEY_COPY},
                                      {"paste", GKEY_PASTE},
                                      {"!", GMODKEY_SHIFT | GKEY_Q},
-                                     {"\"", GMODKEY_SHIFT | GKEY_W},
+                                     {"Â¥"", GMODKEY_SHIFT | GKEY_W},
                                      {"hash", GMODKEY_SHIFT | GKEY_E},
                                      {"$", GMODKEY_SHIFT | GKEY_R},
                                      {"%", GMODKEY_SHIFT | GKEY_T},
@@ -161,9 +161,9 @@ const static OptTable tableGkey[] = {{"off", GKEY_OFF},
                                      {"]", GMODKEY_SHIFT | GKEY_S},
                                      {"{", GMODKEY_SHIFT | GKEY_D},
                                      {"}", GMODKEY_SHIFT | GKEY_F},
-                                     {"\\", GMODKEY_SHIFT | GKEY_G},
+                                     {"Â¥Â¥", GMODKEY_SHIFT | GKEY_G},
                                      {"|", GMODKEY_SHIFT | GKEY_H},
-                                     {"~", GMODKEY_SHIFT | GKEY_J},
+                                     {"â€¾", GMODKEY_SHIFT | GKEY_J},
                                      {"_", GMODKEY_SHIFT | GKEY_K},
                                      {"input", GMODKEY_SHIFT | GKEY_Z},
                                      {"print", GMODKEY_SHIFT | GKEY_X},
@@ -206,7 +206,7 @@ const static OptTable tableGkey[] = {{"off", GKEY_OFF},
                                      {"ca", GMODKEY_SHIFT | GKEY_CLS},
                                      {NULL, 0}};
 
-/* ƒGƒ~ƒ…ƒŒ[ƒg‚·‚é‘¤‚ÌƒL[–¼ */
+/* ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹å´ã®ã‚­ãƒ¼å */
 static OptTable tableKey[512] = {{"none", 0},
                                  {"backspace", KEY_BACKSPACE},
                                  {"tab", KEY_TAB},
@@ -234,7 +234,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {";", KEY_SEMICOLON},
                                  {"=", KEY_EQUALS},
                                  {"[", KEY_LEFTBRACKET},
-                                 {"\\", KEY_BACKSLASH},
+                                 {"Â¥Â¥", KEY_BACKSLASH},
                                  {"]", KEY_RIGHTBRACKET},
                                  {"`", KEY_BACKQUOTE},
                                  {"a", KEY_A},
@@ -354,7 +354,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {"%;", MODKEY_ALT | KEY_SEMICOLON},
                                  {"%=", MODKEY_ALT | KEY_EQUALS},
                                  {"%[", MODKEY_ALT | KEY_LEFTBRACKET},
-                                 {"%\\", MODKEY_ALT | KEY_BACKSLASH},
+                                 {"%Â¥Â¥", MODKEY_ALT | KEY_BACKSLASH},
                                  {"%]", MODKEY_ALT | KEY_RIGHTBRACKET},
                                  {"%`", MODKEY_ALT | KEY_BACKQUOTE},
                                  {"%a", MODKEY_ALT | KEY_A},
@@ -465,7 +465,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {"^;", MODKEY_CTRL | KEY_SEMICOLON},
                                  {"^=", MODKEY_CTRL | KEY_EQUALS},
                                  {"^[", MODKEY_CTRL | KEY_LEFTBRACKET},
-                                 {"^\\", MODKEY_CTRL | KEY_BACKSLASH},
+                                 {"^Â¥Â¥", MODKEY_CTRL | KEY_BACKSLASH},
                                  {"^]", MODKEY_CTRL | KEY_RIGHTBRACKET},
                                  {"^`", MODKEY_CTRL | KEY_BACKQUOTE},
                                  {"^a", MODKEY_CTRL | KEY_A},
@@ -576,7 +576,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {"+;", MODKEY_SHIFT | KEY_SEMICOLON},
                                  {"+=", MODKEY_SHIFT | KEY_EQUALS},
                                  {"+[", MODKEY_SHIFT | KEY_LEFTBRACKET},
-                                 {"+\\", MODKEY_SHIFT | KEY_BACKSLASH},
+                                 {"+Â¥Â¥", MODKEY_SHIFT | KEY_BACKSLASH},
                                  {"+]", MODKEY_SHIFT | KEY_RIGHTBRACKET},
                                  {"+`", MODKEY_SHIFT | KEY_BACKQUOTE},
                                  {"+a", MODKEY_SHIFT | KEY_A},
@@ -663,7 +663,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {"+nfer", MODKEY_SHIFT | KEY_NFER},
                                  {NULL, 0}};
 
-/* ƒL[Š„‚è“–‚Ä‚ÌƒfƒtƒHƒ‹ƒg */
+/* ã‚­ãƒ¼å‰²ã‚Šå½“ã¦ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ */
 static struct KeyAssign keyAssign[128] = {{KEY_BACKSPACE, GKEY_BACKSPACE},
                                           {KEY_TAB, GKEY_TAB},
                                           {KEY_CLEAR, GKEY_CLS},
@@ -779,7 +779,7 @@ static struct KeyAssign keyAssign[128] = {{KEY_BACKSPACE, GKEY_BACKSPACE},
                                           {0, 0}};
 
 /*
-        ƒL[Š„‚è“–‚Ä‚ÌƒfƒtƒHƒ‹ƒg‚ğ•ÏX‚·‚é
+        ã‚­ãƒ¼å‰²ã‚Šå½“ã¦ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚’å¤‰æ›´ã™ã‚‹
 */
 static void setKeyAssign(int key, uint16 gkey) {
   struct KeyAssign *a;
@@ -796,19 +796,19 @@ static void setKeyAssign(int key, uint16 gkey) {
 }
 
 /*
-        ƒpƒX–¼‚©‚çƒfƒBƒŒƒNƒgƒŠ–¼‚Ì’·‚³‚ğ“¾‚é
+        ãƒ‘ã‚¹åã‹ã‚‰ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåã®é•·ã•ã‚’å¾—ã‚‹
 */
 static int getDirLength(const char *path) {
   const char *p;
 
   for (p = path + strlen(path) - 1; p > path; p--)
-    if (*p == '\\' || *p == ':' || *p == '/')
+    if (*p == 'Â¥Â¥' || *p == ':' || *p == '/')
       return (int)(p - path) + 1;
   return 0;
 }
 
 /*
-        I—¹ˆ—‚ğs‚¤
+        çµ‚äº†å‡¦ç†ã‚’è¡Œã†
 */
 static void quit(void) {
 #if defined(Z80_PROF)
@@ -817,15 +817,15 @@ static void quit(void) {
   else if (*pathProg != 0)
     loadSym(pathProg);
 
-  writeProfFile(".\\prof.tsv");
-  writePathFile(".\\path.tsv");
+  writeProfFile(".Â¥Â¥prof.tsv");
+  writePathFile(".Â¥Â¥path.tsv");
 #endif
 
   quitDepend();
 }
 
 /*
-        ‰Šú‰»‚·‚é
+        åˆæœŸåŒ–ã™ã‚‹
 */
 int init(int argc, char *argv[]) {
   Conf conf[256];
@@ -834,7 +834,7 @@ int init(int argc, char *argv[]) {
   const struct KeyAssign *a;
   int i, key, trace, success;
 
-  /* “Çƒtƒ@ƒCƒ‹‚ÆŠJnƒAƒhƒŒƒX */
+  /* èª­è¾¼ãƒ•ã‚¡ã‚¤ãƒ«ã¨é–‹å§‹ã‚¢ãƒ‰ãƒ¬ã‚¹ */
   beginProg = 0;
   for (i = 1; i < argc; i++)
     if (*argv[i] != '-') {
@@ -847,7 +847,7 @@ int init(int argc, char *argv[]) {
   success = (getConfig(conf, sizeof(conf) / sizeof(conf[0]), "g800config", argc,
                        argv) != NULL);
 
-  /* İ’è */
+  /* è¨­å®š */
   trace = getOptIntTable(conf, tableYesNo, "debug", FALSE);
   if ((freqUpdateIO = getOptInt(conf, "refresh", 60)) > 360)
     freqUpdateIO = 360;
@@ -857,7 +857,7 @@ int init(int argc, char *argv[]) {
   serialTest = getOptIntTable(conf, tableYesNo, "serial_test", FALSE);
   useSoftwareKey = getOptIntTable(conf, tableYesNo, "software_key", FALSE);
 
-  /* ƒƒ‚ƒŠ */
+  /* ãƒ¡ãƒ¢ãƒª */
   setHomeDir(pathRAM, getOptText(conf, "ram_path", ""));
   setHomeDir(dirROM, getOptText(conf, "rom_dir", ""));
   useROM = (strcmp(dirROM, "") != 0);
@@ -872,7 +872,7 @@ int init(int argc, char *argv[]) {
   if (strcmp(pathBasic, "") == 0)
     sprintf(pathBasic, "%.*sbasic.txt", getDirLength(pathBasic), pathBasic);
 
-  /* ƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“ */
+  /* ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ */
   machine = getOptIntTable(conf, tableMachine, "machine", MACHINE_G850);
   if (machine & 0xff00) {
     machineSub = machine & 0x00ff;
@@ -894,7 +894,7 @@ int init(int argc, char *argv[]) {
   colorOff = getOptHex(conf, "lcd_off", 0xaaddbb);
   colorOn = getOptHex(conf, "lcd_on", 0x002211);
 
-  /* ƒL[ƒ{[ƒh */
+  /* ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ */
   switch (getOptIntTable(conf, tableKeyboard, "keyboard", KEYBOARD_EN)) {
   case KEYBOARD_JP:
     SET_TABLE_KEY(tableKey, ":", KEY_QUOTE);
@@ -909,7 +909,7 @@ int init(int argc, char *argv[]) {
     break;
   }
 
-  /* ƒL[Š„‚è“–‚Ä(ƒfƒtƒHƒ‹ƒg) */
+  /* ã‚­ãƒ¼å‰²ã‚Šå½“ã¦(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ) */
   memset(keyConv, 0, sizeof(keyConv));
   memset(keyConvAlt, 0, sizeof(keyConvAlt));
   memset(keyConvCtrl, 0, sizeof(keyConvCtrl));
@@ -930,7 +930,7 @@ int init(int argc, char *argv[]) {
       break;
     }
 
-  /* ƒL[Š„‚è“–‚Ä(ƒ†[ƒU[’è‹`) */
+  /* ã‚­ãƒ¼å‰²ã‚Šå½“ã¦(ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©) */
   for (o = tableGkey; o->string != NULL; o++) {
     key = getOptIntTable(conf, tableKey, o->string, KEY_NONE);
     switch (key & 0xf000) {
@@ -952,7 +952,7 @@ int init(int argc, char *argv[]) {
     if (keyConvShift[key] != GKEY_NONE && !(keyConvShift[key] & GMODKEY_SHIFT))
       keyConvShift[key] |= GMODKEY_NOSHIFT;
 
-  /* ƒWƒ‡ƒCƒXƒeƒBƒbƒN */
+  /* ã‚¸ãƒ§ã‚¤ã‚¹ãƒ†ã‚£ãƒƒã‚¯ */
   useJoy = getOptIntTable(conf, tableYesNo, "use_joy", TRUE);
   joyUp = getOptIntTable(conf, tableGkey, "joy_up", GKEY_UP);
   joyDown = getOptIntTable(conf, tableGkey, "joy_down", GKEY_DOWN);
@@ -971,7 +971,7 @@ int init(int argc, char *argv[]) {
   joyButton[10] = getOptIntTable(conf, tableGkey, "joy_button11", GKEY_NONE);
   joyButton[11] = getOptIntTable(conf, tableGkey, "joy_button12", GKEY_NONE);
 
-  /* u•Â‚¶‚év‚ğOFFƒL[‚Æ‚µ‚Äˆµ‚¤‚©? */
+  /* ã€Œé–‰ã˜ã‚‹ã€ã‚’OFFã‚­ãƒ¼ã¨ã—ã¦æ‰±ã†ã‹? */
   closeAsOff = getOptIntTable(conf, tableYesNo, "close_as_off", FALSE);
 
   /* LCD */
@@ -991,13 +991,13 @@ int init(int argc, char *argv[]) {
   statesKeyStrobeClear = m->states_keystrobe_clear;
   freqCPU = (freqCPU != 0 ? freqCPU : m->cpu_clocks);
 
-  /* ƒVƒŠƒAƒ‹“üo—Í */
+  /* ã‚·ãƒªã‚¢ãƒ«å…¥å‡ºåŠ› */
   if (strcmp(pathSioOut, "") != 0)
     sioSave(pathSioOut);
   if (strcmp(pathSioIn, "") != 0)
     sioLoad(pathSioIn);
 
-  /* ƒuƒU[ */
+  /* ãƒ–ã‚¶ãƒ¼ */
   buzzer = getOptIntTable(conf, tableBuzzer, "buzzer", TRUE);
   if (buzzer != BUZZER_NONE) {
     soundBufferSize = getSoundBufferSize(freqUpdateIO);
@@ -1006,17 +1006,17 @@ int init(int argc, char *argv[]) {
     soundWriteBuffer = soundReadBuffer + soundBufferSize;
   }
 
-  /* ƒtƒ@ƒCƒ‹ƒtƒBƒ‹ƒ^‚ğg‚¤‚©? */
+  /* ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã‚’ä½¿ã†ã‹? */
   useFileFilter = getOptIntTable(conf, tableYesNo, "file_filter", FALSE);
 
-  /* à–¾‰æ‘œ‚Ìƒtƒ@ƒCƒ‹–¼ */
+  /* èª¬æ˜ç”»åƒã®ãƒ•ã‚¡ã‚¤ãƒ«å */
   pathInfoImage = getOptText(conf, "info_image", NULL);
 
-  /* ©“®“ü—Í */
+  /* è‡ªå‹•å…¥åŠ› */
   if (getOptText(conf, "auto", NULL) != NULL) {
     char buf[256];
 
-    sprintf(buf, "%s\n", getOptText(conf, "auto", NULL));
+    sprintf(buf, "%sÂ¥n", getOptText(conf, "auto", NULL));
     setAutoKeyText(buf, FALSE);
   }
 
@@ -1034,7 +1034,7 @@ int init(int argc, char *argv[]) {
 }
 
 /*
-        Copyright 2005 ~ 2017 maruhiro
+        Copyright 2005 â€¾ 2017 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

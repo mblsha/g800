@@ -13,7 +13,7 @@
 #define N 14
 
 /*
-        ƒpƒŠƒeƒB(Šï”)‚ğ‹‚ß‚é(getBit‚Ì‰º¿‚¯)
+        ãƒ‘ãƒªãƒ†ã‚£(å¥‡æ•°)ã‚’æ±‚ã‚ã‚‹(getBitã®ä¸‹è«‹ã‘)
 */
 static inline int oddparity(char x) {
   const static int bits[] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4};
@@ -22,7 +22,7 @@ static inline int oddparity(char x) {
 }
 
 /*
-        ƒoƒbƒtƒ@‚©‚çóM‚·‚é(sioRead‚Ì‰º¿‚¯)
+        ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å—ä¿¡ã™ã‚‹(sioReadã®ä¸‹è«‹ã‘)
 */
 static inline uint8 getBit(void) {
   uint8 pin11_out;
@@ -34,7 +34,7 @@ static inline uint8 getBit(void) {
   case 0:
   case 1:
   case 2:
-    /* ƒXƒ^[ƒg */
+    /* ã‚¹ã‚¿ãƒ¼ãƒˆ */
     pin11_out = PIN11_XIN | PIN11_ACK;
     break;
   case 3:
@@ -45,17 +45,17 @@ static inline uint8 getBit(void) {
   case 8:
   case 9:
   case 10:
-    /* ƒf[ƒ^ */
+    /* ãƒ‡ãƒ¼ã‚¿ */
     pin11_out =
         (sioBuffer[sioCount / N] & (1 << (sioCount % N - 3)) ? 0 : PIN11_XIN);
     break;
   case 11:
-    /* ƒpƒŠƒeƒB */
+    /* ãƒ‘ãƒªãƒ†ã‚£ */
     pin11_out = (oddparity(sioBuffer[sioCount / N]) ? PIN11_XIN : 0);
     break;
   case 12:
   case 13:
-    /* ƒGƒ“ƒh */
+    /* ã‚¨ãƒ³ãƒ‰ */
     pin11_out = PIN11_ACK;
     break;
   default:
@@ -68,7 +68,7 @@ static inline uint8 getBit(void) {
 }
 
 /*
-        ƒtƒ@ƒCƒ‹‚©‚çSIO‚ÉóM‚·‚é
+        ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰SIOã«å—ä¿¡ã™ã‚‹
 */
 uint8 sioRead(uint8 pin11_in) {
   int pin11_out;
@@ -78,7 +78,7 @@ uint8 sioRead(uint8 pin11_in) {
 
   if (pin11_in & PIN11_BUSY) {
     if (sioCount == 0) {
-      /* óMŠJn */
+      /* å—ä¿¡é–‹å§‹ */
       sioBufferSize = readBin(pathSioIn, sioBuffer, sizeof(sioBuffer));
       if (sioBufferSize <= 0 || sioBufferSize >= sizeof(sioBuffer)) {
         sioBufferSize = 0;
@@ -89,13 +89,13 @@ uint8 sioRead(uint8 pin11_in) {
         sioBuffer[sioBufferSize++] = 0x1a;
       noWait = TRUE;
     }
-    /* óM’† */
+    /* å—ä¿¡ä¸­ */
     pin11_out = getBit();
   } else if (pin11_in & PIN11_DOUT) {
-    /* óMˆê’â~’† */
+    /* å—ä¿¡ä¸€æ™‚åœæ­¢ä¸­ */
     pin11_out = 0;
   } else {
-    /* óM’â~’† */
+    /* å—ä¿¡åœæ­¢ä¸­ */
     pin11_out = 0;
     sioCount = 0;
     noWait = FALSE;
@@ -105,20 +105,20 @@ uint8 sioRead(uint8 pin11_in) {
 }
 
 /*
-        ƒfƒBƒXƒN‚©‚çSIOƒoƒbƒtƒ@‚É‘‚«‚Ş
+        ãƒ‡ã‚£ã‚¹ã‚¯ã‹ã‚‰SIOãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã‚€
 */
 int sioLoad(const char *path) {
-  /* ƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY‚ğ“¾‚é */
+  /* ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚µã‚¤ã‚ºã‚’å¾—ã‚‹ */
   sioBufferSize = readBin(path, sioBuffer, sizeof(sioBuffer));
   if (sioBufferSize <= 0 || sioBufferSize >= sizeof(sioBuffer)) {
-    /* ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ */
+    /* ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„ */
     sioBufferSize = 0;
     strcpy(pathSioIn, "");
     sioMode = SIO_MODE_STOP;
     return 0;
   }
 
-  /* “ü—Íó‘Ô‚ğ‰Šú‰»‚·‚é */
+  /* å…¥åŠ›çŠ¶æ…‹ã‚’åˆæœŸåŒ–ã™ã‚‹ */
   strcpy(pathSioIn, path);
   sioMode = SIO_MODE_IN;
   sioCount = 0;
@@ -126,12 +126,12 @@ int sioLoad(const char *path) {
 }
 
 /*
-        ‘—M‚µ‚½bit‚ğƒoƒbƒtƒ@‚É‘‚«‚Ş(sioWrite‚Ì‰º¿‚¯)
+        é€ä¿¡ã—ãŸbitã‚’ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã‚€(sioWriteã®ä¸‹è«‹ã‘)
 */
 static inline void putBit(uint8 pin11_in) {
   switch (sioCount % M) {
   case 0:
-    /* ƒXƒ^[ƒg */
+    /* ã‚¹ã‚¿ãƒ¼ãƒˆ */
     break;
   case 1:
   case 2:
@@ -141,21 +141,21 @@ static inline void putBit(uint8 pin11_in) {
   case 6:
   case 7:
   case 8:
-    /* ƒf[ƒ^ */
+    /* ãƒ‡ãƒ¼ã‚¿ */
     if (!(pin11_in & PIN11_XOUT))
       sioBuffer[sioCount / M] |= (1 << (sioCount % M - 1));
     else
-      sioBuffer[sioCount / M] &= ~(1 << (sioCount % M - 1));
+      sioBuffer[sioCount / M] &= â€¾(1 << (sioCount % M - 1));
     break;
   case 9:
-    /* ƒGƒ“ƒh */
+    /* ã‚¨ãƒ³ãƒ‰ */
     break;
   }
   sioCount++;
 }
 
 /*
-        SIOƒoƒbƒtƒ@‚©‚çƒtƒ@ƒCƒ‹‚É‘‚«‚Ş
+        SIOãƒãƒƒãƒ•ã‚¡ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚€
 */
 uint8 sioWrite(uint8 pin11_in) {
   if (sioMode != SIO_MODE_OUT)
@@ -163,10 +163,10 @@ uint8 sioWrite(uint8 pin11_in) {
 
   if (sioBusy) {
     if (pin11_in & PIN11_DOUT) {
-      /* ‘—M’† */
+      /* é€ä¿¡ä¸­ */
       putBit(pin11_in);
     } else {
-      /* ‘—MI—¹ */
+      /* é€ä¿¡çµ‚äº† */
       sioBusy = FALSE;
       if (sioCount > 3)
         writeBin(pathSioOut, sioBuffer, sioCount / M);
@@ -174,7 +174,7 @@ uint8 sioWrite(uint8 pin11_in) {
     }
   } else {
     if (pin11_in & PIN11_DOUT) {
-      /* ‘—MŠJn */
+      /* é€ä¿¡é–‹å§‹ */
       sioBusy = TRUE;
       sioCount = 0;
       memset(sioBuffer, 0, sizeof(sioBuffer));
@@ -186,23 +186,23 @@ uint8 sioWrite(uint8 pin11_in) {
 }
 
 /*
-        SIOƒoƒbƒtƒ@‚ğƒfƒBƒXƒN‚É‘‚«‚Ş
+        SIOãƒãƒƒãƒ•ã‚¡ã‚’ãƒ‡ã‚£ã‚¹ã‚¯ã«æ›¸ãè¾¼ã‚€
 */
 int sioSave(const char *path) {
-  /* o—Íƒtƒ@ƒCƒ‹‚ğƒ`ƒFƒbƒN‚·‚é */
+  /* å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ */
   if (readBin(path, NULL, 0) >= 0) {
-    /* OK:ƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚é */
+    /* OK:ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹ */
   } else if (writeBin(path, NULL, 0) >= 0) {
-    /* OK:ƒtƒ@ƒCƒ‹‚ğ¶¬‚Å‚«‚é */
+    /* OK:ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã§ãã‚‹ */
     removeFile(path);
   } else {
-    /* NG:ƒtƒ@ƒCƒ‹‚ğ¶¬‚Å‚«‚È‚¢ */
+    /* NG:ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã§ããªã„ */
     sioMode = SIO_MODE_STOP;
     strcpy(pathSioOut, "");
     return FALSE;
   }
 
-  /* o—Íó‘Ô‚ğ‰Šú‰»‚·‚é */
+  /* å‡ºåŠ›çŠ¶æ…‹ã‚’åˆæœŸåŒ–ã™ã‚‹ */
   strcpy(pathSioOut, path);
   sioMode = SIO_MODE_OUT;
   sioBusy = FALSE;
@@ -212,7 +212,7 @@ int sioSave(const char *path) {
 }
 
 /*
-        Copyright 2006 ~ 2008 maruhiro
+        Copyright 2006 â€¾ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

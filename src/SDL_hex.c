@@ -1,5 +1,5 @@
 /*
-        IntelHEXŒ`®ˆ—(SDL_hex.c)
+        IntelHEXå½¢å¼å‡¦ç†(SDL_hex.c)
 */
 
 #include "SDL.h"
@@ -7,7 +7,7 @@
 #include <string.h>
 
 /*
-        •¶š‚ğ”’l(1byte)‚É•ÏŠ·‚·‚é (‰º¿‚¯)
+        æ–‡å­—ã‚’æ•°å€¤(1byte)ã«å¤‰æ›ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static int h2i(char c) {
   switch (c) {
@@ -62,7 +62,7 @@ static int hex2i(const char *hex) {
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 */
 Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
                       size_t mem_size, int check, int free_rw) {
@@ -74,15 +74,15 @@ Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
     return -1;
 
   for (;;) {
-    /* ƒŒƒR[ƒhŠJn‹L† */
+    /* ãƒ¬ã‚³ãƒ¼ãƒ‰é–‹å§‹è¨˜å· */
     if (SDL_RWread(rw, buf, 1, 1) == 0)
       break;
-    if (*buf == '\n' || *buf == '\r')
+    if (*buf == 'Â¥n' || *buf == 'Â¥r')
       continue;
     if (*buf != ':')
       goto fail;
 
-    /* ƒf[ƒ^’· */
+    /* ãƒ‡ãƒ¼ã‚¿é•· */
     if (SDL_RWread(rw, buf, 2, 1) == 0)
       goto fail;
     if ((len = hex2i(buf)) < 0)
@@ -91,7 +91,7 @@ Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
       break;
     sum += len;
 
-    /* ƒIƒtƒZƒbƒgƒAƒhƒŒƒX */
+    /* ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ */
     if (SDL_RWread(rw, buf, 4, 1) == 0)
       goto fail;
     if ((off_h = hex2i(buf + 0)) < 0)
@@ -101,18 +101,18 @@ Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
     off = (off_h << 8) | off_l;
     sum += off_h + off_l;
 
-    /* ƒŒƒR[ƒhƒ^ƒCƒv‚ğ“¾‚é */
+    /* ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚¿ã‚¤ãƒ—ã‚’å¾—ã‚‹ */
     if (SDL_RWread(rw, buf, 2, 1) == 0)
       goto fail;
-    if ((rec = hex2i(buf)) == 0) /* ƒf[ƒ^ƒŒƒR[ƒh */
+    if ((rec = hex2i(buf)) == 0) /* ãƒ‡ãƒ¼ã‚¿ãƒ¬ã‚³ãƒ¼ãƒ‰ */
       ;
-    else if (rec == 1) /* ƒGƒ“ƒhƒŒƒR[ƒh */
+    else if (rec == 1) /* ã‚¨ãƒ³ãƒ‰ãƒ¬ã‚³ãƒ¼ãƒ‰ */
       break;
-    else /* ‚»‚Ì‘¼‚ÌƒŒƒR[ƒh */
+    else /* ãã®ä»–ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ */
       goto fail;
     sum += rec;
 
-    /* ƒf[ƒ^•” */
+    /* ãƒ‡ãƒ¼ã‚¿éƒ¨ */
     for (i = 0, w = (Uint8 *)mem + off; i < len; i++, w++) {
       if (SDL_RWread(rw, buf, 2, 1) == 0)
         goto fail;
@@ -122,19 +122,19 @@ Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
         *w = val;
       sum += val;
     }
-    sum = (~sum + 1) & 0xff;
+    sum = (â€¾sum + 1) & 0xff;
 
-    /* ƒ`ƒFƒbƒNƒTƒ€ */
+    /* ãƒã‚§ãƒƒã‚¯ã‚µãƒ  */
     if (SDL_RWread(rw, buf, 2, 1) == 0)
       goto fail;
     if (check && hex2i(buf) != sum)
       goto fail;
 
-    /* æ“ªƒAƒhƒŒƒX */
+    /* å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ */
     if (top > off)
       top = off;
 
-    /* ƒTƒCƒY */
+    /* ã‚µã‚¤ã‚º */
     if (size < off + len - top)
       size = off + len - top;
   }
@@ -152,7 +152,7 @@ fail:;
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş(ƒtƒ@ƒCƒ‹“à‚ÌƒAƒhƒŒƒX‚ğ–³‹‚·‚é)
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€(ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç„¡è¦–ã™ã‚‹)
 */
 Sint64 SDLHex_LoadAbs_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
                          size_t mem_size, int check, int free_rw) {
@@ -179,7 +179,7 @@ Sint64 SDLHex_LoadAbs_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 */
 Sint64 SDLHex_Load(const char *path, void *mem, Sint64 *ret_top,
                    size_t mem_size, int check) {
@@ -188,7 +188,7 @@ Sint64 SDLHex_Load(const char *path, void *mem, Sint64 *ret_top,
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş(ƒtƒ@ƒCƒ‹“à‚ÌƒAƒhƒŒƒX‚ğ–³‹‚·‚é)
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€(ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç„¡è¦–ã™ã‚‹)
 */
 Sint64 SDLHex_LoadAbs(const char *path, void *mem, Sint64 *ret_top,
                       size_t mem_size, int check) {
@@ -197,7 +197,7 @@ Sint64 SDLHex_LoadAbs(const char *path, void *mem, Sint64 *ret_top,
 }
 
 /*
-        ”’l(1byte)‚ğ•¶š‚É•ÏŠ·‚·‚é (‰º¿‚¯)
+        æ•°å€¤(1byte)ã‚’æ–‡å­—ã«å¤‰æ›ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static char *int2c(char *hex, int i) {
   const static char int_to_ascii[] = {'0', '1', '2', '3', '4', '5', '6', '7',
@@ -209,7 +209,7 @@ static char *int2c(char *hex, int i) {
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€
 */
 Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
                       int free_rw) {
@@ -223,22 +223,22 @@ Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
   for (;;) {
     w = buf;
 
-    /* ƒŒƒR[ƒhŠJn‹L† */
+    /* ãƒ¬ã‚³ãƒ¼ãƒ‰é–‹å§‹è¨˜å· */
     *w++ = ':';
 
     if (size <= 0) {
-      /* ƒGƒ“ƒhƒŒƒR[ƒh */
+      /* ã‚¨ãƒ³ãƒ‰ãƒ¬ã‚³ãƒ¼ãƒ‰ */
 #if defined(_WIN32)
-      strcpy(w, "00000001FF\r\n");
+      strcpy(w, "00000001FFÂ¥rÂ¥n");
       SDL_RWwrite(rw, buf, 13, 1);
 #else
-      strcpy(w, "00000001FF\n");
+      strcpy(w, "00000001FFÂ¥n");
       SDL_RWwrite(rw, buf, 12, 1);
 #endif
       break;
     }
 
-    /* ƒf[ƒ^’· */
+    /* ãƒ‡ãƒ¼ã‚¿é•· */
     if (size > 16)
       len = 16;
     else
@@ -247,7 +247,7 @@ Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
     w += 2;
     sum = len;
 
-    /* ƒIƒtƒZƒbƒgƒAƒhƒŒƒX */
+    /* ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ */
     off_h = ((int)(r - (Uint8 *)mem) >> 8) & 0xff;
     int2c(w, off_h);
     w += 2;
@@ -258,29 +258,29 @@ Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
     w += 2;
     sum += off_l;
 
-    /* ƒŒƒR[ƒhƒ^ƒCƒv */
+    /* ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚¿ã‚¤ãƒ— */
     int2c(w, 0x00);
     w += 2;
     sum += 0x00;
 
-    /* ƒf[ƒ^•” */
+    /* ãƒ‡ãƒ¼ã‚¿éƒ¨ */
     for (; len > 0; len--, size--) {
       int2c(w, *r);
       w += 2;
       sum += *r++;
     }
 
-    /* ƒ`ƒFƒbƒNƒTƒ€ */
-    int2c(w, (~sum + 1) & 0xff);
+    /* ãƒã‚§ãƒƒã‚¯ã‚µãƒ  */
+    int2c(w, (â€¾sum + 1) & 0xff);
     w += 2;
 
-    /* ‰üs */
+    /* æ”¹è¡Œ */
 #if defined(_WIN32)
-    *w++ = '\r';
+    *w++ = 'Â¥r';
 #endif
-    *w++ = '\n';
+    *w++ = 'Â¥n';
 
-    /* ‘‚«‚İ */
+    /* æ›¸ãè¾¼ã¿ */
     if (SDL_RWwrite(rw, buf, (int)(w - buf), 1) == 0)
       goto fail;
   }
@@ -296,7 +296,7 @@ fail:;
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş(ƒtƒ@ƒCƒ‹“à‚ÌƒAƒhƒŒƒX‚ğ–³‹‚·‚é)
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€(ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç„¡è¦–ã™ã‚‹)
 */
 Sint64 SDLHex_SaveAbs_RW(SDL_RWops *rw, const void *mem, Sint64 off,
                          size_t size, int free_rw) {
@@ -304,14 +304,14 @@ Sint64 SDLHex_SaveAbs_RW(SDL_RWops *rw, const void *mem, Sint64 off,
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€
 */
 Sint64 SDLHex_Save(const char *path, const void *mem, Sint64 off, size_t size) {
   return SDLHex_Save_RW(SDL_RWFromFile(path, "w"), mem, off, size, SDL_TRUE);
 }
 
 /*
-        IntelHEXŒ`®ƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş(ƒtƒ@ƒCƒ‹“à‚ÌƒAƒhƒŒƒX‚ğ–³‹‚·‚é)
+        IntelHEXå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€(ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç„¡è¦–ã™ã‚‹)
 */
 Sint64 SDLHex_SaveAbs(const char *path, const void *mem, Sint64 off,
                       size_t size) {

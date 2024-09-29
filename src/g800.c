@@ -1,6 +1,6 @@
 /*
         SHARP PC-G800 series emulator
-        ƒƒCƒ“
+        ãƒ¡ã‚¤ãƒ³
 */
 
 #include <stdio.h>
@@ -10,7 +10,7 @@
 #define DEF_GLOBAL
 #include "g800.h"
 
-/* ƒAƒhƒŒƒX0000~003f‚Ì‰Šú’l */
+/* ã‚¢ãƒ‰ãƒ¬ã‚¹0000â€¾003fã®åˆæœŸå€¤ */
 static uint8 base[] = {
     0xc3, 0xf4, 0xbf, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc9, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0xc9, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -19,11 +19,11 @@ static uint8 base[] = {
     0x00, 0x00, 0x00, 0x00, 0xc3, 0x03, 0xbd, 0x00, 0x00, 0x00, 0x00,
     0x00, 0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-/* ƒAƒhƒŒƒX0038~003a‚Ì‰Šú’l (PC-G850) */
+/* ã‚¢ãƒ‰ãƒ¬ã‚¹0038â€¾003aã®åˆæœŸå€¤ (PC-G850) */
 const static uint8 base_g850[] = {0xc3, 0x37, 0xbc};
 
 /*
-        ROM‚ğ1ƒy[ƒW“Ç‚İ‚Ş (‰º¿‚¯)
+        ROMã‚’1ãƒšãƒ¼ã‚¸èª­ã¿è¾¼ã‚€ (ä¸‹è«‹ã‘)
 */
 static int loadROM1page(uint8 *p, const char *dir, int page, int size) {
   int result;
@@ -46,24 +46,24 @@ static int loadROM1page(uint8 *p, const char *dir, int page, int size) {
 }
 
 /*
-        ROM‚ğ“Ç‚İ‚Ş (‰º¿‚¯)
+        ROMã‚’èª­ã¿è¾¼ã‚€ (ä¸‹è«‹ã‘)
 */
 static int loadROM(const char *dir) {
   int page;
 
   if (useROM) {
-    /* 0000-003f‚ğ“Ç‚İ‚Ş */
+    /* 0000-003fã‚’èª­ã¿è¾¼ã‚€ */
     if (loadROM1page(base, dir, -1, 0x40) < 0x40)
       return FALSE;
 
-    /* ROM‚Ìƒy[ƒW”‚ğ’²‚×‚é */
+    /* ROMã®ãƒšãƒ¼ã‚¸æ•°ã‚’èª¿ã¹ã‚‹ */
     for (romBanks = 0; loadROM1page(NULL, dir, romBanks, 0x4000) == 0x4000;
          romBanks++)
       ;
     if (romBanks == 0)
       return FALSE;
 
-    /* ROM‚ğ“Ç‚İ‚Ş */
+    /* ROMã‚’èª­ã¿è¾¼ã‚€ */
     rom = malloc(0x4000 * romBanks);
     for (page = 0; page != romBanks; page++)
       loadROM1page(ROM(page), dir, page, 0x4000);
@@ -71,11 +71,11 @@ static int loadROM(const char *dir) {
     int font_off;
     uint8 *p;
 
-    /* 0000-003f‚ğİ’è‚·‚é */
+    /* 0000-003fã‚’è¨­å®šã™ã‚‹ */
     if (machine == MACHINE_G850)
       memcpy(&base[0x0038], base_g850, sizeof(base_g850));
 
-    /* ‹[—ROM‚Ìƒy[ƒW”‚ğİ’è‚·‚é */
+    /* æ“¬ä¼¼ROMã®ãƒšãƒ¼ã‚¸æ•°ã‚’è¨­å®šã™ã‚‹ */
     if (machine == MACHINE_E200) {
       romBanks = 5;
       font_off = 0x4000 * 1 + 0x3886;
@@ -90,14 +90,14 @@ static int loadROM(const char *dir) {
       font_off = 0x4000 * 1;
     }
 
-    /* ‹[—ROM‚ğİ’è‚·‚é */
+    /* æ“¬ä¼¼ROMã‚’è¨­å®šã™ã‚‹ */
     rom = malloc(0x4000 * romBanks);
     for (p = rom; p < rom + 0x4000 * romBanks; p++)
       *p = rand() & 0xff;
     memcpy(rom + font_off, font, sizeof(font));
   }
 
-  /* BANK‚ğ‰Šú‰»‚·‚é */
+  /* BANKã‚’åˆæœŸåŒ–ã™ã‚‹ */
   romBank = exBank = 0;
   memcpy(&memory[0x8000], ROM(0), 0x4000);
   memcpy(&memory[0xc000], ROM(0), 0x4000);
@@ -105,7 +105,7 @@ static int loadROM(const char *dir) {
 }
 
 /*
-        EXROM‚ğ1ƒy[ƒW“Ç‚İ‚Ş (‰º¿‚¯)
+        EXROMã‚’1ãƒšãƒ¼ã‚¸èª­ã¿è¾¼ã‚€ (ä¸‹è«‹ã‘)
 */
 static int loadExROM1page(uint8 *p, const char *dir, int page, int size) {
   int result;
@@ -122,26 +122,26 @@ static int loadExROM1page(uint8 *p, const char *dir, int page, int size) {
 }
 
 /*
-        EXROM‚ğ“Ç‚İ‚Ş (‰º¿‚¯)
+        EXROMã‚’èª­ã¿è¾¼ã‚€ (ä¸‹è«‹ã‘)
 */
 static int loadExROM(const char *dir) {
   int page;
 
-  /* EXROM‚Ìƒy[ƒW”‚ğ’²‚×‚é */
+  /* EXROMã®ãƒšãƒ¼ã‚¸æ•°ã‚’èª¿ã¹ã‚‹ */
   for (exBanks = 0; loadExROM1page(NULL, dir, exBanks, 0x4000) == 0x4000;
        exBanks++)
     ;
   if (exBanks == 0)
     return FALSE;
 
-  /* ROM‚ğ“Ç‚İ‚Ş */
+  /* ROMã‚’èª­ã¿è¾¼ã‚€ */
   exrom = malloc(0x4000 * exBanks);
   for (page = 0; page != exBanks; page++)
     loadExROM1page(EXROM(page), dir, page, 0x4000);
 }
 
 /*
-        RAM‚ğ“Ç‚İ‚Ş (‰º¿‚¯)
+        RAMã‚’èª­ã¿è¾¼ã‚€ (ä¸‹è«‹ã‘)
 */
 static int loadRAM(const char *path) {
   if (readHex(path, memory, NULL, 0x8000, FALSE) > 0)
@@ -156,7 +156,7 @@ static int loadRAM(const char *path) {
 }
 
 /*
-        RAM‚ğ•Û‘¶‚·‚é
+        RAMã‚’ä¿å­˜ã™ã‚‹
 */
 int storeRAM(const char *path) {
   if (exram != NULL && ramBank > 0)
@@ -165,7 +165,7 @@ int storeRAM(const char *path) {
 }
 
 /*
-        ‰Šú‰»‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é
+        åˆæœŸåŒ–ã‚’ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹
 */
 void boot(void) {
   z80reset(&z80);
@@ -223,12 +223,12 @@ void boot(void) {
 }
 
 /*
-        “dŒ¹’â~‚µ‚½‚©?
+        é›»æºåœæ­¢ã—ãŸã‹?
 */
 int isoff(void) { return z80.r.halt && z80.r.iff == 0 && ioReset == 0; }
 
 /*
-        ƒvƒƒOƒ‰ƒ€‚ğÀs‚·‚é
+        ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’å®Ÿè¡Œã™ã‚‹
 */
 int exec(int exit_when_underflow) {
   int wait, states_update_io;
@@ -239,7 +239,7 @@ int exec(int exit_when_underflow) {
   z80.i.states = 0;
 
   for (;;) {
-    /* ƒEƒFƒCƒg */
+    /* ã‚¦ã‚§ã‚¤ãƒˆ */
     states_update_io = freqCPU / (csClk ? 2 : 1) / freqUpdateIO;
     do {
       z80.i.states += states_update_io;
@@ -247,11 +247,11 @@ int exec(int exit_when_underflow) {
       delay(wait);
     } while (z80.i.states < 0);
 
-    /* ƒTƒEƒ“ƒhƒoƒbƒtƒ@‚ğØ‚è‘Ö‚¦‚é */
+    /* ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ */
     if (buzzer != BUZZER_NONE)
       flipSoundBuffer();
 
-    /* ƒR[ƒhÀs */
+    /* ã‚³ãƒ¼ãƒ‰å®Ÿè¡Œ */
     switch (z80exec(&z80)) {
     case Z80_RUN:
       break;
@@ -263,14 +263,14 @@ int exec(int exit_when_underflow) {
       return 0;
     }
 
-    /* ƒL[XVEƒL[Š„‚è‚İ */
+    /* ã‚­ãƒ¼æ›´æ–°ãƒ»ã‚­ãƒ¼å‰²ã‚Šè¾¼ã¿ */
     itype = updateKey();
     if (itype & interruptMask) {
       interruptType |= itype;
       z80int1(&z80);
     }
 
-    /* ƒ^ƒCƒ}XVEƒ^ƒCƒ}Š„‚è‚İ */
+    /* ã‚¿ã‚¤ãƒæ›´æ–°ãƒ»ã‚¿ã‚¤ãƒå‰²ã‚Šè¾¼ã¿ */
     if (timerCount-- == 0) {
       timerCount = freqUpdateIO * timerInterval / 1000 / 1000;
       if (interruptMask & INTERRUPT_1S) {
@@ -280,7 +280,7 @@ int exec(int exit_when_underflow) {
       }
     }
 
-    /* ƒŠƒZƒbƒgƒL[ */
+    /* ãƒªã‚»ãƒƒãƒˆã‚­ãƒ¼ */
     if (keyReset) {
       keyReset = FALSE;
 
@@ -289,19 +289,19 @@ int exec(int exit_when_underflow) {
       boot();
     }
 
-    /* LCDXV */
+    /* LCDæ›´æ–° */
     updateLCD();
   }
 }
 
 /*
-        ƒVƒ~ƒ…ƒŒ[ƒ^‚ğÀs‚·‚é
+        ã‚·ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿ã‚’å®Ÿè¡Œã™ã‚‹
 */
 int execSim(void) {
-  /* ƒVƒXƒeƒ€‚ğ‰Šú‰» */
+  /* ã‚·ã‚¹ãƒ†ãƒ ã‚’åˆæœŸåŒ– */
   initBasic(&bas);
 
-  /* ƒVƒXƒeƒ€‚ğ‹N“® */
+  /* ã‚·ã‚¹ãƒ†ãƒ ã‚’èµ·å‹• */
   memory[0x7902] = 0x40;
 
   while (!isoff()) {
@@ -317,11 +317,11 @@ int execSim(void) {
 
 int main(int argc, char *argv[]) {
 #if defined(_WIN32) && SDL_MAJOR_VERSION == 1
-  /* win32‚ÌSDL1.2‚È‚ç‚Îˆø”‚ğUTF-8‚É•ÏŠ·‚·‚é */
+  /* win32ã®SDL1.2ãªã‚‰ã°å¼•æ•°ã‚’UTF-8ã«å¤‰æ›ã™ã‚‹ */
   argv = argvToUTF8(argc, argv);
 #endif
 
-  /* ‰Šú‰» */
+  /* åˆæœŸåŒ– */
   if (!init(argc, argv))
     popup("!", "CANNOT OPEN CONFIG FILE");
   if (!loadROM(dirROM))
@@ -338,35 +338,35 @@ int main(int argc, char *argv[]) {
   memset(keyMatrix, 0, sizeof(keyMatrix));
   keyBreak = keyShift = keyReset = FALSE;
 
-  /* Às */
+  /* å®Ÿè¡Œ */
   boot();
 
   if (beginProg != 0) {
-    /* ƒAƒhƒŒƒX‚ğw’è‚µ‚ÄÀs */
+    /* ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦å®Ÿè¡Œ */
     go(beginProg);
     exec(TRUE);
   } else if (useROM) {
-    /* æ“ª‚©‚çÀs */
+    /* å…ˆé ­ã‹ã‚‰å®Ÿè¡Œ */
     exec(FALSE);
   } else if (useBasic) {
-    /* BASICƒVƒ~ƒ…ƒŒ[ƒ^‚ğÀs */
+    /* BASICã‚·ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿ã‚’å®Ÿè¡Œ */
     execSim();
   } else {
-    /* ƒ‚ƒjƒ^ƒVƒ~ƒ…ƒŒ[ƒ^‚ğÀs */
+    /* ãƒ¢ãƒ‹ã‚¿ã‚·ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿ã‚’å®Ÿè¡Œ */
     monitor();
   }
 
   /*
-  printf("Total states = %d\n", z80.i.total_states);
+  printf("Total states = %dÂ¥n", z80.i.total_states);
   */
 
-  /* Œãˆ— */
+  /* å¾Œå‡¦ç† */
   storeRAM(pathRAM);
   return 0;
 }
 
 /*
-        Copyright 2005 ~ 2017 maruhiro
+        Copyright 2005 â€¾ 2017 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

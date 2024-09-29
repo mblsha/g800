@@ -10,14 +10,14 @@
 #include <stdio.h>
 
 /*
-        ƒ}ƒNƒ
+        ãƒã‚¯ãƒ­
 */
-/* ƒGƒ~ƒ…ƒŒ[ƒg‚·‚éƒ}ƒVƒ“‚ÌƒL[ƒR[ƒh */
+/* ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹ãƒã‚·ãƒ³ã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ */
 #if SDL_MAJOR_VERSION == 2
 #define printf SDL_Log
 #endif
 
-/* PC(ƒGƒ~ƒ…ƒŒ[ƒg‚·‚é‘¤)‚ÌƒL[ƒR[ƒh */
+/* PC(ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹å´)ã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ */
 #if SDL_MAJOR_VERSION == 2
 #define KEY_NONE 0
 #define KEY_BACKSPACE SDL_SCANCODE_BACKSPACE
@@ -269,7 +269,7 @@
 #endif
 
 /*
-        Copyright 2005 ~ 2008 maruhiro
+        Copyright 2005 â€¾ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

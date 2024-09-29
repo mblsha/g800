@@ -9,11 +9,11 @@ src:
 	rm -r -f g800
 	mkdir g800
 	mkdir g800/doc
-	nkf -w80 manual.txt | sed 's/\r//' > g800/doc/manual.txt
-	nkf -w80 quick.txt | sed 's/\r//' > g800/doc/quick.txt
+	nkf -w80 manual.txt | sed 's/¥r//' > g800/doc/manual.txt
+	nkf -w80 quick.txt | sed 's/¥r//' > g800/doc/quick.txt
 	cp -p README-SDL2.txt g800/doc/README-SDL.txt
-	nkf -w80 g800config.jp.linux | sed 's/\r//' > g800/g800config
-	nkf -w80 g800config.en.linux | sed 's/\r//' > g800/g800config.en
+	nkf -w80 g800config.jp.linux | sed 's/¥r//' > g800/g800config
+	nkf -w80 g800config.en.linux | sed 's/¥r//' > g800/g800config.en
 	cp -p *.c *.h *.awk Makefile Makearc font.txt symbol*.txt keytop*.txt *.xpm resource.rc g800icon.ico g800/
 	cp -p -r mktbl/ g800/
 	tar -c g800/ | gzip -9 > g800src.tgz
@@ -33,10 +33,10 @@ win32:
 macosx:
 	rm -r -f g800mac/
 	mkdir g800mac/
-	nkf -w80 manual.txt | sed 's/\r//' > g800mac/manual.txt
-	nkf -w80 quick.txt | sed 's/\r//' > g800mac/quick.txt
-	nkf -w80 g800config.jp.linux | sed 's/\r//' > g800mac/g800config
-	nkf -w80 g800config.en.linux | sed 's/\r//' > g800mac/g800config.en
+	nkf -w80 manual.txt | sed 's/¥r//' > g800mac/manual.txt
+	nkf -w80 quick.txt | sed 's/¥r//' > g800mac/quick.txt
+	nkf -w80 g800config.jp.linux | sed 's/¥r//' > g800mac/g800config
+	nkf -w80 g800config.en.linux | sed 's/¥r//' > g800mac/g800config.en
 	cp -p README-SDL2.txt g800mac/doc/README-SDL.txt
 	cp -p Makefile.mac g800mac/Makefile
 	cp -p g800 g800mac/
@@ -45,10 +45,10 @@ macosx:
 zaurus:
 	rm -r -f g800zaurus/
 	mkdir g800zaurus
-	nkf -e manual.txt | sed 's/\r//' > g800zaurus/manual.txt
-	nkf -e quick.txt | sed 's/\r//' > g800zaurus/quick.txt
-	nkf -e g800config.jp.linux | sed 's/\r//' > g800zaurus/g800config
-	nkf -e g800config.en.linux | sed 's/\r//' > g800zaurus/g800config.en
+	nkf -e manual.txt | sed 's/¥r//' > g800zaurus/manual.txt
+	nkf -e quick.txt | sed 's/¥r//' > g800zaurus/quick.txt
+	nkf -e g800config.jp.linux | sed 's/¥r//' > g800zaurus/g800config
+	nkf -e g800config.en.linux | sed 's/¥r//' > g800zaurus/g800config.en
 	cp -p README-SDL.txt g800mac/doc/README-SDL.txt
 	cp -p g800 g800zaurus/g800
 	tar -c g800zaurus/ | gzip -9 > g800zaurus.tgz

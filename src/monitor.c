@@ -1,6 +1,6 @@
 /*
         SHARP PC-G800 series emulator
-        ‹[—ƒ‚ƒjƒ^
+        æ“¬ä¼¼ãƒ¢ãƒ‹ã‚¿
 */
 
 #include "g800.h"
@@ -13,7 +13,7 @@
 #include <string.h>
 
 /*
-        16i”‚Ì•¶š—ñ‚ğ”’l‚É•ÏŠ·‚·‚é
+        16é€²æ•°ã®æ–‡å­—åˆ—ã‚’æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 */
 int atoix(const char *buf) {
   int x;
@@ -23,7 +23,7 @@ int atoix(const char *buf) {
 }
 
 /*
-        ÀsƒŒƒWƒXƒ^‚ğİ’è‚·‚é
+        å®Ÿè¡Œãƒ¬ã‚¸ã‚¹ã‚¿ã‚’è¨­å®šã™ã‚‹
 */
 void go(uint16 pc) {
   z80.r16.af = 0x0044;
@@ -37,7 +37,7 @@ void go(uint16 pc) {
 }
 
 /*
-        ƒvƒƒOƒ‰ƒ€‚ğ“Ç‚İ‚Ş
+        ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’èª­ã¿è¾¼ã‚€
 */
 int loadProg(uint16 *begin_ret, const char *path) {
   int size, begin;
@@ -53,7 +53,7 @@ int loadProg(uint16 *begin_ret, const char *path) {
 }
 
 /*
-        •\¦‚Å‚«‚é•¶š‚É•ÏŠ·‚·‚é (dump0‚Ì‰º¿‚¯)
+        è¡¨ç¤ºã§ãã‚‹æ–‡å­—ã«å¤‰æ›ã™ã‚‹ (dump0ã®ä¸‹è«‹ã‘)
 */
 static uint8 to_disp(uint8 chr) {
   if (chr < 0x20 || chr > 0xf8)
@@ -63,7 +63,7 @@ static uint8 to_disp(uint8 chr) {
 }
 
 /*
-        dump‚ğ1‰æ–Ê•\¦‚·‚é (dump‚Ì‰º¿‚¯)
+        dumpã‚’1ç”»é¢è¡¨ç¤ºã™ã‚‹ (dumpã®ä¸‹è«‹ã‘)
 */
 static void dump0(uint16 address) {
   uint8 sum = 0, *p;
@@ -118,7 +118,7 @@ static void dump0(uint16 address) {
 }
 
 /*
-        Dump‚ğ•\¦‚·‚é (‰º¿‚¯)
+        Dumpã‚’è¡¨ç¤ºã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static uint8 dump(uint16 address) {
   uint8 k;
@@ -126,10 +126,10 @@ static uint8 dump(uint16 address) {
   for (;;) {
     dump0(address);
     switch (k = ggetchr()) {
-    case 0x1e: /* ª */
+    case 0x1e: /* â†‘ */
       address -= 16;
       break;
-    case 0x1f: /* « */
+    case 0x1f: /* â†“ */
       address += 16;
       break;
     case 0x01: /* BASIC */
@@ -146,7 +146,7 @@ static uint8 dump(uint16 address) {
 }
 
 /*
-        ƒƒ‚ƒŠ‚ğ•ÒW‚·‚é (‰º¿‚¯)
+        ãƒ¡ãƒ¢ãƒªã‚’ç·¨é›†ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static int edit0(uint16 address, int cur, uint8 k) {
   uint8 x, *p;
@@ -177,7 +177,7 @@ static uint8 edit(uint16 address) {
   uint8 k;
 
   for (;;) {
-    /* ƒXƒNƒ[ƒ‹‚·‚é */
+    /* ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã™ã‚‹ */
     if (cur < 0) {
       cur += 32;
       address -= 16;
@@ -187,23 +187,23 @@ static uint8 edit(uint16 address) {
     }
     address &= 0x7ff0;
 
-    /* ƒL[‚ğ“¾‚é, ƒJ[ƒ\ƒ‹‚ğ•\¦‚·‚é */
+    /* ã‚­ãƒ¼ã‚’å¾—ã‚‹, ã‚«ãƒ¼ã‚½ãƒ«ã‚’è¡¨ç¤ºã™ã‚‹ */
     dump0(address);
     glocate(col[cur], row[cur]);
     k = getChrcode(CURSOR_OVER);
 
-    /* Às‚·‚é */
+    /* å®Ÿè¡Œã™ã‚‹ */
     switch (k) {
-    case 0x1e: /* ª */
+    case 0x1e: /* â†‘ */
       cur -= 8;
       break;
-    case 0x1f: /* « */
+    case 0x1f: /* â†“ */
       cur += 8;
       break;
-    case 0x1d: /* © */
+    case 0x1d: /* â† */
       cur--;
       break;
-    case 0x1c: /* ¨ */
+    case 0x1c: /* â†’ */
       cur++;
       break;
     case 0x01: /* BASIC */
@@ -224,7 +224,7 @@ static uint8 edit(uint16 address) {
 }
 
 /*
-        ‹tƒAƒZƒ“ƒuƒ‹‚·‚é (‰º¿‚¯)
+        é€†ã‚¢ã‚»ãƒ³ãƒ–ãƒ«ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static uint8 disasm(uint16 address) {
   char buf[256];
@@ -241,9 +241,9 @@ static uint8 disasm(uint16 address) {
     }
 
     switch (k = ggetchr()) {
-    case 0x1e: /* ª */
+    case 0x1e: /* â†‘ */
       break;
-    case 0x1f: /* « */
+    case 0x1f: /* â†“ */
       address = (int)((uint8 *)z80disasm(buf, &memory[address],
                                          z80bank(&z80, (uint16)(p - memory)),
                                          (uint16)(p - memory), z80.i.symbol) -
@@ -263,7 +263,7 @@ static uint8 disasm(uint16 address) {
 }
 
 /*
-        ƒpƒ‰ƒ[ƒ^‚ğ“¾‚é (getParam1, getParam2‚Ì‰º¿‚¯)
+        ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å¾—ã‚‹ (getParam1, getParam2ã®ä¸‹è«‹ã‘)
 */
 static const uint8 *_getParam(const uint8 *p, int *param) {
   uint8 tmp[256];
@@ -284,14 +284,14 @@ static const uint8 *_getParam(const uint8 *p, int *param) {
 }
 
 /*
-        1‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ğ“¾‚é (monitor‚Ì‰º¿‚¯)
+        1ã¤ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å¾—ã‚‹ (monitorã®ä¸‹è«‹ã‘)
 */
 static int getParam1(const uint8 *buf, int off, int *param) {
   return (_getParam(buf + off, param) != NULL);
 }
 
 /*
-        2‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ğ“¾‚é (monitor‚Ì‰º¿‚¯)
+        2ã¤ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å¾—ã‚‹ (monitorã®ä¸‹è«‹ã‘)
 */
 static int getParam2(const uint8 *buf, int off, int *param1, int *param2) {
   const uint8 *p;
@@ -306,7 +306,7 @@ static int getParam2(const uint8 *buf, int off, int *param1, int *param2) {
 }
 
 /*
-        •¶š—ñ‚ğ‘å•¶š‚É‚·‚é (monitor‚Ì‰º¿‚¯)
+        æ–‡å­—åˆ—ã‚’å¤§æ–‡å­—ã«ã™ã‚‹ (monitorã®ä¸‹è«‹ã‘)
 */
 static uint8 *toUpperStr(uint8 *buf) {
   uint8 *p;
@@ -318,26 +318,26 @@ static uint8 *toUpperStr(uint8 *buf) {
 }
 
 /*
-        ‹[—ƒ‚ƒjƒ^‚ğÀs‚·‚é
+        æ“¬ä¼¼ãƒ¢ãƒ‹ã‚¿ã‚’å®Ÿè¡Œã™ã‚‹
 */
 int monitor(void) {
   int size, param1, param2;
   uint16 address;
   uint8 buf[256];
 
-  /* ƒ^ƒCƒgƒ‹‚ğ•\¦‚·‚é */
+  /* ã‚¿ã‚¤ãƒˆãƒ«ã‚’è¡¨ç¤ºã™ã‚‹ */
   memory[0x7902] = 0;
   *VRAM_CR(lcdCols, 0) = 0x00;
   *VRAM_CR(lcdCols, 1) = 0x00;
   *VRAM_CR(lcdCols, 2) = 0x00;
   gcls();
-  gprintf("MACHINE LANGUAGE MONITOR\r");
+  gprintf("MACHINE LANGUAGE MONITORÂ¥r");
 
   while (memory[0x7902] == 0x00) {
-    /* ƒvƒƒ“ƒvƒg‚ğ•\¦‚·‚é */
+    /* ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’è¡¨ç¤ºã™ã‚‹ */
     gprintf("*");
 
-    /* “ü—Í‚³‚ê‚½ƒRƒ}ƒ“ƒh‚ğ“¾‚é */
+    /* å…¥åŠ›ã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰ã‚’å¾—ã‚‹ */
     switch (ggetline(buf, (const uint8 *)"", GETLINE_MAN)) {
     case 0x01: /* BASIC */
       memory[0x7902] = 0x40;
@@ -355,53 +355,53 @@ int monitor(void) {
       gcls();
       break;
     case 0x0d: /* RETURN */
-      /* ƒRƒ}ƒ“ƒh‚ğÀs‚·‚é */
+      /* ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ */
       toUpperStr(buf);
 
-      gprintf("\r");
+      gprintf("Â¥r");
 
       if (buf[0] == 0) {
-        /* ƒRƒ}ƒ“ƒh‚È‚µ */
+        /* ã‚³ãƒãƒ³ãƒ‰ãªã— */
       } else if (memcmp(buf, "D", 1) == 0 && getParam1(buf, 1, &param1)) {
-        /* D:ƒ_ƒ“ƒv */
+        /* D:ãƒ€ãƒ³ãƒ— */
         dump(param1 > 0 ? param1 : 0x100);
       } else if (memcmp(buf, "E", 1) == 0 && getParam1(buf, 1, &param1)) {
-        /* E:•ÒW */
+        /* E:ç·¨é›† */
         edit(param1 > 0 ? param1 : 0x100);
       } else if (memcmp(buf, "U", 1) == 0 && getParam1(buf, 1, &param1)) {
-        /* U:‹tƒAƒZƒ“ƒuƒ‹ */
+        /* U:é€†ã‚¢ã‚»ãƒ³ãƒ–ãƒ« */
         disasm(param1 > 0 ? param1 : z80.r16.pc);
       } else if (memcmp(buf, "G", 1) == 0 && getParam1(buf, 1, &param1) &&
                  param1 >= 0) {
-        /* G:Às */
+        /* G:å®Ÿè¡Œ */
         go(param1);
         exec(TRUE);
       } else if (memcmp(buf, "R", 1) == 0) {
-        /* R:“Ç‚İ‚İ */
+        /* R:èª­ã¿è¾¼ã¿ */
         if ((size = loadProg(&address, pathSioIn)) <= 0)
-          gprintf("READ ERROR\r");
+          gprintf("READ ERRORÂ¥r");
         else
-          gprintf("INFO:%04X-%04X\r", address, address + size - 1);
+          gprintf("INFO:%04X-%04XÂ¥r", address, address + size - 1);
       } else if (memcmp(buf, "W", 1) == 0 &&
                  getParam2(buf, 1, &param1, &param2) && param1 >= 0 &&
                  param2 >= 0) {
-        /* W:‘‚«‚İ */
+        /* W:æ›¸ãè¾¼ã¿ */
         if (writeHex(pathSioOut, memory, param1, param2 - param1) <= 0)
-          gprintf("WRITE ERROR\r");
+          gprintf("WRITE ERRORÂ¥r");
       } else if (memcmp(buf, "USER", 4) == 0 && getParam1(buf, 4, &param1)) {
-        /* USER:ƒ†[ƒUƒGƒŠƒA */
+        /* USER:ãƒ¦ãƒ¼ã‚¶ã‚¨ãƒªã‚¢ */
         if (param1 >= 0x100 && param1 <= 0x7fff) {
           memory[0x7fff] = (param1 + 1) >> 8;
           memory[0x7ffe] = (param1 + 1) & 0xff;
         }
         size = (memory[0x7fff] * 0x100 + memory[0x7ffe] - 1) & 0xffff;
         if (size == 0xffff)
-          gprintf("FREE:NOT RESERVED\r");
+          gprintf("FREE:NOT RESERVEDÂ¥r");
         else
-          gprintf("FREE:%04X-%04X\r", 0x100, size);
+          gprintf("FREE:%04X-%04XÂ¥r", 0x100, size);
       } else {
-        /* ƒGƒ‰[ */
-        gprintf(" SYNTAX ERROR\r");
+        /* ã‚¨ãƒ©ãƒ¼ */
+        gprintf(" SYNTAX ERRORÂ¥r");
       }
     }
   }
@@ -410,7 +410,7 @@ int monitor(void) {
 }
 
 /*
-        Copyright 2005 ~ 2016 maruhiro
+        Copyright 2005 â€¾ 2016 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

@@ -1,6 +1,6 @@
 /*
         SHARP PC-G800 series emulator
-        ‚»‚Ì‘¼‚Ì‹@”\
+        ãã®ä»–ã®æ©Ÿèƒ½
 */
 
 #include "g800.h"
@@ -13,16 +13,16 @@
 #define O_BINARY 0
 #endif
 
-static char autoKeyText[0x8000];        /* ©“®“ü—Í‚·‚éƒeƒLƒXƒg */
-static char *autoKeyTextPointer = NULL; /* ©“®“ü—Í‚·‚éƒeƒLƒXƒg‚Ì“Ç‚İ‚İˆÊ’u */
-static uint8 autoKeyBuffer[8];          /* ©“®ƒL[“ü—Íƒoƒbƒtƒ@ */
+static char autoKeyText[0x8000];        /* è‡ªå‹•å…¥åŠ›ã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆ */
+static char *autoKeyTextPointer = NULL; /* è‡ªå‹•å…¥åŠ›ã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆã®èª­ã¿è¾¼ã¿ä½ç½® */
+static uint8 autoKeyBuffer[8];          /* è‡ªå‹•ã‚­ãƒ¼å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ */
 static uint8 *autoKeyBufferPointer =
-    NULL;                    /* ©“®ƒL[“ü—Íƒoƒbƒtƒ@‚Ì“Ç‚İ‚İˆÊ’u */
-static uint8 autoKeyMod = 0; /* ©“®ƒL[“ü—Í‘O‚ÌƒL[ƒ‚ƒfƒtƒ@ƒCƒA */
+    NULL;                    /* è‡ªå‹•ã‚­ãƒ¼å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã®èª­ã¿è¾¼ã¿ä½ç½® */
+static uint8 autoKeyMod = 0; /* è‡ªå‹•ã‚­ãƒ¼å…¥åŠ›å‰ã®ã‚­ãƒ¼ãƒ¢ãƒ‡ãƒ•ã‚¡ã‚¤ã‚¢ */
 
 #if defined(Z80_TRACE)
 /*
-        ƒoƒ“ƒN”Ô†‚ğ“¾‚é
+        ãƒãƒ³ã‚¯ç•ªå·ã‚’å¾—ã‚‹
 */
 int z80bank(const Z80stat *z, uint16 address) {
   if (address < 0xc000)
@@ -32,23 +32,23 @@ int z80bank(const Z80stat *z, uint16 address) {
 }
 
 /*
-        ƒgƒŒ[ƒX‚ğo—Í‚·‚é
+        ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã™ã‚‹
 */
 void z80log(const Z80stat *z) {
   char buf[256];
   int states = Z80_STATES(z);
 
-  printf("%s%dclocks (%dmsec)\n\n", z80regs(buf, z), states,
+  printf("%s%dclocks (%dmsec)Â¥nÂ¥n", z80regs(buf, z), states,
          states / (freqCPU / 1000));
 }
 #endif
 
-#define MOD_CAPSUNLOCK 0xfc /* ‰¼‘zƒL[: CAPSƒƒbƒN‚ğ‰ğœ‚·‚é */
-#define MOD_CAPSLOCK 0xfd   /* ‰¼‘zƒL[: CAPSƒƒbƒN */
-#define MOD_KANA 0xfe       /* ‰¼‘zƒL[: ƒJƒiƒƒbƒN */
+#define MOD_CAPSUNLOCK 0xfc /* ä»®æƒ³ã‚­ãƒ¼: CAPSãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹ */
+#define MOD_CAPSLOCK 0xfd   /* ä»®æƒ³ã‚­ãƒ¼: CAPSãƒ­ãƒƒã‚¯ */
+#define MOD_KANA 0xfe       /* ä»®æƒ³ã‚­ãƒ¼: ã‚«ãƒŠãƒ­ãƒƒã‚¯ */
 
 /*
-        •¶š‚©‚çƒL[ƒXƒgƒ[ƒN‚ğ“¾‚é (getAutoKey‚Ì‰º¿‚¯)
+        æ–‡å­—ã‹ã‚‰ã‚­ãƒ¼ã‚¹ãƒˆãƒ­ãƒ¼ã‚¯ã‚’å¾—ã‚‹ (getAutoKeyã®ä¸‹è«‹ã‘)
 */
 static int ankToKey(char ch, uint8 mod, uint8 *key) {
   const uint8 key_08[] = {GKEY_BACKSPACE, 0}; /* BS */
@@ -118,7 +118,7 @@ static int ankToKey(char ch, uint8 mod, uint8 *key) {
   const uint8 key_59[] = {MOD_CAPSLOCK, GKEY_Y, 0};                 /* Y */
   const uint8 key_5a[] = {MOD_CAPSLOCK, GKEY_Z, 0};                 /* Z */
   const uint8 key_5b[] = {GKEY_2NDF, GKEY_A, 0};                    /* [ */
-  const uint8 key_5c[] = {GKEY_2NDF, GKEY_G, 0};                    /* \ */
+  const uint8 key_5c[] = {GKEY_2NDF, GKEY_G, 0};                    /* Â¥ */
   const uint8 key_5d[] = {GKEY_2NDF, GKEY_S, 0};                    /* ] */
   const uint8 key_5e[] = {GKEY_HAT, 0};                             /* ^ */
   const uint8 key_5f[] = {GKEY_2NDF, GKEY_K, 0};                    /* _ */
@@ -152,73 +152,73 @@ static int ankToKey(char ch, uint8 mod, uint8 *key) {
   const uint8 key_7b[] = {GKEY_2NDF, GKEY_D, 0};                    /* { */
   const uint8 key_7c[] = {GKEY_2NDF, GKEY_H, 0};                    /* | */
   const uint8 key_7d[] = {GKEY_2NDF, GKEY_F, 0};                    /* } */
-  const uint8 key_7e[] = {GKEY_2NDF, GKEY_J, 0};                    /* ~ */
-  const uint8 key_a1[] = {MOD_KANA, GKEY_PERIOD, 0};                /* B */
-  const uint8 key_a2[] = {MOD_KANA, GKEY_LKAKKO, 0};                /* u */
-  const uint8 key_a3[] = {MOD_KANA, GKEY_RKAKKO, 0};                /* v */
-  const uint8 key_a4[] = {MOD_KANA, GKEY_COMMA, 0};                 /* A */
-  const uint8 key_a5[] = {MOD_KANA, GKEY_PLUS, 0};                  /* E */
-  const uint8 key_a6[] = {MOD_KANA, GKEY_W, GKEY_O, 0};             /* ƒ’ */
-  const uint8 key_a7[] = {MOD_KANA, GKEY_CAPS, GKEY_A, 0};          /* ƒ@ */
-  const uint8 key_a8[] = {MOD_KANA, GKEY_CAPS, GKEY_I, 0};          /* ƒB */
-  const uint8 key_a9[] = {MOD_KANA, GKEY_CAPS, GKEY_U, 0};          /* ƒD */
-  const uint8 key_aa[] = {MOD_KANA, GKEY_CAPS, GKEY_E, 0};          /* ƒF */
-  const uint8 key_ab[] = {MOD_KANA, GKEY_CAPS, GKEY_O, 0};          /* ƒH */
-  const uint8 key_ac[] = {MOD_KANA, GKEY_CAPS, GKEY_Y, GKEY_A, 0};  /* ƒƒ */
-  const uint8 key_ad[] = {MOD_KANA, GKEY_CAPS, GKEY_Y, GKEY_U, 0};  /* ƒ… */
-  const uint8 key_ae[] = {MOD_KANA, GKEY_CAPS, GKEY_Y, GKEY_O, 0};  /* ƒ‡ */
-  const uint8 key_af[] = {MOD_KANA, GKEY_CAPS, GKEY_T, GKEY_U, 0};  /* ƒb */
-  const uint8 key_b0[] = {MOD_KANA, GKEY_2NDF, GKEY_KANA, 0};       /* [ */
-  const uint8 key_b1[] = {MOD_KANA, GKEY_A, 0};                     /* ƒA */
-  const uint8 key_b2[] = {MOD_KANA, GKEY_I, 0};                     /* ƒC */
-  const uint8 key_b3[] = {MOD_KANA, GKEY_U, 0};                     /* ƒE */
-  const uint8 key_b4[] = {MOD_KANA, GKEY_E, 0};                     /* ƒG */
-  const uint8 key_b5[] = {MOD_KANA, GKEY_O, 0};                     /* ƒI */
-  const uint8 key_b6[] = {MOD_KANA, GKEY_K, GKEY_A, 0};             /* ƒJ */
-  const uint8 key_b7[] = {MOD_KANA, GKEY_K, GKEY_I, 0};             /* ƒL */
-  const uint8 key_b8[] = {MOD_KANA, GKEY_K, GKEY_U, 0};             /* ƒN */
-  const uint8 key_b9[] = {MOD_KANA, GKEY_K, GKEY_E, 0};             /* ƒP */
-  const uint8 key_ba[] = {MOD_KANA, GKEY_K, GKEY_O, 0};             /* ƒR */
-  const uint8 key_bb[] = {MOD_KANA, GKEY_S, GKEY_A, 0};             /* ƒT */
-  const uint8 key_bc[] = {MOD_KANA, GKEY_S, GKEY_I, 0};             /* ƒV */
-  const uint8 key_bd[] = {MOD_KANA, GKEY_S, GKEY_U, 0};             /* ƒX */
-  const uint8 key_be[] = {MOD_KANA, GKEY_S, GKEY_E, 0};             /* ƒZ */
-  const uint8 key_bf[] = {MOD_KANA, GKEY_S, GKEY_O, 0};             /* ƒ\ */
-  const uint8 key_c0[] = {MOD_KANA, GKEY_T, GKEY_A, 0};             /* ƒ^ */
-  const uint8 key_c1[] = {MOD_KANA, GKEY_T, GKEY_I, 0};             /* ƒ` */
-  const uint8 key_c2[] = {MOD_KANA, GKEY_T, GKEY_U, 0};             /* ƒc */
-  const uint8 key_c3[] = {MOD_KANA, GKEY_T, GKEY_E, 0};             /* ƒe */
-  const uint8 key_c4[] = {MOD_KANA, GKEY_T, GKEY_O, 0};             /* ƒg */
-  const uint8 key_c5[] = {MOD_KANA, GKEY_N, GKEY_A, 0};             /* ƒi */
-  const uint8 key_c6[] = {MOD_KANA, GKEY_N, GKEY_I, 0};             /* ƒj */
-  const uint8 key_c7[] = {MOD_KANA, GKEY_N, GKEY_U, 0};             /* ƒk */
-  const uint8 key_c8[] = {MOD_KANA, GKEY_N, GKEY_E, 0};             /* ƒl */
-  const uint8 key_c9[] = {MOD_KANA, GKEY_N, GKEY_O, 0};             /* ƒm */
-  const uint8 key_ca[] = {MOD_KANA, GKEY_H, GKEY_A, 0};             /* ƒn */
-  const uint8 key_cb[] = {MOD_KANA, GKEY_H, GKEY_I, 0};             /* ƒq */
-  const uint8 key_cc[] = {MOD_KANA, GKEY_H, GKEY_U, 0};             /* ƒt */
-  const uint8 key_cd[] = {MOD_KANA, GKEY_H, GKEY_E, 0};             /* ƒw */
-  const uint8 key_ce[] = {MOD_KANA, GKEY_H, GKEY_O, 0};             /* ƒz */
-  const uint8 key_cf[] = {MOD_KANA, GKEY_M, GKEY_A, 0};             /* ƒ} */
-  const uint8 key_d0[] = {MOD_KANA, GKEY_M, GKEY_I, 0};             /* ƒ~ */
-  const uint8 key_d1[] = {MOD_KANA, GKEY_M, GKEY_U, 0};             /* ƒ€ */
-  const uint8 key_d2[] = {MOD_KANA, GKEY_M, GKEY_E, 0};             /* ƒ */
-  const uint8 key_d3[] = {MOD_KANA, GKEY_M, GKEY_O, 0};             /* ƒ‚ */
-  const uint8 key_d4[] = {MOD_KANA, GKEY_Y, GKEY_A, 0};             /* ƒ„ */
-  const uint8 key_d5[] = {MOD_KANA, GKEY_Y, GKEY_U, 0};             /* ƒ† */
-  const uint8 key_d6[] = {MOD_KANA, GKEY_Y, GKEY_O, 0};             /* ƒˆ */
-  const uint8 key_d7[] = {MOD_KANA, GKEY_R, GKEY_A, 0};             /* ƒ‰ */
-  const uint8 key_d8[] = {MOD_KANA, GKEY_R, GKEY_I, 0};             /* ƒŠ */
-  const uint8 key_d9[] = {MOD_KANA, GKEY_R, GKEY_U, 0};             /* ƒ‹ */
-  const uint8 key_da[] = {MOD_KANA, GKEY_R, GKEY_E, 0};             /* ƒŒ */
-  const uint8 key_db[] = {MOD_KANA, GKEY_R, GKEY_O, 0};             /* ƒ */
-  const uint8 key_dc[] = {MOD_KANA, GKEY_W, GKEY_A, 0};             /* ƒ */
-  const uint8 key_dd[] = {MOD_KANA, GKEY_N, GKEY_N, GKEY_RIGHT, 0}; /* ƒ“ */
+  const uint8 key_7e[] = {GKEY_2NDF, GKEY_J, 0};                    /* â€¾ */
+  const uint8 key_a1[] = {MOD_KANA, GKEY_PERIOD, 0};                /* ã€‚ */
+  const uint8 key_a2[] = {MOD_KANA, GKEY_LKAKKO, 0};                /* ã€Œ */
+  const uint8 key_a3[] = {MOD_KANA, GKEY_RKAKKO, 0};                /* ã€ */
+  const uint8 key_a4[] = {MOD_KANA, GKEY_COMMA, 0};                 /* ã€ */
+  const uint8 key_a5[] = {MOD_KANA, GKEY_PLUS, 0};                  /* ãƒ» */
+  const uint8 key_a6[] = {MOD_KANA, GKEY_W, GKEY_O, 0};             /* ãƒ² */
+  const uint8 key_a7[] = {MOD_KANA, GKEY_CAPS, GKEY_A, 0};          /* ã‚¡ */
+  const uint8 key_a8[] = {MOD_KANA, GKEY_CAPS, GKEY_I, 0};          /* ã‚£ */
+  const uint8 key_a9[] = {MOD_KANA, GKEY_CAPS, GKEY_U, 0};          /* ã‚¥ */
+  const uint8 key_aa[] = {MOD_KANA, GKEY_CAPS, GKEY_E, 0};          /* ã‚§ */
+  const uint8 key_ab[] = {MOD_KANA, GKEY_CAPS, GKEY_O, 0};          /* ã‚© */
+  const uint8 key_ac[] = {MOD_KANA, GKEY_CAPS, GKEY_Y, GKEY_A, 0};  /* ãƒ£ */
+  const uint8 key_ad[] = {MOD_KANA, GKEY_CAPS, GKEY_Y, GKEY_U, 0};  /* ãƒ¥ */
+  const uint8 key_ae[] = {MOD_KANA, GKEY_CAPS, GKEY_Y, GKEY_O, 0};  /* ãƒ§ */
+  const uint8 key_af[] = {MOD_KANA, GKEY_CAPS, GKEY_T, GKEY_U, 0};  /* ãƒƒ */
+  const uint8 key_b0[] = {MOD_KANA, GKEY_2NDF, GKEY_KANA, 0};       /* ãƒ¼ */
+  const uint8 key_b1[] = {MOD_KANA, GKEY_A, 0};                     /* ã‚¢ */
+  const uint8 key_b2[] = {MOD_KANA, GKEY_I, 0};                     /* ã‚¤ */
+  const uint8 key_b3[] = {MOD_KANA, GKEY_U, 0};                     /* ã‚¦ */
+  const uint8 key_b4[] = {MOD_KANA, GKEY_E, 0};                     /* ã‚¨ */
+  const uint8 key_b5[] = {MOD_KANA, GKEY_O, 0};                     /* ã‚ª */
+  const uint8 key_b6[] = {MOD_KANA, GKEY_K, GKEY_A, 0};             /* ã‚« */
+  const uint8 key_b7[] = {MOD_KANA, GKEY_K, GKEY_I, 0};             /* ã‚­ */
+  const uint8 key_b8[] = {MOD_KANA, GKEY_K, GKEY_U, 0};             /* ã‚¯ */
+  const uint8 key_b9[] = {MOD_KANA, GKEY_K, GKEY_E, 0};             /* ã‚± */
+  const uint8 key_ba[] = {MOD_KANA, GKEY_K, GKEY_O, 0};             /* ã‚³ */
+  const uint8 key_bb[] = {MOD_KANA, GKEY_S, GKEY_A, 0};             /* ã‚µ */
+  const uint8 key_bc[] = {MOD_KANA, GKEY_S, GKEY_I, 0};             /* ã‚· */
+  const uint8 key_bd[] = {MOD_KANA, GKEY_S, GKEY_U, 0};             /* ã‚¹ */
+  const uint8 key_be[] = {MOD_KANA, GKEY_S, GKEY_E, 0};             /* ã‚» */
+  const uint8 key_bf[] = {MOD_KANA, GKEY_S, GKEY_O, 0};             /* ã‚½ */
+  const uint8 key_c0[] = {MOD_KANA, GKEY_T, GKEY_A, 0};             /* ã‚¿ */
+  const uint8 key_c1[] = {MOD_KANA, GKEY_T, GKEY_I, 0};             /* ãƒ */
+  const uint8 key_c2[] = {MOD_KANA, GKEY_T, GKEY_U, 0};             /* ãƒ„ */
+  const uint8 key_c3[] = {MOD_KANA, GKEY_T, GKEY_E, 0};             /* ãƒ† */
+  const uint8 key_c4[] = {MOD_KANA, GKEY_T, GKEY_O, 0};             /* ãƒˆ */
+  const uint8 key_c5[] = {MOD_KANA, GKEY_N, GKEY_A, 0};             /* ãƒŠ */
+  const uint8 key_c6[] = {MOD_KANA, GKEY_N, GKEY_I, 0};             /* ãƒ‹ */
+  const uint8 key_c7[] = {MOD_KANA, GKEY_N, GKEY_U, 0};             /* ãƒŒ */
+  const uint8 key_c8[] = {MOD_KANA, GKEY_N, GKEY_E, 0};             /* ãƒ */
+  const uint8 key_c9[] = {MOD_KANA, GKEY_N, GKEY_O, 0};             /* ãƒ */
+  const uint8 key_ca[] = {MOD_KANA, GKEY_H, GKEY_A, 0};             /* ãƒ */
+  const uint8 key_cb[] = {MOD_KANA, GKEY_H, GKEY_I, 0};             /* ãƒ’ */
+  const uint8 key_cc[] = {MOD_KANA, GKEY_H, GKEY_U, 0};             /* ãƒ• */
+  const uint8 key_cd[] = {MOD_KANA, GKEY_H, GKEY_E, 0};             /* ãƒ˜ */
+  const uint8 key_ce[] = {MOD_KANA, GKEY_H, GKEY_O, 0};             /* ãƒ› */
+  const uint8 key_cf[] = {MOD_KANA, GKEY_M, GKEY_A, 0};             /* ãƒ */
+  const uint8 key_d0[] = {MOD_KANA, GKEY_M, GKEY_I, 0};             /* ãƒŸ */
+  const uint8 key_d1[] = {MOD_KANA, GKEY_M, GKEY_U, 0};             /* ãƒ  */
+  const uint8 key_d2[] = {MOD_KANA, GKEY_M, GKEY_E, 0};             /* ãƒ¡ */
+  const uint8 key_d3[] = {MOD_KANA, GKEY_M, GKEY_O, 0};             /* ãƒ¢ */
+  const uint8 key_d4[] = {MOD_KANA, GKEY_Y, GKEY_A, 0};             /* ãƒ¤ */
+  const uint8 key_d5[] = {MOD_KANA, GKEY_Y, GKEY_U, 0};             /* ãƒ¦ */
+  const uint8 key_d6[] = {MOD_KANA, GKEY_Y, GKEY_O, 0};             /* ãƒ¨ */
+  const uint8 key_d7[] = {MOD_KANA, GKEY_R, GKEY_A, 0};             /* ãƒ© */
+  const uint8 key_d8[] = {MOD_KANA, GKEY_R, GKEY_I, 0};             /* ãƒª */
+  const uint8 key_d9[] = {MOD_KANA, GKEY_R, GKEY_U, 0};             /* ãƒ« */
+  const uint8 key_da[] = {MOD_KANA, GKEY_R, GKEY_E, 0};             /* ãƒ¬ */
+  const uint8 key_db[] = {MOD_KANA, GKEY_R, GKEY_O, 0};             /* ãƒ­ */
+  const uint8 key_dc[] = {MOD_KANA, GKEY_W, GKEY_A, 0};             /* ãƒ¯ */
+  const uint8 key_dd[] = {MOD_KANA, GKEY_N, GKEY_N, GKEY_RIGHT, 0}; /* ãƒ³ */
   const uint8 key_de[] = {MOD_KANA,       GKEY_B,     GKEY_A, GKEY_LEFT,
-                          GKEY_BACKSPACE, GKEY_RIGHT, 0}; /* J */
+                          GKEY_BACKSPACE, GKEY_RIGHT, 0}; /* ã‚› */
   const uint8 key_df[] = {MOD_KANA,       GKEY_P,     GKEY_A, GKEY_LEFT,
-                          GKEY_BACKSPACE, GKEY_RIGHT, 0}; /* K */
-  const uint8 key_f8[] = {GKEY_2NDF, GKEY_9, 0};          /*  */
+                          GKEY_BACKSPACE, GKEY_RIGHT, 0}; /* ã‚œ */
+  const uint8 key_f8[] = {GKEY_2NDF, GKEY_9, 0};          /* â€³ */
   const uint8 *key_table[] = {
       /* 00 */
       NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, key_08, key_09, key_0a,
@@ -308,7 +308,7 @@ static int ankToKey(char ch, uint8 mod, uint8 *key) {
 }
 
 /*
-        ©“®“ü—Í‚ğ1ƒXƒgƒ[ƒN“¾‚é
+        è‡ªå‹•å…¥åŠ›ã‚’1ã‚¹ãƒˆãƒ­ãƒ¼ã‚¯å¾—ã‚‹
 */
 uint8 getAutoKey(void) {
   uint8 *p;
@@ -343,7 +343,7 @@ uint8 getAutoKey(void) {
     autoKeyBuffer[0] = *autoKeyTextPointer++;
     autoKeyBuffer[1] = 0;
     break;
-  default: /* •¶š */
+  default: /* æ–‡å­— */
     if (ankToKey(*autoKeyTextPointer++, memory[0x7901], autoKeyBuffer) == 0) {
       autoKeyTextPointer = NULL;
       noWait = FALSE;
@@ -357,26 +357,26 @@ uint8 getAutoKey(void) {
 }
 
 /*
-        UTF-8‚ğUTF-16‚É•ÏŠ·‚·‚é (utf8ToAnk‚Ì‰º¿‚¯)
+        UTF-8ã‚’UTF-16ã«å¤‰æ›ã™ã‚‹ (utf8ToAnkã®ä¸‹è«‹ã‘)
 */
 static int utf8ToUtf16(const char *utf8, int *utf16) {
-  if ((utf8[0] & 0x80) == 0) { /* 1ƒoƒCƒg */
+  if ((utf8[0] & 0x80) == 0) { /* 1ãƒã‚¤ãƒˆ */
     *utf16 = *utf8;
     return 1;
-  } else if ((utf8[0] & 0xe0) == 0xc0) { /* 2ƒoƒCƒg */
+  } else if ((utf8[0] & 0xe0) == 0xc0) { /* 2ãƒã‚¤ãƒˆ */
     *utf16 = (utf8[0] & 0x1f) << 6U | (utf8[1] & 0x3f);
     return 2;
-  } else if ((utf8[0] & 0xf0) == 0xe0) { /* 3ƒoƒCƒg */
+  } else if ((utf8[0] & 0xf0) == 0xe0) { /* 3ãƒã‚¤ãƒˆ */
     *utf16 =
         (utf8[0] & 0x0fU) << 12U | (utf8[1] & 0x3fU) << 6U | (utf8[2] & 0x3fU);
     return 3;
-  } else if ((utf8[0] & 0xf8) == 0xf0) { /* 4ƒoƒCƒg */
+  } else if ((utf8[0] & 0xf8) == 0xf0) { /* 4ãƒã‚¤ãƒˆ */
     *utf16 = 0x20;
     return 4;
-  } else if ((utf8[0] & 0xfc) == 0xf8) { /* 5ƒoƒCƒg */
+  } else if ((utf8[0] & 0xfc) == 0xf8) { /* 5ãƒã‚¤ãƒˆ */
     *utf16 = 0x20;
     return 5;
-  } else if ((utf8[0] & 0xfe) == 0xfc) { /* 6ƒoƒCƒg */
+  } else if ((utf8[0] & 0xfe) == 0xfc) { /* 6ãƒã‚¤ãƒˆ */
     *utf16 = 0x20;
     return 6;
   } else { /* ? */
@@ -386,108 +386,108 @@ static int utf8ToUtf16(const char *utf8, int *utf16) {
 }
 
 /*
-        UTF-16‚ğANK•¶š‚É•ÏŠ·‚·‚é (utf8ToAnk‚Ì‰º¿‚¯)
+        UTF-16ã‚’ANKæ–‡å­—ã«å¤‰æ›ã™ã‚‹ (utf8ToAnkã®ä¸‹è«‹ã‘)
 */
 static int utf16ToAnk(int utf16, char *ank) {
   const char *kana[] = {
-      "\xde",     /* 0x309b J */
-      "\xdf",     /* 0x309c K */
+      "Â¥xde",     /* 0x309b ã‚› */
+      "Â¥xdf",     /* 0x309c ã‚œ */
       "",         /* 0x309d */
       "",         /* 0x309e */
       "",         /* 0x309f */
       "",         /* 0x30a0 */
-      "\xa7",     /* 0x30a1 ƒ@ */
-      "\xb1",     /* 0x30a2 ƒA */
-      "\xa8",     /* 0x30a3 ƒB */
-      "\xb2",     /* 0x30a4 ƒC */
-      "\xa9",     /* 0x30a5 ƒD */
-      "\xb3",     /* 0x30a6 ƒE */
-      "\xaa",     /* 0x30a7 ƒF */
-      "\xb4",     /* 0x30a8 ƒG */
-      "\xab",     /* 0x30a9 ƒH */
-      "\xb5",     /* 0x30aa ƒI */
-      "\xb6",     /* 0x30ab ƒJ */
-      "\xb6\xde", /* 0x30ac ƒK */
-      "\xb7",     /* 0x30ad ƒL */
-      "\xb7\xde", /* 0x30ae ƒM */
-      "\xb8",     /* 0x30af ƒN */
-      "\xb8\xde", /* 0x30b0 ƒO */
-      "\xb9",     /* 0x30b1 ƒP */
-      "\xb9\xde", /* 0x30b2 ƒQ */
-      "\xba",     /* 0x30b3 ƒR */
-      "\xba\xde", /* 0x30b4 ƒS */
-      "\xbb",     /* 0x30b5 ƒT */
-      "\xbb\xde", /* 0x30b6 ƒU */
-      "\xbc",     /* 0x30b7 ƒV */
-      "\xbc\xde", /* 0x30b8 ƒW */
-      "\xbd",     /* 0x30b9 ƒX */
-      "\xbd\xde", /* 0x30ba ƒY */
-      "\xbe",     /* 0x30bb ƒZ */
-      "\xbe\xde", /* 0x30bc ƒ[ */
-      "\xbf",     /* 0x30bd ƒ\ */
-      "\xbf\xde", /* 0x30be ƒ] */
-      "\xc0",     /* 0x30bf ƒ^ */
-      "\xc0\xde", /* 0x30c0 ƒ_ */
-      "\xc1",     /* 0x30c1 ƒ` */
-      "\xc1\xde", /* 0x30c2 ƒa */
-      "\xaf",     /* 0x30c3 ƒb */
-      "\xc2",     /* 0x30c4 ƒc */
-      "\xc2\xde", /* 0x30c5 ƒd */
-      "\xc3",     /* 0x30c6 ƒe */
-      "\xc3\xde", /* 0x30c7 ƒf */
-      "\xc4",     /* 0x30c8 ƒg */
-      "\xc4\xde", /* 0x30c9 ƒh */
-      "\xc5",     /* 0x30ca ƒi */
-      "\xc6",     /* 0x30cb ƒj */
-      "\xc7",     /* 0x30cc ƒk */
-      "\xc8",     /* 0x30cd ƒl */
-      "\xc9",     /* 0x30ce ƒm */
-      "\xca",     /* 0x30cf ƒn */
-      "\xca\xde", /* 0x30d0 ƒo */
-      "\xca\xdf", /* 0x30d1 ƒp */
-      "\xcb",     /* 0x30d2 ƒq */
-      "\xcb\xde", /* 0x30d3 ƒr */
-      "\xcb\xdf", /* 0x30d4 ƒs */
-      "\xcc",     /* 0x30d5 ƒt */
-      "\xcc\xde", /* 0x30d6 ƒu */
-      "\xcc\xdf", /* 0x30d7 ƒv */
-      "\xcd",     /* 0x30d8 ƒw */
-      "\xcd\xde", /* 0x30d9 ƒx */
-      "\xcd\xdf", /* 0x30da ƒy */
-      "\xce",     /* 0x30db ƒz */
-      "\xce\xde", /* 0x30dc ƒ{ */
-      "\xce\xdf", /* 0x30dd ƒ| */
-      "\xcf",     /* 0x30de ƒ} */
-      "\xd0",     /* 0x30df ƒ~ */
-      "\xd1",     /* 0x30e0 ƒ€ */
-      "\xd2",     /* 0x30e1 ƒ */
-      "\xd3",     /* 0x30e2 ƒ‚ */
-      "\xac",     /* 0x30e3 ƒƒ */
-      "\xd4",     /* 0x30e4 ƒ„ */
-      "\xad",     /* 0x30e5 ƒ… */
-      "\xd5",     /* 0x30e6 ƒ† */
-      "\xae",     /* 0x30e7 ƒ‡ */
-      "\xd6",     /* 0x30e8 ƒˆ */
-      "\xd7",     /* 0x30e9 ƒ‰ */
-      "\xd8",     /* 0x30ea ƒŠ */
-      "\xd9",     /* 0x30eb ƒ‹ */
-      "\xda",     /* 0x30ec ƒŒ */
-      "\xdb",     /* 0x30ed ƒ */
+      "Â¥xa7",     /* 0x30a1 ã‚¡ */
+      "Â¥xb1",     /* 0x30a2 ã‚¢ */
+      "Â¥xa8",     /* 0x30a3 ã‚£ */
+      "Â¥xb2",     /* 0x30a4 ã‚¤ */
+      "Â¥xa9",     /* 0x30a5 ã‚¥ */
+      "Â¥xb3",     /* 0x30a6 ã‚¦ */
+      "Â¥xaa",     /* 0x30a7 ã‚§ */
+      "Â¥xb4",     /* 0x30a8 ã‚¨ */
+      "Â¥xab",     /* 0x30a9 ã‚© */
+      "Â¥xb5",     /* 0x30aa ã‚ª */
+      "Â¥xb6",     /* 0x30ab ã‚« */
+      "Â¥xb6Â¥xde", /* 0x30ac ã‚¬ */
+      "Â¥xb7",     /* 0x30ad ã‚­ */
+      "Â¥xb7Â¥xde", /* 0x30ae ã‚® */
+      "Â¥xb8",     /* 0x30af ã‚¯ */
+      "Â¥xb8Â¥xde", /* 0x30b0 ã‚° */
+      "Â¥xb9",     /* 0x30b1 ã‚± */
+      "Â¥xb9Â¥xde", /* 0x30b2 ã‚² */
+      "Â¥xba",     /* 0x30b3 ã‚³ */
+      "Â¥xbaÂ¥xde", /* 0x30b4 ã‚´ */
+      "Â¥xbb",     /* 0x30b5 ã‚µ */
+      "Â¥xbbÂ¥xde", /* 0x30b6 ã‚¶ */
+      "Â¥xbc",     /* 0x30b7 ã‚· */
+      "Â¥xbcÂ¥xde", /* 0x30b8 ã‚¸ */
+      "Â¥xbd",     /* 0x30b9 ã‚¹ */
+      "Â¥xbdÂ¥xde", /* 0x30ba ã‚º */
+      "Â¥xbe",     /* 0x30bb ã‚» */
+      "Â¥xbeÂ¥xde", /* 0x30bc ã‚¼ */
+      "Â¥xbf",     /* 0x30bd ã‚½ */
+      "Â¥xbfÂ¥xde", /* 0x30be ã‚¾ */
+      "Â¥xc0",     /* 0x30bf ã‚¿ */
+      "Â¥xc0Â¥xde", /* 0x30c0 ãƒ€ */
+      "Â¥xc1",     /* 0x30c1 ãƒ */
+      "Â¥xc1Â¥xde", /* 0x30c2 ãƒ‚ */
+      "Â¥xaf",     /* 0x30c3 ãƒƒ */
+      "Â¥xc2",     /* 0x30c4 ãƒ„ */
+      "Â¥xc2Â¥xde", /* 0x30c5 ãƒ… */
+      "Â¥xc3",     /* 0x30c6 ãƒ† */
+      "Â¥xc3Â¥xde", /* 0x30c7 ãƒ‡ */
+      "Â¥xc4",     /* 0x30c8 ãƒˆ */
+      "Â¥xc4Â¥xde", /* 0x30c9 ãƒ‰ */
+      "Â¥xc5",     /* 0x30ca ãƒŠ */
+      "Â¥xc6",     /* 0x30cb ãƒ‹ */
+      "Â¥xc7",     /* 0x30cc ãƒŒ */
+      "Â¥xc8",     /* 0x30cd ãƒ */
+      "Â¥xc9",     /* 0x30ce ãƒ */
+      "Â¥xca",     /* 0x30cf ãƒ */
+      "Â¥xcaÂ¥xde", /* 0x30d0 ãƒ */
+      "Â¥xcaÂ¥xdf", /* 0x30d1 ãƒ‘ */
+      "Â¥xcb",     /* 0x30d2 ãƒ’ */
+      "Â¥xcbÂ¥xde", /* 0x30d3 ãƒ“ */
+      "Â¥xcbÂ¥xdf", /* 0x30d4 ãƒ” */
+      "Â¥xcc",     /* 0x30d5 ãƒ• */
+      "Â¥xccÂ¥xde", /* 0x30d6 ãƒ– */
+      "Â¥xccÂ¥xdf", /* 0x30d7 ãƒ— */
+      "Â¥xcd",     /* 0x30d8 ãƒ˜ */
+      "Â¥xcdÂ¥xde", /* 0x30d9 ãƒ™ */
+      "Â¥xcdÂ¥xdf", /* 0x30da ãƒš */
+      "Â¥xce",     /* 0x30db ãƒ› */
+      "Â¥xceÂ¥xde", /* 0x30dc ãƒœ */
+      "Â¥xceÂ¥xdf", /* 0x30dd ãƒ */
+      "Â¥xcf",     /* 0x30de ãƒ */
+      "Â¥xd0",     /* 0x30df ãƒŸ */
+      "Â¥xd1",     /* 0x30e0 ãƒ  */
+      "Â¥xd2",     /* 0x30e1 ãƒ¡ */
+      "Â¥xd3",     /* 0x30e2 ãƒ¢ */
+      "Â¥xac",     /* 0x30e3 ãƒ£ */
+      "Â¥xd4",     /* 0x30e4 ãƒ¤ */
+      "Â¥xad",     /* 0x30e5 ãƒ¥ */
+      "Â¥xd5",     /* 0x30e6 ãƒ¦ */
+      "Â¥xae",     /* 0x30e7 ãƒ§ */
+      "Â¥xd6",     /* 0x30e8 ãƒ¨ */
+      "Â¥xd7",     /* 0x30e9 ãƒ© */
+      "Â¥xd8",     /* 0x30ea ãƒª */
+      "Â¥xd9",     /* 0x30eb ãƒ« */
+      "Â¥xda",     /* 0x30ec ãƒ¬ */
+      "Â¥xdb",     /* 0x30ed ãƒ­ */
       "",         /* 0x30ee */
-      "\xdc",     /* 0x30ef ƒ */
+      "Â¥xdc",     /* 0x30ef ãƒ¯ */
       "",         /* 0x30f0 */
       "",         /* 0x30f1 */
-      "\xa6",     /* 0x30f2 ƒ’ */
-      "\xdd",     /* 0x30f3 ƒ“ */
-      "\xb3\xde", /* 0x30f4 ƒ” */
+      "Â¥xa6",     /* 0x30f2 ãƒ² */
+      "Â¥xdd",     /* 0x30f3 ãƒ³ */
+      "Â¥xb3Â¥xde", /* 0x30f4 ãƒ´ */
       "",         /* 0x30f5 */
       "",         /* 0x30f6 */
       "",         /* 0x30f7 */
       "",         /* 0x30f8 */
       "",         /* 0x30f9 */
       "",         /* 0x30fa */
-      "\xa5",     /* 0x30fb E */
-      "\xb0"      /* 0x30fc [ */
+      "Â¥xa5",     /* 0x30fb ãƒ» */
+      "Â¥xb0"      /* 0x30fc ãƒ¼ */
   };
   char *a = ank;
   const char *p;
@@ -502,31 +502,31 @@ static int utf16ToAnk(int utf16, char *ank) {
   else if (utf16 == 0x0093 || utf16 == 0x0094 || utf16 == 0x201c ||
            utf16 == 0x201d) /* " */
     *a++ = 0x22;
-  else if (utf16 == 0x00a5 || utf16 == 0xffe5) /* \ */
+  else if (utf16 == 0x00a5 || utf16 == 0xffe5) /* Â¥ */
     *a++ = 0x5c;
-  else if (utf16 == 0x00b0) /* ‹ */
+  else if (utf16 == 0x00b0) /* Â° */
     *a++ = 0xdf;
-  else if (utf16 == 0x2032) /* Œ */
+  else if (utf16 == 0x2032) /* â€² */
     *a++ = 0x27;
-  else if (utf16 == 0x2033) /*  */
+  else if (utf16 == 0x2033) /* â€³ */
     *a++ = 0xf8;
   else if (utf16 == 0x3000) /*   */
     *a++ = 0x20;
-  else if (utf16 == 0x3001) /* A */
+  else if (utf16 == 0x3001) /* ã€ */
     *a++ = 0xa4;
-  else if (utf16 == 0x3002) /* B */
+  else if (utf16 == 0x3002) /* ã€‚ */
     *a++ = 0xa1;
-  else if (utf16 == 0x300c) /* u */
+  else if (utf16 == 0x300c) /* ã€Œ */
     *a++ = 0xa2;
-  else if (utf16 == 0x300d) /* v */
+  else if (utf16 == 0x300d) /* ã€ */
     *a++ = 0xa3;
   else if (0x309b <= utf16 &&
-           utf16 <= 0x309b + sizeof(kana) / sizeof(kana[0])) /* ƒJƒi */
+           utf16 <= 0x309b + sizeof(kana) / sizeof(kana[0])) /* ã‚«ãƒŠ */
     for (p = kana[utf16 - 0x309b]; *p != 0; p++)
       *a++ = *p;
-  else if (0xff00 <= utf16 && utf16 <= 0xff9f) /* ‘SŠp‰p”‹L†E”¼ŠpƒJƒi */
+  else if (0xff00 <= utf16 && utf16 <= 0xff9f) /* å…¨è§’è‹±æ•°è¨˜å·ãƒ»åŠè§’ã‚«ãƒŠ */
     *a++ = utf16 - 0xff00U + 0x40;
-  else if (utf16 == 0xffe3) /* ~ */
+  else if (utf16 == 0xffe3) /* â€¾ */
     *a++ = 0x7e;
 
   *a = 0;
@@ -534,7 +534,7 @@ static int utf16ToAnk(int utf16, char *ank) {
 }
 
 /*
-        UTF-8•¶š—ñ‚ğANK•¶š—ñ‚É•ÏŠ·‚·‚é (setAutoKeyText‚Ì‰º¿‚¯)
+        UTF-8æ–‡å­—åˆ—ã‚’ANKæ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹ (setAutoKeyTextã®ä¸‹è«‹ã‘)
 */
 static int utf8ToAnk(const char *utf8, char *ank, int ank_size) {
   int len = strlen(utf8), size, utf16;
@@ -556,7 +556,7 @@ static int utf8ToAnk(const char *utf8, char *ank, int ank_size) {
 }
 
 /*
-        ©“®ƒL[“ü—Í‚·‚éƒeƒLƒXƒg‚ğİ’è‚·‚é
+        è‡ªå‹•ã‚­ãƒ¼å…¥åŠ›ã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹
 */
 void setAutoKeyText(const char *text, int utf8) {
   memset(autoKeyText, 0, sizeof(autoKeyText));
@@ -574,7 +574,7 @@ void setAutoKeyText(const char *text, int utf8) {
 }
 
 /*
-        ©“®ƒL[“ü—Í‚·‚éƒL[‚ğİ’è‚·‚é
+        è‡ªå‹•ã‚­ãƒ¼å…¥åŠ›ã™ã‚‹ã‚­ãƒ¼ã‚’è¨­å®šã™ã‚‹
 */
 void setAutoKey(uint8 key) {
   char buf[4];
@@ -587,21 +587,21 @@ void setAutoKey(uint8 key) {
 }
 
 /*
-        ANK•¶š—ñ‚ğUTF-8•¶š—ñ‚É•ÏŠ·‚·‚é
+        ANKæ–‡å­—åˆ—ã‚’UTF-8æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 */
 char *ankToUtf8(const uint8 *ank, char *utf8) {
   char *u = utf8;
   const uint8 *a;
 
   for (a = ank; *a != 0; a++)
-    if (*a == 0xdf) { /* ‹ */
+    if (*a == 0xdf) { /* Â° */
       *u++ = 0xc2;
       *u++ = 0xb0;
-    } else if (*a == 0x27) { /* Œ */
+    } else if (*a == 0x27) { /* â€² */
       *u++ = 0xe2;
       *u++ = 0x80;
       *u++ = 0xb2;
-    } else if (*a == 0xf8) { /*  */
+    } else if (*a == 0xf8) { /* â€³ */
       *u++ = 0xe2;
       *u++ = 0x80;
       *u++ = 0xb3;
@@ -614,7 +614,7 @@ char *ankToUtf8(const uint8 *ank, char *utf8) {
 
 #if defined(Z80_TRACE)
 /*
-        ƒtƒ@ƒCƒ‹–¼‚©‚çƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹–¼‚ğ“¾‚é (loadSym‚Ì‰º¿‚¯)
+        ãƒ•ã‚¡ã‚¤ãƒ«åã‹ã‚‰ã‚·ãƒ³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å¾—ã‚‹ (loadSymã®ä¸‹è«‹ã‘)
 */
 static char *getSymFileName(char *sym, const char *file) {
   char *p;
@@ -628,7 +628,7 @@ static char *getSymFileName(char *sym, const char *file) {
 }
 
 /*
-        ƒVƒ“ƒ{ƒ‹ƒŒƒR[ƒh‚ğ‘‚«‚Ş (loadSym‚Ì‰º¿‚¯)
+        ã‚·ãƒ³ãƒœãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãè¾¼ã‚€ (loadSymã®ä¸‹è«‹ã‘)
 */
 static int writeSymRecord(Z80symbol *sym, const char *record) {
   memset(sym, 0, sizeof(*sym));
@@ -637,7 +637,7 @@ static int writeSymRecord(Z80symbol *sym, const char *record) {
 }
 
 /*
-        ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+        ã‚·ãƒ³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 */
 int loadSym(const char *path) {
   FILE *fp;
@@ -673,7 +673,7 @@ int loadSym(const char *path) {
 
 #if defined(Z80_PROF)
 /*
-        ƒvƒƒtƒ@ƒCƒ‰‚ÌŒ‹‰Ê‚Ìƒoƒ“ƒNEƒAƒhƒŒƒX‚ğ”äŠr‚·‚é(qsort—p) (‰º¿‚¯)
+        ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ©ã®çµæœã®ãƒãƒ³ã‚¯ãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ¯”è¼ƒã™ã‚‹(qsortç”¨) (ä¸‹è«‹ã‘)
 */
 static int cmpProfRecord(const void *a, const void *b) {
   const Z80record *x = a, *y = b;
@@ -685,7 +685,7 @@ static int cmpProfRecord(const void *a, const void *b) {
 }
 
 /*
-        ƒTƒuƒ‹[ƒ`ƒ“ŒÄ‚Ño‚µ‰ñ”‚ÌŒ‹‰Ê‚ğƒtƒ@ƒCƒ‹‚Éo—Í‚·‚é
+        ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³å‘¼ã³å‡ºã—å›æ•°ã®çµæœã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã™ã‚‹
 */
 int writeProfFile(const char *path) {
   FILE *fp;
@@ -710,7 +710,7 @@ int writeProfFile(const char *path) {
   for (p = z80.i.prof.record; p->count != 0; p++)
     if (p->bank == 0 && p->address <= 0x7fff) {
       sym = z80symbol(z80.i.symbol, p->bank, p->address);
-      fprintf(fp, "%02x:%04x\t%s\t%d\t%I64d\t%I64d\n", p->bank, p->address,
+      fprintf(fp, "%02x:%04xÂ¥t%sÂ¥t%dÂ¥t%I64dÂ¥t%I64dÂ¥n", p->bank, p->address,
               (sym != NULL ? sym : ""), p->count, p->states,
               p->states / p->count);
     }
@@ -720,7 +720,7 @@ int writeProfFile(const char *path) {
 }
 
 /*
-        –½—ßŒÄ‚Ño‚µ‰ñ”‚ÌŒ‹‰Ê‚ğƒtƒ@ƒCƒ‹‚Éo—Í‚·‚é
+        å‘½ä»¤å‘¼ã³å‡ºã—å›æ•°ã®çµæœã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã™ã‚‹
 */
 int writePathFile(const char *path) {
   FILE *fp;
@@ -778,17 +778,17 @@ int writePathFile(const char *path) {
               p->code[0] == 0xfa || /* jp M, mn */
               p->code[0] == 0xfc    /* call M, mn */
           )
-            fprintf(fp, "%02x:%04x\t%s\t%s\t%d\t%I64d\t%f\t%d\t%f", bank,
+            fprintf(fp, "%02x:%04xÂ¥t%sÂ¥t%sÂ¥t%dÂ¥t%I64dÂ¥t%fÂ¥t%dÂ¥t%f", bank,
                     address, (sym != NULL ? sym : ""), disasm, p->count,
                     p->states, (double)p->states / p->count, p->cond,
                     ((double)p->cond / p->count));
           else
-            fprintf(fp, "%02x:%04x\t%s\t%s\t%d\t%I64d\t%f\t\t", bank, address,
+            fprintf(fp, "%02x:%04xÂ¥t%sÂ¥t%sÂ¥t%dÂ¥t%I64dÂ¥t%fÂ¥tÂ¥t", bank, address,
                     (sym != NULL ? sym : ""), disasm, p->count, p->states,
                     (double)p->states / p->count);
           if (p->code[0] == 0xcd /* call mn */
           )
-            fprintf(fp, "\t%I64d\t%f\n", p->sub_states,
+            fprintf(fp, "Â¥t%I64dÂ¥t%fÂ¥n", p->sub_states,
                     ((double)p->sub_states / p->count));
           else if (p->code[0] == 0xc4 || /* call NZ, mn */
                    p->code[0] == 0xc7 || /* rst 00H */
@@ -807,11 +807,11 @@ int writePathFile(const char *path) {
                    p->code[0] == 0xfc || /* call M, mn */
                    p->code[0] == 0xff    /* rst 38H */
           )
-            fprintf(fp, "\t%I64d\t%f\t%f\n", p->sub_states,
+            fprintf(fp, "Â¥t%I64dÂ¥t%fÂ¥t%fÂ¥n", p->sub_states,
                     ((double)p->sub_states / p->count),
                     (p->cond > 0 ? (double)p->sub_states / p->cond : .0));
           else
-            fprintf(fp, "\n");
+            fprintf(fp, "Â¥n");
 
           fflush(fp);
         }
@@ -822,7 +822,7 @@ int writePathFile(const char *path) {
 #endif
 
 /*
-        Copyright 2005 ~ 2024 maruhiro
+        Copyright 2005 â€¾ 2024 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

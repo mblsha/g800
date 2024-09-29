@@ -1,5 +1,5 @@
 /*
-        İ’èƒtƒ@ƒCƒ‹ˆ—(conf.c)
+        è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å‡¦ç†(conf.c)
 */
 
 #include "conf.h"
@@ -20,19 +20,19 @@
 #define TRUE 1
 #endif
 
-/* İ’èƒtƒ@ƒCƒ‹‚ÉUTF-8‚ÌBOM‚ª‚ ‚é‚©? */
+/* è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã«UTF-8ã®BOMãŒã‚ã‚‹ã‹? */
 static int is_utf8;
 
-/* ƒRƒƒ“ƒg•¶š */
+/* ã‚³ãƒ¡ãƒ³ãƒˆæ–‡å­— */
 #define COMMENT '#'
 
-/* ŠÖ”‚ª–ß‚·•¶š—ñ‚Ì‘‚«‚İ—Ìˆæ (win32ê—p) */
+/* é–¢æ•°ãŒæˆ»ã™æ–‡å­—åˆ—ã®æ›¸ãè¾¼ã¿é ˜åŸŸ (win32å°‚ç”¨) */
 #if defined(_WIN32)
 static char _buffer[PATH_MAX];
 #endif
 
 /*
-        ˆø”‚Ì•¶š—ñ‚ğUTF-8‚É•ÏŠ·‚·‚é (win32ê—p)
+        å¼•æ•°ã®æ–‡å­—åˆ—ã‚’UTF-8ã«å¤‰æ›ã™ã‚‹ (win32å°‚ç”¨)
 */
 #if defined(_WIN32)
 char **argvToUTF8(int argc, char *argv[]) {
@@ -63,7 +63,7 @@ char **argvToUTF8(int argc, char *argv[]) {
 #endif
 
 /*
-        Àsƒtƒ@ƒCƒ‹‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ“¾‚é (win32ê—p) (‰º¿‚¯)
+        å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¾—ã‚‹ (win32å°‚ç”¨) (ä¸‹è«‹ã‘)
 */
 #if defined(_WIN32)
 static char *getexedir(void) {
@@ -74,7 +74,7 @@ static char *getexedir(void) {
   WideCharToMultiByte(CP_UTF8, 0, w_module_name, -1, _buffer, sizeof(_buffer),
                       NULL, NULL);
 
-  for (p = _buffer + strlen(_buffer); p > _buffer && *p != '\\'; p--)
+  for (p = _buffer + strlen(_buffer); p > _buffer && *p != 'Â¥Â¥'; p--)
     ;
   *p = 0;
 
@@ -85,7 +85,7 @@ static char *getexedir(void) {
 #endif
 
 /*
-        ŠÂ‹«•Ï”‚Ì’l‚ğ“¾‚é (win32ê—p) (‰º¿‚¯)
+        ç’°å¢ƒå¤‰æ•°ã®å€¤ã‚’å¾—ã‚‹ (win32å°‚ç”¨) (ä¸‹è«‹ã‘)
 */
 #if defined(_WIN32)
 static const char *ugetenv(const char *varname) {
@@ -104,7 +104,7 @@ static const char *ugetenv(const char *varname) {
 #endif
 
 /*
-        Àsƒtƒ@ƒCƒ‹‚Ìˆø”‚©‚çƒIƒvƒVƒ‡ƒ“‚ğ“¾‚é (‰º¿‚¯)
+        å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã®å¼•æ•°ã‹ã‚‰ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹ (ä¸‹è«‹ã‘)
 */
 static int readArg(Conf *conf, char *argv) {
   int size;
@@ -113,28 +113,28 @@ static int readArg(Conf *conf, char *argv) {
   if (*argv != '-')
     return 0;
 
-  for (p = argv; *p != '=' && *p != '\0'; p++)
+  for (p = argv; *p != '=' && *p != 'Â¥0'; p++)
     ;
-  if (*p == '\0')
+  if (*p == 'Â¥0')
     return 0;
 
-  for (q = p; *q != '\0'; q++)
+  for (q = p; *q != 'Â¥0'; q++)
     ;
 
   size = (int)(p - argv - 1);
   memcpy(conf->key, argv + 1, size);
-  *(conf->key + size) = '\0';
+  *(conf->key + size) = 'Â¥0';
 
   size = (int)(q - p + 1);
   memcpy(conf->value, p + 1, size);
-  *(conf->value + size) = '\0';
+  *(conf->value + size) = 'Â¥0';
 
-  *(conf + 1)->key = '\0';
+  *(conf + 1)->key = 'Â¥0';
   return 1;
 }
 
 /*
-        Configƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚é (‰º¿‚¯)
+        Configãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹ (ä¸‹è«‹ã‘)
 */
 static FILE *openConfig(const char *file) {
   const char *hide_list[] = {".", "", NULL};
@@ -188,7 +188,7 @@ static FILE *openConfig(const char *file) {
 }
 
 /*
-        ƒtƒ@ƒCƒ‹‚©‚çƒIƒvƒVƒ‡ƒ“‚ğ“¾‚é (‰º¿‚¯)
+        ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹ (ä¸‹è«‹ã‘)
 */
 static int readConfig(FILE *fp, Conf *conf) {
   char buf[160], *p, *q;
@@ -196,31 +196,31 @@ static int readConfig(FILE *fp, Conf *conf) {
   wchar_t w_buf[160];
 #endif
 
-  /* ¶•Ó‚ğ“¾‚é */
+  /* å·¦è¾ºã‚’å¾—ã‚‹ */
   do {
     if (fgets(buf, sizeof(buf), fp) == NULL)
       return 0;
-    if (memcmp(buf, "\xef\xbb\xbf", 3) == 0) { /* UTF-8‚ÌBOM */
+    if (memcmp(buf, "Â¥xefÂ¥xbbÂ¥xbf", 3) == 0) { /* UTF-8ã®BOM */
       is_utf8 = TRUE;
       memmove(buf, buf + 3, strlen(buf + 3) + 1);
     }
-    for (p = buf; *p == ' ' || *p == '\t'; p++)
+    for (p = buf; *p == ' ' || *p == 'Â¥t'; p++)
       ;
-  } while (*p == COMMENT || *p == '\r' || *p == '\n' || *p == 0);
+  } while (*p == COMMENT || *p == 'Â¥r' || *p == 'Â¥n' || *p == 0);
 
-  for (q = p; *q != ' ' && *q != '\t' && *q != '\r' && *q != '\n' && *q != 0;
+  for (q = p; *q != ' ' && *q != 'Â¥t' && *q != 'Â¥r' && *q != 'Â¥n' && *q != 0;
        q++)
     ;
   *q++ = 0;
   strcpy(conf->key, p);
 
-  /* ‰E•Ó‚ğ“¾‚é */
-  for (p = q; *p == ' ' || *p == '\t'; p++)
+  /* å³è¾ºã‚’å¾—ã‚‹ */
+  for (p = q; *p == ' ' || *p == 'Â¥t'; p++)
     ;
-  for (q = p; *q != '\r' && *q != '\n' && *q != 0 && *q != COMMENT; q++)
+  for (q = p; *q != 'Â¥r' && *q != 'Â¥n' && *q != 0 && *q != COMMENT; q++)
     ;
   if (p < q)
-    for (; *(q - 1) == ' ' || *(q - 1) == '\t'; q--)
+    for (; *(q - 1) == ' ' || *(q - 1) == 'Â¥t'; q--)
       ;
   *q++ = 0;
 #if defined(_WIN32)
@@ -235,13 +235,13 @@ static int readConfig(FILE *fp, Conf *conf) {
   strcpy(conf->value, p);
 #endif
 
-  /* I’[‚ğ‘‚«‚Ş */
-  *(conf + 1)->key = '\0';
+  /* çµ‚ç«¯ã‚’æ›¸ãè¾¼ã‚€ */
+  *(conf + 1)->key = 'Â¥0';
   return 1;
 }
 
 /*
-        Configƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+        Configãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 */
 Conf *getConfig(Conf *conf, int length, const char *file, int argc,
                 char *argv[]) {
@@ -251,7 +251,7 @@ Conf *getConfig(Conf *conf, int length, const char *file, int argc,
 
   strcpy(p->key, "");
 
-  /* Àsƒtƒ@ƒCƒ‹‚Ìˆø”‚©‚çƒIƒvƒVƒ‡ƒ“‚ğ“¾‚é */
+  /* å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã®å¼•æ•°ã‹ã‚‰ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹ */
   line = INT_MIN;
   for (i = 1; i < argc && p < last; i++) {
     if (readArg(p, argv[i]))
@@ -259,7 +259,7 @@ Conf *getConfig(Conf *conf, int length, const char *file, int argc,
     line++;
   }
 
-  /* ƒtƒ@ƒCƒ‹‚©‚çƒIƒvƒVƒ‡ƒ“‚ğ“¾‚é */
+  /* ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹ */
   if (file != NULL) {
     if ((fp = openConfig(file)) == NULL)
       return NULL;
@@ -275,20 +275,20 @@ Conf *getConfig(Conf *conf, int length, const char *file, int argc,
 }
 
 /*
-        Configƒtƒ@ƒCƒ‹‚©‚ç•¶š—ñ‚ğæ‚èo‚·
+        Configãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰æ–‡å­—åˆ—ã‚’å–ã‚Šå‡ºã™
 */
 const char *getOptText(const Conf *conf, const char *key,
                        const char *default_value) {
   const Conf *p;
 
-  for (p = conf; p->key[0] != '\0'; p++)
+  for (p = conf; p->key[0] != 'Â¥0'; p++)
     if (strcasecmp(p->key, key) == 0)
       return p->value;
   return default_value;
 }
 
 /*
-        Configƒtƒ@ƒCƒ‹‚©‚ç”’l‚ğæ‚èo‚·(10i”)
+        Configãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰æ•°å€¤ã‚’å–ã‚Šå‡ºã™(10é€²æ•°)
 */
 int getOptInt(const Conf *conf, const char *key, int default_value) {
   const char *p;
@@ -301,7 +301,7 @@ int getOptInt(const Conf *conf, const char *key, int default_value) {
 }
 
 /*
-        Configƒtƒ@ƒCƒ‹‚©‚ç”’l‚ğæ‚èo‚·(16i”)
+        Configãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰æ•°å€¤ã‚’å–ã‚Šå‡ºã™(16é€²æ•°)
 */
 unsigned int getOptHex(const Conf *conf, const char *key,
                        unsigned int default_value) {
@@ -317,7 +317,7 @@ unsigned int getOptHex(const Conf *conf, const char *key,
 }
 
 /*
-        Configƒtƒ@ƒCƒ‹‚©‚ç•¶š—ñ‚ğæ‚èo‚µ, ƒe[ƒuƒ‹‚ğ—˜—p‚µ‚Ä”’l‚É•ÏŠ·‚·‚é
+        Configãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰æ–‡å­—åˆ—ã‚’å–ã‚Šå‡ºã—, ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’åˆ©ç”¨ã—ã¦æ•°å€¤ã«å¤‰æ›ã™ã‚‹
 */
 static int textToInt(const OptTable *table, const char *str,
                      int default_value) {
@@ -334,12 +334,12 @@ int getOptIntTable(const Conf *conf, const OptTable *table, const char *key,
 }
 
 /*
-        ~‚ğƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚É’u‚«Š·‚¦‚é
+        â€¾ã‚’ãƒ›ãƒ¼ãƒ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç½®ãæ›ãˆã‚‹
 */
 char *setHomeDir(char *buf, const char *path) {
   const char *dir;
 
-  if (*path != '~') {
+  if (*path != 'â€¾') {
     strcpy(buf, path);
     return buf;
   }
@@ -354,7 +354,7 @@ char *setHomeDir(char *buf, const char *path) {
 }
 
 /*
-        •ÏŠ·ƒe[ƒuƒ‹‚ğİ’è‚·‚é
+        å¤‰æ›ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’è¨­å®šã™ã‚‹
 */
 void setOptTable(OptTable *table, const char *key, int value) {
   OptTable *o;
@@ -373,7 +373,7 @@ void setOptTable(OptTable *table, const char *key, int value) {
 }
 
 /*
-        Copyright 2005 ~ 2014 maruhiro
+        Copyright 2005 â€¾ 2014 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

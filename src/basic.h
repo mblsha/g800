@@ -1,15 +1,15 @@
 /*
         SHARP PC-G800 series emulator
-        BASICƒCƒ“ƒ^[ƒvƒŠƒ^ ƒwƒbƒ_
+        BASICã‚¤ãƒ³ã‚¿ãƒ¼ãƒ—ãƒªã‚¿ ãƒ˜ãƒƒãƒ€
 */
 
 #if !defined(BASIC_H)
 #define BASIC_H
 
-/* ƒTƒCƒY */
-#define SIZEOF_NUM 8 /* ”’l‚ÌƒTƒCƒY */
+/* ã‚µã‚¤ã‚º */
+#define SIZEOF_NUM 8 /* æ•°å€¤ã®ã‚µã‚¤ã‚º */
 
-/* ’†ŠÔƒR[ƒh */
+/* ä¸­é–“ã‚³ãƒ¼ãƒ‰ */
 #define CODE_MON 0x0f
 #define CODE_RUN 0x10
 #define CODE_NEW 0x11
@@ -154,20 +154,20 @@
 #define CODE_DMS_S 0xf3
 #define CODE_RESERVED 0xfe
 
-/* BASICƒVƒXƒeƒ€‚Ìó‘Ô */
+/* BASICã‚·ã‚¹ãƒ†ãƒ ã®çŠ¶æ…‹ */
 struct Basic {
-  int prog_size; /* ƒvƒƒOƒ‰ƒ€—Ìˆæ‚ÌƒTƒCƒY */
-  uint8 *prog;   /* ƒvƒƒOƒ‰ƒ€—Ìˆæ */
+  int prog_size; /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ é ˜åŸŸã®ã‚µã‚¤ã‚º */
+  uint8 *prog;   /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ é ˜åŸŸ */
 
-  const uint8 *d; /* DATA•¶‚Ì“Ç‚İ‚İˆÊ’u */
-  const uint8 *p; /* ƒvƒƒOƒ‰ƒ€‚ÌÀsˆÊ’u */
-  int line_no;    /* ƒvƒƒOƒ‰ƒ€‚ÌÀs’†s”Ô† */
+  const uint8 *d; /* DATAæ–‡ã®èª­ã¿è¾¼ã¿ä½ç½® */
+  const uint8 *p; /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®å®Ÿè¡Œä½ç½® */
+  int line_no;    /* ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®å®Ÿè¡Œä¸­è¡Œç•ªå· */
 
-  uint8 (*fixed_var)[SIZEOF_NUM]; /* ŒÅ’è•Ï” */
-  uint8 **vars;                   /* ’Pƒ•Ï”E”z—ñ•Ï” */
+  uint8 (*fixed_var)[SIZEOF_NUM]; /* å›ºå®šå¤‰æ•° */
+  uint8 **vars;                   /* å˜ç´”å¤‰æ•°ãƒ»é…åˆ—å¤‰æ•° */
 
-  int auto_line_no; /* AUTO‚Ìs”Ô† */
-  int auto_step;    /* AUTO‚ÌƒXƒeƒbƒv */
+  int auto_line_no; /* AUTOæ™‚ã®è¡Œç•ªå· */
+  int auto_step;    /* AUTOæ™‚ã®ã‚¹ãƒ†ãƒƒãƒ— */
 
   int seed;
   int format_period;
@@ -218,7 +218,7 @@ struct Basic {
 #endif
 
 /*
-        Copyright 2005 ~ 2017 maruhiro
+        Copyright 2005 â€¾ 2017 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,
