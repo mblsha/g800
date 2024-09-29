@@ -3,12 +3,12 @@ BEGIN {
 	n = 0;
 }
 
-substr($0, 1, 1) ‾ "[A-Za-z]" {
+substr($0, 1, 1) ~ "[A-Za-z]" {
 	name = $1;
 	zoom = $2;
 }
 
-substr($0, 1, 1) ‾ "[#.]" {
+substr($0, 1, 1) ~ "[#.]" {
 	w = length($0);
 	h++;
 	for(i = 1; i <= w; i += 8) {

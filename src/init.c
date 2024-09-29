@@ -163,7 +163,7 @@ const static OptTable tableGkey[] = {{"off", GKEY_OFF},
                                      {"}", GMODKEY_SHIFT | GKEY_F},
                                      {"\\", GMODKEY_SHIFT | GKEY_G},
                                      {"|", GMODKEY_SHIFT | GKEY_H},
-                                     {"‾", GMODKEY_SHIFT | GKEY_J},
+                                     {"~", GMODKEY_SHIFT | GKEY_J},
                                      {"_", GMODKEY_SHIFT | GKEY_K},
                                      {"input", GMODKEY_SHIFT | GKEY_Z},
                                      {"print", GMODKEY_SHIFT | GKEY_X},
@@ -1034,7 +1034,7 @@ int init(int argc, char *argv[]) {
 }
 
 /*
-        Copyright 2005 ‾ 2017 maruhiro
+        Copyright 2005 ~ 2017 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

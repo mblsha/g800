@@ -80,7 +80,7 @@ void flipSoundBuffer(void) {
 }
 
 /*
-        Copyright 2005 ‾ 2013 maruhiro
+        Copyright 2005 ~ 2013 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

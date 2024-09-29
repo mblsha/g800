@@ -122,7 +122,7 @@ Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
         *w = val;
       sum += val;
     }
-    sum = (‾sum + 1) & 0xff;
+    sum = (~sum + 1) & 0xff;
 
     /* チェックサム */
     if (SDL_RWread(rw, buf, 2, 1) == 0)
@@ -271,7 +271,7 @@ Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
     }
 
     /* チェックサム */
-    int2c(w, (‾sum + 1) & 0xff);
+    int2c(w, (~sum + 1) & 0xff);
     w += 2;
 
     /* 改行 */

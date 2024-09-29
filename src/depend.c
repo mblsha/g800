@@ -517,7 +517,7 @@ static inline void updateStatus(SDL_Rect **rect, int status, int chk) {
     *old_pat |= mask;
   } else {
     putPixmap(SCREEN(r->x, r->y), pixmapStatusOff[status], r->w, r->h);
-    *old_pat &= ‾mask;
+    *old_pat &= ~mask;
   }
 
   /* 更新範囲を書き込む */
@@ -542,13 +542,13 @@ static inline void updateCell(SDL_Rect **rect, int col, int row, int chk) {
   } else {
     /* 1フレーム前の仮想VRAMを反転する(再描画のため) */
     mask = 0xff >> (8 - cellHeight);
-    *(p_oldvram + 0) = ‾*(p_vram + 0) & mask;
-    *(p_oldvram + 1) = ‾*(p_vram + 1) & mask;
-    *(p_oldvram + 2) = ‾*(p_vram + 2) & mask;
-    *(p_oldvram + 3) = ‾*(p_vram + 3) & mask;
-    *(p_oldvram + 4) = ‾*(p_vram + 4) & mask;
+    *(p_oldvram + 0) = ~*(p_vram + 0) & mask;
+    *(p_oldvram + 1) = ~*(p_vram + 1) & mask;
+    *(p_oldvram + 2) = ~*(p_vram + 2) & mask;
+    *(p_oldvram + 3) = ~*(p_vram + 3) & mask;
+    *(p_oldvram + 4) = ~*(p_vram + 4) & mask;
     if (cellWidth == 6)
-      *(p_oldvram + 5) = ‾*(p_vram + 5) & mask;
+      *(p_oldvram + 5) = ~*(p_vram + 5) & mask;
   }
 
   /* Cell内の表示開始終了y座標を求める */
@@ -686,7 +686,7 @@ static int updateLCD2(void) {
     if (pat & statusMask[status])
       *p_oldpat |= statusMask[status];
     else
-      *p_oldpat &= ‾statusMask[status];
+      *p_oldpat &= ~statusMask[status];
   }
 
   /* メインLCDを書き込む */
@@ -1244,14 +1244,14 @@ static inline void releaseKey(uint8_t k) {
   case GKEY_NONE:
     break;
   case GKEY_BREAK:
-    keyBreak &= ‾0x80;
+    keyBreak &= ~0x80;
     break;
   default:
     k = (k & 0xff) - 1;
-    keyMatrix[k / 8] &= ‾(1 << (k % 8));
+    keyMatrix[k / 8] &= ~(1 << (k % 8));
     break;
   case GKEY_SHIFT:
-    keyShift &= ‾0x01;
+    keyShift &= ~0x01;
     break;
   case GKEY_RESET:
     keyReset = FALSE;
@@ -1267,35 +1267,35 @@ static inline void releaseKey(uint8_t k) {
     z80.i.trace = !z80.i.trace;
     break;
   case GKEY_11PIN1:
-    pin11In &= ‾0x01;
+    pin11In &= ~0x01;
     updateSerial();
     break;
   case GKEY_11PIN2:
-    pin11In &= ‾0x02;
+    pin11In &= ~0x02;
     updateSerial();
     break;
   case GKEY_11PIN3:
-    pin11In &= ‾0x04;
+    pin11In &= ~0x04;
     updateSerial();
     break;
   case GKEY_11PIN4:
-    pin11In &= ‾0x08;
+    pin11In &= ~0x08;
     updateSerial();
     break;
   case GKEY_11PIN5:
-    pin11In &= ‾0x10;
+    pin11In &= ~0x10;
     updateSerial();
     break;
   case GKEY_11PIN6:
-    pin11In &= ‾0x20;
+    pin11In &= ~0x20;
     updateSerial();
     break;
   case GKEY_11PIN7:
-    pin11In &= ‾0x40;
+    pin11In &= ~0x40;
     updateSerial();
     break;
   case GKEY_11PIN8:
-    pin11In &= ‾0x80;
+    pin11In &= ~0x80;
     updateSerial();
     break;
   }
@@ -1347,7 +1347,7 @@ uint8_t updateKey(void) {
         break;
 
       /* 押したSDLのキーに割り付けられたPC-G800のキーを記憶する */
-      pressedKey[key] = gkey & ‾GMODKEY_MASK;
+      pressedKey[key] = gkey & ~GMODKEY_MASK;
 
 #if SDL_MAJOR_VERSION == 2
       /* クリップボードからの貼り付けか */
@@ -1378,7 +1378,7 @@ uint8_t updateKey(void) {
       }
 
       /* PC-G800のキーを押す */
-      itype |= pressKey(gkey & ‾GMODKEY_MASK);
+      itype |= pressKey(gkey & ~GMODKEY_MASK);
 
       /* シフトキーを押す・離す */
       if ((gkey & GMODKEY_NOSHIFT) && (keyShift & 0x01)) {
@@ -1413,7 +1413,7 @@ uint8_t updateKey(void) {
 #endif
 
       /* PC-G800のキーを離す */
-      releaseKey(gkey & ‾GMODKEY_MASK);
+      releaseKey(gkey & ~GMODKEY_MASK);
 
       /* シフトキーを押す・離す */
       if (gkey & GMODKEY_NOSHIFT) {
@@ -1741,7 +1741,7 @@ int initDepend(void) {
 }
 
 /*
-        Copyright 2005 ‾ 2022 maruhiro
+        Copyright 2005 ~ 2022 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

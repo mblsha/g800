@@ -126,7 +126,7 @@ uint8_t pin11out(void) {
   case PIN11IF_3IO:
     return (io3Out & 0x03) | ((io3Out >> 4) & 0x08);
   case PIN11IF_8PIO:
-    return ‾pio8Io & pio8Out;
+    return ~pio8Io & pio8Out;
   case PIN11IF_UART:
     return 0;
   default:
@@ -225,7 +225,7 @@ static inline int in16(uint8_t *x) {
   return 0;
 }
 static inline int out16(uint8_t x) {
-  interruptType &= ‾x;
+  interruptType &= ~x;
   return 0;
 }
 
@@ -698,7 +698,7 @@ static inline int out61_g850(uint8_t x) {
         パラレルI/Oのデータレジスタ
 */
 static inline int in62_g850(uint8_t *x) {
-  *x = pin11In & ‾pio8Io;
+  *x = pin11In & ~pio8Io;
   return 0;
 }
 static inline int out62_g850(uint8_t x) {
@@ -1155,7 +1155,7 @@ int z80outport(Z80stat *z, uint16 address, uint8_t x) {
 }
 
 /*
-        Copyright 2005 ‾ 2023 maruhiro
+        Copyright 2005 ~ 2023 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

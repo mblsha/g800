@@ -410,7 +410,7 @@ int monitor(void) {
 }
 
 /*
-        Copyright 2005 ‾ 2016 maruhiro
+        Copyright 2005 ~ 2016 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

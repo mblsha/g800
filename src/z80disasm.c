@@ -1491,7 +1491,7 @@ char *z80regs(char *str, const Z80stat *r) {
 }
 
 /*
-        Copyright 2005 ‾ 2008 maruhiro
+        Copyright 2005 ~ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

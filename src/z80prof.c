@@ -237,7 +237,7 @@ void z80prof_cond(Z80stat *z, int cond) {
 #endif
 
 /*
-        Copyright 2005 ‾ 2024 maruhiro
+        Copyright 2005 ~ 2024 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

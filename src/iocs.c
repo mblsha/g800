@@ -615,7 +615,7 @@ void pset(int16 x, int16 y, uint8_t mode) {
 
   switch (mode) {
   case 0:
-    *p &= ‾mask;
+    *p &= ~mask;
     break;
   case 1:
     *p |= mask;
@@ -636,7 +636,7 @@ void putstatus(int status, int on_off) {
   if (on_off)
     *p |= mask;
   else
-    *p &= ‾mask;
+    *p &= ~mask;
 }
 
 /*
@@ -1321,7 +1321,7 @@ uint8_t getChrcode(int cursor) {
       putCursor(*curCol, *curRow, cursor_off, cursor_on, cursor_count++);
     if (memory[0x7901] & 0x10) {
       if (key != GKEY_2NDF)
-        memory[0x7901] &= ‾0x10;
+        memory[0x7901] &= ~0x10;
       key |= 0x80;
     }
     if ((memory[0x7901] & 0x04) && key == (GKEY_KANA | 0x80))
@@ -1340,7 +1340,7 @@ uint8_t getChrcode(int cursor) {
       memory[0x7901] ^= 0x04;
 
       /* 小を解除する */
-      memory[0x7901] &= ‾0x08;
+      memory[0x7901] &= ~0x08;
     } else if (ch == 0x13) {
       /* DRGを変える */
       if (memory[0x7903] == 0x10)
@@ -1388,7 +1388,7 @@ uint8_t getChrcode(int cursor) {
               for (d = dai_sho; d->dai != NULL; d++)
                 if (stricmp(queue, d->dai) == 0)
                   strcpy(queue, d->sho);
-              memory[0x7901] &= ‾0x08;
+              memory[0x7901] &= ~0x08;
             }
 
             memset(roman, 0, sizeof(roman));
@@ -2269,7 +2269,7 @@ static inline int iocs_be53(Z80stat *z) {
   if (z->r.a)
     z->r.f |= 0x01; /* ? */
   else
-    z->r.f &= ‾0x01; /* ? */
+    z->r.f &= ~0x01; /* ? */
 
   if (z->r.f & 0x01)
     z->r.b = destroy8();
@@ -2603,7 +2603,7 @@ int z80subroutine(Z80stat *z, uint16 address) {
 }
 
 /*
-        Copyright 2005 ‾ 2017 maruhiro
+        Copyright 2005 ~ 2017 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

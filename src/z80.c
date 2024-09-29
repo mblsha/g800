@@ -281,7 +281,7 @@
 
 #define CPL()                                                                  \
   {                                                                            \
-    uint32 _acc = ‾A;                                                          \
+    uint32 _acc = ~A;                                                          \
     F |= MASK_N | MASK_HC;                                                     \
     A = _acc;                                                                  \
   }                                                                            \
@@ -670,15 +670,15 @@
   PC += _length
 
 #define RES(x, y)                                                              \
-  y &= ‾(1 << (x));                                                            \
+  y &= ~(1 << (x));                                                            \
   PROF_EXEC();                                                                 \
   PC += _length
 #define RES_M(x, y)                                                            \
-  STORE8(y, MEM8(y) & ‾(1 << (x)));                                            \
+  STORE8(y, MEM8(y) & ~(1 << (x)));                                            \
   PROF_EXEC();                                                                 \
   PC += _length
 #define RES_M_R(x, y, z)                                                       \
-  z = MEM8(y) & ‾(1 << (x));                                                   \
+  z = MEM8(y) & ~(1 << (x));                                                   \
   STORE8(y, z);                                                                \
   PROF_EXEC();                                                                 \
   PC += _length
@@ -1342,7 +1342,7 @@ int z80nmi(Z80stat *z) {
   uint16 _length = 0;
 
   z->r.halt = 0;
-  z->r.iff &= ‾0x01;
+  z->r.iff &= ~0x01;
   z->i.states -= 13;
   CALL(TRUE, 0x0066);
   return TRUE;
@@ -5289,7 +5289,7 @@ void z80init(Z80stat *z) {
 }
 
 /*
-        Copyright 2005 ‾ 2024 maruhiro
+        Copyright 2005 ~ 2024 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

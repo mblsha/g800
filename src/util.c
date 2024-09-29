@@ -152,7 +152,7 @@ static int ankToKey(char ch, uint8_t mod, uint8_t *key) {
   const uint8_t key_7b[] = {GKEY_2NDF, GKEY_D, 0};                    /* { */
   const uint8_t key_7c[] = {GKEY_2NDF, GKEY_H, 0};                    /* | */
   const uint8_t key_7d[] = {GKEY_2NDF, GKEY_F, 0};                    /* } */
-  const uint8_t key_7e[] = {GKEY_2NDF, GKEY_J, 0};                    /* ‾ */
+  const uint8_t key_7e[] = {GKEY_2NDF, GKEY_J, 0};                    /* ~ */
   const uint8_t key_a1[] = {MOD_KANA, GKEY_PERIOD, 0};                /* 。 */
   const uint8_t key_a2[] = {MOD_KANA, GKEY_LKAKKO, 0};                /* 「 */
   const uint8_t key_a3[] = {MOD_KANA, GKEY_RKAKKO, 0};                /* 」 */
@@ -526,7 +526,7 @@ static int utf16ToAnk(int utf16, char *ank) {
       *a++ = *p;
   else if (0xff00 <= utf16 && utf16 <= 0xff9f) /* 全角英数記号・半角カナ */
     *a++ = utf16 - 0xff00U + 0x40;
-  else if (utf16 == 0xffe3) /* ‾ */
+  else if (utf16 == 0xffe3) /* ~ */
     *a++ = 0x7e;
 
   *a = 0;
@@ -822,7 +822,7 @@ int writePathFile(const char *path) {
 #endif
 
 /*
-        Copyright 2005 ‾ 2024 maruhiro
+        Copyright 2005 ~ 2024 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

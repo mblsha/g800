@@ -334,12 +334,12 @@ int getOptIntTable(const Conf *conf, const OptTable *table, const char *key,
 }
 
 /*
-        ‾をホームディレクトリに置き換える
+        ~をホームディレクトリに置き換える
 */
 char *setHomeDir(char *buf, const char *path) {
   const char *dir;
 
-  if (*path != '‾') {
+  if (*path != '~') {
     strcpy(buf, path);
     return buf;
   }
@@ -373,7 +373,7 @@ void setOptTable(OptTable *table, const char *key, int value) {
 }
 
 /*
-        Copyright 2005 ‾ 2014 maruhiro
+        Copyright 2005 ~ 2014 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

@@ -145,7 +145,7 @@ static inline void putBit(uint8_t pin11_in) {
     if (!(pin11_in & PIN11_XOUT))
       sioBuffer[sioCount / M] |= (1 << (sioCount % M - 1));
     else
-      sioBuffer[sioCount / M] &= ‾(1 << (sioCount % M - 1));
+      sioBuffer[sioCount / M] &= ~(1 << (sioCount % M - 1));
     break;
   case 9:
     /* エンド */
@@ -212,7 +212,7 @@ int sioSave(const char *path) {
 }
 
 /*
-        Copyright 2006 ‾ 2008 maruhiro
+        Copyright 2006 ~ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

@@ -11,7 +11,7 @@ SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *[], uint8_t *);
 #endif
 
 /*
-        Copyright 2006 ‾ 2008 maruhiro
+        Copyright 2006 ~ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

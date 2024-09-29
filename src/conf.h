@@ -42,7 +42,7 @@ void setOptTable(OptTable *, const char *, int);
 #endif
 
 /*
-        Copyright 2005 ‾ 2008 maruhiro
+        Copyright 2005 ~ 2008 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,

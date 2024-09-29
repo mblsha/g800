@@ -1155,7 +1155,7 @@ int opeAdd(struct Basic *bas, uint8_t *x, uint8_t *y) {
 
   if ((err = encodeNum_f(x, a + b)) < 0)
     return err;
-  x[1] = (x[1] & ‾0x04) | dms;
+  x[1] = (x[1] & ~0x04) | dms;
   return ERR_OK;
 }
 
@@ -1193,7 +1193,7 @@ int opeDiv(struct Basic *bas, uint8_t *x, uint8_t *y) {
 
   if ((err = encodeNum_f(x, a / b)) < 0)
     return err;
-  x[1] = (x[1] & ‾0x04) | dms;
+  x[1] = (x[1] & ~0x04) | dms;
   return ERR_OK;
 }
 
@@ -1363,7 +1363,7 @@ int opeMul(struct Basic *bas, uint8_t *x, uint8_t *y) {
 
   if ((err = encodeNum_f(x, a * b)) < 0)
     return err;
-  x[1] = (x[1] & ‾0x04) | dms;
+  x[1] = (x[1] & ~0x04) | dms;
   return ERR_OK;
 }
 
@@ -1479,7 +1479,7 @@ int opeSub(struct Basic *bas, uint8_t *x, uint8_t *y) {
 
   if ((err = encodeNum_f(x, a - b)) < 0)
     return err;
-  x[1] = (x[1] & ‾0x04) | dms;
+  x[1] = (x[1] & ~0x04) | dms;
   return ERR_OK;
 }
 
@@ -1738,7 +1738,7 @@ int funcDeg(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(51525);
 
-  x[1] &= ‾0x04;
+  x[1] &= ~0x04;
   return ERR_OK;
 }
 
@@ -2632,7 +2632,7 @@ int funcVdeg(struct Basic *bas, uint8_t *x) {
   if (x[len] != 0)
     return ERR_22;
 
-  tmp[1] &= ‾0x04;
+  tmp[1] &= ~0x04;
   return numLet(x, tmp);
 }
 
@@ -8607,7 +8607,7 @@ int initBasic(struct Basic *bas) {
 }
 
 /*
-        Copyright 2005 ‾ 2023 maruhiro
+        Copyright 2005 ~ 2023 maruhiro
         All rights reserved.
 
         Redistribution and use in source and binary forms,
