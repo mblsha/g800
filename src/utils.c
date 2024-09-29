@@ -21,7 +21,7 @@ int stricmp(const char *s1, const char *s2) {
   return result;
 }
 
-int memicmp(const char *s1, const char* s2, int len) {
+int memicmp(const char *s1, const char *s2, int len) {
   return strncasecmp(s1, s2, len);
 }
 

@@ -1239,13 +1239,13 @@ EXTERN const char *machineName[]
 #include "font.h"
 
 /* CPU/メモリ */
-EXTERN Z80stat z80;           /* CPU状態 */
-EXTERN int freqCPU;           /* CPU周波数 */
-EXTERN int romBanks;          /* ROMバンク数 */
-EXTERN int romBank;           /* 現在のROMバンク番号 */
-EXTERN int exBanks;           /* EXROMバンク数 */
-EXTERN int exBank;            /* 現在のEXROMバンク番号 */
-EXTERN int ramBank;           /* 現在のRAMバンク番号 */
+EXTERN Z80stat z80;             /* CPU状態 */
+EXTERN int freqCPU;             /* CPU周波数 */
+EXTERN int romBanks;            /* ROMバンク数 */
+EXTERN int romBank;             /* 現在のROMバンク番号 */
+EXTERN int exBanks;             /* EXROMバンク数 */
+EXTERN int exBank;              /* 現在のEXROMバンク番号 */
+EXTERN int ramBank;             /* 現在のRAMバンク番号 */
 EXTERN uint8_t ioReset;         /* 周辺機器用リセット信号 */
 EXTERN uint8_t onCd;            /* CD信号によるON制御(PC-G850) */
 EXTERN uint8_t m1Wait;          /* M1信号後wait制御(PC-G850) */
@@ -1261,17 +1261,17 @@ EXTERN uint8_t interruptType; /* 割り込み要因 */
 EXTERN uint8_t interruptMask; /* 割り込みマスク */
 
 /* タイマ */
-EXTERN uint8_t timer;       /* タイマ */
+EXTERN uint8_t timer;     /* タイマ */
 EXTERN int timerInterval; /* タイマ周期 */
 EXTERN int timerCount;    /* タイマ用カウンタ */
 
 /* キーボード */
-EXTERN uint16 keyStrobe;     /* キーストローブ */
-EXTERN uint16 keyStrobeLast; /* 最後に設定したキーストローブ */
-EXTERN uint8_t keyMatrix[10];  /* キー状態 */
-EXTERN uint8_t keyShift;       /* シフトキー状態 */
-EXTERN uint8_t keyBreak;       /* ONキー状態 */
-EXTERN int keyReset;         /* リセットボタン状態 */
+EXTERN uint16 keyStrobe;      /* キーストローブ */
+EXTERN uint16 keyStrobeLast;  /* 最後に設定したキーストローブ */
+EXTERN uint8_t keyMatrix[10]; /* キー状態 */
+EXTERN uint8_t keyShift;      /* シフトキー状態 */
+EXTERN uint8_t keyBreak;      /* ONキー状態 */
+EXTERN int keyReset;          /* リセットボタン状態 */
 EXTERN int
     statesKeyStrobeLast; /* キーストローブを設定したときの累積ステート数 */
 EXTERN int statesKeyStrobeClear; /* キーストローブがクリアされるステート数 */
@@ -1282,14 +1282,14 @@ EXTERN uint16 keyConvShift[KEY_LAST + 1]; /* キー変換テーブル */
 
 /* LCD */
 EXTERN int lcdRead;
-EXTERN uint8_t lcdX;           /* 横アドレス */
-EXTERN uint8_t lcdY;           /* 縦アドレス */
-EXTERN uint8_t lcdX2;          /* 横アドレス2 (PC-G815) */
-EXTERN uint8_t lcdY2;          /* 縦アドレス2 (PC-G815) */
-EXTERN uint8_t lcdBegin;       /* 表示開始アドレス(PC-E200/PC-G815) */
-EXTERN uint8_t lcdDisabled;    /* LCD OFF(PC-G850) */
-EXTERN uint8_t lcdTop;         /* 表示開始位置(PC-G850) */
-EXTERN uint8_t lcdContrast;    /* コントラスト(PC-G850) */
+EXTERN uint8_t lcdX;         /* 横アドレス */
+EXTERN uint8_t lcdY;         /* 縦アドレス */
+EXTERN uint8_t lcdX2;        /* 横アドレス2 (PC-G815) */
+EXTERN uint8_t lcdY2;        /* 縦アドレス2 (PC-G815) */
+EXTERN uint8_t lcdBegin;     /* 表示開始アドレス(PC-E200/PC-G815) */
+EXTERN uint8_t lcdDisabled;  /* LCD OFF(PC-G850) */
+EXTERN uint8_t lcdTop;       /* 表示開始位置(PC-G850) */
+EXTERN uint8_t lcdContrast;  /* コントラスト(PC-G850) */
 EXTERN int lcdEffectMirror;  /* ミラーモード(PC-G850) */
 EXTERN int lcdEffectBlack;   /* 黒塗りつぶし(PC-G850) */
 EXTERN int lcdEffectReverse; /* 反転(PC-G850) */
@@ -1301,9 +1301,9 @@ EXTERN uint8_t vram[166 * 9]; /* VRAM */
 
 /* 11pin I/F */
 EXTERN uint8_t pin11If;    /* 11pinI/Fの動作 */
-#define PIN11IF_3IO 0    /* 3in 3out I/F */
-#define PIN11IF_8PIO 1   /* 8bits PIO    */
-#define PIN11IF_UART 2   /* 全2重通信    */
+#define PIN11IF_3IO 0      /* 3in 3out I/F */
+#define PIN11IF_8PIO 1     /* 8bits PIO    */
+#define PIN11IF_UART 2     /* 全2重通信    */
 EXTERN uint8_t pin11In;    /* 11pin入力状態 */
 EXTERN uint8_t xinEnabled; /* Xin可否 */
 EXTERN uint8_t io3Out;     /* Xout状態 */
@@ -1343,14 +1343,14 @@ EXTERN int sioCount;                  /* SIOカウンタ */
 EXTERN int sioBusy;                   /* 受信可か? */
 
 /* ブザー */
-EXTERN int buzzer;               /* ブザーモード */
-#define BUZZER_NONE 0            /* 音なし */
-#define BUZZER_USE 1             /* 音あり */
-#define BUZZER_SYNC 2            /* 同期をとる */
-EXTERN int soundBufferSize;      /* サウンドバッファのサイズ */
-EXTERN uint8_t *soundReadBuffer;   /* サウンド読み込みバッファ */
-EXTERN uint8_t *soundWriteBuffer;  /* サウンド書き込みバッファ */
-EXTERN volatile int soundPlayed; /* サウンドを出力したか? */
+EXTERN int buzzer;                /* ブザーモード */
+#define BUZZER_NONE 0             /* 音なし */
+#define BUZZER_USE 1              /* 音あり */
+#define BUZZER_SYNC 2             /* 同期をとる */
+EXTERN int soundBufferSize;       /* サウンドバッファのサイズ */
+EXTERN uint8_t *soundReadBuffer;  /* サウンド読み込みバッファ */
+EXTERN uint8_t *soundWriteBuffer; /* サウンド書き込みバッファ */
+EXTERN volatile int soundPlayed;  /* サウンドを出力したか? */
 
 /* バッテリー */
 EXTERN int battChk;
@@ -1366,7 +1366,7 @@ EXTERN int emulatorMode;     /* エミュレータのモード */
 #define EMULATOR_MODE_MENU 1 /* メニュー表示中 */
 EXTERN int machine;          /* エミュレートされるマシン */
 EXTERN int machineSub;
-EXTERN char dirROM[FILENAME_MAX];   /* ROMイメージのあるディレクトリ */
+EXTERN char dirROM[FILENAME_MAX]; /* ROMイメージのあるディレクトリ */
 EXTERN char pathRAM[FILENAME_MAX];  /* RAM保存ファイルのパス名 */
 EXTERN char pathProg[FILENAME_MAX]; /* プログラムのパス名 */
 EXTERN int useROM;                  /* 実機のROMを使うか? */
@@ -1389,17 +1389,17 @@ EXTERN int vramRows;                /* VRAMの行数 */
 EXTERN int vramCols;                /* VRAMの列数 */
 EXTERN int vramWidth;               /* VRAMの幅 */
 EXTERN int vramHeight;              /* VRAMの高さ */
-EXTERN int closeAsOff;              /* 「閉じる」をOFFキーとして扱うか? */
-EXTERN int useJoy;                  /* ジョイスティックを使うか? */
-EXTERN uint8_t joyUp;    /* ジョイスディックの上に割り当てられたキー */
-EXTERN uint8_t joyDown;  /* ジョイスティックの下に割り当てられたキー */
-EXTERN uint8_t joyLeft;  /* ジョイスティックの左に割り当てられたキー */
+EXTERN int closeAsOff; /* 「閉じる」をOFFキーとして扱うか? */
+EXTERN int useJoy;     /* ジョイスティックを使うか? */
+EXTERN uint8_t joyUp; /* ジョイスディックの上に割り当てられたキー */
+EXTERN uint8_t joyDown; /* ジョイスティックの下に割り当てられたキー */
+EXTERN uint8_t joyLeft; /* ジョイスティックの左に割り当てられたキー */
 EXTERN uint8_t joyRight; /* ジョイスティックの右に割り当てられたキー */
 EXTERN uint8_t
     joyButton[JOY_BUTTONS]; /* ジョイスティックのボタンに割り当てられたキー */
-EXTERN int useSoftwareKey;  /* ソフトウェアキーを使うか? */
-EXTERN int serialTest;      /* シリアルポートのテストを行うか? */
-EXTERN int useFileFilter;   /* ファイルフィルタを使うか? */
+EXTERN int useSoftwareKey; /* ソフトウェアキーを使うか? */
+EXTERN int serialTest;     /* シリアルポートのテストを行うか? */
+EXTERN int useFileFilter;  /* ファイルフィルタを使うか? */
 EXTERN const char *pathInfoImage; /* 情報画像 */
 
 /*

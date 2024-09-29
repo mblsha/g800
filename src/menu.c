@@ -3,8 +3,8 @@
         メニュー
 */
 
-#include <dirent.h>
 #include <ctype.h>
+#include <dirent.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
@@ -12,9 +12,9 @@
 #if defined(_WIN32)
 #include <windows.h>
 #else
-#include <unistd.h>
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 #endif
 #include "g800.h"
 

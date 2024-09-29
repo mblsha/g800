@@ -4,6 +4,7 @@
 */
 
 #include "g800.h"
+#include "utils.h"
 #include <ctype.h>
 #include <fcntl.h>
 #include <limits.h>
@@ -14,7 +15,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <time.h>
-#include "utils.h"
 
 /* 真偽 */
 #define FALSE 0 /* 偽 */
@@ -198,7 +198,7 @@ struct Element {
   union {
     uint8_t num[SIZEOF_NUM]; /* リテラル(数値) */
     const uint8_t *str;      /* リテラル(文字列) */
-    int ope;               /* 演算子・関数 */
+    int ope;                 /* 演算子・関数 */
     uint8_t *var;            /* 変数 */
   } x;
 };
@@ -3187,8 +3187,8 @@ int getVarType(const uint8_t *name, int *kind, int *type) {
 /*
         登録された変数を検索する
 */
-int findVar(struct Basic *bas, uint8_t **var, uint8_t *ret_name1, const uint8_t *name,
-            int kind, int type) {
+int findVar(struct Basic *bas, uint8_t **var, uint8_t *ret_name1,
+            const uint8_t *name, int kind, int type) {
   uint8_t name1, **v;
 
   /* 固定変数ならばそれを戻す */
@@ -3814,7 +3814,8 @@ int pushParamOrEmpty(struct Basic *bas, const uint8_t **p) {
 /*
         値を得る
 */
-int fetchParam(struct Basic *bas, uint8_t **param, int *type, const uint8_t **p) {
+int fetchParam(struct Basic *bas, uint8_t **param, int *type,
+               const uint8_t **p) {
   int err;
 
   if ((err = pushParam(bas, p)) < 0)
@@ -3929,8 +3930,8 @@ int fetchStrOrEmpty(struct Basic *bas, uint8_t **str, const uint8_t **p) {
 /*
         変数を得る
 */
-int fetchVarVal(struct Basic *bas, uint8_t **val, int *kind, int *type, int *size,
-                const uint8_t **p) {
+int fetchVarVal(struct Basic *bas, uint8_t **val, int *kind, int *type,
+                int *size, const uint8_t **p) {
   int err, len, index0, index1;
   uint8_t *var, name1;
 
@@ -4203,7 +4204,8 @@ int decodeLineNoProg(uint8_t *dst, const uint8_t *src, const uint8_t *sep) {
   return (int)(p - src);
 }
 #define decodeLineNoProg(dst, src, sep)                                        \
-  decodeLineNoProg((uint8_t *)(dst), (const uint8_t *)(src), (const uint8_t *)(sep))
+  decodeLineNoProg((uint8_t *)(dst), (const uint8_t *)(src),                   \
+                   (const uint8_t *)(sep))
 
 /*
         指定の行に移動する
@@ -5595,9 +5597,9 @@ static int staBlockIf(struct Basic *bas, const uint8_t **p) {
     ssleep(12814);
 
     if (!fetchKeyword(p, CODE_THEN)) /* THENがない */
-      return goElse(bas, p);         /* 同じ行のELSEにジャンプする(通常のIF) */
-    if (!isLineTerm(p))              /* 行末でない */
-      return goElse(bas, p);         /* 同じ行のELSEにジャンプする(通常のIF) */
+      return goElse(bas, p); /* 同じ行のELSEにジャンプする(通常のIF) */
+    if (!isLineTerm(p))      /* 行末でない */
+      return goElse(bas, p); /* 同じ行のELSEにジャンプする(通常のIF) */
 
     /* ELSEまたはENDIFの行まで移動する */
     for (;;) {
@@ -7331,7 +7333,9 @@ static int staSwitch(struct Basic *bas, const uint8_t **p) {
 /*
         TROFF
 */
-static int staTroff(struct Basic *bas, const uint8_t **p) { return ERR_OK_NEXT; }
+static int staTroff(struct Basic *bas, const uint8_t **p) {
+  return ERR_OK_NEXT;
+}
 
 /*
         TRON
@@ -8193,7 +8197,8 @@ int runProg(struct Basic *bas, uint8_t *buf) {
 /*
         BASICプログラムを表示する (basRun, basProの下請け)
 */
-static void browseProg(struct Basic *bas, const uint8_t *sep, const uint8_t *cur) {
+static void browseProg(struct Basic *bas, const uint8_t *sep,
+                       const uint8_t *cur) {
   int pos = 0;
   uint8_t buf[512];
   const uint8_t *p;
@@ -8250,8 +8255,8 @@ int basRun(struct Basic *bas) {
   while (*mode == MODE_RUN && !isoff()) {
     newline = (buf[0] == 0);
 
-    switch ((
-        ch = ggetline(buf, (const uint8_t *)(newline ? ">" : ""), GETLINE_MAN))) {
+    switch ((ch = ggetline(buf, (const uint8_t *)(newline ? ">" : ""),
+                           GETLINE_MAN))) {
     case 0x0c: /* CLS */
       buf[0] = 0;
       gcls();

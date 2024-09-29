@@ -119,7 +119,7 @@ typedef struct {
 typedef struct {
   int count;        /* 実行回数 */
   int cond;         /* 条件成立回数 */
-  uint8_t code[4];    /* コード */
+  uint8_t code[4];  /* コード */
   int64 states;     /* 総ステート数 */
   int64 sub_states; /* サブルーチンの総ステート数 */
 } Z80path;
@@ -154,7 +154,7 @@ typedef struct {
 
 /* レジスタ */
 typedef union {
-  uint8_t *m;      /* メモリ */
+  uint8_t *m;    /* メモリ */
   Z80regs r;     /* 8bitsレジスタ */
   Z80regs16 r16; /* 16bitsレジスタ */
   Z80info i;     /* オプション・その他の状態 */

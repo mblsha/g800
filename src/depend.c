@@ -26,10 +26,10 @@
 #endif
 
 /* LCD・VRAM */
-#define MAX_ZOOM 3              /* ステータス表示部の拡大の最大値 */
+#define MAX_ZOOM 3 /* ステータス表示部の拡大の最大値 */
 #define MAX_SCALE (360 / 8 + 1) /* 階調の最大値 */
 #define SCREEN(x, y)                                                           \
-  ((uint8_t *)screen->pixels + (y) * screen->pitch +                             \
+  ((uint8_t *)screen->pixels + (y) * screen->pitch +                           \
    screen->format->BytesPerPixel * (x)) /* ピクセルのアドレス */
 #define VRAM_OFF(col, row, top)                                                \
   (((row + (top) / 8) % 8) * vramWidth +                                       \
@@ -255,29 +255,30 @@ static SDL_AudioSpec audio; /* サウンド */
 static SDL_Rect rectLCD;                        /* LCD全体の範囲 */
 static SDL_Rect rectLCDmain;                    /* LCDメイン部の範囲 */
 static SDL_Rect rectLCDstatus[STATUS_LAST + 1]; /* LCDのステータス部の範囲 */
-static int statusRow[STATUS_LAST + 1];          /* ステータスのVRAM上の列 */
+static int statusRow[STATUS_LAST + 1]; /* ステータスのVRAM上の列 */
 static uint8_t statusMask[STATUS_LAST + 1]; /* ステータスのVRAM上のbit位置 */
-static int zoomedBpp;                     /* 拡大後の1pixelのbit数 */
-static int zoomedPitch;                   /* 拡大後のLCDメイン部の幅のbyte数 */
-static SDL_Color colorTable[256];         /* 色テーブル */
-static Uint32 pixelTable[256];            /* pixelテーブル */
+static int zoomedBpp;                       /* 拡大後の1pixelのbit数 */
+static int zoomedPitch; /* 拡大後のLCDメイン部の幅のbyte数 */
+static SDL_Color colorTable[256]; /* 色テーブル */
+static Uint32 pixelTable[256];    /* pixelテーブル */
 
 /* SurfaceとPixmap(Pixelの集まり) */
 #if SDL_MAJOR_VERSION == 2
 static SDL_Window *window; /* Window */
 #endif
-static SDL_Surface *screen;      /* Windowのsurface */
+static SDL_Surface *screen;        /* Windowのsurface */
 static uint8_t *pixmapBack = NULL; /* LCDの背景のpixmap */
 static uint8_t *pixmapDotOff;      /* LCDのドットのpixmap (OFF) */
 static uint8_t *pixmapDotOn;       /* LCDのドットのpixmap (ON) */
 static uint8_t
     *pixmapStatusOff[STATUS_LAST + 1]; /* LCDのステータスのpixmap (OFF) */
 static uint8_t
-    *pixmapStatusOn[STATUS_LAST + 1];    /* LCDのステータスのpixmap (ON) */
+    *pixmapStatusOn[STATUS_LAST + 1]; /* LCDのステータスのpixmap (ON) */
 static uint8_t *pixmapDotTable[MAX_SCALE]; /* LCDのドットのpixmap (各階調) */
-static uint8_t *pixmapStatusTable[MAX_SCALE][STATUS_LAST + 1]; /* LCDのステータスのpixmap
-                                                                (各階調) */
-static uint8_t *pixmapButton; /* ボタンのpixmap */
+static uint8_t
+    *pixmapStatusTable[MAX_SCALE][STATUS_LAST + 1]; /* LCDのステータスのpixmap
+                                                     (各階調) */
+static uint8_t *pixmapButton;                       /* ボタンのpixmap */
 
 /* VRAM */
 static uint8_t oldVram[166 * 9]; /* 1フレーム前のVRAM */
@@ -285,8 +286,8 @@ static uint8_t oldLcdTop;        /* 1フレーム前のVRAMの表示位置 */
 
 /* キー */
 static SDL_Rect rectKey[GKEY_DOUBLE]; /* ソフトウェアキーの範囲 */
-static uint8_t autoKey;                 /* 自動キー入力中のキーコード */
-static int autoKeyCount = 0;          /* 自動キー入力カウンタ */
+static uint8_t autoKey;      /* 自動キー入力中のキーコード */
+static int autoKeyCount = 0; /* 自動キー入力カウンタ */
 
 #if SDL_MAJOR_VERSION == 2
 /*
@@ -842,7 +843,7 @@ static uint8_t *fillPixmap(uint8_t *pixmap, const void *pix, int size) {
         BitmapをPixmapに変換する (updateLCDContrastの下請け)
 */
 static uint8_t *makePixmap(uint8_t *pixmap, SDL_Rect rect, Bitmap bitmap,
-                         const void *pix0, const void *pix1) {
+                           const void *pix0, const void *pix1) {
   int i, x, y;
   uint8_t mask, *r = bitmap.image;
   uint8_t *p, *q;

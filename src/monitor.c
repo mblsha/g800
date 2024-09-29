@@ -169,10 +169,10 @@ static int edit0(uint16 address, int cur, uint8_t k) {
 }
 static uint8_t edit(uint16 address) {
   const uint8_t col[] = {7,  8,  10, 11, 13, 14, 16, 17, 7,  8,  10,
-                       11, 13, 14, 16, 17, 7,  8,  10, 11, 13, 14,
-                       16, 17, 7,  8,  10, 11, 13, 14, 16, 17};
+                         11, 13, 14, 16, 17, 7,  8,  10, 11, 13, 14,
+                         16, 17, 7,  8,  10, 11, 13, 14, 16, 17};
   const uint8_t row[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-                       2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3};
+                         2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3};
   int cur = (address & 0x0f) * 2;
   uint8_t k;
 
@@ -245,8 +245,8 @@ static uint8_t disasm(uint16 address) {
       break;
     case 0x1f: /* ↓ */
       address = (int)((uint8_t *)z80disasm(buf, &memory[address],
-                                         z80bank(&z80, (uint16)(p - memory)),
-                                         (uint16)(p - memory), z80.i.symbol) -
+                                           z80bank(&z80, (uint16)(p - memory)),
+                                           (uint16)(p - memory), z80.i.symbol) -
                       memory);
       break;
     case 0x01: /* BASIC */

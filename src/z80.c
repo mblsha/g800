@@ -40,28 +40,28 @@
 #define HL_D z->r16.hl_d                 /* 補助レジスタHL' */
 
 /* フラグ */
-#define MASK_CY 0x01              /* キャリーフラグ マスク */
-#define MASK_N 0x02               /* 減算フラグ マスク */
-#define MASK_PV 0x04              /* パリティ/オーバーフローフラグ マスク */
-#define MASK_HC 0x10              /* ハーフキャリーフラグ マスク */
-#define MASK_Z 0x40               /* ゼロフラグ マスク */
-#define MASK_S 0x80               /* サインフラグ マスク */
-#define CY (z->r.f & MASK_CY)     /* キャリーフラグ */
-#define N (z->r.f & MASK_N)       /* 減算フラグ */
-#define PV (z->r.f & MASK_PV)     /* パリティ/オーバーフローフラグ */
-#define HC (z->r.f & MASK_HC)     /* ハーフキャリーフラグ */
-#define Z (z->r.f & MASK_Z)       /* ゼロフラグ */
-#define S (z->r.f & MASK_S)       /* サインフラグ */
-#define X (z->r.f & MASK_X)       /* 未定義フラグ X */
-#define Y (z->r.f & MASK_Y)       /* 未定義フラグ Y */
+#define MASK_CY 0x01 /* キャリーフラグ マスク */
+#define MASK_N 0x02  /* 減算フラグ マスク */
+#define MASK_PV 0x04 /* パリティ/オーバーフローフラグ マスク */
+#define MASK_HC 0x10 /* ハーフキャリーフラグ マスク */
+#define MASK_Z 0x40  /* ゼロフラグ マスク */
+#define MASK_S 0x80  /* サインフラグ マスク */
+#define CY (z->r.f & MASK_CY) /* キャリーフラグ */
+#define N (z->r.f & MASK_N)   /* 減算フラグ */
+#define PV (z->r.f & MASK_PV) /* パリティ/オーバーフローフラグ */
+#define HC (z->r.f & MASK_HC) /* ハーフキャリーフラグ */
+#define Z (z->r.f & MASK_Z)   /* ゼロフラグ */
+#define S (z->r.f & MASK_S)   /* サインフラグ */
+#define X (z->r.f & MASK_X)   /* 未定義フラグ X */
+#define Y (z->r.f & MASK_Y)   /* 未定義フラグ Y */
 #define CC_NZ !(z->r.f & MASK_Z)  /* 条件 ゼロフラグ OFF */
 #define CC_Z (z->r.f & MASK_Z)    /* 条件 ゼロフラグ ON */
 #define CC_NC !(z->r.f & MASK_CY) /* 条件 キャリーフラグ OFF */
 #define CC_C (z->r.f & MASK_CY)   /* 条件 キャリーフラグ ON */
 #define CC_PO !(z->r.f & MASK_PV) /* 条件 パリティ/オーバーフローフラグ OFF */
-#define CC_PE (z->r.f & MASK_PV)  /* 条件 パリティ/オーバーフローフラグ ON */
-#define CC_P !(z->r.f & MASK_S)   /* 条件 サインフラグ OFF */
-#define CC_M (z->r.f & MASK_S)    /* 条件 サインフラグ ON */
+#define CC_PE (z->r.f & MASK_PV) /* 条件 パリティ/オーバーフローフラグ ON */
+#define CC_P !(z->r.f & MASK_S) /* 条件 サインフラグ OFF */
+#define CC_M (z->r.f & MASK_S)  /* 条件 サインフラグ ON */
 
 /* メモリ */
 #define MEM8(x) z80read8(z, x)                /* 8bitsメモリ */
@@ -291,7 +291,7 @@
 #define DAA()                                                                  \
   {                                                                            \
     uint32 _acc;                                                               \
-    uint8_t x, c;                                                                \
+    uint8_t x, c;                                                              \
     daa_result(&x, &c, A, F);                                                  \
     _acc = (uint32)A + x;                                                      \
     F = c | N | SET_P(_acc) | SET_HC8(A, x) | SET_Z8(_acc) | SET_S8(_acc);     \
@@ -410,7 +410,7 @@
 
 #define IND()                                                                  \
   {                                                                            \
-    uint8_t tmp;                                                                 \
+    uint8_t tmp;                                                               \
     _state += z80inport(z, &tmp, C);                                           \
     STORE8(HL, tmp);                                                           \
     B--;                                                                       \
@@ -422,7 +422,7 @@
 
 #define INDR()                                                                 \
   while (B) {                                                                  \
-    uint8_t tmp;                                                                 \
+    uint8_t tmp;                                                               \
     _state += z80inport(z, &tmp, C);                                           \
     STORE8(HL, tmp);                                                           \
     B--;                                                                       \
@@ -436,7 +436,7 @@
 
 #define INI()                                                                  \
   {                                                                            \
-    uint8_t tmp;                                                                 \
+    uint8_t tmp;                                                               \
     _state += z80inport(z, &tmp, C);                                           \
     STORE8(HL, tmp);                                                           \
     B--;                                                                       \
@@ -448,7 +448,7 @@
 
 #define INIR()                                                                 \
   while (B) {                                                                  \
-    uint8_t tmp;                                                                 \
+    uint8_t tmp;                                                               \
     _state += z80inport(z, &tmp, C);                                           \
     STORE8(HL, tmp);                                                           \
     B--;                                                                       \

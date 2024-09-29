@@ -160,11 +160,11 @@
 /* BASICシステムの状態 */
 struct Basic {
   int prog_size; /* プログラム領域のサイズ */
-  uint8_t *prog;   /* プログラム領域 */
+  uint8_t *prog; /* プログラム領域 */
 
   const uint8_t *d; /* DATA文の読み込み位置 */
   const uint8_t *p; /* プログラムの実行位置 */
-  int line_no;    /* プログラムの実行中行番号 */
+  int line_no;      /* プログラムの実行中行番号 */
 
   uint8_t (*fixed_var)[SIZEOF_NUM]; /* 固定変数 */
   uint8_t **vars;                   /* 単純変数・配列変数 */
