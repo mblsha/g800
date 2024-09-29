@@ -1369,7 +1369,7 @@ uint8 getChrcode(int cursor) {
       memset(roman, 0, sizeof(roman));
     } else {
       /* ローマ字の入力を得る */
-      if (!isalpha(ch) && ch != \\')
+      if (!isalpha(ch) && ch != '\\')
         memset(roman, 0, sizeof(roman));
       if (roman[0] == 0)
         roman[0] = ch;
