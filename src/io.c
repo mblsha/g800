@@ -11,7 +11,7 @@
 /*
         VRAMのオフセット(PC-E200)
 */
-static inline int e200vramoff(uint8 x, uint8 row, uint8 begin) {
+static inline int e200vramoff(uint8_t x, uint8_t row, uint8_t begin) {
   row = (row - begin + 8) % 8;
 
   if (x == 0x3c)
@@ -26,15 +26,15 @@ static inline int e200vramoff(uint8 x, uint8 row, uint8 begin) {
 /*
         VRAMへのポインタ(PC-E200)
 */
-static inline uint8 *e200vram(uint8 x, uint8 row, uint8 begin) {
+static inline uint8_t *e200vram(uint8_t x, uint8_t row, uint8_t begin) {
   return &vram[e200vramoff(x, row, begin)];
 }
 
 /*
         表示開始位置を設定する(PC-E200)
 */
-static inline int sete200begin(uint8 begin) {
-  uint8 oldvram[166 * 9];
+static inline int sete200begin(uint8_t begin) {
+  uint8_t oldvram[166 * 9];
   int row, x;
 
   memcpy(oldvram, vram, sizeof(vram));
@@ -49,7 +49,7 @@ static inline int sete200begin(uint8 begin) {
 /*
         VRAMのオフセット(PC-G815)
 */
-static inline int g815vramoff(uint8 x, uint8 row, uint8 begin) {
+static inline int g815vramoff(uint8_t x, uint8_t row, uint8_t begin) {
   row = (row - begin + 8) % 8;
 
   if (x == 0x7b)
@@ -63,15 +63,15 @@ static inline int g815vramoff(uint8 x, uint8 row, uint8 begin) {
 /*
         VRAMへのポインタ(PC-G815)
 */
-static inline uint8 *g815vram(uint8 x, uint8 row, uint8 begin) {
+static inline uint8_t *g815vram(uint8_t x, uint8_t row, uint8_t begin) {
   return &vram[g815vramoff(x, row, begin)];
 }
 
 /*
         表示開始位置を設定する(PC-G815)
 */
-static inline int setg815begin(uint8 begin) {
-  uint8 oldvram[166 * 9];
+static inline int setg815begin(uint8_t begin) {
+  uint8_t oldvram[166 * 9];
   int row, x;
 
   memcpy(oldvram, vram, sizeof(vram));
@@ -86,14 +86,14 @@ static inline int setg815begin(uint8 begin) {
 /*
         VRAMへのポインタ(PC-G850)
 */
-static inline uint8 *g850vram(uint8 x, uint8 row) {
+static inline uint8_t *g850vram(uint8_t x, uint8_t row) {
   return &vram[row * G850_VRAM_WIDTH + x];
 }
 
 /*
         ROMバンクを切り替える
 */
-static inline void swrom(uint8 page) {
+static inline void swrom(uint8_t page) {
   if (romBanks == 0)
     return;
 
@@ -106,7 +106,7 @@ static inline void swrom(uint8 page) {
 /*
         EXROMバンクを切り替える
 */
-static inline void swexrom(uint8 page) {
+static inline void swexrom(uint8_t page) {
   if (page & 0xfc) {
     if ((page & 0x03) < exBanks)
       memcpy(&memory[0x8000], EXROM(page & 0x03), 0x4000);
@@ -121,7 +121,7 @@ static inline void swexrom(uint8 page) {
 /*
         11pinの出力信号を得る
 */
-uint8 pin11out(void) {
+uint8_t pin11out(void) {
   switch (pin11If) {
   case PIN11IF_3IO:
     return (io3Out & 0x03) | ((io3Out >> 4) & 0x08);
@@ -137,7 +137,7 @@ uint8 pin11out(void) {
 /*
         キーの状態
 */
-static inline int in10(uint8 *x) {
+static inline int in10(uint8_t *x) {
   if (statesKeyStrobeLast - z80.i.states > statesKeyStrobeClear)
     keyStrobe = keyStrobeLast;
   *x = (keyStrobe & 0x001 ? keyMatrix[0] : 0) |
@@ -157,11 +157,11 @@ static inline int out10(int x) { return 0; }
 /*
         キーストローブ
 */
-static inline int in11(uint8 *x) {
+static inline int in11(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out11(uint8 x) {
+static inline int out11(uint8_t x) {
   if (statesKeyStrobeLast - z80.i.states > statesKeyStrobeClear)
     keyStrobe = keyStrobeLast;
   keyStrobeLast = x;
@@ -171,11 +171,11 @@ static inline int out11(uint8 x) {
     interruptType |= INTERRUPT_IA;
   return 0;
 }
-static inline int in12(uint8 *x) {
+static inline int in12(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out12(uint8 x) {
+static inline int out12(uint8_t x) {
   if (statesKeyStrobeLast - z80.i.states > statesKeyStrobeClear)
     keyStrobe = keyStrobeLast;
   keyStrobeLast = x << 8U;
@@ -187,20 +187,20 @@ static inline int out12(uint8 x) {
 /*
         シフトキーの状態
 */
-static inline int in13(uint8 *x) {
+static inline int in13(uint8_t *x) {
   *x = (keyStrobe & 0x08 ? keyShift : 0);
   return 0;
 }
-static inline int out13(uint8 x) { return 0; }
+static inline int out13(uint8_t x) { return 0; }
 
 /*
         タイマ
 */
-static inline int in14(uint8 *x) {
+static inline int in14(uint8_t *x) {
   *x = timer;
   return 0;
 }
-static inline int out14(uint8 x) {
+static inline int out14(uint8_t x) {
   timer = 0;
   return 0;
 }
@@ -208,11 +208,11 @@ static inline int out14(uint8 x) {
 /*
         Xin入力端子の入力可否状態
 */
-static inline int in15(uint8 *x) {
+static inline int in15(uint8_t *x) {
   *x = xinEnabled;
   return 0;
 }
-static inline int out15(uint8 x) {
+static inline int out15(uint8_t x) {
   xinEnabled = x & 0x80;
   return 0;
 }
@@ -220,11 +220,11 @@ static inline int out15(uint8 x) {
 /*
         割り込み要因
 */
-static inline int in16(uint8 *x) {
+static inline int in16(uint8_t *x) {
   *x = interruptType;
   return 0;
 }
-static inline int out16(uint8 x) {
+static inline int out16(uint8_t x) {
   interruptType &= ‾x;
   return 0;
 }
@@ -232,11 +232,11 @@ static inline int out16(uint8 x) {
 /*
         割り込みマスク
 */
-static inline int in17(uint8 *x) {
+static inline int in17(uint8_t *x) {
   *x = interruptMask;
   return 0;
 }
-static inline int out17(uint8 x) {
+static inline int out17(uint8_t x) {
   interruptMask = x;
   return 0;
 }
@@ -244,11 +244,11 @@ static inline int out17(uint8 x) {
 /*
         11pinI/Fの出力制御
 */
-static inline int in18(uint8 *x) {
+static inline int in18(uint8_t *x) {
   *x = io3Out;
   return 0;
 }
-static inline int out18(uint8 x) {
+static inline int out18(uint8_t x) {
   /*
   int interval;
   static int prev_states = 0;
@@ -287,12 +287,12 @@ static inline int out18(uint8 x) {
 /*
         ROMバンク切り替え
 */
-static inline int in19(uint8 *x) {
+static inline int in19(uint8_t *x) {
   *x = ((exBank & 0x07) << 4) | (romBank & 0x0f);
   return 0;
 }
-static inline int out19(uint8 x) {
-  uint8 tmp;
+static inline int out19(uint8_t x) {
+  uint8_t tmp;
 
   if (romBanks == 0)
     return 0;
@@ -307,21 +307,21 @@ static inline int out19(uint8 x) {
 /*
         BOOT ROM ON/OFF
 */
-static inline int in1a(uint8 *x) {
+static inline int in1a(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out1a(uint8 x) { return 0; }
+static inline int out1a(uint8_t x) { return 0; }
 
 /*
         RAMバンク切り替え
 */
-static inline int in1b(uint8 *x) {
+static inline int in1b(uint8_t *x) {
   *x = ramBank;
   return 0;
 }
-static inline int out1b(uint8 x) {
-  uint8 *tmp;
+static inline int out1b(uint8_t x) {
+  uint8_t *tmp;
 
   if (exram == NULL)
     return 0;
@@ -340,11 +340,11 @@ static inline int out1b(uint8 x) {
 /*
         I/Oリセット
 */
-static inline int in1c(uint8 *x) {
+static inline int in1c(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out1c(uint8 x) {
+static inline int out1c(uint8_t x) {
   ioReset = x;
   return 0;
 }
@@ -352,7 +352,7 @@ static inline int out1c(uint8 x) {
 /*
         バッテリー状態?
 */
-static inline int in1d(uint8 *x) {
+static inline int in1d(uint8_t *x) {
   switch (battChk) {
   case 1: /* LOW? */
     *x = 0x00;
@@ -366,16 +366,16 @@ static inline int in1d(uint8 *x) {
   }
   return 0;
 }
-static inline int out1d(uint8 x) { return 0; }
+static inline int out1d(uint8_t x) { return 0; }
 
 /*
         バッテリーチェックモード?
 */
-static inline int in1e(uint8 *x) {
+static inline int in1e(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out1e(uint8 x) {
+static inline int out1e(uint8_t x) {
   battChk = x & 0x03;
   return 0;
 }
@@ -383,7 +383,7 @@ static inline int out1e(uint8 x) {
 /*
         11pinI/Fの入力
 */
-static inline int in1f(uint8 *x) {
+static inline int in1f(uint8_t *x) {
   /*updateSerial();*/
   if (sioMode == SIO_MODE_IN) {
     pin11In = sioRead(pin11out());
@@ -394,12 +394,12 @@ static inline int in1f(uint8 *x) {
        (pin11In & 0x20 ? 0x02 : 0) | (pin11In & 0x10 ? 0x01 : 0);
   return 0;
 }
-static inline int out1f(uint8 x) { return 0; }
+static inline int out1f(uint8_t x) { return 0; }
 
 /*
         ディスプレイコントロール (PC-E200)
 */
-static inline int out58_e200(uint8 x) {
+static inline int out58_e200(uint8_t x) {
   lcdRead = FALSE;
 
   switch (x & 0xc0) {
@@ -417,7 +417,7 @@ static inline int out58_e200(uint8 x) {
   }
   return 0;
 }
-static inline int in59_e200(uint8 *x) {
+static inline int in59_e200(uint8_t *x) {
   *x = 0;
   return 0;
 }
@@ -425,14 +425,14 @@ static inline int in59_e200(uint8 *x) {
 /*
         ディスプレイ READ/WRITE (PC-E200)
 */
-static inline int out5a_e200(uint8 x) {
+static inline int out5a_e200(uint8_t x) {
   lcdRead = FALSE;
 
   if (lcdX < 0x3d && lcdY < 8)
     *e200vram(lcdX++, lcdY, lcdBegin) = x & 0x7f;
   return 0;
 }
-static inline int in5b_e200(uint8 *x) {
+static inline int in5b_e200(uint8_t *x) {
   if (!lcdRead) {
     lcdRead = TRUE;
     *x = 0;
@@ -449,7 +449,7 @@ static inline int in5b_e200(uint8 *x) {
 /*
         ディスプレイコントロール (PC-G815)
 */
-static inline void g815lcdctrl(uint8 *lcd_x, uint8 *lcd_y, uint8 x) {
+static inline void g815lcdctrl(uint8_t *lcd_x, uint8_t *lcd_y, uint8_t x) {
   lcdRead = FALSE;
 
   switch (x & 0xc0) {
@@ -466,28 +466,28 @@ static inline void g815lcdctrl(uint8 *lcd_x, uint8 *lcd_y, uint8 x) {
     break;
   }
 }
-static inline int out50_g815(uint8 x) {
+static inline int out50_g815(uint8_t x) {
   g815lcdctrl(&lcdX2, &lcdY2, x);
   g815lcdctrl(&lcdX, &lcdY, x);
   return 0;
 }
-static inline int in51_g815(uint8 *x) {
+static inline int in51_g815(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out54_g815(uint8 x) {
+static inline int out54_g815(uint8_t x) {
   g815lcdctrl(&lcdX2, &lcdY2, x);
   return 0;
 }
-static inline int in55_g815(uint8 *x) {
+static inline int in55_g815(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out58_g815(uint8 x) {
+static inline int out58_g815(uint8_t x) {
   g815lcdctrl(&lcdX, &lcdY, x);
   return 0;
 }
-static inline int in59_g815(uint8 *x) {
+static inline int in59_g815(uint8_t *x) {
   *x = 0;
   return 0;
 }
@@ -495,14 +495,14 @@ static inline int in59_g815(uint8 *x) {
 /*
         ディスプレイ READ/WRITE (PC-G815)
 */
-static inline int out56_g815(uint8 x) {
+static inline int out56_g815(uint8_t x) {
   lcdRead = FALSE;
 
   if (lcdX2 < 0x3c && lcdY2 < 8)
     *g815vram(lcdX2++, lcdY2, lcdBegin) = x;
   return 0;
 }
-static inline int in57_g815(uint8 *x) {
+static inline int in57_g815(uint8_t *x) {
   if (!lcdRead) {
     lcdRead = TRUE;
     *x = 0;
@@ -515,14 +515,14 @@ static inline int in57_g815(uint8 *x) {
     *x = 0;
   return 0;
 }
-static inline int out5a_g815(uint8 x) {
+static inline int out5a_g815(uint8_t x) {
   lcdRead = FALSE;
 
   if ((0x3c + lcdX < 0x49 || 0x3c + lcdX == 0x7b) && lcdY < 8)
     *g815vram(0x3c + lcdX++, lcdY, lcdBegin) = x;
   return 0;
 }
-static inline int in5b_g815(uint8 *x) {
+static inline int in5b_g815(uint8_t *x) {
   if (!lcdRead) {
     lcdRead = TRUE;
     *x = 0;
@@ -535,7 +535,7 @@ static inline int in5b_g815(uint8 *x) {
     *x = 0;
   return 0;
 }
-static inline int out52_g815(uint8 x) {
+static inline int out52_g815(uint8_t x) {
   out56_g815(x);
   out5a_g815(x);
   return 0;
@@ -544,11 +544,11 @@ static inline int out52_g815(uint8 x) {
 /*
         ディスプレイコントロール (PC-G850)
 */
-static inline int in40_g850(uint8 *x) {
+static inline int in40_g850(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out40_g850(uint8 x) {
+static inline int out40_g850(uint8_t x) {
   lcdRead = FALSE;
 
   switch (x & 0xf0) {
@@ -645,7 +645,7 @@ static inline int out40_g850(uint8 x) {
 /*
         ディスプレイ READ/WRITE (PC-G850)
 */
-static inline int in41_g850(uint8 *x) {
+static inline int in41_g850(uint8_t *x) {
   if (!lcdRead) {
     lcdRead = TRUE;
     *x = 0;
@@ -660,7 +660,7 @@ static inline int in41_g850(uint8 *x) {
     lcdX++;
   return 0;
 }
-static inline int out41_g850(uint8 x) {
+static inline int out41_g850(uint8_t x) {
   lcdRead = FALSE;
 
   if (lcdX < 166 && lcdY < 8)
@@ -671,11 +671,11 @@ static inline int out41_g850(uint8 x) {
 /*
         11pin I/Fの動作
 */
-static inline int in60_g850(uint8 *x) {
+static inline int in60_g850(uint8_t *x) {
   *x = pin11If;
   return 0;
 }
-static inline int out60_g850(uint8 x) {
+static inline int out60_g850(uint8_t x) {
   pin11If = x & 0x03;
   updateSerial();
   return 0;
@@ -684,11 +684,11 @@ static inline int out60_g850(uint8 x) {
 /*
         パラレルI/Oの入出力方向
 */
-static inline int in61_g850(uint8 *x) {
+static inline int in61_g850(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out61_g850(uint8 x) {
+static inline int out61_g850(uint8_t x) {
   pio8Io = x;
   updateSerial();
   return 0;
@@ -697,11 +697,11 @@ static inline int out61_g850(uint8 x) {
 /*
         パラレルI/Oのデータレジスタ
 */
-static inline int in62_g850(uint8 *x) {
+static inline int in62_g850(uint8_t *x) {
   *x = pin11In & ‾pio8Io;
   return 0;
 }
-static inline int out62_g850(uint8 x) {
+static inline int out62_g850(uint8_t x) {
   pio8Out = x;
   updateSerial();
   if (buzzer != BUZZER_NONE)
@@ -712,20 +712,20 @@ static inline int out62_g850(uint8 x) {
 /*
         UARTフロー制御
 */
-static inline int in63_g850(uint8 *x) {
+static inline int in63_g850(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out63_g850(uint8 x) { return 0; }
+static inline int out63_g850(uint8_t x) { return 0; }
 
 /*
         CD信号によるON制御
 */
-static inline int in64_g850(uint8 *x) {
+static inline int in64_g850(uint8_t *x) {
   *x = onCd;
   return 0;
 }
-static inline int out64_g850(uint8 x) {
+static inline int out64_g850(uint8_t x) {
   onCd = x & 1;
   return 0;
 }
@@ -733,11 +733,11 @@ static inline int out64_g850(uint8 x) {
 /*
         M1信号後wait制御
 */
-static inline int in65_g850(uint8 *x) {
+static inline int in65_g850(uint8_t *x) {
   *x = m1Wait;
   return 0;
 }
-static inline int out65_g850(uint8 x) {
+static inline int out65_g850(uint8_t x) {
   m1Wait = x & 1;
   return 0;
 }
@@ -745,11 +745,11 @@ static inline int out65_g850(uint8 x) {
 /*
         I/O wait
 */
-static inline int in66_g850(uint8 *x) {
+static inline int in66_g850(uint8_t *x) {
   *x = ioWait;
   return 0;
 }
-static inline int out66_g850(uint8 x) {
+static inline int out66_g850(uint8_t x) {
   ioWait = x & 1;
   return 0;
 }
@@ -757,11 +757,11 @@ static inline int out66_g850(uint8 x) {
 /*
         CPUクロック高速/低速切り替え (PC-G850)
 */
-static inline int in67_g850(uint8 *x) {
+static inline int in67_g850(uint8_t *x) {
   *x = csClk;
   return 0;
 }
-static inline int out67_g850(uint8 x) {
+static inline int out67_g850(uint8_t x) {
   csClk = x & 1;
   return 0;
 }
@@ -769,20 +769,20 @@ static inline int out67_g850(uint8 x) {
 /*
         タイマ信号/LCDドライバ周期
 */
-static inline int in68_g850(uint8 *x) {
+static inline int in68_g850(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out68_g850(uint8 x) { return 0; }
+static inline int out68_g850(uint8_t x) { return 0; }
 
 /*
         ROMバンク切り替え (PC-G850)
 */
-static inline int in69_g850(uint8 *x) {
+static inline int in69_g850(uint8_t *x) {
   *x = romBank;
   return 0;
 }
-static inline int out69_g850(uint8 x) {
+static inline int out69_g850(uint8_t x) {
   if (x != romBank)
     swrom(romBank = x);
   return 0;
@@ -791,20 +791,20 @@ static inline int out69_g850(uint8 x) {
 /*
         ?
 */
-static inline int in6a_g850(uint8 *x) {
+static inline int in6a_g850(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out6a_g850(uint8 x) { return 0; }
+static inline int out6a_g850(uint8_t x) { return 0; }
 
 /*
         UARTの入力選択
 */
-static inline int in6b_g850(uint8 *x) {
+static inline int in6b_g850(uint8_t *x) {
   *x = uartIo;
   return 0;
 }
-static inline int out6b_g850(uint8 x) {
+static inline int out6b_g850(uint8_t x) {
   uartIo = x & 0x87;
   return 0;
 }
@@ -812,11 +812,11 @@ static inline int out6b_g850(uint8 x) {
 /*
         UARTモードレジスタ
 */
-static inline int in6c_g850(uint8 *x) {
+static inline int in6c_g850(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out6c_g850(uint8 x) {
+static inline int out6c_g850(uint8_t x) {
   uartMode = x;
   return 0;
 }
@@ -824,11 +824,11 @@ static inline int out6c_g850(uint8 x) {
 /*
         UARTコマンドレジスタ
 */
-static inline int in6d_g850(uint8 *x) {
+static inline int in6d_g850(uint8_t *x) {
   *x = 0;
   return 0;
 }
-static inline int out6d_g850(uint8 x) {
+static inline int out6d_g850(uint8_t x) {
   uartCommand = x;
   return 0;
 }
@@ -836,25 +836,25 @@ static inline int out6d_g850(uint8 x) {
 /*
         UARTステータスレジスタ
 */
-static inline int in6e_g850(uint8 *x) {
+static inline int in6e_g850(uint8_t *x) {
   *x = uartStatus;
   return 0;
 }
-static inline int out6e_g850(uint8 x) { return 0; }
+static inline int out6e_g850(uint8_t x) { return 0; }
 
 /*
         UART送受信レジスタ
 */
-static inline int in6f_g850(uint8 *x) {
+static inline int in6f_g850(uint8_t *x) {
   *x = 0xff;
   return 0;
 }
-static inline int out6f_g850(uint8 x) { return 0; }
+static inline int out6f_g850(uint8_t x) { return 0; }
 
 /*
         Inportをエミュレートする
 */
-int z80inport(Z80stat *z, uint8 *x, uint16 address) {
+int z80inport(Z80stat *z, uint8_t *x, uint16 address) {
   /*
   printf("in %02x\n", address);
   */
@@ -1009,7 +1009,7 @@ int z80inport(Z80stat *z, uint8 *x, uint16 address) {
 /*
         Outportをエミュレートする
 */
-int z80outport(Z80stat *z, uint16 address, uint8 x) {
+int z80outport(Z80stat *z, uint16 address, uint8_t x) {
   /*
   printf("out (%02x), %02x\n", address, x);
   fflush(stdout);

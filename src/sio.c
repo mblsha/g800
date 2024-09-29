@@ -24,8 +24,8 @@ static inline int oddparity(char x) {
 /*
         バッファから受信する(sioReadの下請け)
 */
-static inline uint8 getBit(void) {
-  uint8 pin11_out;
+static inline uint8_t getBit(void) {
+  uint8_t pin11_out;
 
   if (sioCount / N >= sioBufferSize)
     return 0;
@@ -70,7 +70,7 @@ static inline uint8 getBit(void) {
 /*
         ファイルからSIOに受信する
 */
-uint8 sioRead(uint8 pin11_in) {
+uint8_t sioRead(uint8_t pin11_in) {
   int pin11_out;
 
   if (sioMode != SIO_MODE_IN)
@@ -128,7 +128,7 @@ int sioLoad(const char *path) {
 /*
         送信したbitをバッファに書き込む(sioWriteの下請け)
 */
-static inline void putBit(uint8 pin11_in) {
+static inline void putBit(uint8_t pin11_in) {
   switch (sioCount % M) {
   case 0:
     /* スタート */
@@ -157,7 +157,7 @@ static inline void putBit(uint8 pin11_in) {
 /*
         SIOバッファからファイルに書き込む
 */
-uint8 sioWrite(uint8 pin11_in) {
+uint8_t sioWrite(uint8_t pin11_in) {
   if (sioMode != SIO_MODE_OUT)
     return 0;
 

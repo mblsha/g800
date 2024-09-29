@@ -128,12 +128,12 @@
 #define NIM_XOR 0x61
 #define NIM_UNKNOWN 0x62
 
-#define LPARAM_UINT8 (0x1 << SHIFT_LPARAM)
+#define LPARAM_uint8_t (0x1 << SHIFT_LPARAM)
 #define LPARAM_INT8 (0x2 << SHIFT_LPARAM)
 #define LPARAM_UINT16 (0x3 << SHIFT_LPARAM)
 #define LPARAM_ADDR (0x4 << SHIFT_LPARAM)
 #define LPARAM_EQ (0x5 << SHIFT_LPARAM)
-#define RPARAM_UINT8 (0x1 << SHIFT_RPARAM)
+#define RPARAM_uint8_t (0x1 << SHIFT_RPARAM)
 #define RPARAM_INT8 (0x2 << SHIFT_RPARAM)
 #define RPARAM_UINT16 (0x3 << SHIFT_RPARAM)
 #define RPARAM_ADDR (0x4 << SHIFT_RPARAM)
@@ -164,14 +164,14 @@
 #define LOP_DE_D (0x16 << SHIFT_LOP)
 #define LOP_HL_D (0x17 << SHIFT_LOP)
 #define LOP_AF_D (0x18 << SHIFT_LOP)
-#define LOP_IMM8 (0x19 << SHIFT_LOP | LPARAM_UINT8)
+#define LOP_IMM8 (0x19 << SHIFT_LOP | LPARAM_uint8_t)
 #define LOP_IMM16 (0x1a << SHIFT_LOP | LPARAM_UINT16)
 #define LOP_EQ (0x1b << SHIFT_LOP | LPARAM_EQ)
 #define LOP_REF_BC (0x1c << SHIFT_LOP)
 #define LOP_REF_DE (0x1d << SHIFT_LOP)
 #define LOP_REF_HL (0x1e << SHIFT_LOP)
 #define LOP_REF_SP (0x1f << SHIFT_LOP)
-#define LOP_REF_8 (0x20 << SHIFT_LOP | LPARAM_UINT8)
+#define LOP_REF_8 (0x20 << SHIFT_LOP | LPARAM_uint8_t)
 #define LOP_REF_16 (0x21 << SHIFT_LOP | LPARAM_ADDR)
 #define LOP_REF_IX (0x22 << SHIFT_LOP)
 #define LOP_REF_IXD (0x23 << SHIFT_LOP | LPARAM_INT8)
@@ -214,14 +214,14 @@
 #define ROP_DE_D (0x16 << SHIFT_ROP)
 #define ROP_HL_D (0x17 << SHIFT_ROP)
 #define ROP_AF_D (0x18 << SHIFT_ROP)
-#define ROP_IMM8 (0x19 << SHIFT_ROP | RPARAM_UINT8)
+#define ROP_IMM8 (0x19 << SHIFT_ROP | RPARAM_uint8_t)
 #define ROP_IMM16 (0x1a << SHIFT_ROP | RPARAM_UINT16)
 #define ROP_EQ (0x1b << SHIFT_ROP | RPARAM_EQ)
 #define ROP_REF_BC (0x1c << SHIFT_ROP)
 #define ROP_REF_DE (0x1d << SHIFT_ROP)
 #define ROP_REF_HL (0x1e << SHIFT_ROP)
 #define ROP_REF_SP (0x1f << SHIFT_LOP)
-#define ROP_REF_8 (0x20 << SHIFT_ROP | RPARAM_UINT8)
+#define ROP_REF_8 (0x20 << SHIFT_ROP | RPARAM_uint8_t)
 #define ROP_REF_16 (0x21 << SHIFT_ROP | RPARAM_ADDR)
 #define ROP_REF_IX (0x22 << SHIFT_ROP)
 #define ROP_REF_IXD (0x23 << SHIFT_ROP | RPARAM_INT8)
@@ -1386,25 +1386,25 @@ const char *z80symbol(const Z80symbol *symbol, int bank, uint16 address) {
 /*
         1命令逆アセンブルする
 */
-void *z80disasm(char *str, uint8 *mem, int bank, uint16 address,
+void *z80disasm(char *str, uint8_t *mem, int bank, uint16 address,
                 const Z80symbol *symbol) {
   char format[32], tmp[8];
   int x;
   const uint32 *q;
-  uint8 *p;
+  uint8_t *p;
   const char *sym;
 
-  if (memcmp(mem, "¥xcb", 1) == 0)
+  if (memcmp(mem, "\xcb", 1) == 0)
     x = 1;
-  else if (memcmp(mem, "¥xdd¥xcb", 2) == 0)
+  else if (memcmp(mem, "\xdd\xcb", 2) == 0)
     x = 3;
-  else if (memcmp(mem, "¥xdd", 1) == 0)
+  else if (memcmp(mem, "\xdd", 1) == 0)
     x = 2;
-  else if (memcmp(mem, "¥xed", 1) == 0)
+  else if (memcmp(mem, "\xed", 1) == 0)
     x = 4;
-  else if (memcmp(mem, "¥xfd¥xcb", 2) == 0)
+  else if (memcmp(mem, "\xfd\xcb", 2) == 0)
     x = 6;
-  else if (memcmp(mem, "¥xfd", 1) == 0)
+  else if (memcmp(mem, "\xfd", 1) == 0)
     x = 5;
   else
     x = 0;
@@ -1418,9 +1418,9 @@ void *z80disasm(char *str, uint8 *mem, int bank, uint16 address,
   case 0:
     strcpy(str, format);
     return p + 1;
-  case LPARAM_UINT8:
-  case RPARAM_UINT8:
-    sprintf(str, format, *(uint8 *)(p + 1));
+  case LPARAM_uint8_t:
+  case RPARAM_uint8_t:
+    sprintf(str, format, *(uint8_t *)(p + 1));
     return p + 2;
   case LPARAM_INT8:
   case RPARAM_INT8:
@@ -1428,17 +1428,17 @@ void *z80disasm(char *str, uint8 *mem, int bank, uint16 address,
     return p + 2;
   case LPARAM_UINT16:
   case RPARAM_UINT16:
-    sprintf(str, format, *(uint8 *)(p + 2), *(uint8 *)(p + 1));
+    sprintf(str, format, *(uint8_t *)(p + 2), *(uint8_t *)(p + 1));
     return p + 3;
-  case LPARAM_INT8 | RPARAM_UINT8:
-    sprintf(str, format, *(int8 *)(p + 1), *(uint8 *)(p + 2));
+  case LPARAM_INT8 | RPARAM_uint8_t:
+    sprintf(str, format, *(int8 *)(p + 1), *(uint8_t *)(p + 2));
     return p + 3;
   case PARAM_INT8:
     sprintf(str, format, *(int8 *)p);
     return p + 2;
   case LPARAM_ADDR:
   case RPARAM_ADDR:
-    x = (*(uint8 *)(p + 2) << 8) | *(uint8 *)(p + 1);
+    x = (*(uint8_t *)(p + 2) << 8) | *(uint8_t *)(p + 1);
     sym = z80symbol(symbol, bank, x);
     if (sym != NULL)
       sprintf(str, format, sym);

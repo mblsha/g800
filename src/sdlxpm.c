@@ -24,10 +24,10 @@ static unsigned int atoix(const char *txt) {
 /*
         Surfaceに点を描く(SDL_CreateRGBSurfaceAndMaskFromXpmの下請け)
 */
-static void pset(Uint8 *dst, Uint32 pix, int bpp) {
+static void pset(uint8_t *dst, Uint32 pix, int bpp) {
   switch (bpp) {
   case 1:
-    *dst = (Uint8)pix;
+    *dst = (uint8_t)pix;
     break;
   case 2:
     *(Uint16 *)dst = (Uint16)pix;
@@ -85,14 +85,14 @@ static SDL_Color get_keycolor(SDL_Surface *s, const SDL_Color color[],
 /*
         XPMからSDL_Surfaceとマスクを生成する
 */
-SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *xpm[], Uint8 *mask) {
+SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *xpm[], uint8_t *mask) {
 #if SDL_MAJOR_VERSION == 1
   const SDL_VideoInfo *v = SDL_GetVideoInfo();
 #endif
   SDL_Color color[0x100];
   SDL_Surface *s;
   Uint32 pix;
-  Uint8 *p_pix, *q_pix, *p_mask;
+  uint8_t *p_pix, *q_pix, *p_mask;
   int i, width, height, colors, bytes, key = 0;
   char symbol[4], c[4], rgb[8], *p_xpm, **pp_xpm = xpm;
 

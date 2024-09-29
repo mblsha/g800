@@ -3,15 +3,15 @@
         Memory access for g800
 */
 
-extern uint8 memory[];
+extern uint8_t memory[];
 
 /*
         8bits READ/WRITE
 */
-static inline uint8 z80read8(const Z80stat *z, uint16 address) {
+static inline uint8_t z80read8(const Z80stat *z, uint16 address) {
   return memory[address];
 }
-static inline void z80write8(const Z80stat *z, uint16 address, uint8 value) {
+static inline void z80write8(const Z80stat *z, uint16 address, uint8_t value) {
   if (address < 0x8000)
     memory[address] = value;
 }

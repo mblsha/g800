@@ -46,12 +46,12 @@ $0 == "" {
 
 END {
 	for(i = 0; i < n; i++) {
-		printf("static uint8 _%s%s_%02d_bitmap[] = {\n", name, zoom, i);
-		printf("¥t%s\n", bit[i]);
+		printf("static uint8_t _%s%s_%02d_bitmap[] = {\n", name, zoom, i);
+		printf("\t%s\n", bit[i]);
 		printf("};\n");
 	}
 	printf("static Bitmap bmp%s%s[] = {\n", name, zoom);
 	for(i = 0; i < n; i++)
-		printf("¥t{ %d, %d, _%s%s_%02d_bitmap },\n", width[i], height[i], name, zoom, i);
+		printf("\t{ %d, %d, _%s%s_%02d_bitmap },\n", width[i], height[i], name, zoom, i);
 	printf("};\n");
 }

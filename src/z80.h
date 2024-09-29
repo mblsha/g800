@@ -24,7 +24,7 @@
 #define Z80_STATES(z) ((z)->i.total_states - (z)->i.states)
 #define Z80_RESET_STATES(z) ((z)->i.total_states = (z)->i.states)
 
-typedef unsigned char uint8;
+typedef unsigned char uint8_t;
 typedef char int8;
 typedef unsigned short uint16;
 typedef short int16;
@@ -35,45 +35,45 @@ typedef long long int64;
 
 /* 8bitsレジスタ */
 typedef struct {
-  uint8 *m;
+  uint8_t *m;
 #if defined(Z80_LITTLEENDIAN)
-  uint8 f, a;     /* フラグ, アキュムレータ */
-  uint8 c, b;     /* 汎用レジスタC, B */
-  uint8 e, d;     /* 汎用レジスタE, D */
-  uint8 l, h;     /* 汎用レジスタL, H */
-  uint8 ixl, ixh; /* インデックスレジスタIXl, IXh */
-  uint8 iyl, iyh; /* インデックスレジスタIYl, IYh */
-  uint8 i;        /* インタラプトレジスタI */
-  uint8 pad1;
-  uint8 f_d, a_d; /* 補助レジスタF', A' */
+  uint8_t f, a;     /* フラグ, アキュムレータ */
+  uint8_t c, b;     /* 汎用レジスタC, B */
+  uint8_t e, d;     /* 汎用レジスタE, D */
+  uint8_t l, h;     /* 汎用レジスタL, H */
+  uint8_t ixl, ixh; /* インデックスレジスタIXl, IXh */
+  uint8_t iyl, iyh; /* インデックスレジスタIYl, IYh */
+  uint8_t i;        /* インタラプトレジスタI */
+  uint8_t pad1;
+  uint8_t f_d, a_d; /* 補助レジスタF', A' */
 #elif defined(Z80_BIGENDIAN)
-  uint8 a, f;     /* アキュムレータ, フラグ */
-  uint8 b, c;     /* 汎用レジスタB, C */
-  uint8 d, e;     /* 汎用レジスタD, E */
-  uint8 h, l;     /* 汎用レジスタH, L */
-  uint8 ixh, ixl; /* インデックスレジスタIXh, IXl */
-  uint8 iyh, iyl; /* インデックスレジスタIYh, IYl */
-  uint8 pad2;
-  uint8 i;        /* インタラプトレジスタI */
-  uint8 a_d, f_d; /* 補助レジスタA', F' */
+  uint8_t a, f;     /* アキュムレータ, フラグ */
+  uint8_t b, c;     /* 汎用レジスタB, C */
+  uint8_t d, e;     /* 汎用レジスタD, E */
+  uint8_t h, l;     /* 汎用レジスタH, L */
+  uint8_t ixh, ixl; /* インデックスレジスタIXh, IXl */
+  uint8_t iyh, iyl; /* インデックスレジスタIYh, IYl */
+  uint8_t pad2;
+  uint8_t i;        /* インタラプトレジスタI */
+  uint8_t a_d, f_d; /* 補助レジスタA', F' */
 #else
   ERROR: MUST DEFINE Z80_LITTLEENDIAN OR Z80_BIGENDIAN
 #endif
-  uint8 pad3, pad4;
-  uint8 pad5, pad6;
-  uint8 pad7, pad8;
-  uint8 pad9, pad10;
-  uint8 pad11, pad12;
-  uint8 iff;  /* IFF1, IFF2 */
-  uint8 im;   /* 割り込みモード */
-  uint8 halt; /* HALTか? */
-  uint8 pad13;
-  uint8 pad14, pad15;
+  uint8_t pad3, pad4;
+  uint8_t pad5, pad6;
+  uint8_t pad7, pad8;
+  uint8_t pad9, pad10;
+  uint8_t pad11, pad12;
+  uint8_t iff;  /* IFF1, IFF2 */
+  uint8_t im;   /* 割り込みモード */
+  uint8_t halt; /* HALTか? */
+  uint8_t pad13;
+  uint8_t pad14, pad15;
 } Z80regs;
 
 /* 16bitsレジスタ */
 typedef struct {
-  uint8 *m;
+  uint8_t *m;
   uint16 af; /* ペアレジスタAF */
   uint16 bc; /* ペアレジスタBC */
   uint16 de; /* ペアレジスタDE */
@@ -119,7 +119,7 @@ typedef struct {
 typedef struct {
   int count;        /* 実行回数 */
   int cond;         /* 条件成立回数 */
-  uint8 code[4];    /* コード */
+  uint8_t code[4];    /* コード */
   int64 states;     /* 総ステート数 */
   int64 sub_states; /* サブルーチンの総ステート数 */
 } Z80path;
@@ -154,7 +154,7 @@ typedef struct {
 
 /* レジスタ */
 typedef union {
-  uint8 *m;      /* メモリ */
+  uint8_t *m;      /* メモリ */
   Z80regs r;     /* 8bitsレジスタ */
   Z80regs16 r16; /* 16bitsレジスタ */
   Z80info i;     /* オプション・その他の状態 */
@@ -165,17 +165,17 @@ void z80srand(uint32);
 int z80reset(Z80stat *);
 int z80nmi(Z80stat *);
 int z80int0chk(const Z80stat *);
-int z80int0(Z80stat *, uint8);
+int z80int0(Z80stat *, uint8_t);
 int z80int1chk(const Z80stat *);
 int z80int1(Z80stat *);
 int z80int2chk(const Z80stat *);
-int z80int2(Z80stat *, uint8);
+int z80int2(Z80stat *, uint8_t);
 int z80exec(Z80stat *);
 void z80init(Z80stat *);
 
 /* z80disasm.c */
 const char *z80symbol(const Z80symbol *, int, uint16);
-void *z80disasm(char *, uint8 *, int, uint16, const Z80symbol *);
+void *z80disasm(char *, uint8_t *, int, uint16, const Z80symbol *);
 char *z80regs(char *, const Z80stat *);
 
 /* z80prof.c */
@@ -191,8 +191,8 @@ void z80prof_cond(Z80stat *, int);
 
 /* ユーザ定義 */
 #include "z80memory.h"
-int z80inport(Z80stat *, uint8 *, uint16);
-int z80outport(Z80stat *, uint16, uint8);
+int z80inport(Z80stat *, uint8_t *, uint16);
+int z80outport(Z80stat *, uint16, uint8_t);
 int z80subroutine(Z80stat *, uint16);
 #if defined(Z80_TRACE)
 int z80bank(const Z80stat *, uint16);

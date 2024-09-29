@@ -1,5 +1,5 @@
 EXE = g800
-CC = gcc
+CC = clang
 OBJS = g800.o z80.o z80disasm.o z80prof.o SDL_hex.o conf.o io.o iocs.o sio.o sound.o util.o menu.o monitor.o basic.o init.o depend.o sdlxpm.o
 
 # SDL2.0

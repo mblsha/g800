@@ -29,7 +29,7 @@
 #define MAX_ZOOM 3              /* ステータス表示部の拡大の最大値 */
 #define MAX_SCALE (360 / 8 + 1) /* 階調の最大値 */
 #define SCREEN(x, y)                                                           \
-  ((Uint8 *)screen->pixels + (y) * screen->pitch +                             \
+  ((uint8_t *)screen->pixels + (y) * screen->pitch +                             \
    screen->format->BytesPerPixel * (x)) /* ピクセルのアドレス */
 #define VRAM_OFF(col, row, top)                                                \
   (((row + (top) / 8) % 8) * vramWidth +                                       \
@@ -72,7 +72,7 @@ static Bitmap *bmpKeytopE220[] = {bmpKeytopE220_1, bmpKeytopE220_2,
                                   bmpKeytopE220_3};
 
 /* キーの背景色 */
-static uint8 keyBackColor[] = {
+static uint8_t keyBackColor[] = {
     COLOR_GRAY,   COLOR_GRAY, /* OFF */
     COLOR_GRAY,               /* Q */
     COLOR_GRAY,               /* W */
@@ -157,7 +157,7 @@ static uint8 keyBackColor[] = {
 };
 
 /* キーの前景色 */
-static uint8 keyForeColor[] = {
+static uint8_t keyForeColor[] = {
     COLOR_LIGHTGRAY,   COLOR_LIGHTGRAY, /* OFF */
     COLOR_LIGHTGRAY,                    /* Q */
     COLOR_LIGHTGRAY,                    /* W */
@@ -242,7 +242,7 @@ static uint8 keyForeColor[] = {
 };
 
 /* キーの前景色(PC-G815) */
-const static uint8 keyForeColorG815[] = {};
+const static uint8_t keyForeColorG815[] = {};
 
 /* PCの情報・設定 */
 #if SDL_MAJOR_VERSION == 1
@@ -256,7 +256,7 @@ static SDL_Rect rectLCD;                        /* LCD全体の範囲 */
 static SDL_Rect rectLCDmain;                    /* LCDメイン部の範囲 */
 static SDL_Rect rectLCDstatus[STATUS_LAST + 1]; /* LCDのステータス部の範囲 */
 static int statusRow[STATUS_LAST + 1];          /* ステータスのVRAM上の列 */
-static uint8 statusMask[STATUS_LAST + 1]; /* ステータスのVRAM上のbit位置 */
+static uint8_t statusMask[STATUS_LAST + 1]; /* ステータスのVRAM上のbit位置 */
 static int zoomedBpp;                     /* 拡大後の1pixelのbit数 */
 static int zoomedPitch;                   /* 拡大後のLCDメイン部の幅のbyte数 */
 static SDL_Color colorTable[256];         /* 色テーブル */
@@ -267,25 +267,25 @@ static Uint32 pixelTable[256];            /* pixelテーブル */
 static SDL_Window *window; /* Window */
 #endif
 static SDL_Surface *screen;      /* Windowのsurface */
-static Uint8 *pixmapBack = NULL; /* LCDの背景のpixmap */
-static Uint8 *pixmapDotOff;      /* LCDのドットのpixmap (OFF) */
-static Uint8 *pixmapDotOn;       /* LCDのドットのpixmap (ON) */
-static Uint8
+static uint8_t *pixmapBack = NULL; /* LCDの背景のpixmap */
+static uint8_t *pixmapDotOff;      /* LCDのドットのpixmap (OFF) */
+static uint8_t *pixmapDotOn;       /* LCDのドットのpixmap (ON) */
+static uint8_t
     *pixmapStatusOff[STATUS_LAST + 1]; /* LCDのステータスのpixmap (OFF) */
-static Uint8
+static uint8_t
     *pixmapStatusOn[STATUS_LAST + 1];    /* LCDのステータスのpixmap (ON) */
-static Uint8 *pixmapDotTable[MAX_SCALE]; /* LCDのドットのpixmap (各階調) */
-static Uint8 *pixmapStatusTable[MAX_SCALE][STATUS_LAST + 1]; /* LCDのステータスのpixmap
+static uint8_t *pixmapDotTable[MAX_SCALE]; /* LCDのドットのpixmap (各階調) */
+static uint8_t *pixmapStatusTable[MAX_SCALE][STATUS_LAST + 1]; /* LCDのステータスのpixmap
                                                                 (各階調) */
-static Uint8 *pixmapButton; /* ボタンのpixmap */
+static uint8_t *pixmapButton; /* ボタンのpixmap */
 
 /* VRAM */
-static uint8 oldVram[166 * 9]; /* 1フレーム前のVRAM */
-static uint8 oldLcdTop;        /* 1フレーム前のVRAMの表示位置 */
+static uint8_t oldVram[166 * 9]; /* 1フレーム前のVRAM */
+static uint8_t oldLcdTop;        /* 1フレーム前のVRAMの表示位置 */
 
 /* キー */
 static SDL_Rect rectKey[GKEY_DOUBLE]; /* ソフトウェアキーの範囲 */
-static uint8 autoKey;                 /* 自動キー入力中のキーコード */
+static uint8_t autoKey;                 /* 自動キー入力中のキーコード */
 static int autoKeyCount = 0;          /* 自動キー入力カウンタ */
 
 #if SDL_MAJOR_VERSION == 2
@@ -418,7 +418,7 @@ int writeHexAbs(const char *path, const void *mem, int off, int size) {
         ファイルをコピーする
 */
 int copyFile(const char *src, const char *dst) {
-  uint8 buf[0x8000];
+  uint8_t buf[0x8000];
   int size;
 
   if ((size = readBin(src, buf, sizeof(buf))) < 0)
@@ -451,7 +451,7 @@ int removeFile(const char *path) {
         ファイルを比較する
 */
 int cmpFile(const char *path1, const char *path2) {
-  uint8 buf1[0x8000], buf2[0x8000];
+  uint8_t buf1[0x8000], buf2[0x8000];
   int size;
 
   if ((size = readBin(path1, buf1, sizeof(buf1))) < 0)
@@ -474,8 +474,8 @@ static inline int getScaleMax(void) {
 /*
         メインLCDに点を描く (下請け)
 */
-static inline void putDot(Uint8 *dst, const void *pix) {
-  Uint8 *p = dst;
+static inline void putDot(uint8_t *dst, const void *pix) {
+  uint8_t *p = dst;
 
   for (p = dst; p != dst + zoomedPitch; p += screen->pitch)
     memcpy(p, pix, zoomedBpp);
@@ -484,9 +484,9 @@ static inline void putDot(Uint8 *dst, const void *pix) {
 /*
         Pixmapを描く (下請け)
 */
-static inline void putPixmap(Uint8 *dst, const Uint8 *pix, int w, int h) {
-  Uint8 *p;
-  const Uint8 *q;
+static inline void putPixmap(uint8_t *dst, const uint8_t *pix, int w, int h) {
+  uint8_t *p;
+  const uint8_t *q;
 
   for (p = dst, q = pix; p != dst + screen->pitch * h;
        p += screen->pitch, q += w * screen->format->BytesPerPixel)
@@ -498,7 +498,7 @@ static inline void putPixmap(Uint8 *dst, const Uint8 *pix, int w, int h) {
 */
 static inline void updateStatus(SDL_Rect **rect, int status, int chk) {
   int row = statusRow[status], shift = lcdTop % 8;
-  uint8 mask = statusMask[status], pat, *old_pat;
+  uint8_t mask = statusMask[status], pat, *old_pat;
   SDL_Rect *r;
 
   /* VRAMのアドレスを得る */
@@ -529,8 +529,8 @@ static inline void updateStatus(SDL_Rect **rect, int status, int chk) {
 */
 static inline void updateCell(SDL_Rect **rect, int col, int row, int chk) {
   int begin, d, end;
-  uint8 *p_vram, *p_oldvram, pat, changed, mask;
-  Uint8 *p_screen, *p_screen0, *p_screen00;
+  uint8_t *p_vram, *p_oldvram, pat, changed, mask;
+  uint8_t *p_screen, *p_screen0, *p_screen00;
 
   /* 仮想VRAMのアドレスを得る */
   p_vram = VRAM(col, row, lcdTop);
@@ -640,14 +640,14 @@ static int updateLCD1(void) {
 */
 static int updateLCD2(void) {
   static struct {
-    uint8 oldpat[(144 + 1) * 8];
+    uint8_t oldpat[(144 + 1) * 8];
   } page[MAX_SCALE], *p_page = NULL;
   static int lcd_scale[48 * (144 + 1)];
   static SDL_Rect rect[144 * 8] = {{0, 0, 0, 0}};
   SDL_Rect *p_rect = &rect[1];
   int x, x0, y, status, shift, *p_scale;
-  Uint8 *p_screen00, *p_screen0, *p_screen, *p;
-  uint8 pat, bit, *p_vram0, *p_vram1, *p_oldpat;
+  uint8_t *p_screen00, *p_screen0, *p_screen, *p;
+  uint8_t pat, bit, *p_vram0, *p_vram1, *p_oldpat;
 
   /* ↓このようにしないと最適化したとき正常に動作しない (gcc4.8.1 win32) */
   if (p_page == NULL)
@@ -802,7 +802,7 @@ int updateLCD(void) {
         LCDをクリアする (updateLCDContrastの下請け)
 */
 static void clearLCD(void) {
-  Uint8 *p;
+  uint8_t *p;
 
   /* Surfaceをクリアする */
   if (SDL_MUSTLOCK(screen))
@@ -830,8 +830,8 @@ static void clearLCD(void) {
 /*
         塗りつぶしたPixmapを作成する (updateLCDContrastの下請け)
 */
-static Uint8 *fillPixmap(Uint8 *pixmap, const void *pix, int size) {
-  Uint8 *p;
+static uint8_t *fillPixmap(uint8_t *pixmap, const void *pix, int size) {
+  uint8_t *p;
 
   for (p = pixmap; p < pixmap + size; p += screen->format->BytesPerPixel)
     memcpy(p, pix, screen->format->BytesPerPixel);
@@ -841,11 +841,11 @@ static Uint8 *fillPixmap(Uint8 *pixmap, const void *pix, int size) {
 /*
         BitmapをPixmapに変換する (updateLCDContrastの下請け)
 */
-static Uint8 *makePixmap(Uint8 *pixmap, SDL_Rect rect, Bitmap bitmap,
+static uint8_t *makePixmap(uint8_t *pixmap, SDL_Rect rect, Bitmap bitmap,
                          const void *pix0, const void *pix1) {
   int i, x, y;
-  uint8 mask, *r = bitmap.image;
-  Uint8 *p, *q;
+  uint8_t mask, *r = bitmap.image;
+  uint8_t *p, *q;
 
   if (rect.w <= 0)
     return NULL;
@@ -1002,7 +1002,7 @@ void updateLCDContrast(void) {
   /* Pixelを作る */
   if (screen->format->BytesPerPixel == 1) {
     for (i = 0; i < 256; i++)
-      *(Uint8 *)&pixelTable[i] = i;
+      *(uint8_t *)&pixelTable[i] = i;
 #if SDL_MAJOR_VERSION == 2
     SDL_SetPaletteColors(screen->format->palette, colorTable, 0,
                          COLOR_LCD_START + max + 2);
@@ -1180,7 +1180,7 @@ void updateLayout(void) {
 /*
         キーを押す(updateKeyの下請け)
 */
-static inline uint8 pressKey(uint8 k) {
+static inline uint8_t pressKey(uint8_t k) {
   switch (k) {
   case GKEY_NONE:
     return 0;
@@ -1239,7 +1239,7 @@ static inline uint8 pressKey(uint8 k) {
 /*
         キーを離す(updateKeyの下請け)
 */
-static inline void releaseKey(uint8 k) {
+static inline void releaseKey(uint8_t k) {
   switch (k) {
   case GKEY_NONE:
     break;
@@ -1304,9 +1304,9 @@ static inline void releaseKey(uint8 k) {
 /*
         キー状態を更新する
 */
-uint8 updateKey(void) {
+uint8_t updateKey(void) {
   static uint16 pressedKey[KEY_LAST + 1];
-  static uint8 pressedSwKey = GKEY_NONE;
+  static uint8_t pressedSwKey = GKEY_NONE;
   SDL_Event e;
   const SDL_Rect *rect_key;
 #if SDL_MAJOR_VERSION == 2
@@ -1316,7 +1316,7 @@ uint8 updateKey(void) {
 #endif
   int key;
   uint16 gkey;
-  uint8 itype = 0;
+  uint8_t itype = 0;
 
   /* イベント処理 */
   while (SDL_PollEvent(&e)) {
@@ -1357,7 +1357,7 @@ uint8 updateKey(void) {
         break;
         /* クリップボードへのコピーか? */
       } else if (gkey == GKEY_COPY) {
-        uint8 ans[32];
+        uint8_t ans[32];
         if (decodeNum(ans, &memory[0x79a0]) >= 0) {
           char utf8[32];
           SDL_SetClipboardText(ankToUtf8(ans, utf8));
@@ -1470,7 +1470,7 @@ uint8 updateKey(void) {
               e.button.x < rect_key->x + rect_key->w &&
               rect_key->y <= e.button.y &&
               e.button.y < rect_key->y + rect_key->h) {
-            pressedSwKey = (uint8)(rect_key - rectKey);
+            pressedSwKey = (uint8_t)(rect_key - rectKey);
             itype |= pressKey(pressedSwKey);
           }
       } else if (e.button.button == SDL_BUTTON_MIDDLE) {
@@ -1615,7 +1615,7 @@ void updateSerial(void) {
 /*
         音を出力する (コールバック関数)
 */
-static SDLCALL void playSound(void *unused, Uint8 *stream, int len) {
+static SDLCALL void playSound(void *unused, uint8_t *stream, int len) {
 #if SDL_MAJOR_VERSION == 2
   memset(stream, audio.silence, len);
 #endif
@@ -1637,7 +1637,7 @@ void quitDepend(void) {
 */
 int initDepend(void) {
   SDL_Surface *icon;
-  Uint8 mask[32 * 32 / 8];
+  uint8_t mask[32 * 32 / 8];
   int i;
 
   if (z80.i.trace)

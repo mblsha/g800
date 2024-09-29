@@ -291,7 +291,7 @@
 #define DAA()                                                                  \
   {                                                                            \
     uint32 _acc;                                                               \
-    uint8 x, c;                                                                \
+    uint8_t x, c;                                                                \
     daa_result(&x, &c, A, F);                                                  \
     _acc = (uint32)A + x;                                                      \
     F = c | N | SET_P(_acc) | SET_HC8(A, x) | SET_Z8(_acc) | SET_S8(_acc);     \
@@ -410,7 +410,7 @@
 
 #define IND()                                                                  \
   {                                                                            \
-    uint8 tmp;                                                                 \
+    uint8_t tmp;                                                                 \
     _state += z80inport(z, &tmp, C);                                           \
     STORE8(HL, tmp);                                                           \
     B--;                                                                       \
@@ -422,7 +422,7 @@
 
 #define INDR()                                                                 \
   while (B) {                                                                  \
-    uint8 tmp;                                                                 \
+    uint8_t tmp;                                                                 \
     _state += z80inport(z, &tmp, C);                                           \
     STORE8(HL, tmp);                                                           \
     B--;                                                                       \
@@ -436,7 +436,7 @@
 
 #define INI()                                                                  \
   {                                                                            \
-    uint8 tmp;                                                                 \
+    uint8_t tmp;                                                                 \
     _state += z80inport(z, &tmp, C);                                           \
     STORE8(HL, tmp);                                                           \
     B--;                                                                       \
@@ -448,7 +448,7 @@
 
 #define INIR()                                                                 \
   while (B) {                                                                  \
-    uint8 tmp;                                                                 \
+    uint8_t tmp;                                                                 \
     _state += z80inport(z, &tmp, C);                                           \
     STORE8(HL, tmp);                                                           \
     B--;                                                                       \
@@ -1206,7 +1206,7 @@ const static uint16 len_ed_xx[256] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
 /* パリティ */
-const static uint8 parity[256] = {
+const static uint8_t parity[256] = {
     MASK_PV, 0,       0,       MASK_PV, 0,       MASK_PV, MASK_PV, 0,
     0,       MASK_PV, MASK_PV, 0,       MASK_PV, 0,       0,       MASK_PV,
     0,       MASK_PV, MASK_PV, 0,       MASK_PV, 0,       0,       MASK_PV,
@@ -1246,7 +1246,7 @@ static uint32 rnd = 0xffffffff;
 /*
         DAA実行時にAレジスタに加算される値とCYフラグ
 */
-static inline void daa_result(uint8 *x, uint8 *c, uint8 a, uint8 f) {
+static inline void daa_result(uint8_t *x, uint8_t *c, uint8_t a, uint8_t f) {
   switch (f & (MASK_CY | MASK_N | MASK_HC)) {
   case 0:
     if (a < 0x9a) {
@@ -1356,7 +1356,7 @@ int z80int0chk(const Z80stat *z) { return z->r.im == 0 && z->r.iff == 3; }
 /*
         INT信号を送る (IM 0)
 */
-int z80int0(Z80stat *z, uint8 op) {
+int z80int0(Z80stat *z, uint8_t op) {
   int _state = 0;
   uint16 _length = 0;
 
@@ -1423,7 +1423,7 @@ int z80int2chk(const Z80stat *z) { return z->r.im == 2 && z->r.iff == 3; }
 /*
         INT信号を送る (IM 2)
 */
-int z80int2(Z80stat *z, uint8 vector) {
+int z80int2(Z80stat *z, uint8_t vector) {
   int _state = 0;
   uint16 _length = 0;
 
@@ -1442,7 +1442,7 @@ int z80int2(Z80stat *z, uint8 vector) {
 int z80exec(Z80stat *z) {
   int _state;
   uint16 _length;
-  uint8 op;
+  uint8_t op;
 
   z->i.total_states += z->i.states;
   if (z->i.total_states < 0)

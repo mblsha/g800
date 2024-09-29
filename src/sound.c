@@ -58,7 +58,7 @@ void writeSound(int xout) {
 */
 void flipSoundBuffer(void) {
 #if 0
-	uint8 *p;
+	uint8_t *p;
 #endif
 
   if (buzzer == BUZZER_SYNC)

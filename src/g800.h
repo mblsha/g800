@@ -753,7 +753,7 @@ typedef struct {
 typedef struct {
   int width;
   int height;
-  uint8 *image;
+  uint8_t *image;
 } Bitmap;
 
 /* マシン情報 */
@@ -771,7 +771,7 @@ typedef struct {
   int vram_cols;
   int vram_rows;
   int status_row[STATUS_LAST + 1];
-  uint8 status_mask[STATUS_LAST + 1];
+  uint8_t status_mask[STATUS_LAST + 1];
   Rect pos_lcd;
   Rect pos_lcd_main;
   Rect pos_lcd_status[STATUS_LAST + 1];
@@ -1245,31 +1245,31 @@ EXTERN int romBank;           /* 現在のROMバンク番号 */
 EXTERN int exBanks;           /* EXROMバンク数 */
 EXTERN int exBank;            /* 現在のEXROMバンク番号 */
 EXTERN int ramBank;           /* 現在のRAMバンク番号 */
-EXTERN uint8 ioReset;         /* 周辺機器用リセット信号 */
-EXTERN uint8 onCd;            /* CD信号によるON制御(PC-G850) */
-EXTERN uint8 m1Wait;          /* M1信号後wait制御(PC-G850) */
-EXTERN uint8 ioWait;          /* I/O wait(PC-G850) */
-EXTERN uint8 csClk;           /* 高速・低速モード(PC-G850) */
-EXTERN uint8 memory[0x10001]; /* メモリ */
-EXTERN uint8 *exram;          /* EXRAM */
-EXTERN uint8 *rom;            /* ROM */
-EXTERN uint8 *exrom;          /* EXROM */
+EXTERN uint8_t ioReset;         /* 周辺機器用リセット信号 */
+EXTERN uint8_t onCd;            /* CD信号によるON制御(PC-G850) */
+EXTERN uint8_t m1Wait;          /* M1信号後wait制御(PC-G850) */
+EXTERN uint8_t ioWait;          /* I/O wait(PC-G850) */
+EXTERN uint8_t csClk;           /* 高速・低速モード(PC-G850) */
+EXTERN uint8_t memory[0x10001]; /* メモリ */
+EXTERN uint8_t *exram;          /* EXRAM */
+EXTERN uint8_t *rom;            /* ROM */
+EXTERN uint8_t *exrom;          /* EXROM */
 
 /* 割り込み */
-EXTERN uint8 interruptType; /* 割り込み要因 */
-EXTERN uint8 interruptMask; /* 割り込みマスク */
+EXTERN uint8_t interruptType; /* 割り込み要因 */
+EXTERN uint8_t interruptMask; /* 割り込みマスク */
 
 /* タイマ */
-EXTERN uint8 timer;       /* タイマ */
+EXTERN uint8_t timer;       /* タイマ */
 EXTERN int timerInterval; /* タイマ周期 */
 EXTERN int timerCount;    /* タイマ用カウンタ */
 
 /* キーボード */
 EXTERN uint16 keyStrobe;     /* キーストローブ */
 EXTERN uint16 keyStrobeLast; /* 最後に設定したキーストローブ */
-EXTERN uint8 keyMatrix[10];  /* キー状態 */
-EXTERN uint8 keyShift;       /* シフトキー状態 */
-EXTERN uint8 keyBreak;       /* ONキー状態 */
+EXTERN uint8_t keyMatrix[10];  /* キー状態 */
+EXTERN uint8_t keyShift;       /* シフトキー状態 */
+EXTERN uint8_t keyBreak;       /* ONキー状態 */
 EXTERN int keyReset;         /* リセットボタン状態 */
 EXTERN int
     statesKeyStrobeLast; /* キーストローブを設定したときの累積ステート数 */
@@ -1281,47 +1281,47 @@ EXTERN uint16 keyConvShift[KEY_LAST + 1]; /* キー変換テーブル */
 
 /* LCD */
 EXTERN int lcdRead;
-EXTERN uint8 lcdX;           /* 横アドレス */
-EXTERN uint8 lcdY;           /* 縦アドレス */
-EXTERN uint8 lcdX2;          /* 横アドレス2 (PC-G815) */
-EXTERN uint8 lcdY2;          /* 縦アドレス2 (PC-G815) */
-EXTERN uint8 lcdBegin;       /* 表示開始アドレス(PC-E200/PC-G815) */
-EXTERN uint8 lcdDisabled;    /* LCD OFF(PC-G850) */
-EXTERN uint8 lcdTop;         /* 表示開始位置(PC-G850) */
-EXTERN uint8 lcdContrast;    /* コントラスト(PC-G850) */
+EXTERN uint8_t lcdX;           /* 横アドレス */
+EXTERN uint8_t lcdY;           /* 縦アドレス */
+EXTERN uint8_t lcdX2;          /* 横アドレス2 (PC-G815) */
+EXTERN uint8_t lcdY2;          /* 縦アドレス2 (PC-G815) */
+EXTERN uint8_t lcdBegin;       /* 表示開始アドレス(PC-E200/PC-G815) */
+EXTERN uint8_t lcdDisabled;    /* LCD OFF(PC-G850) */
+EXTERN uint8_t lcdTop;         /* 表示開始位置(PC-G850) */
+EXTERN uint8_t lcdContrast;    /* コントラスト(PC-G850) */
 EXTERN int lcdEffectMirror;  /* ミラーモード(PC-G850) */
 EXTERN int lcdEffectBlack;   /* 黒塗りつぶし(PC-G850) */
 EXTERN int lcdEffectReverse; /* 反転(PC-G850) */
 EXTERN int lcdEffectDark;    /* LCD電圧増加(PC-G850) */
 EXTERN int lcdEffectWhite;   /* 白塗りつぶし(PC-G850) */
 EXTERN int lcdMod;
-EXTERN uint8 lcdTrim;       /* トリム(PC-G850) */
-EXTERN uint8 vram[166 * 9]; /* VRAM */
+EXTERN uint8_t lcdTrim;       /* トリム(PC-G850) */
+EXTERN uint8_t vram[166 * 9]; /* VRAM */
 
 /* 11pin I/F */
-EXTERN uint8 pin11If;    /* 11pinI/Fの動作 */
+EXTERN uint8_t pin11If;    /* 11pinI/Fの動作 */
 #define PIN11IF_3IO 0    /* 3in 3out I/F */
 #define PIN11IF_8PIO 1   /* 8bits PIO    */
 #define PIN11IF_UART 2   /* 全2重通信    */
-EXTERN uint8 pin11In;    /* 11pin入力状態 */
-EXTERN uint8 xinEnabled; /* Xin可否 */
-EXTERN uint8 io3Out;     /* Xout状態 */
-EXTERN uint8 pio8Io;     /* PIO入出力方向 */
-EXTERN uint8 pio8Out;    /* PIOデータレジスタ(出力) */
-EXTERN uint8 uartIo;
+EXTERN uint8_t pin11In;    /* 11pin入力状態 */
+EXTERN uint8_t xinEnabled; /* Xin可否 */
+EXTERN uint8_t io3Out;     /* Xout状態 */
+EXTERN uint8_t pio8Io;     /* PIO入出力方向 */
+EXTERN uint8_t pio8Out;    /* PIOデータレジスタ(出力) */
+EXTERN uint8_t uartIo;
 #define UARTIO_UASEL 0x01
 #define UARTIO_SIOOUT 0x02
 #define UARTIO_IROUT 0x04
 #define UARTIO_IRST 0x80
-EXTERN uint8 uartMode;
+EXTERN uint8_t uartMode;
 #define UARTMODE_BAUD 0x07
 #define UARTMODE_INT 0xc0
-EXTERN uint8 uartCommand;
+EXTERN uint8_t uartCommand;
 #define UARTCOMMAND_TXEN 0x10
 #define UARTCOMMAND_RXEN 0x20
 #define UARTCOMMAND_ERLL 0x40
 #define UARTCOMMAND_SRST 0x80
-EXTERN uint8 uartStatus;
+EXTERN uint8_t uartStatus;
 #define UARTSTATUS_TXEMP 0x04
 #define UARTSTATUS_TXRDY 0x08
 #define UARTSTATUS_RXRDY 0x10
@@ -1347,8 +1347,8 @@ EXTERN int buzzer;               /* ブザーモード */
 #define BUZZER_USE 1             /* 音あり */
 #define BUZZER_SYNC 2            /* 同期をとる */
 EXTERN int soundBufferSize;      /* サウンドバッファのサイズ */
-EXTERN uint8 *soundReadBuffer;   /* サウンド読み込みバッファ */
-EXTERN uint8 *soundWriteBuffer;  /* サウンド書き込みバッファ */
+EXTERN uint8_t *soundReadBuffer;   /* サウンド読み込みバッファ */
+EXTERN uint8_t *soundWriteBuffer;  /* サウンド書き込みバッファ */
 EXTERN volatile int soundPlayed; /* サウンドを出力したか? */
 
 /* バッテリー */
@@ -1390,11 +1390,11 @@ EXTERN int vramWidth;               /* VRAMの幅 */
 EXTERN int vramHeight;              /* VRAMの高さ */
 EXTERN int closeAsOff;              /* 「閉じる」をOFFキーとして扱うか? */
 EXTERN int useJoy;                  /* ジョイスティックを使うか? */
-EXTERN uint8 joyUp;    /* ジョイスディックの上に割り当てられたキー */
-EXTERN uint8 joyDown;  /* ジョイスティックの下に割り当てられたキー */
-EXTERN uint8 joyLeft;  /* ジョイスティックの左に割り当てられたキー */
-EXTERN uint8 joyRight; /* ジョイスティックの右に割り当てられたキー */
-EXTERN uint8
+EXTERN uint8_t joyUp;    /* ジョイスディックの上に割り当てられたキー */
+EXTERN uint8_t joyDown;  /* ジョイスティックの下に割り当てられたキー */
+EXTERN uint8_t joyLeft;  /* ジョイスティックの左に割り当てられたキー */
+EXTERN uint8_t joyRight; /* ジョイスティックの右に割り当てられたキー */
+EXTERN uint8_t
     joyButton[JOY_BUTTONS]; /* ジョイスティックのボタンに割り当てられたキー */
 EXTERN int useSoftwareKey;  /* ソフトウェアキーを使うか? */
 EXTERN int serialTest;      /* シリアルポートのテストを行うか? */
@@ -1417,51 +1417,51 @@ int cmpFile(const char *, const char *);
 int updateLCD(void);
 void updateLCDContrast(void);
 void updateLayout(void);
-uint8 updateKey(void);
+uint8_t updateKey(void);
 int delay(int);
 void updateSerial(void);
 int initDepend(void);
 void quitDepend(void);
 
 /* io.c */
-uint8 pin11out(void);
+uint8_t pin11out(void);
 
 /* iocs.c */
 void poweroff(void);
-void putpat(uint8, uint8, const uint8 *, uint8);
+void putpat(uint8_t, uint8_t, const uint8_t *, uint8_t);
 void scrup(void);
-void scrdown(uint8, uint8);
+void scrdown(uint8_t, uint8_t);
 void clrall(void);
-void putchr(uint8, uint8, uint8);
-int nextRow(uint8 *, uint8 *);
-int nextCol(uint8 *, uint8 *);
-void prevCol(uint8 *, uint8 *);
-int putchrNext(uint8 *, uint8 *, uint8);
-int putstr(uint8, uint8, void *, ...);
-void glocate(uint8, uint8);
+void putchr(uint8_t, uint8_t, uint8_t);
+int nextRow(uint8_t *, uint8_t *);
+int nextCol(uint8_t *, uint8_t *);
+void prevCol(uint8_t *, uint8_t *);
+int putchrNext(uint8_t *, uint8_t *, uint8_t);
+int putstr(uint8_t, uint8_t, void *, ...);
+void glocate(uint8_t, uint8_t);
 void gcls(void);
-int moveCursor(uint8);
-int gputchr(uint8);
+int moveCursor(uint8_t);
+int gputchr(uint8_t);
 void gprintf(const char *, ...);
-uint8 point(int16, int16);
-void pset(int16, int16, uint8);
+uint8_t point(int16, int16);
+void pset(int16, int16, uint8_t);
 void putstatus(int, int);
-void line(int16, int16, int16, int16, uint8, uint16);
-void box(int16, int16, int16, int16, uint8, uint16);
-void boxfill(int16, int16, int16, int16, uint8, uint16);
-uint8 peekKeycode(void);
-uint8 getKeycode(void);
-uint8 keycode2ascii(uint8, int);
-int setMode(uint8);
-uint8 getChrcode(int);
+void line(int16, int16, int16, int16, uint8_t, uint16);
+void box(int16, int16, int16, int16, uint8_t, uint16);
+void boxfill(int16, int16, int16, int16, uint8_t, uint16);
+uint8_t peekKeycode(void);
+uint8_t getKeycode(void);
+uint8_t keycode2ascii(uint8_t, int);
+int setMode(uint8_t);
+uint8_t getChrcode(int);
 void waitRelease(void);
-uint8 ggetchr(void);
-uint8 ggetline(uint8 *, const uint8 *, int, ...);
+uint8_t ggetchr(void);
+uint8_t ggetline(uint8_t *, const uint8_t *, int, ...);
 
 /* sio.c */
-uint8 sioRead(uint8);
+uint8_t sioRead(uint8_t);
 int sioLoad(const char *);
-uint8 sioWrite(uint8);
+uint8_t sioWrite(uint8_t);
 int sioSave(const char *);
 
 /* sound.c */
@@ -1476,8 +1476,8 @@ int loadProg(uint16 *, const char *);
 int monitor(void);
 
 /* basic.c */
-int decodeNum(uint8 *, const uint8 *);
-int getKeywordFromCode(uint8 *, int);
+int decodeNum(uint8_t *, const uint8_t *);
+int getKeywordFromCode(uint8_t *, int);
 int inportBas(const char *);
 int exportBas(const char *);
 int basRun(struct Basic *);
@@ -1486,7 +1486,7 @@ int initBasic(struct Basic *);
 
 /* menu.c */
 int isG800File(const char *);
-uint8 selectFile(char *);
+uint8_t selectFile(char *);
 int inputFile(char *);
 void pushVram(void);
 void popVram(void);
@@ -1494,10 +1494,10 @@ void popup(const char *, const char *, ...);
 int menu(void);
 
 /* util.c */
-uint8 getAutoKey(void);
+uint8_t getAutoKey(void);
 void setAutoKeyText(const char *, int);
-void setAutoKey(uint8);
-char *ankToUtf8(const uint8 *, char *);
+void setAutoKey(uint8_t);
+char *ankToUtf8(const uint8_t *, char *);
 int loadSym(const char *);
 int writeProfFile(const char *);
 int writePathFile(const char *);

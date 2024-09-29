@@ -24,7 +24,7 @@
 #define CODE_SUB 0x101  /* - */
 #define CODE_MUL 0x102  /* * */
 #define CODE_DIV 0x103  /* / */
-#define CODE_IDIV 0x104 /* ¥ */
+#define CODE_IDIV 0x104 /* \ */
 #define CODE_POW 0x105  /* ^ */
 #define CODE_EQ 0x106   /* = */
 #define CODE_NE 0x107   /* <> */
@@ -184,7 +184,7 @@
 #define LINE_SIZE(p) ((p)[2] + 3)
 
 /* 型 */
-typedef unsigned char uint8;
+typedef unsigned char uint8_t;
 typedef short int16;
 typedef unsigned short uint16;
 typedef int int32;
@@ -195,17 +195,17 @@ struct Element {
   int priority; /* 優先度 */
   int ele_type; /* 要素の種別 */
   union {
-    uint8 num[SIZEOF_NUM]; /* リテラル(数値) */
-    const uint8 *str;      /* リテラル(文字列) */
+    uint8_t num[SIZEOF_NUM]; /* リテラル(数値) */
+    const uint8_t *str;      /* リテラル(文字列) */
     int ope;               /* 演算子・関数 */
-    uint8 *var;            /* 変数 */
+    uint8_t *var;            /* 変数 */
   } x;
 };
 
 /* 予約語表 */
 struct KeywordTable {
-  const uint8 *name;
-  uint8 code;
+  const uint8_t *name;
+  uint8_t code;
   int level;
 };
 
@@ -221,201 +221,201 @@ struct Operator {
 
 /* ステートメント表 */
 struct Statement {
-  int (*sta)(struct Basic *, const uint8 **);
+  int (*sta)(struct Basic *, const uint8_t **);
   int mode;
 };
 
 extern struct Statement staTable[];
 
 /* キーロック */
-/*static uint8 *keylock = &memory[0x7901];*/
+/*static uint8_t *keylock = &memory[0x7901];*/
 /* モード */
-static uint8 *mode = &memory[0x7902];
+static uint8_t *mode = &memory[0x7902];
 /* 角度 */
-static uint8 *angle = &memory[0x7903];
+static uint8_t *angle = &memory[0x7903];
 /* 状態 */
-/*static uint8 *status = &memory[0x7904];*/
+/*static uint8_t *status = &memory[0x7904];*/
 /* 次に表示する文字の位置 */
-static uint8 *curCol = &memory[0x7920], *curRow = &memory[0x7921];
+static uint8_t *curCol = &memory[0x7920], *curRow = &memory[0x7921];
 /* 最後に表示した文字の位置 */
-/*static uint8 *lastCol = &memory[0x7922], *lastRow = &memory[0x7923];*/
+/*static uint8_t *lastCol = &memory[0x7922], *lastRow = &memory[0x7923];*/
 /* 改行しないか? */
-static uint8 *noWrap = &memory[0x797d];
+static uint8_t *noWrap = &memory[0x797d];
 /* 計算結果 */
-static uint8 *answer = &memory[0x79a0];
+static uint8_t *answer = &memory[0x79a0];
 /* PRINT時にRETURNキー入力を待つか? */
-static uint8 *pauseWhenPrint =
+static uint8_t *pauseWhenPrint =
     &memory[0x79d8]; /* 4bit目OFF:ポーズなし, ON:あり */
 /* WAIT時間 */
-static uint8 *waitTimeL = &memory[0x79e5], *waitTimeH = &memory[0x79e6];
+static uint8_t *waitTimeL = &memory[0x79e5], *waitTimeH = &memory[0x79e6];
 /* 整数部桁数 */
-/*static uint8 *intPart = &memory[0x79f9];*/
+/*static uint8_t *intPart = &memory[0x79f9];*/
 /* 小数部桁数 */
-/*static uint8 *fraPart = &memory[0x79fa];*/
+/*static uint8_t *fraPart = &memory[0x79fa];*/
 /* フリーエリア */
-const uint8 *freeLow = &memory[0x7ffe], *freeHigh = &memory[0x7fff];
+const uint8_t *freeLow = &memory[0x7ffe], *freeHigh = &memory[0x7fff];
 
 /* 数値 */
-uint8 NUM_0[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_1[] = {0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_2[] = {0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_3[] = {0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_10[] = {0x00, 0x10, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_100[] = {0x00, 0x20, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_60[] = {0x00, 0x10, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_3600[] = {0x00, 0x30, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_360000[] = {0x00, 0x50, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_3600000[] = {0x00, 0x60, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_MINUS1[] = {0x00, 0x08, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_0_5[] = {0x99, 0x90, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00};
-uint8 NUM_PI[] = {0x00, 0x00, 0x31, 0x41, 0x59, 0x26, 0x53, 0x59};
+uint8_t NUM_0[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_1[] = {0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_2[] = {0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_3[] = {0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_10[] = {0x00, 0x10, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_100[] = {0x00, 0x20, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_60[] = {0x00, 0x10, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_3600[] = {0x00, 0x30, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_360000[] = {0x00, 0x50, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_3600000[] = {0x00, 0x60, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_MINUS1[] = {0x00, 0x08, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_0_5[] = {0x99, 0x90, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t NUM_PI[] = {0x00, 0x00, 0x31, 0x41, 0x59, 0x26, 0x53, 0x59};
 
 /* 中間コード表 */
 const struct KeywordTable keywordTable[] = {
-    {(const uint8 *)"ABS", CODE_ABS},
-    {(const uint8 *)"AND", CODE_AND},
-    {(const uint8 *)"ASC", CODE_ASC},
-    {(const uint8 *)"ATN", CODE_ATN},
-    {(const uint8 *)"ASN", CODE_ASN},
-    {(const uint8 *)"ACS", CODE_ACS},
-    {(const uint8 *)"AHS", CODE_AHS},
-    {(const uint8 *)"AHC", CODE_AHC},
-    {(const uint8 *)"AHT", CODE_AHT},
-    {(const uint8 *)"AS", CODE_AS},
-    {(const uint8 *)"APPEND", CODE_APPEND},
-    {(const uint8 *)"AUTO", CODE_AUTO, MACHINE_SUB_PCG850V},
-    {(const uint8 *)"BEEP", CODE_BEEP},
-    {(const uint8 *)"BLOAD", CODE_BLOAD},
-    {(const uint8 *)"CLOAD", CODE_BLOAD},
-    {(const uint8 *)"BSAVE", CODE_BSAVE, MACHINE_SUB_PCG850},
-    {(const uint8 *)"CSAVE", CODE_BSAVE},
-    {(const uint8 *)"CONT", CODE_CONT},
-    {(const uint8 *)"CLEAR", CODE_CLEAR},
-    {(const uint8 *)"COS", CODE_COS},
-    {(const uint8 *)"CUB", CODE_CUB},
-    {(const uint8 *)"CUR", CODE_CUR},
-    {(const uint8 *)"CHR$", CODE_CHR_S},
-    {(const uint8 *)"CLOSE", CODE_CLOSE},
-    {(const uint8 *)"CALL", CODE_CALL},
-    {(const uint8 *)"CLS", CODE_CLS},
-    {(const uint8 *)"CASE", CODE_CASE, MACHINE_SUB_PCG850},
-    {(const uint8 *)"CIRCLE", CODE_CIRCLE, MACHINE_SUB_PCG850},
-    {(const uint8 *)"DIM", CODE_DIM},
-    {(const uint8 *)"DEGREE", CODE_DEGREE},
-    {(const uint8 *)"DEG", CODE_DEG},
-    {(const uint8 *)"DATA", CODE_DATA},
-    {(const uint8 *)"DMS$", CODE_DMS_S, MACHINE_SUB_PCG850S},
-    {(const uint8 *)"DMS", CODE_DMS, MACHINE_SUB_PCG850S},
-    {(const uint8 *)"DELETE", CODE_DELETE, MACHINE_SUB_PCG850},
-    {(const uint8 *)"DEFAULT", CODE_DEFAULT, MACHINE_SUB_PCG850},
-    {(const uint8 *)"ENDIF", CODE_ENDIF, MACHINE_SUB_PCG850},
-    {(const uint8 *)"ENDSWITCH", CODE_ENDSWITCH, MACHINE_SUB_PCG850},
-    {(const uint8 *)"END", CODE_END},
-    {(const uint8 *)"EXP", CODE_EXP},
-    {(const uint8 *)"ELSE", CODE_ELSE, MACHINE_SUB_PCE220},
-    {(const uint8 *)"EOF", CODE_EOF},
-    {(const uint8 *)"ERASE", CODE_ERASE},
-    {(const uint8 *)"FOR", CODE_FOR},
-    {(const uint8 *)"FRE", CODE_FRE},
-    {(const uint8 *)"FACT", CODE_FACT},
-    {(const uint8 *)"FILES", CODE_FILES},
-    {(const uint8 *)"FIX", CODE_FIX},
-    {(const uint8 *)"GOTO", CODE_GOTO},
-    {(const uint8 *)"GOSUB", CODE_GOSUB},
-    {(const uint8 *)"GCURSOR", CODE_GCURSOR},
-    {(const uint8 *)"GPRINT", CODE_GPRINT},
-    {(const uint8 *)"GRAD", CODE_GRAD},
-    {(const uint8 *)"HEX$", CODE_HEX_S},
-    {(const uint8 *)"HSN", CODE_HSN},
-    {(const uint8 *)"HCS", CODE_HCS},
-    {(const uint8 *)"HTN", CODE_HTN},
-    {(const uint8 *)"HDCOPY", CODE_HDCOPY},
-    {(const uint8 *)"INPUT", CODE_INPUT},
-    {(const uint8 *)"IF", CODE_IF},
-    {(const uint8 *)"INT", CODE_INT},
-    {(const uint8 *)"INKEY$", CODE_INKEY_S},
-    {(const uint8 *)"INP", CODE_INP, MACHINE_SUB_PCG811},
-    {(const uint8 *)"KILL", CODE_KILL},
-    {(const uint8 *)"LIST", CODE_LIST},
-    {(const uint8 *)"LINE", CODE_LINE, MACHINE_SUB_PCG815},
-    {(const uint8 *)"LLIST", CODE_LLIST},
-    {(const uint8 *)"LPRINT", CODE_LPRINT},
-    {(const uint8 *)"LOAD", CODE_LOAD},
-    {(const uint8 *)"LOG", CODE_LOG},
-    {(const uint8 *)"LNINPUT", CODE_LNINPUT},
-    {(const uint8 *)"LN", CODE_LN},
-    {(const uint8 *)"LET", CODE_LET},
-    {(const uint8 *)"LEN", CODE_LEN},
-    {(const uint8 *)"LEFT$", CODE_LEFT_S},
-    {(const uint8 *)"LFILES", CODE_LFILES},
-    {(const uint8 *)"LOCATE", CODE_LOCATE},
-    {(const uint8 *)"LOF", CODE_LOF},
-    {(const uint8 *)"LCOPY", CODE_LCOPY},
-    {(const uint8 *)"MDF", CODE_MDF},
-    {(const uint8 *)"MID$", CODE_MID_S},
-    {(const uint8 *)"MON", CODE_MON},
-    {(const uint8 *)"MOD", CODE_MOD},
-    {(const uint8 *)"NEXT", CODE_NEXT},
-    {(const uint8 *)"NEW", CODE_NEW},
-    {(const uint8 *)"NOT", CODE_NOT},
-    {(const uint8 *)"NCR", CODE_NCR},
-    {(const uint8 *)"NPR", CODE_NPR},
-    {(const uint8 *)"ON", CODE_ON},
-    {(const uint8 *)"OPEN", CODE_OPEN},
-    {(const uint8 *)"OR", CODE_OR},
-    {(const uint8 *)"OUTPUT", CODE_OUTPUT},
-    {(const uint8 *)"OUT", CODE_OUT},
-    {(const uint8 *)"PRINT", CODE_PRINT},
-    {(const uint8 *)"PRESET", CODE_PRESET, MACHINE_SUB_PCG815},
-    {(const uint8 *)"PASS", CODE_PASS},
-    {(const uint8 *)"POL", CODE_POL},
-    {(const uint8 *)"PEEK", CODE_PEEK},
-    {(const uint8 *)"POKE", CODE_POKE},
-    {(const uint8 *)"POINT", CODE_POINT, MACHINE_SUB_PCG815},
-    {(const uint8 *)"PSET", CODE_PSET, MACHINE_SUB_PCG815},
-    {(const uint8 *)"PAINT", CODE_PAINT, MACHINE_SUB_PCG850},
-    {(const uint8 *)"PIOSET", CODE_PIOSET, MACHINE_SUB_PCG850},
-    {(const uint8 *)"PIOPUT", CODE_PIOPUT, MACHINE_SUB_PCG850},
-    {(const uint8 *)"PIOGET", CODE_PIOGET, MACHINE_SUB_PCG850},
-    {(const uint8 *)"PI", CODE_PI},
-    {(const uint8 *)"RUN", CODE_RUN},
-    {(const uint8 *)"RETURN", CODE_RETURN},
-    {(const uint8 *)"READ", CODE_READ},
-    {(const uint8 *)"RESTORE", CODE_RESTORE},
-    {(const uint8 *)"RND", CODE_RND},
-    {(const uint8 *)"RANDOMIZE", CODE_RANDOMIZE},
-    {(const uint8 *)"RIGHT$", CODE_RIGHT_S},
-    {(const uint8 *)"RADIAN", CODE_RADIAN},
-    {(const uint8 *)"REM", CODE_REM},
-    {(const uint8 *)"REC", CODE_REC},
-    {(const uint8 *)"RCP", CODE_RCP},
-    {(const uint8 *)"RENUM", CODE_RENUM},
-    {(const uint8 *)"REPEAT", CODE_REPEAT, MACHINE_SUB_PCG850},
-    {(const uint8 *)"STOP", CODE_STOP},
-    {(const uint8 *)"SQR", CODE_SQR},
-    {(const uint8 *)"SIN", CODE_SIN},
-    {(const uint8 *)"SGN", CODE_SGN},
-    {(const uint8 *)"STR$", CODE_STR_S},
-    {(const uint8 *)"STEP", CODE_STEP},
-    {(const uint8 *)"SAVE", CODE_SAVE},
-    {(const uint8 *)"SQU", CODE_SQU},
-    {(const uint8 *)"SWITCH", CODE_SWITCH, MACHINE_SUB_PCG850},
-    {(const uint8 *)"SPOUT", CODE_SPOUT, MACHINE_SUB_PCG850},
-    {(const uint8 *)"SPINP", CODE_SPINP, MACHINE_SUB_PCG850},
-    {(const uint8 *)"THEN", CODE_THEN},
-    {(const uint8 *)"TAN", CODE_TAN},
-    {(const uint8 *)"TRON", CODE_TRON},
-    {(const uint8 *)"TROFF", CODE_TROFF},
-    {(const uint8 *)"TO", CODE_TO},
-    {(const uint8 *)"TEN", CODE_TEN},
-    {(const uint8 *)"USING", CODE_USING},
-    {(const uint8 *)"UNTIL", CODE_UNTIL, MACHINE_SUB_PCG850},
-    {(const uint8 *)"VAL", CODE_VAL},
-    {(const uint8 *)"VDEG", CODE_VDEG, MACHINE_SUB_PCG850S},
-    {(const uint8 *)"WAIT", CODE_WAIT},
-    {(const uint8 *)"WHILE", CODE_WHILE, MACHINE_SUB_PCG850},
-    {(const uint8 *)"WEND", CODE_WEND, MACHINE_SUB_PCG850},
-    {(const uint8 *)"XOR", CODE_XOR},
+    {(const uint8_t *)"ABS", CODE_ABS},
+    {(const uint8_t *)"AND", CODE_AND},
+    {(const uint8_t *)"ASC", CODE_ASC},
+    {(const uint8_t *)"ATN", CODE_ATN},
+    {(const uint8_t *)"ASN", CODE_ASN},
+    {(const uint8_t *)"ACS", CODE_ACS},
+    {(const uint8_t *)"AHS", CODE_AHS},
+    {(const uint8_t *)"AHC", CODE_AHC},
+    {(const uint8_t *)"AHT", CODE_AHT},
+    {(const uint8_t *)"AS", CODE_AS},
+    {(const uint8_t *)"APPEND", CODE_APPEND},
+    {(const uint8_t *)"AUTO", CODE_AUTO, MACHINE_SUB_PCG850V},
+    {(const uint8_t *)"BEEP", CODE_BEEP},
+    {(const uint8_t *)"BLOAD", CODE_BLOAD},
+    {(const uint8_t *)"CLOAD", CODE_BLOAD},
+    {(const uint8_t *)"BSAVE", CODE_BSAVE, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"CSAVE", CODE_BSAVE},
+    {(const uint8_t *)"CONT", CODE_CONT},
+    {(const uint8_t *)"CLEAR", CODE_CLEAR},
+    {(const uint8_t *)"COS", CODE_COS},
+    {(const uint8_t *)"CUB", CODE_CUB},
+    {(const uint8_t *)"CUR", CODE_CUR},
+    {(const uint8_t *)"CHR$", CODE_CHR_S},
+    {(const uint8_t *)"CLOSE", CODE_CLOSE},
+    {(const uint8_t *)"CALL", CODE_CALL},
+    {(const uint8_t *)"CLS", CODE_CLS},
+    {(const uint8_t *)"CASE", CODE_CASE, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"CIRCLE", CODE_CIRCLE, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"DIM", CODE_DIM},
+    {(const uint8_t *)"DEGREE", CODE_DEGREE},
+    {(const uint8_t *)"DEG", CODE_DEG},
+    {(const uint8_t *)"DATA", CODE_DATA},
+    {(const uint8_t *)"DMS$", CODE_DMS_S, MACHINE_SUB_PCG850S},
+    {(const uint8_t *)"DMS", CODE_DMS, MACHINE_SUB_PCG850S},
+    {(const uint8_t *)"DELETE", CODE_DELETE, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"DEFAULT", CODE_DEFAULT, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"ENDIF", CODE_ENDIF, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"ENDSWITCH", CODE_ENDSWITCH, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"END", CODE_END},
+    {(const uint8_t *)"EXP", CODE_EXP},
+    {(const uint8_t *)"ELSE", CODE_ELSE, MACHINE_SUB_PCE220},
+    {(const uint8_t *)"EOF", CODE_EOF},
+    {(const uint8_t *)"ERASE", CODE_ERASE},
+    {(const uint8_t *)"FOR", CODE_FOR},
+    {(const uint8_t *)"FRE", CODE_FRE},
+    {(const uint8_t *)"FACT", CODE_FACT},
+    {(const uint8_t *)"FILES", CODE_FILES},
+    {(const uint8_t *)"FIX", CODE_FIX},
+    {(const uint8_t *)"GOTO", CODE_GOTO},
+    {(const uint8_t *)"GOSUB", CODE_GOSUB},
+    {(const uint8_t *)"GCURSOR", CODE_GCURSOR},
+    {(const uint8_t *)"GPRINT", CODE_GPRINT},
+    {(const uint8_t *)"GRAD", CODE_GRAD},
+    {(const uint8_t *)"HEX$", CODE_HEX_S},
+    {(const uint8_t *)"HSN", CODE_HSN},
+    {(const uint8_t *)"HCS", CODE_HCS},
+    {(const uint8_t *)"HTN", CODE_HTN},
+    {(const uint8_t *)"HDCOPY", CODE_HDCOPY},
+    {(const uint8_t *)"INPUT", CODE_INPUT},
+    {(const uint8_t *)"IF", CODE_IF},
+    {(const uint8_t *)"INT", CODE_INT},
+    {(const uint8_t *)"INKEY$", CODE_INKEY_S},
+    {(const uint8_t *)"INP", CODE_INP, MACHINE_SUB_PCG811},
+    {(const uint8_t *)"KILL", CODE_KILL},
+    {(const uint8_t *)"LIST", CODE_LIST},
+    {(const uint8_t *)"LINE", CODE_LINE, MACHINE_SUB_PCG815},
+    {(const uint8_t *)"LLIST", CODE_LLIST},
+    {(const uint8_t *)"LPRINT", CODE_LPRINT},
+    {(const uint8_t *)"LOAD", CODE_LOAD},
+    {(const uint8_t *)"LOG", CODE_LOG},
+    {(const uint8_t *)"LNINPUT", CODE_LNINPUT},
+    {(const uint8_t *)"LN", CODE_LN},
+    {(const uint8_t *)"LET", CODE_LET},
+    {(const uint8_t *)"LEN", CODE_LEN},
+    {(const uint8_t *)"LEFT$", CODE_LEFT_S},
+    {(const uint8_t *)"LFILES", CODE_LFILES},
+    {(const uint8_t *)"LOCATE", CODE_LOCATE},
+    {(const uint8_t *)"LOF", CODE_LOF},
+    {(const uint8_t *)"LCOPY", CODE_LCOPY},
+    {(const uint8_t *)"MDF", CODE_MDF},
+    {(const uint8_t *)"MID$", CODE_MID_S},
+    {(const uint8_t *)"MON", CODE_MON},
+    {(const uint8_t *)"MOD", CODE_MOD},
+    {(const uint8_t *)"NEXT", CODE_NEXT},
+    {(const uint8_t *)"NEW", CODE_NEW},
+    {(const uint8_t *)"NOT", CODE_NOT},
+    {(const uint8_t *)"NCR", CODE_NCR},
+    {(const uint8_t *)"NPR", CODE_NPR},
+    {(const uint8_t *)"ON", CODE_ON},
+    {(const uint8_t *)"OPEN", CODE_OPEN},
+    {(const uint8_t *)"OR", CODE_OR},
+    {(const uint8_t *)"OUTPUT", CODE_OUTPUT},
+    {(const uint8_t *)"OUT", CODE_OUT},
+    {(const uint8_t *)"PRINT", CODE_PRINT},
+    {(const uint8_t *)"PRESET", CODE_PRESET, MACHINE_SUB_PCG815},
+    {(const uint8_t *)"PASS", CODE_PASS},
+    {(const uint8_t *)"POL", CODE_POL},
+    {(const uint8_t *)"PEEK", CODE_PEEK},
+    {(const uint8_t *)"POKE", CODE_POKE},
+    {(const uint8_t *)"POINT", CODE_POINT, MACHINE_SUB_PCG815},
+    {(const uint8_t *)"PSET", CODE_PSET, MACHINE_SUB_PCG815},
+    {(const uint8_t *)"PAINT", CODE_PAINT, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"PIOSET", CODE_PIOSET, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"PIOPUT", CODE_PIOPUT, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"PIOGET", CODE_PIOGET, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"PI", CODE_PI},
+    {(const uint8_t *)"RUN", CODE_RUN},
+    {(const uint8_t *)"RETURN", CODE_RETURN},
+    {(const uint8_t *)"READ", CODE_READ},
+    {(const uint8_t *)"RESTORE", CODE_RESTORE},
+    {(const uint8_t *)"RND", CODE_RND},
+    {(const uint8_t *)"RANDOMIZE", CODE_RANDOMIZE},
+    {(const uint8_t *)"RIGHT$", CODE_RIGHT_S},
+    {(const uint8_t *)"RADIAN", CODE_RADIAN},
+    {(const uint8_t *)"REM", CODE_REM},
+    {(const uint8_t *)"REC", CODE_REC},
+    {(const uint8_t *)"RCP", CODE_RCP},
+    {(const uint8_t *)"RENUM", CODE_RENUM},
+    {(const uint8_t *)"REPEAT", CODE_REPEAT, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"STOP", CODE_STOP},
+    {(const uint8_t *)"SQR", CODE_SQR},
+    {(const uint8_t *)"SIN", CODE_SIN},
+    {(const uint8_t *)"SGN", CODE_SGN},
+    {(const uint8_t *)"STR$", CODE_STR_S},
+    {(const uint8_t *)"STEP", CODE_STEP},
+    {(const uint8_t *)"SAVE", CODE_SAVE},
+    {(const uint8_t *)"SQU", CODE_SQU},
+    {(const uint8_t *)"SWITCH", CODE_SWITCH, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"SPOUT", CODE_SPOUT, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"SPINP", CODE_SPINP, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"THEN", CODE_THEN},
+    {(const uint8_t *)"TAN", CODE_TAN},
+    {(const uint8_t *)"TRON", CODE_TRON},
+    {(const uint8_t *)"TROFF", CODE_TROFF},
+    {(const uint8_t *)"TO", CODE_TO},
+    {(const uint8_t *)"TEN", CODE_TEN},
+    {(const uint8_t *)"USING", CODE_USING},
+    {(const uint8_t *)"UNTIL", CODE_UNTIL, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"VAL", CODE_VAL},
+    {(const uint8_t *)"VDEG", CODE_VDEG, MACHINE_SUB_PCG850S},
+    {(const uint8_t *)"WAIT", CODE_WAIT},
+    {(const uint8_t *)"WHILE", CODE_WHILE, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"WEND", CODE_WEND, MACHINE_SUB_PCG850},
+    {(const uint8_t *)"XOR", CODE_XOR},
     {NULL}};
 
 /* 構文解析用スタック */
@@ -425,7 +425,7 @@ static struct Element stack[32];
 static struct Element *top;
 
 /* 演算用スタック(値) */
-static uint8 *valueStack[32], **valueSp;
+static uint8_t *valueStack[32], **valueSp;
 
 /* 演算用スタック(型) */
 static int typeStack[32], *typeSp;
@@ -434,100 +434,100 @@ static int typeStack[32], *typeSp;
 static int clearBas(struct Basic *);
 static int loadBas(struct Basic *);
 static int saveBas(struct Basic *);
-static int insertProg(struct Basic *, const uint8 *, int *, uint8 **);
-int encodeNum(uint8 *, const uint8 *);
-int encodeNum_f(uint8 *, double);
-int encodeNum_i(uint8 *, int);
-int encodeNum_r(const struct Basic *, uint8 *, double);
-int decodeNum(uint8 *, const uint8 *);
-int decodeNum_f(double *, const uint8 *);
-int decodeNum_i(int *, const uint8 *);
-int decodeNum_r(const struct Basic *, double *, const uint8 *);
-int opeAnd(struct Basic *, uint8 *, uint8 *);
-int opeAdd(struct Basic *, uint8 *, uint8 *);
-int opeCat(struct Basic *, uint8 *, uint8 *);
-int opeDiv(struct Basic *, uint8 *, uint8 *);
-int opeEq(struct Basic *, uint8 *, uint8 *);
-int opeEqStr(struct Basic *, uint8 *, uint8 *);
-int opeGe(struct Basic *, uint8 *, uint8 *);
-int opeGeStr(struct Basic *, uint8 *, uint8 *);
-int opeGt(struct Basic *, uint8 *, uint8 *);
-int opeGtStr(struct Basic *, uint8 *, uint8 *);
-int opeIdiv(struct Basic *, uint8 *, uint8 *);
-int opeLe(struct Basic *, uint8 *, uint8 *);
-int opeLeStr(struct Basic *, uint8 *, uint8 *);
-int opeLt(struct Basic *, uint8 *, uint8 *);
-int opeLtStr(struct Basic *, uint8 *, uint8 *);
-int opeMod(struct Basic *, uint8 *, uint8 *);
-int opeMul(struct Basic *, uint8 *, uint8 *);
-int opeNe(struct Basic *, uint8 *, uint8 *);
-int opeNeStr(struct Basic *, uint8 *, uint8 *);
-int opeNeg(struct Basic *, uint8 *);
-int opeNot(struct Basic *, uint8 *);
-int opeOr(struct Basic *, uint8 *, uint8 *);
-int opePos(struct Basic *, uint8 *);
-int opePow(struct Basic *, uint8 *, uint8 *);
-int opeSub(struct Basic *, uint8 *, uint8 *);
-int opeXor(struct Basic *, uint8 *, uint8 *);
-int funcAbs(struct Basic *, uint8 *);
-int funcAcs(struct Basic *, uint8 *);
-int funcAhc(struct Basic *, uint8 *);
-int funcAhs(struct Basic *, uint8 *);
-int funcAht(struct Basic *, uint8 *);
-int funcAsc(struct Basic *, uint8 *);
-int funcAsn(struct Basic *, uint8 *);
-int funcAtn(struct Basic *, uint8 *);
-int funcChrS(struct Basic *, uint8 *);
-int funcCos(struct Basic *, uint8 *);
-int funcCub(struct Basic *, uint8 *);
-int funcCur(struct Basic *, uint8 *);
-int funcDeg(struct Basic *, uint8 *);
-int funcDms(struct Basic *, uint8 *);
-int funcDmsS(struct Basic *, uint8 *);
-int funcEof(struct Basic *, uint8 *);
-int funcExp(struct Basic *, uint8 *);
-int funcFact(struct Basic *, uint8 *);
-int funcFix(struct Basic *, uint8 *);
-int funcHcs(struct Basic *, uint8 *);
-int funcHexS(struct Basic *, uint8 *);
-int funcHsn(struct Basic *, uint8 *);
-int funcHtn(struct Basic *, uint8 *);
-int funcInkeyS(struct Basic *, uint8 *);
-int funcInt(struct Basic *, uint8 *);
-int funcInp(struct Basic *, uint8 *);
-int funcLeftS(struct Basic *, uint8 *, uint8 *);
-int funcLen(struct Basic *, uint8 *);
-int funcLn(struct Basic *, uint8 *);
-int funcLof(struct Basic *, uint8 *);
-int funcLog(struct Basic *, uint8 *);
-int funcMdf(struct Basic *, uint8 *);
-int funcMidS(struct Basic *, uint8 *, uint8 *, uint8 *);
-int funcNcr(struct Basic *, uint8 *, uint8 *);
-int funcNpr(struct Basic *, uint8 *, uint8 *);
-int funcPeek(struct Basic *, uint8 *);
-int funcPi(struct Basic *, uint8 *);
-int funcPioget(struct Basic *, uint8 *);
-int funcPoint(struct Basic *, uint8 *, uint8 *);
-int funcPol(struct Basic *, uint8 *, uint8 *);
-int funcRcp(struct Basic *, uint8 *);
-int funcRec(struct Basic *, uint8 *, uint8 *);
-int funcRightS(struct Basic *, uint8 *, uint8 *);
-int funcRnd(struct Basic *, uint8 *);
-int funcRound(struct Basic *, uint8 *);
-int funcSgn(struct Basic *, uint8 *);
-int funcSin(struct Basic *, uint8 *);
-int funcSqr(struct Basic *, uint8 *);
-int funcSqu(struct Basic *, uint8 *);
-int funcStrS(struct Basic *, uint8 *);
-int funcTan(struct Basic *, uint8 *);
-int funcTen(struct Basic *, uint8 *);
-int funcVal(struct Basic *, uint8 *);
-int funcVdeg(struct Basic *, uint8 *);
+static int insertProg(struct Basic *, const uint8_t *, int *, uint8_t **);
+int encodeNum(uint8_t *, const uint8_t *);
+int encodeNum_f(uint8_t *, double);
+int encodeNum_i(uint8_t *, int);
+int encodeNum_r(const struct Basic *, uint8_t *, double);
+int decodeNum(uint8_t *, const uint8_t *);
+int decodeNum_f(double *, const uint8_t *);
+int decodeNum_i(int *, const uint8_t *);
+int decodeNum_r(const struct Basic *, double *, const uint8_t *);
+int opeAnd(struct Basic *, uint8_t *, uint8_t *);
+int opeAdd(struct Basic *, uint8_t *, uint8_t *);
+int opeCat(struct Basic *, uint8_t *, uint8_t *);
+int opeDiv(struct Basic *, uint8_t *, uint8_t *);
+int opeEq(struct Basic *, uint8_t *, uint8_t *);
+int opeEqStr(struct Basic *, uint8_t *, uint8_t *);
+int opeGe(struct Basic *, uint8_t *, uint8_t *);
+int opeGeStr(struct Basic *, uint8_t *, uint8_t *);
+int opeGt(struct Basic *, uint8_t *, uint8_t *);
+int opeGtStr(struct Basic *, uint8_t *, uint8_t *);
+int opeIdiv(struct Basic *, uint8_t *, uint8_t *);
+int opeLe(struct Basic *, uint8_t *, uint8_t *);
+int opeLeStr(struct Basic *, uint8_t *, uint8_t *);
+int opeLt(struct Basic *, uint8_t *, uint8_t *);
+int opeLtStr(struct Basic *, uint8_t *, uint8_t *);
+int opeMod(struct Basic *, uint8_t *, uint8_t *);
+int opeMul(struct Basic *, uint8_t *, uint8_t *);
+int opeNe(struct Basic *, uint8_t *, uint8_t *);
+int opeNeStr(struct Basic *, uint8_t *, uint8_t *);
+int opeNeg(struct Basic *, uint8_t *);
+int opeNot(struct Basic *, uint8_t *);
+int opeOr(struct Basic *, uint8_t *, uint8_t *);
+int opePos(struct Basic *, uint8_t *);
+int opePow(struct Basic *, uint8_t *, uint8_t *);
+int opeSub(struct Basic *, uint8_t *, uint8_t *);
+int opeXor(struct Basic *, uint8_t *, uint8_t *);
+int funcAbs(struct Basic *, uint8_t *);
+int funcAcs(struct Basic *, uint8_t *);
+int funcAhc(struct Basic *, uint8_t *);
+int funcAhs(struct Basic *, uint8_t *);
+int funcAht(struct Basic *, uint8_t *);
+int funcAsc(struct Basic *, uint8_t *);
+int funcAsn(struct Basic *, uint8_t *);
+int funcAtn(struct Basic *, uint8_t *);
+int funcChrS(struct Basic *, uint8_t *);
+int funcCos(struct Basic *, uint8_t *);
+int funcCub(struct Basic *, uint8_t *);
+int funcCur(struct Basic *, uint8_t *);
+int funcDeg(struct Basic *, uint8_t *);
+int funcDms(struct Basic *, uint8_t *);
+int funcDmsS(struct Basic *, uint8_t *);
+int funcEof(struct Basic *, uint8_t *);
+int funcExp(struct Basic *, uint8_t *);
+int funcFact(struct Basic *, uint8_t *);
+int funcFix(struct Basic *, uint8_t *);
+int funcHcs(struct Basic *, uint8_t *);
+int funcHexS(struct Basic *, uint8_t *);
+int funcHsn(struct Basic *, uint8_t *);
+int funcHtn(struct Basic *, uint8_t *);
+int funcInkeyS(struct Basic *, uint8_t *);
+int funcInt(struct Basic *, uint8_t *);
+int funcInp(struct Basic *, uint8_t *);
+int funcLeftS(struct Basic *, uint8_t *, uint8_t *);
+int funcLen(struct Basic *, uint8_t *);
+int funcLn(struct Basic *, uint8_t *);
+int funcLof(struct Basic *, uint8_t *);
+int funcLog(struct Basic *, uint8_t *);
+int funcMdf(struct Basic *, uint8_t *);
+int funcMidS(struct Basic *, uint8_t *, uint8_t *, uint8_t *);
+int funcNcr(struct Basic *, uint8_t *, uint8_t *);
+int funcNpr(struct Basic *, uint8_t *, uint8_t *);
+int funcPeek(struct Basic *, uint8_t *);
+int funcPi(struct Basic *, uint8_t *);
+int funcPioget(struct Basic *, uint8_t *);
+int funcPoint(struct Basic *, uint8_t *, uint8_t *);
+int funcPol(struct Basic *, uint8_t *, uint8_t *);
+int funcRcp(struct Basic *, uint8_t *);
+int funcRec(struct Basic *, uint8_t *, uint8_t *);
+int funcRightS(struct Basic *, uint8_t *, uint8_t *);
+int funcRnd(struct Basic *, uint8_t *);
+int funcRound(struct Basic *, uint8_t *);
+int funcSgn(struct Basic *, uint8_t *);
+int funcSin(struct Basic *, uint8_t *);
+int funcSqr(struct Basic *, uint8_t *);
+int funcSqu(struct Basic *, uint8_t *);
+int funcStrS(struct Basic *, uint8_t *);
+int funcTan(struct Basic *, uint8_t *);
+int funcTen(struct Basic *, uint8_t *);
+int funcVal(struct Basic *, uint8_t *);
+int funcVdeg(struct Basic *, uint8_t *);
 
 /*
         代入する
 */
-static int numLet(uint8 *x, const uint8 *y) {
+static int numLet(uint8_t *x, const uint8_t *y) {
   memcpy(x, y, SIZEOF_NUM);
   return ERR_OK;
 }
@@ -535,7 +535,7 @@ static int numLet(uint8 *x, const uint8 *y) {
 /*
         整数か?
 */
-static int numIsInt(const uint8 *num) {
+static int numIsInt(const uint8_t *num) {
   int pos, exp = (num[0] >> 4) * 100 + (num[0] & 0x0f) * 10 + (num[1] >> 4);
 
   if (exp >= 10)
@@ -549,19 +549,19 @@ static int numIsInt(const uint8 *num) {
 /*
         負の数か?
 */
-static int numIsNeg(const uint8 *num) { return num[1] & 0x08; }
+static int numIsNeg(const uint8_t *num) { return num[1] & 0x08; }
 
 /*
         0か?
 */
-static int numIsZero(const uint8 *num) {
-  return memcmp(num, "¥0¥0¥0¥0¥0¥0¥0", 7) == 0;
+static int numIsZero(const uint8_t *num) {
+  return memcmp(num, "\0\0\0\0\0\0\0", 7) == 0;
 }
 
 /*
         符号を得る
 */
-static int numSgn(const uint8 *num) {
+static int numSgn(const uint8_t *num) {
   if (numIsZero(num))
     return 0;
   else if (numIsNeg(num))
@@ -573,8 +573,8 @@ static int numSgn(const uint8 *num) {
 /*
         数値を比較する
 */
-static int numCmp(const uint8 *x, const uint8 *y) {
-  uint8 a[SIZEOF_NUM], b[SIZEOF_NUM];
+static int numCmp(const uint8_t *x, const uint8_t *y) {
+  uint8_t a[SIZEOF_NUM], b[SIZEOF_NUM];
 
   numLet(a, x);
   numLet(b, y);
@@ -585,9 +585,9 @@ static int numCmp(const uint8 *x, const uint8 *y) {
 /*
         補正する (10桁)
 */
-static int numCorrect(uint8 *x) {
+static int numCorrect(uint8_t *x) {
   int err;
-  uint8 y[SIZEOF_NUM];
+  uint8_t y[SIZEOF_NUM];
 
   if (numIsZero(x))
     return ERR_OK;
@@ -610,7 +610,7 @@ static int numCorrect(uint8 *x) {
 /*
         補正する (9桁)
 */
-static int numCorrect9(uint8 *x) {
+static int numCorrect9(uint8_t *x) {
   int err;
 
   if ((err = numCorrect(x)) < 0)
@@ -624,7 +624,7 @@ static int numCorrect9(uint8 *x) {
         文字列領域を確保する
 */
 /*
-static uint8 *allocStr(uint8 *p_val, int size)
+static uint8_t *allocStr(uint8_t *p_val, int size)
 {
         if(size < 8)
                 size = 8;
@@ -638,7 +638,7 @@ static uint8 *allocStr(uint8 *p_val, int size)
         結合
 */
 /*
-static int strCat(uint8 *x, const uint8 *y)
+static int strCat(uint8_t *x, const uint8_t *y)
 {
         x = allocStr(x, strlen((const char *)x) + strlen((const char *)y));
         strcat((char *)x, (const char *)y);
@@ -649,10 +649,10 @@ static int strCat(uint8 *x, const uint8 *y)
 /*
         文字列を数値に変換する (下請け)
 */
-static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
+static int encodeNumDms(uint8_t *num, const uint8_t *str, int dms) {
   int pos = 0, exp = -1;
-  uint8 sign, fra[] = {0, 0, 0, 0, 0, 0};
-  const uint8 *p = str;
+  uint8_t sign, fra[] = {0, 0, 0, 0, 0, 0};
+  const uint8_t *p = str;
 
   /* 入力文字列の仮数部の符号を得る */
   if (*p == '-') {
@@ -664,7 +664,7 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
   if (strnicmp((const char *)p, "&H", 2) == 0) { /* 16進表記 */
     int i;
     uint32 x = 0;
-    uint8 dec[8 + 1], *q;
+    uint8_t dec[8 + 1], *q;
 
     /* 10進数に変換する */
     p += 2;
@@ -743,8 +743,8 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
     if (dms)
       if (*p == 0xdf || *p == 0x27 || *p == 0xf8) { /* 60進表記 */
         int err, len, sign, count = 0;
-        uint8 val[SIZEOF_NUM];
-        const uint8 *p = str;
+        uint8_t val[SIZEOF_NUM];
+        const uint8_t *p = str;
 
         numLet(num, NUM_0);
 
@@ -805,7 +805,7 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
     return ERR_90;
 
   /* 0か? */
-  if (memcmp(fra, "¥0¥0¥0¥0¥0¥0", 6) == 0) {
+  if (memcmp(fra, "\0\0\0\0\0\0", 6) == 0) {
     exp = 0;
     sign = 0x00;
   }
@@ -830,34 +830,34 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
 /*
         文字列を数値に変換する
 */
-int encodeNum(uint8 *num, const uint8 *str) {
+int encodeNum(uint8_t *num, const uint8_t *str) {
   return encodeNumDms(num, str, FALSE);
 }
 
 /*
         浮動小数点を数値に変換する
 */
-int encodeNum_f(uint8 *dst, double f) {
+int encodeNum_f(uint8_t *dst, double f) {
   char buf[32];
 
   sprintf(buf, "%13.13f", f);
-  return encodeNum(dst, (uint8 *)buf);
+  return encodeNum(dst, (uint8_t *)buf);
 }
 
 /*
         整数を数値に変換する
 */
-int encodeNum_i(uint8 *dst, int i) {
+int encodeNum_i(uint8_t *dst, int i) {
   char buf[16];
 
   sprintf(buf, "%d", i);
-  return encodeNumDms(dst, (uint8 *)buf, FALSE);
+  return encodeNumDms(dst, (uint8_t *)buf, FALSE);
 }
 
 /*
         ラジアンを数値に変換する
 */
-int encodeNum_r(const struct Basic *bas, uint8 *num, double r) {
+int encodeNum_r(const struct Basic *bas, uint8_t *num, double r) {
   if (*angle == ANGLE_RADIAN)
     return encodeNum_f(num, r);
   else if (*angle == ANGLE_GRAD)
@@ -869,11 +869,11 @@ int encodeNum_r(const struct Basic *bas, uint8 *num, double r) {
 /*
         数値を文字列に変換する(書式指定あり)
 */
-static int decodeNumFormat(const struct Basic *bas, uint8 *str,
-                           const uint8 *num, int dms) {
+static int decodeNumFormat(const struct Basic *bas, uint8_t *str,
+                           const uint8_t *num, int dms) {
   int exp, ints, decs, digits, format_exp;
   char fra[12 + 1], *p;
-  const uint8 *sign;
+  const uint8_t *sign;
 
   /* 数値ではないか? */
   if (num[0] == 0xf5)
@@ -885,12 +885,12 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
     exp -= 1000;
 
   /* 仮数部の符号を得る */
-  sign = (const uint8 *)(num[1] & 0x08 ? "-" : "");
+  sign = (const uint8_t *)(num[1] & 0x08 ? "-" : "");
 
   /* 60進か? */
   if (dms && (num[1] & 0x04)) {
     int err, d, m, s;
-    uint8 angle[SIZEOF_NUM], deg[SIZEOF_NUM];
+    uint8_t angle[SIZEOF_NUM], deg[SIZEOF_NUM];
 
     /* 10^10以上か? */
     if (exp >= 10) {
@@ -930,23 +930,23 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
     s -= m * 6000;
 
     if (m == 0 && s == 0)
-      sprintf((char *)str, "%s%d¥xdf", sign, d);
+      sprintf((char *)str, "%s%d\xdf", sign, d);
     else if (s == 0)
       sprintf((char *)str,
-              "%s%d¥xdf"
-              "%02d¥x27",
+              "%s%d\xdf"
+              "%02d\x27",
               sign, d, m);
     else if (s % 100 == 0)
       sprintf((char *)str,
-              "%s%d¥xdf"
-              "%02d¥x27"
-              "%02d¥xf8",
+              "%s%d\xdf"
+              "%02d\x27"
+              "%02d\xf8",
               sign, d, m, s / 100);
     else
       sprintf((char *)str,
-              "%s%d¥xdf"
-              "%02d¥x27"
-              "%02d.%02d¥xf8",
+              "%s%d\xdf"
+              "%02d\x27"
+              "%02d.%02d\xf8",
               sign, d, m, s / 100, s % 100);
     return strlen(str);
   }
@@ -1033,18 +1033,18 @@ static int decodeNumFormat(const struct Basic *bas, uint8 *str,
 /*
         数値を文字列に変換する
 */
-int decodeNum(uint8 *str, const uint8 *num) {
+int decodeNum(uint8_t *str, const uint8_t *num) {
   return decodeNumFormat(NULL, str, num, TRUE);
 }
 
 /*
         数値を浮動小数点に変換する
 */
-int decodeNum_f(double *f, const uint8 *num) {
+int decodeNum_f(double *f, const uint8_t *num) {
   int err;
   char tmp[32], *p, *q;
 
-  if ((err = decodeNumFormat(NULL, (uint8 *)tmp, num, FALSE)) < 0)
+  if ((err = decodeNumFormat(NULL, (uint8_t *)tmp, num, FALSE)) < 0)
     return err;
 
   p = tmp;
@@ -1061,10 +1061,10 @@ int decodeNum_f(double *f, const uint8 *num) {
 /*
         数値を整数に変換する
 */
-int decodeNum_i(int *i, const uint8 *num) {
+int decodeNum_i(int *i, const uint8_t *num) {
   double f;
   int err;
-  uint8 buf[SIZEOF_NUM];
+  uint8_t buf[SIZEOF_NUM];
 
   if ((err = numLet(buf, num)) < 0)
     return err;
@@ -1082,7 +1082,7 @@ int decodeNum_i(int *i, const uint8 *num) {
 /*
         数値をラジアンに変換する
 */
-int decodeNum_r(const struct Basic *bas, double *r, const uint8 *num) {
+int decodeNum_r(const struct Basic *bas, double *r, const uint8_t *num) {
   int err;
 
   if ((err = decodeNum_f(r, num)) < 0)
@@ -1121,7 +1121,7 @@ static void ssleep(int states) {
 /*
         AND
 */
-int opeAnd(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeAnd(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, a, b;
 
   if (bas != NULL)
@@ -1140,7 +1140,7 @@ int opeAnd(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         + (加算)
 */
-int opeAdd(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeAdd(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, dms;
   double a, b;
 
@@ -1162,7 +1162,7 @@ int opeAdd(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         + (結合)
 */
-int opeCat(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeCat(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(4525);
 
@@ -1176,7 +1176,7 @@ int opeCat(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         / (除算)
 */
-int opeDiv(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeDiv(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, dms;
   double a, b;
 
@@ -1200,7 +1200,7 @@ int opeDiv(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         = (等しいか?)
 */
-int opeEq(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeEq(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(8481);
 
@@ -1210,7 +1210,7 @@ int opeEq(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         = (等しいか?) (文字列)
 */
-int opeEqStr(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeEqStr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(5133);
 
@@ -1220,7 +1220,7 @@ int opeEqStr(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         >= (以上か?)
 */
-int opeGe(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeGe(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(8672);
 
@@ -1230,7 +1230,7 @@ int opeGe(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         >= (以上か?) (文字列)
 */
-int opeGeStr(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeGeStr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(5398);
 
@@ -1240,7 +1240,7 @@ int opeGeStr(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         > (より大きいか?)
 */
-int opeGt(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeGt(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(8586);
 
@@ -1250,7 +1250,7 @@ int opeGt(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         > (より大きいか?) (文字列)
 */
-int opeGtStr(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeGtStr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(5330);
 
@@ -1258,9 +1258,9 @@ int opeGtStr(struct Basic *bas, uint8 *x, uint8 *y) {
 }
 
 /*
-        ¥ (除算)
+        \ (除算)
 */
-int opeIdiv(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeIdiv(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err;
 
   if (bas != NULL)
@@ -1278,7 +1278,7 @@ int opeIdiv(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         <= (以下か?)
 */
-int opeLe(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeLe(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(8672);
 
@@ -1288,7 +1288,7 @@ int opeLe(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         <= (以下か?) (文字列)
 */
-int opeLeStr(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeLeStr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(5398);
 
@@ -1298,7 +1298,7 @@ int opeLeStr(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         < (未満か?)
 */
-int opeLt(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeLt(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(8586);
 
@@ -1308,7 +1308,7 @@ int opeLt(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         < (未満か?) (文字列)
 */
-int opeLtStr(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeLtStr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(5330);
 
@@ -1318,9 +1318,9 @@ int opeLtStr(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         MOD
 */
-int opeMod(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeMod(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err;
-  uint8 z[SIZEOF_NUM];
+  uint8_t z[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(66470);
@@ -1333,7 +1333,7 @@ int opeMod(struct Basic *bas, uint8 *x, uint8 *y) {
   if ((err = funcRound(NULL, y)) < 0)
     return err;
 
-  /* Z = (X ¥ Y) * Y */
+  /* Z = (X \ Y) * Y */
   if ((err = numLet(z, x)) < 0)
     return err;
   if ((err = opeIdiv(NULL, z, y)) < 0)
@@ -1348,7 +1348,7 @@ int opeMod(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
  * (積算)
  */
-int opeMul(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeMul(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, dms;
   double a, b;
 
@@ -1370,7 +1370,7 @@ int opeMul(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         <> (等しくないか?)
 */
-int opeNe(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeNe(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(8487);
 
@@ -1380,7 +1380,7 @@ int opeNe(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         <> (等しくないか?) (文字列)
 */
-int opeNeStr(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeNeStr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   if (bas != NULL)
     ssleep(5163);
 
@@ -1390,7 +1390,7 @@ int opeNeStr(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         - (符号)
 */
-int opeNeg(struct Basic *bas, uint8 *x) {
+int opeNeg(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(1629);
 
@@ -1400,7 +1400,7 @@ int opeNeg(struct Basic *bas, uint8 *x) {
 /*
         NOT
 */
-int opeNot(struct Basic *bas, uint8 *x) {
+int opeNot(struct Basic *bas, uint8_t *x) {
   int err, a;
 
   if (bas != NULL)
@@ -1417,7 +1417,7 @@ int opeNot(struct Basic *bas, uint8 *x) {
 /*
         OR
 */
-int opeOr(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeOr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, a, b;
 
   if (bas != NULL)
@@ -1436,7 +1436,7 @@ int opeOr(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         + (符号)
 */
-int opePos(struct Basic *bas, uint8 *x) {
+int opePos(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(1569);
 
@@ -1446,7 +1446,7 @@ int opePos(struct Basic *bas, uint8 *x) {
 /*
         ^ (ベキ乗)
 */
-int opePow(struct Basic *bas, uint8 *x, uint8 *y) {
+int opePow(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err;
   double a, b;
 
@@ -1464,7 +1464,7 @@ int opePow(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         - (減算)
 */
-int opeSub(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeSub(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, dms;
   double a, b;
 
@@ -1486,7 +1486,7 @@ int opeSub(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         XOR
 */
-int opeXor(struct Basic *bas, uint8 *x, uint8 *y) {
+int opeXor(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, a, b;
 
   if (bas != NULL)
@@ -1505,7 +1505,7 @@ int opeXor(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         ABS
 */
-int funcAbs(struct Basic *bas, uint8 *x) {
+int funcAbs(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(1676);
 
@@ -1517,7 +1517,7 @@ int funcAbs(struct Basic *bas, uint8 *x) {
 /*
         ACS
 */
-int funcAcs(struct Basic *bas, uint8 *x) {
+int funcAcs(struct Basic *bas, uint8_t *x) {
   int err;
   double a;
 
@@ -1533,9 +1533,9 @@ int funcAcs(struct Basic *bas, uint8 *x) {
 /*
         AHC
 */
-int funcAhc(struct Basic *bas, uint8 *x) {
+int funcAhc(struct Basic *bas, uint8_t *x) {
   int err;
-  uint8 a[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(10804);
@@ -1567,9 +1567,9 @@ int funcAhc(struct Basic *bas, uint8 *x) {
 /*
         AHS
 */
-int funcAhs(struct Basic *bas, uint8 *x) {
+int funcAhs(struct Basic *bas, uint8_t *x) {
   int err;
-  uint8 a[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(10057);
@@ -1597,9 +1597,9 @@ int funcAhs(struct Basic *bas, uint8 *x) {
 /*
         AHT
 */
-int funcAht(struct Basic *bas, uint8 *x) {
+int funcAht(struct Basic *bas, uint8_t *x) {
   int err;
-  uint8 a[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(257641);
@@ -1633,7 +1633,7 @@ int funcAht(struct Basic *bas, uint8 *x) {
 /*
         ASC
 */
-int funcAsc(struct Basic *bas, uint8 *x) {
+int funcAsc(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(20533);
 
@@ -1643,7 +1643,7 @@ int funcAsc(struct Basic *bas, uint8 *x) {
 /*
         ASN
 */
-int funcAsn(struct Basic *bas, uint8 *x) {
+int funcAsn(struct Basic *bas, uint8_t *x) {
   int err;
   double a;
 
@@ -1659,7 +1659,7 @@ int funcAsn(struct Basic *bas, uint8 *x) {
 /*
         ATN
 */
-int funcAtn(struct Basic *bas, uint8 *x) {
+int funcAtn(struct Basic *bas, uint8_t *x) {
   int err;
   double a;
 
@@ -1675,7 +1675,7 @@ int funcAtn(struct Basic *bas, uint8 *x) {
 /*
         CHR$
 */
-int funcChrS(struct Basic *bas, uint8 *x) {
+int funcChrS(struct Basic *bas, uint8_t *x) {
   int err, c;
 
   if (bas != NULL)
@@ -1693,7 +1693,7 @@ int funcChrS(struct Basic *bas, uint8 *x) {
 /*
         COS
 */
-int funcCos(struct Basic *bas, uint8 *x) {
+int funcCos(struct Basic *bas, uint8_t *x) {
   double r;
   int err;
 
@@ -1709,7 +1709,7 @@ int funcCos(struct Basic *bas, uint8 *x) {
 /*
         CUB
 */
-int funcCub(struct Basic *bas, uint8 *x) {
+int funcCub(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(25783);
 
@@ -1719,7 +1719,7 @@ int funcCub(struct Basic *bas, uint8 *x) {
 /*
         CUR
 */
-int funcCur(struct Basic *bas, uint8 *x) {
+int funcCur(struct Basic *bas, uint8_t *x) {
   int err;
   double a;
 
@@ -1734,7 +1734,7 @@ int funcCur(struct Basic *bas, uint8 *x) {
 /*
         DEG
 */
-int funcDeg(struct Basic *bas, uint8 *x) {
+int funcDeg(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(51525);
 
@@ -1745,7 +1745,7 @@ int funcDeg(struct Basic *bas, uint8 *x) {
 /*
         DMS
 */
-int funcDms(struct Basic *bas, uint8 *x) {
+int funcDms(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(2564);
 
@@ -1756,9 +1756,9 @@ int funcDms(struct Basic *bas, uint8 *x) {
 /*
         DMS$
 */
-int funcDmsS(struct Basic *bas, uint8 *x) {
+int funcDmsS(struct Basic *bas, uint8_t *x) {
   int len;
-  uint8 buf[256];
+  uint8_t buf[256];
 
   if (bas != NULL)
     ssleep(35292);
@@ -1777,7 +1777,7 @@ int funcDmsS(struct Basic *bas, uint8 *x) {
 /*
         EOF
 */
-int funcEof(struct Basic *bas, uint8 *x) {
+int funcEof(struct Basic *bas, uint8_t *x) {
   int err, fileno;
 
   if ((err = decodeNum_i(&fileno, x)) < 0)
@@ -1793,7 +1793,7 @@ int funcEof(struct Basic *bas, uint8 *x) {
 /*
         EXP
 */
-int funcExp(struct Basic *bas, uint8 *x) {
+int funcExp(struct Basic *bas, uint8_t *x) {
   int err;
   double a;
 
@@ -1808,9 +1808,9 @@ int funcExp(struct Basic *bas, uint8 *x) {
 /*
         FACT
 */
-int funcFact(struct Basic *bas, uint8 *x) {
+int funcFact(struct Basic *bas, uint8_t *x) {
   int err;
-  uint8 count[SIZEOF_NUM];
+  uint8_t count[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(6950);
@@ -1836,7 +1836,7 @@ int funcFact(struct Basic *bas, uint8 *x) {
 /*
         FIX
 */
-int funcFix(struct Basic *bas, uint8 *x) {
+int funcFix(struct Basic *bas, uint8_t *x) {
   int i, exp = (x[0] >> 4) * 100 + (x[0] & 0x0f) * 10 + (x[1] >> 4);
 
   if (bas != NULL)
@@ -1856,7 +1856,7 @@ int funcFix(struct Basic *bas, uint8 *x) {
 /*
         FRE
 */
-int funcFre(struct Basic *bas, uint8 *x) {
+int funcFre(struct Basic *bas, uint8_t *x) {
   int err;
 
   if (bas != NULL)
@@ -1870,9 +1870,9 @@ int funcFre(struct Basic *bas, uint8 *x) {
 /*
         HCS
 */
-int funcHcs(struct Basic *bas, uint8 *x) {
+int funcHcs(struct Basic *bas, uint8_t *x) {
   int err;
-  uint8 a[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(143954);
@@ -1898,7 +1898,7 @@ int funcHcs(struct Basic *bas, uint8 *x) {
 /*
         HEX$
 */
-int funcHexS(struct Basic *bas, uint8 *x) {
+int funcHexS(struct Basic *bas, uint8_t *x) {
   int err, a;
 
   if (bas != NULL)
@@ -1914,9 +1914,9 @@ int funcHexS(struct Basic *bas, uint8 *x) {
 /*
         HSN
 */
-int funcHsn(struct Basic *bas, uint8 *x) {
+int funcHsn(struct Basic *bas, uint8_t *x) {
   int err;
-  uint8 a[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(144421);
@@ -1942,8 +1942,8 @@ int funcHsn(struct Basic *bas, uint8 *x) {
 /*
         HTN
 */
-int funcHtn(struct Basic *bas, uint8 *x) {
-  uint8 a[SIZEOF_NUM];
+int funcHtn(struct Basic *bas, uint8_t *x) {
+  uint8_t a[SIZEOF_NUM];
   int err;
 
   if (bas != NULL)
@@ -1961,8 +1961,8 @@ int funcHtn(struct Basic *bas, uint8 *x) {
 /*
         INKEY$
 */
-int funcInkeyS(struct Basic *bas, uint8 *x) {
-  const uint8 key_to_code[] = {
+int funcInkeyS(struct Basic *bas, uint8_t *x) {
+  const uint8_t key_to_code[] = {
       0x00, 0x00, /* OFF */
       0x51,       /* Q */
       0x57,       /* W */
@@ -2064,7 +2064,7 @@ int funcInkeyS(struct Basic *bas, uint8 *x) {
 /*
         INT
 */
-int funcInt(struct Basic *bas, uint8 *x) {
+int funcInt(struct Basic *bas, uint8_t *x) {
   int err;
 
   if (bas != NULL)
@@ -2082,9 +2082,9 @@ int funcInt(struct Basic *bas, uint8 *x) {
 /*
         INP
 */
-int funcInp(struct Basic *bas, uint8 *x) {
+int funcInp(struct Basic *bas, uint8_t *x) {
   int err, address;
-  uint8 val;
+  uint8_t val;
 
   if (bas != NULL)
     ssleep(19288);
@@ -2109,7 +2109,7 @@ int funcInp(struct Basic *bas, uint8 *x) {
 /*
         LEFT$
 */
-int funcLeftS(struct Basic *bas, uint8 *x, uint8 *y) {
+int funcLeftS(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, a;
 
   if (bas != NULL)
@@ -2128,7 +2128,7 @@ int funcLeftS(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         LEN
 */
-int funcLen(struct Basic *bas, uint8 *x) {
+int funcLen(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(20175);
 
@@ -2138,7 +2138,7 @@ int funcLen(struct Basic *bas, uint8 *x) {
 /*
         LN
 */
-int funcLn(struct Basic *bas, uint8 *x) {
+int funcLn(struct Basic *bas, uint8_t *x) {
   int err;
   double a;
 
@@ -2155,12 +2155,12 @@ int funcLn(struct Basic *bas, uint8 *x) {
 /*
         LOF
 */
-int funcLof(struct Basic *bas, uint8 *x) { return ERR_10; }
+int funcLof(struct Basic *bas, uint8_t *x) { return ERR_10; }
 
 /*
         LOG
 */
-int funcLog(struct Basic *bas, uint8 *x) {
+int funcLog(struct Basic *bas, uint8_t *x) {
   int err;
   double a;
 
@@ -2177,12 +2177,12 @@ int funcLog(struct Basic *bas, uint8 *x) {
 /*
         MDF
 */
-int funcMdf(struct Basic *bas, uint8 *x) { return ERR_10; }
+int funcMdf(struct Basic *bas, uint8_t *x) { return ERR_10; }
 
 /*
         MID$
 */
-int funcMidS(struct Basic *bas, uint8 *x, uint8 *y, uint8 *z) {
+int funcMidS(struct Basic *bas, uint8_t *x, uint8_t *y, uint8_t *z) {
   int err, a, b, len;
 
   if (bas != NULL)
@@ -2211,9 +2211,9 @@ int funcMidS(struct Basic *bas, uint8 *x, uint8 *y, uint8 *z) {
 /*
         NCR
 */
-int funcNcr(struct Basic *bas, uint8 *x, uint8 *y) {
+int funcNcr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err;
-  uint8 a[SIZEOF_NUM], b[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM], b[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(44211);
@@ -2260,9 +2260,9 @@ int funcNcr(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         NPR
 */
-int funcNpr(struct Basic *bas, uint8 *x, uint8 *y) {
+int funcNpr(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err;
-  uint8 a[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(175558);
@@ -2301,7 +2301,7 @@ int funcNpr(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         PEEK
 */
-int funcPeek(struct Basic *bas, uint8 *x) {
+int funcPeek(struct Basic *bas, uint8_t *x) {
   int err, address;
 
   if (bas != NULL)
@@ -2320,7 +2320,7 @@ int funcPeek(struct Basic *bas, uint8 *x) {
 /*
         PI
 */
-int funcPi(struct Basic *bas, uint8 *x) {
+int funcPi(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(1118);
 
@@ -2330,12 +2330,12 @@ int funcPi(struct Basic *bas, uint8 *x) {
 /*
         PIOGET
 */
-int funcPioget(struct Basic *bas, uint8 *x) { return ERR_10; }
+int funcPioget(struct Basic *bas, uint8_t *x) { return ERR_10; }
 
 /*
         POINT
 */
-int funcPoint(struct Basic *bas, uint8 *x, uint8 *y) {
+int funcPoint(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, a, b, c;
 
   if (bas != NULL)
@@ -2359,7 +2359,7 @@ int funcPoint(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         POL
 */
-int funcPol(struct Basic *bas, uint8 *x, uint8 *y) {
+int funcPol(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err;
   double a, b;
 
@@ -2389,9 +2389,9 @@ int funcPol(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         RCP
 */
-int funcRcp(struct Basic *bas, uint8 *x) {
+int funcRcp(struct Basic *bas, uint8_t *x) {
   int err;
-  uint8 a[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(28386);
@@ -2411,7 +2411,7 @@ int funcRcp(struct Basic *bas, uint8 *x) {
 /*
         REC
 */
-int funcRec(struct Basic *bas, uint8 *x, uint8 *y) {
+int funcRec(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err;
 
   if (bas != NULL)
@@ -2436,7 +2436,7 @@ int funcRec(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         RIGHT$
 */
-int funcRightS(struct Basic *bas, uint8 *x, uint8 *y) {
+int funcRightS(struct Basic *bas, uint8_t *x, uint8_t *y) {
   int err, a, len;
 
   if (bas != NULL)
@@ -2458,7 +2458,7 @@ int funcRightS(struct Basic *bas, uint8 *x, uint8 *y) {
 /*
         RND
 */
-int funcRnd(struct Basic *bas, uint8 *x) {
+int funcRnd(struct Basic *bas, uint8_t *x) {
   int err, max;
 
   if (bas != NULL)
@@ -2483,7 +2483,7 @@ int funcRnd(struct Basic *bas, uint8 *x) {
 /*
         ROUND (仮想関数)
 */
-int funcRound(struct Basic *bas, uint8 *x) {
+int funcRound(struct Basic *bas, uint8_t *x) {
   int err;
 
   if (numSgn(x) >= 0)
@@ -2498,7 +2498,7 @@ int funcRound(struct Basic *bas, uint8 *x) {
 /*
         SGN
 */
-int funcSgn(struct Basic *bas, uint8 *x) {
+int funcSgn(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(2119);
 
@@ -2508,7 +2508,7 @@ int funcSgn(struct Basic *bas, uint8 *x) {
 /*
         SIN
 */
-int funcSin(struct Basic *bas, uint8 *x) {
+int funcSin(struct Basic *bas, uint8_t *x) {
   double r;
   int err;
 
@@ -2523,7 +2523,7 @@ int funcSin(struct Basic *bas, uint8 *x) {
 /*
         SQR
 */
-int funcSqr(struct Basic *bas, uint8 *x) {
+int funcSqr(struct Basic *bas, uint8_t *x) {
   double a;
   int err;
 
@@ -2538,7 +2538,7 @@ int funcSqr(struct Basic *bas, uint8 *x) {
 /*
         SQU
 */
-int funcSqu(struct Basic *bas, uint8 *x) {
+int funcSqu(struct Basic *bas, uint8_t *x) {
   if (bas != NULL)
     ssleep(12628);
 
@@ -2548,9 +2548,9 @@ int funcSqu(struct Basic *bas, uint8 *x) {
 /*
         STR$
 */
-int funcStrS(struct Basic *bas, uint8 *x) {
+int funcStrS(struct Basic *bas, uint8_t *x) {
   int len;
-  uint8 buf[256];
+  uint8_t buf[256];
 
   if (bas != NULL)
     ssleep(17251);
@@ -2571,7 +2571,7 @@ int funcStrS(struct Basic *bas, uint8 *x) {
 /*
         TAN
 */
-int funcTan(struct Basic *bas, uint8 *x) {
+int funcTan(struct Basic *bas, uint8_t *x) {
   int err;
   double a;
 
@@ -2586,9 +2586,9 @@ int funcTan(struct Basic *bas, uint8 *x) {
 /*
         TEN
 */
-int funcTen(struct Basic *bas, uint8 *x) {
+int funcTen(struct Basic *bas, uint8_t *x) {
   int err;
-  uint8 a[SIZEOF_NUM];
+  uint8_t a[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(41220);
@@ -2603,8 +2603,8 @@ int funcTen(struct Basic *bas, uint8 *x) {
 /*
         VAL
 */
-int funcVal(struct Basic *bas, uint8 *x) {
-  uint8 *str;
+int funcVal(struct Basic *bas, uint8_t *x) {
+  uint8_t *str;
 
   if (bas != NULL)
     ssleep(8599);
@@ -2620,9 +2620,9 @@ int funcVal(struct Basic *bas, uint8 *x) {
 /*
         VDEG
 */
-int funcVdeg(struct Basic *bas, uint8 *x) {
+int funcVdeg(struct Basic *bas, uint8_t *x) {
   int len;
-  uint8 tmp[SIZEOF_NUM];
+  uint8_t tmp[SIZEOF_NUM];
 
   if (bas != NULL)
     ssleep(56998);
@@ -2899,7 +2899,7 @@ const struct Operator opeTable[] = {
     {opeSub, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 101 - */
     {opeMul, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 102 * */
     {opeDiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 103 / */
-    {opeIdiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},            /* 104 ¥ */
+    {opeIdiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},            /* 104 \ */
     {opePow, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 105 ^ */
     {opeEq, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x10f]},  /* 106 = */
     {opeNe, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x110]},  /* 107 <> */
@@ -2922,7 +2922,7 @@ const struct Operator opeTable[] = {
 /*
         スタックに数値を積む
 */
-int pushNum(const uint8 *num) {
+int pushNum(const uint8_t *num) {
   if (typeSp >= &typeStack[sizeof(typeStack) / sizeof(typeStack[0]) - 1])
     return ERR_54;
   typeSp++;
@@ -2938,7 +2938,7 @@ int pushNum(const uint8 *num) {
 */
 int pushNum_f(double f) {
   int err;
-  uint8 num[SIZEOF_NUM];
+  uint8_t num[SIZEOF_NUM];
 
   if ((err = encodeNum_f(num, f)) < 0)
     return err;
@@ -2950,7 +2950,7 @@ int pushNum_f(double f) {
 */
 int pushNum_i(int i) {
   int err;
-  uint8 num[SIZEOF_NUM];
+  uint8_t num[SIZEOF_NUM];
 
   if ((err = encodeNum_i(num, i)) < 0)
     return err;
@@ -2962,9 +2962,9 @@ int pushNum_i(int i) {
 */
 int pushNum_s(char *str) {
   int err;
-  uint8 num[SIZEOF_NUM];
+  uint8_t num[SIZEOF_NUM];
 
-  if ((err = encodeNumDms(num, (uint8 *)str, TRUE)) < 0)
+  if ((err = encodeNumDms(num, (uint8_t *)str, TRUE)) < 0)
     return err;
   return pushNum(num);
 }
@@ -2972,7 +2972,7 @@ int pushNum_s(char *str) {
 /*
         スタックの先頭の数値を得る
 */
-int peekNum(uint8 **num) {
+int peekNum(uint8_t **num) {
   if (typeSp < typeStack)
     return ERR_10;
   if (*typeSp != TYPE_NUM)
@@ -2989,7 +2989,7 @@ int peekNum(uint8 **num) {
 int peekNum_f(double *d)
 {
         int err;
-        uint8 *num;
+        uint8_t *num;
 
         if((err = peekNum(&num)) < 0)
                 return err;
@@ -3002,7 +3002,7 @@ int peekNum_f(double *d)
 */
 int peekNum_i(int *i) {
   int err;
-  uint8 *num;
+  uint8_t *num;
 
   if ((err = peekNum(&num)) < 0)
     return err;
@@ -3012,7 +3012,7 @@ int peekNum_i(int *i) {
 /*
         スタックから数値を降ろす
 */
-int popNum(uint8 **num) {
+int popNum(uint8_t **num) {
   int err;
 
   if ((err = peekNum(num)) < 0)
@@ -3027,7 +3027,7 @@ int popNum(uint8 **num) {
 */
 int popNum_i(int *i) {
   int err;
-  uint8 *num;
+  uint8_t *num;
 
   if ((err = popNum(&num)) < 0)
     return err;
@@ -3039,7 +3039,7 @@ int popNum_i(int *i) {
 */
 int popNum_f(double *f) {
   int err;
-  uint8 *num;
+  uint8_t *num;
 
   if ((err = popNum(&num)) < 0)
     return err;
@@ -3049,7 +3049,7 @@ int popNum_f(double *f) {
 /*
         スタックに文字列を積む
 */
-int pushStr(const uint8 *str, int size) {
+int pushStr(const uint8_t *str, int size) {
   if (typeSp >= &typeStack[sizeof(typeStack) / sizeof(typeStack[0]) - 1])
     return ERR_54;
   typeSp++;
@@ -3064,7 +3064,7 @@ int pushStr(const uint8 *str, int size) {
 /*
         スタックの先頭の文字列を得る
 */
-int peekStr(uint8 **str) {
+int peekStr(uint8_t **str) {
   if (typeSp < typeStack)
     return ERR_10;
   if (*typeSp != TYPE_STR)
@@ -3077,7 +3077,7 @@ int peekStr(uint8 **str) {
 /*
         スタックから文字列を降ろす
 */
-int popStr(uint8 **str) {
+int popStr(uint8_t **str) {
   int err;
 
   if ((err = peekStr(str)) < 0)
@@ -3090,29 +3090,29 @@ int popStr(uint8 **str) {
 /*
         空白か?
 */
-int isBlank(const uint8 **p) { return **p == ' ' || **p == '¥t'; }
+int isBlank(const uint8_t **p) { return **p == ' ' || **p == '\t'; }
 
 /*
         空白を飛ばす
 */
-uint8 *skipBlank(const uint8 **p) {
+uint8_t *skipBlank(const uint8_t **p) {
   while (isBlank(p))
     (*p)++;
-  return (uint8 *)*p;
+  return (uint8_t *)*p;
 }
 
 /*
         記号か調べる
 */
-int peekSymbol(const uint8 **p, const uint8 *symbol) {
+int peekSymbol(const uint8_t **p, const uint8_t *symbol) {
   return memicmp(*p, symbol, strlen(symbol)) == 0;
 }
-#define peekSymbol(p, symbol) peekSymbol(p, (const uint8 *)(symbol))
+#define peekSymbol(p, symbol) peekSymbol(p, (const uint8_t *)(symbol))
 
 /*
         記号を得る
 */
-int fetchSymbol(const uint8 **p, const uint8 *symbol) {
+int fetchSymbol(const uint8_t **p, const uint8_t *symbol) {
   if (peekSymbol(p, symbol)) {
     (*p) += strlen(symbol);
     skipBlank(p);
@@ -3120,23 +3120,23 @@ int fetchSymbol(const uint8 **p, const uint8 *symbol) {
   } else
     return FALSE;
 }
-#define fetchSymbol(p, symbol) fetchSymbol(p, (const uint8 *)(symbol))
+#define fetchSymbol(p, symbol) fetchSymbol(p, (const uint8_t *)(symbol))
 
 /*
         左カッコを得る
 */
-int fetchLParen(const uint8 **p) { return fetchSymbol(p, "("); }
+int fetchLParen(const uint8_t **p) { return fetchSymbol(p, "("); }
 
 /*
         右カッコを得る
 */
-int fetchRParen(const uint8 **p) { return fetchSymbol(p, ")"); }
+int fetchRParen(const uint8_t **p) { return fetchSymbol(p, ")"); }
 
 /*
         左ダブルクオーテーションを得る
 */
-int fetchLDquote(const uint8 **p) {
-  if (**p != '¥"')
+int fetchLDquote(const uint8_t **p) {
+  if (**p != '\"')
     return FALSE;
 
   (*p)++;
@@ -3146,19 +3146,19 @@ int fetchLDquote(const uint8 **p) {
 /*
         右ダブルクオーテーションを得る
 */
-int fetchRDquote(const uint8 **p) { return fetchSymbol(p, "¥""); }
+int fetchRDquote(const uint8_t **p) { return fetchSymbol(p, "\""); }
 
 /*
         コンマを得る
 */
-int fetchComma(const uint8 **p) { return fetchSymbol(p, ","); }
+int fetchComma(const uint8_t **p) { return fetchSymbol(p, ","); }
 
 /*
         変数名から種別・型を得る
 */
-int getVarType(const uint8 *name, int *kind, int *type) {
+int getVarType(const uint8_t *name, int *kind, int *type) {
   int len = 0;
-  const uint8 *p = name;
+  const uint8_t *p = name;
 
   if (!isalpha(*p))
     return ERR_OK;
@@ -3186,9 +3186,9 @@ int getVarType(const uint8 *name, int *kind, int *type) {
 /*
         登録された変数を検索する
 */
-int findVar(struct Basic *bas, uint8 **var, uint8 *ret_name1, const uint8 *name,
+int findVar(struct Basic *bas, uint8_t **var, uint8_t *ret_name1, const uint8_t *name,
             int kind, int type) {
-  uint8 name1, **v;
+  uint8_t name1, **v;
 
   /* 固定変数ならばそれを戻す */
   if (kind == KIND_FIXED) {
@@ -3227,10 +3227,10 @@ int findVar(struct Basic *bas, uint8 **var, uint8 *ret_name1, const uint8 *name,
 /*
         変数を登録する
 */
-int allocVar(struct Basic *bas, uint8 **var, const uint8 *name, int kind,
+int allocVar(struct Basic *bas, uint8_t **var, const uint8_t *name, int kind,
              int type, int array_size0, int array_size1, int len) {
   int n, var_size;
-  uint8 **v, *p, name1;
+  uint8_t **v, *p, name1;
 
   /* 確保済みか? */
   findVar(bas, &p, &name1, name, kind, type);
@@ -3268,9 +3268,9 @@ int allocVar(struct Basic *bas, uint8 **var, const uint8 *name, int kind,
 /*
         変数を解放する
 */
-int freeVar(struct Basic *bas, const uint8 *name, int kind, int type) {
+int freeVar(struct Basic *bas, const uint8_t *name, int kind, int type) {
   int err;
-  uint8 *var, **v;
+  uint8_t *var, **v;
 
   if ((err = findVar(bas, &var, NULL, name, kind, type)) < 0)
     return err;
@@ -3295,7 +3295,7 @@ int freeVar(struct Basic *bas, const uint8 *name, int kind, int type) {
         全ての変数を解放する
 */
 int freeAllVars(struct Basic *bas) {
-  uint8 **v;
+  uint8_t **v;
 
   for (v = bas->vars; *v != NULL; v++)
     free(*v);
@@ -3316,7 +3316,7 @@ int clearAllVars(struct Basic *bas) {
 /*
         単純変数の値を得る
 */
-int getSimpleVal(uint8 **val, int *type, int *size, uint8 *var) {
+int getSimpleVal(uint8_t **val, int *type, int *size, uint8_t *var) {
   /* 型を得る */
   if (var[1] < 0x70)
     *type = TYPE_NUM;
@@ -3335,7 +3335,7 @@ int getSimpleVal(uint8 **val, int *type, int *size, uint8 *var) {
 /*
         配列変数の値を得る
 */
-int getArrayVal(uint8 **val, int *type, int *size, uint8 *var, int index0,
+int getArrayVal(uint8_t **val, int *type, int *size, uint8_t *var, int index0,
                 int index1) {
   int array_size0, array_size1;
 
@@ -3373,7 +3373,7 @@ int getArrayVal(uint8 **val, int *type, int *size, uint8 *var, int index0,
 /*
         変数に値を代入する
 */
-int setVarVal(uint8 *var, int kind, int type, int size, const uint8 *val) {
+int setVarVal(uint8_t *var, int kind, int type, int size, const uint8_t *val) {
   if (type == TYPE_NUM)
     memcpy(var, val, SIZEOF_NUM);
   else if (kind == KIND_FIXED) {
@@ -3387,17 +3387,17 @@ int setVarVal(uint8 *var, int kind, int type, int size, const uint8 *val) {
 /*
         リテラル文字列を得る (_pushParamの下請け)
 */
-static int fetchLitStr(struct Element *e, const uint8 **p) {
-  if (**p == '¥"') {
+static int fetchLitStr(struct Element *e, const uint8_t **p) {
+  if (**p == '\"') {
     (*p)++;
 
     e->priority = PRIORITY_VAL;
     e->ele_type = ELE_TYPE_STR;
     e->x.str = *p;
 
-    while (**p != '¥"' && **p != '\r')
+    while (**p != '\"' && **p != '\r')
       (*p)++;
-    if (**p == '¥"')
+    if (**p == '\"')
       (*p)++;
 
     skipBlank(p);
@@ -3409,7 +3409,7 @@ static int fetchLitStr(struct Element *e, const uint8 **p) {
 /*
         リテラル数値を得る (_pushParamの下請け)
 */
-static int fetchLitNum(struct Element *e, const uint8 **p, int dms) {
+static int fetchLitNum(struct Element *e, const uint8_t **p, int dms) {
   int len;
 
   if ((len = encodeNumDms(e->x.num, *p, dms)) > 0) {
@@ -3427,7 +3427,7 @@ static int fetchLitNum(struct Element *e, const uint8 **p, int dms) {
 /*
         関数を得る (_pushParamの下請け)
 */
-static int fetchFunc(struct Element *e, const uint8 **p) {
+static int fetchFunc(struct Element *e, const uint8_t **p) {
   if (**p == CODE_RESERVED) {
     if (*(*p + 1) < 0x80)
       return 0;
@@ -3456,7 +3456,7 @@ static int fetchFunc(struct Element *e, const uint8 **p) {
 /*
         変数を得る (_pushParamの下請け)
 */
-static int fetchVar(struct Element *e, struct Basic *bas, const uint8 **p) {
+static int fetchVar(struct Element *e, struct Basic *bas, const uint8_t **p) {
   int len, err, kind, type;
 
   if ((len = getVarType(*p, &kind, &type)) <= 0)
@@ -3467,10 +3467,10 @@ static int fetchVar(struct Element *e, struct Basic *bas, const uint8 **p) {
 
   if (kind == KIND_FIXED) {
     if (type == TYPE_STR) {
-      if (memcmp(e->x.var, "¥0¥0¥0¥0¥0¥0¥0¥0", 8) == 0) { /* 未初期化か? */
+      if (memcmp(e->x.var, "\0\0\0\0\0\0\0\0", 8) == 0) { /* 未初期化か? */
         e->ele_type = ELE_TYPE_STR;
         e->priority = PRIORITY_VAL;
-        e->x.str = (const uint8 *)"";
+        e->x.str = (const uint8_t *)"";
         return 1;
       }
 
@@ -3494,7 +3494,7 @@ static int fetchVar(struct Element *e, struct Basic *bas, const uint8 **p) {
       } else {
         e->ele_type = TYPE_STR;
         e->priority = PRIORITY_VAL;
-        e->x.str = (const uint8 *)"";
+        e->x.str = (const uint8_t *)"";
         return 1;
       }
     }
@@ -3512,7 +3512,7 @@ static int fetchVar(struct Element *e, struct Basic *bas, const uint8 **p) {
 /*
         演算子を得る (_pushParamの下請け)
 */
-static int fetchOpe(struct Element *e, const uint8 **p) {
+static int fetchOpe(struct Element *e, const uint8_t **p) {
   if (**p == CODE_RESERVED) {
     if (*(*p + 1) == CODE_OR) {
       e->x.ope = CODE_OR;
@@ -3580,7 +3580,7 @@ static int fetchOpe(struct Element *e, const uint8 **p) {
   } else if (**p == '/') {
     e->x.ope = CODE_DIV;
     e->priority = PRIORITY_OPE + 4;
-  } else if (**p == '¥¥') {
+  } else if (**p == '\\') {
     e->x.ope = CODE_IDIV;
     e->priority = PRIORITY_OPE + 4;
   } else if (**p == '^') {
@@ -3610,10 +3610,10 @@ static int pushEle(const struct Element *e) {
 /*
         リテラル文字列の長さを得る (popEleの下請け)
 */
-static int getStrLen(const uint8 *str) {
-  const uint8 *p;
+static int getStrLen(const uint8_t *str) {
+  const uint8_t *p;
 
-  for (p = str; *p != 0 && *p != '¥"' && *p != '\r'; p++)
+  for (p = str; *p != 0 && *p != '\"' && *p != '\r'; p++)
     ;
   return (int)(p - str);
 }
@@ -3663,7 +3663,7 @@ static int exeOpe(struct Basic *bas, int ope) {
 */
 static int popEle(struct Basic *bas) {
   int err, type, size, index0, index1;
-  uint8 *val;
+  uint8_t *val;
 
   if (top < stack)
     return ERR_10;
@@ -3716,7 +3716,7 @@ static int popEle(struct Basic *bas) {
 /*
         マニュアルモードか?
 */
-static int isManual(struct Basic *bas, const uint8 *p) {
+static int isManual(struct Basic *bas, const uint8_t *p) {
   return (p < bas->prog || p >= bas->prog + bas->prog_size);
 }
 
@@ -3724,7 +3724,7 @@ static int isManual(struct Basic *bas, const uint8 *p) {
         値をスタックに積む (pushParamの下請け)
 */
 static int _pushParam(struct Basic *bas, struct Element *bottom,
-                      const uint8 **p) {
+                      const uint8_t **p) {
   struct Element e;
   int result, man = isManual(bas, *p);
 
@@ -3792,7 +3792,7 @@ static int _pushParam(struct Basic *bas, struct Element *bottom,
 /*
         値をスタックに積む
 */
-int pushParam(struct Basic *bas, const uint8 **p) {
+int pushParam(struct Basic *bas, const uint8_t **p) {
   top = stack;
   return _pushParam(bas, top, p);
 }
@@ -3800,9 +3800,9 @@ int pushParam(struct Basic *bas, const uint8 **p) {
 /*
         値をスタックに積む
 */
-int pushParamOrEmpty(struct Basic *bas, const uint8 **p) {
+int pushParamOrEmpty(struct Basic *bas, const uint8_t **p) {
   int err;
-  const uint8 *q = *p;
+  const uint8_t *q = *p;
 
   if ((err = pushParam(bas, p)) < 0)
     if (err == ERR_10 && *p == q)
@@ -3813,7 +3813,7 @@ int pushParamOrEmpty(struct Basic *bas, const uint8 **p) {
 /*
         値を得る
 */
-int fetchParam(struct Basic *bas, uint8 **param, int *type, const uint8 **p) {
+int fetchParam(struct Basic *bas, uint8_t **param, int *type, const uint8_t **p) {
   int err;
 
   if ((err = pushParam(bas, p)) < 0)
@@ -3836,7 +3836,7 @@ int fetchParam(struct Basic *bas, uint8 **param, int *type, const uint8 **p) {
 /*
         値(数値)を得る
 */
-int fetchNum(struct Basic *bas, uint8 **num, const uint8 **p) {
+int fetchNum(struct Basic *bas, uint8_t **num, const uint8_t **p) {
   int err;
 
   if ((err = pushParam(bas, p)) < 0)
@@ -3849,7 +3849,7 @@ int fetchNum(struct Basic *bas, uint8 **num, const uint8 **p) {
 /*
         値(数値)を得る
 */
-int fetchNumOrEmpty(struct Basic *bas, uint8 **num, const uint8 **p) {
+int fetchNumOrEmpty(struct Basic *bas, uint8_t **num, const uint8_t **p) {
   int err;
 
   if ((err = pushParamOrEmpty(bas, p)) != 0)
@@ -3862,7 +3862,7 @@ int fetchNumOrEmpty(struct Basic *bas, uint8 **num, const uint8 **p) {
 /*
         値(数値)を整数として得る
 */
-int fetchNum_i(struct Basic *bas, int *i, const uint8 **p) {
+int fetchNum_i(struct Basic *bas, int *i, const uint8_t **p) {
   int err;
 
   if ((err = pushParam(bas, p)) < 0)
@@ -3873,7 +3873,7 @@ int fetchNum_i(struct Basic *bas, int *i, const uint8 **p) {
 /*
         値(数値)を整数として得る
 */
-int fetchNumOrEmpty_i(struct Basic *bas, int *i, const uint8 **p) {
+int fetchNumOrEmpty_i(struct Basic *bas, int *i, const uint8_t **p) {
   int err;
 
   if ((err = pushParamOrEmpty(bas, p)) != 0)
@@ -3884,7 +3884,7 @@ int fetchNumOrEmpty_i(struct Basic *bas, int *i, const uint8 **p) {
 /*
         値(数値)を浮動小数点として得る
 */
-int fetchNum_f(struct Basic *bas, double *f, const uint8 **p) {
+int fetchNum_f(struct Basic *bas, double *f, const uint8_t **p) {
   int err;
 
   if ((err = pushParam(bas, p)) < 0)
@@ -3895,7 +3895,7 @@ int fetchNum_f(struct Basic *bas, double *f, const uint8 **p) {
 /*
         値(数値)を浮動小数点として得る
 */
-int fetchNumOrEmpty_f(struct Basic *bas, double *f, const uint8 **p) {
+int fetchNumOrEmpty_f(struct Basic *bas, double *f, const uint8_t **p) {
   int err;
 
   if ((err = pushParamOrEmpty(bas, p)) != 0)
@@ -3906,7 +3906,7 @@ int fetchNumOrEmpty_f(struct Basic *bas, double *f, const uint8 **p) {
 /*
         値(文字列)を得る
 */
-int fetchStr(struct Basic *bas, uint8 **str, const uint8 **p) {
+int fetchStr(struct Basic *bas, uint8_t **str, const uint8_t **p) {
   int err;
 
   if ((err = pushParam(bas, p)) < 0)
@@ -3917,7 +3917,7 @@ int fetchStr(struct Basic *bas, uint8 **str, const uint8 **p) {
 /*
         値(文字列)を得る
 */
-int fetchStrOrEmpty(struct Basic *bas, uint8 **str, const uint8 **p) {
+int fetchStrOrEmpty(struct Basic *bas, uint8_t **str, const uint8_t **p) {
   int err;
 
   if ((err = pushParamOrEmpty(bas, p)) != 0)
@@ -3928,10 +3928,10 @@ int fetchStrOrEmpty(struct Basic *bas, uint8 **str, const uint8 **p) {
 /*
         変数を得る
 */
-int fetchVarVal(struct Basic *bas, uint8 **val, int *kind, int *type, int *size,
-                const uint8 **p) {
+int fetchVarVal(struct Basic *bas, uint8_t **val, int *kind, int *type, int *size,
+                const uint8_t **p) {
   int err, len, index0, index1;
-  uint8 *var, name1;
+  uint8_t *var, name1;
 
   /* 変数のアドレスを得る */
   if ((len = getVarType(*p, kind, type)) <= 0)
@@ -3989,7 +3989,7 @@ int fetchVarVal(struct Basic *bas, uint8 **val, int *kind, int *type, int *size,
 /*
         予約語かチェックする
 */
-int isKeyword(const uint8 **p, uint8 code) {
+int isKeyword(const uint8_t **p, uint8_t code) {
   if (**p != CODE_RESERVED)
     return FALSE;
   if (*(*p + 1) != code)
@@ -4000,7 +4000,7 @@ int isKeyword(const uint8 **p, uint8 code) {
 /*
         予約語を得る
 */
-int fetchKeyword(const uint8 **p, uint8 code) {
+int fetchKeyword(const uint8_t **p, uint8_t code) {
   if (!isKeyword(p, code))
     return FALSE;
 
@@ -4012,7 +4012,7 @@ int fetchKeyword(const uint8 **p, uint8 code) {
 /*
         予約語を得る
 */
-int fetchAnyKeyword(const uint8 **p) {
+int fetchAnyKeyword(const uint8_t **p) {
   if (**p != CODE_RESERVED)
     return FALSE;
 
@@ -4024,19 +4024,19 @@ int fetchAnyKeyword(const uint8 **p) {
 /*
         行の終端か?
 */
-int isLineTerm(const uint8 **p) {
+int isLineTerm(const uint8_t **p) {
   return p == NULL || **p == '\r' || **p == \\';
 }
 
 /*
         ステートメントの終端か?
 */
-int isStaTerm(const uint8 **p) { return p == NULL || **p == ':'; }
+int isStaTerm(const uint8_t **p) { return p == NULL || **p == ':'; }
 
 /*
         終端か?
 */
-int isTerm(const uint8 **p) {
+int isTerm(const uint8_t **p) {
   return isLineTerm(p) || isStaTerm(p) || isKeyword(p, CODE_THEN) ||
          isKeyword(p, CODE_ELSE) || isKeyword(p, CODE_TO);
 }
@@ -4044,12 +4044,12 @@ int isTerm(const uint8 **p) {
 /*
         行番号か?
 */
-int isLineNo(const uint8 **p) { return isdigit(**p); }
+int isLineNo(const uint8_t **p) { return isdigit(**p); }
 
 /*
         行番号を得る
 */
-int fetchLineNoOnly(const uint8 **p) {
+int fetchLineNoOnly(const uint8_t **p) {
   int i, line_no = 0;
 
   if (!isdigit(**p))
@@ -4068,7 +4068,7 @@ int fetchLineNoOnly(const uint8 **p) {
 /*
         行番号を得る
 */
-int fetchLineNo(const uint8 **p) {
+int fetchLineNo(const uint8_t **p) {
   int line_no;
 
   if ((line_no = fetchLineNoOnly(p)) < 0)
@@ -4081,22 +4081,22 @@ int fetchLineNo(const uint8 **p) {
 /*
         ラベルか?
 */
-int isLabel(const uint8 **p) {
-  return (**p == '*' || **p == '¥"') && isalpha(*(*p + 1));
+int isLabel(const uint8_t **p) {
+  return (**p == '*' || **p == '\"') && isalpha(*(*p + 1));
 }
 
 /*
         ラベルを得る
 */
-int fetchLabel(const uint8 **p) {
+int fetchLabel(const uint8_t **p) {
   if (fetchSymbol(p, "*")) {
     do {
     } while (isalnum(*++(*p)));
-  } else if (fetchSymbol(p, "¥"")) {
+  } else if (fetchSymbol(p, "\"")) {
     do {
     } while (isalnum(*++(*p)));
 
-    fetchSymbol(p, "¥"");
+    fetchSymbol(p, "\"");
   } else
     return FALSE;
 
@@ -4108,8 +4108,8 @@ int fetchLabel(const uint8 **p) {
         予約語と文字列を比較する (getKeywordFromText,
    getKeywordFromCodeの下請け)
 */
-static int cmpKeyword(const uint8 *keyword, const uint8 *str) {
-  const uint8 *p, *q;
+static int cmpKeyword(const uint8_t *keyword, const uint8_t *str) {
+  const uint8_t *p, *q;
 
   if (*str == '.')
     return -1;
@@ -4129,8 +4129,8 @@ static int cmpKeyword(const uint8 *keyword, const uint8 *str) {
 /*
         行番号を復号化する
 */
-int decodeLineNo(int *line_no, int *len, const uint8 *src) {
-  const uint8 *p = src;
+int decodeLineNo(int *line_no, int *len, const uint8_t *src) {
+  const uint8_t *p = src;
 
   if (src == NULL)
     return 0;
@@ -4146,7 +4146,7 @@ int decodeLineNo(int *line_no, int *len, const uint8 *src) {
 /*
         コードから予約語を検索する
 */
-int getKeywordFromCode(uint8 *name, int code) {
+int getKeywordFromCode(uint8_t *name, int code) {
   const struct KeywordTable *k;
 
   for (k = keywordTable; k->name != NULL; k++)
@@ -4162,9 +4162,9 @@ int getKeywordFromCode(uint8 *name, int code) {
 /*
         中間コードをテキストに変換する
 */
-int decodeProg(uint8 *dst, const uint8 *src) {
-  const uint8 *p = src;
-  uint8 *q = dst;
+int decodeProg(uint8_t *dst, const uint8_t *src) {
+  const uint8_t *p = src;
+  uint8_t *q = dst;
 
   if (*p == 0xff)
     return 0;
@@ -4186,9 +4186,9 @@ int decodeProg(uint8 *dst, const uint8 *src) {
 /*
         行番号と中間コードをテキストに変換する
 */
-int decodeLineNoProg(uint8 *dst, const uint8 *src, const uint8 *sep) {
+int decodeLineNoProg(uint8_t *dst, const uint8_t *src, const uint8_t *sep) {
   int line_no = 0, len;
-  const uint8 *p = src;
+  const uint8_t *p = src;
 
   if (p == NULL || IS_LAST(p)) {
     strcpy(dst, "");
@@ -4201,13 +4201,13 @@ int decodeLineNoProg(uint8 *dst, const uint8 *src, const uint8 *sep) {
 
   return (int)(p - src);
 }
-#define decodeLineNoProg(dst, src, sep)                                        ¥
-  decodeLineNoProg((uint8 *)(dst), (const uint8 *)(src), (const uint8 *)(sep))
+#define decodeLineNoProg(dst, src, sep)                                        \
+  decodeLineNoProg((uint8_t *)(dst), (const uint8_t *)(src), (const uint8_t *)(sep))
 
 /*
         指定の行に移動する
 */
-int jumpToLineNo(const uint8 **p, const uint8 *top, int line_no) {
+int jumpToLineNo(const uint8_t **p, const uint8_t *top, int line_no) {
   for (*p = top; !IS_LAST(*p) && LINE_NO(*p) < line_no; *p += LINE_SIZE(*p))
     ;
 
@@ -4217,9 +4217,9 @@ int jumpToLineNo(const uint8 **p, const uint8 *top, int line_no) {
 /*
         最終行に移動する
 */
-int jumpToLast(const uint8 **p, const uint8 *top) {
+int jumpToLast(const uint8_t **p, const uint8_t *top) {
   int line_no = 0;
-  const uint8 *q;
+  const uint8_t *q;
 
   for (q = top; !IS_LAST(q); q += LINE_SIZE(q))
     line_no = LINE_NO(q);
@@ -4232,7 +4232,7 @@ int jumpToLast(const uint8 **p, const uint8 *top) {
 /*
         ラベルを比較する (jumpToLabelの下請け)
 */
-static int cmpLabel(const uint8 *label, const uint8 *p) {
+static int cmpLabel(const uint8_t *label, const uint8_t *p) {
   skipBlank(&p);
 
   if (*p != '*')
@@ -4251,8 +4251,8 @@ static int cmpLabel(const uint8 *label, const uint8 *p) {
 /*
         指定のラベルに移動する
 */
-int jumpToLabel(const uint8 **p, const uint8 *top, const uint8 *label) {
-  if (*label == '*' || *label == '¥"') {
+int jumpToLabel(const uint8_t **p, const uint8_t *top, const uint8_t *label) {
+  if (*label == '*' || *label == '\"') {
     int len, line_no, size;
 
     *p = top;
@@ -4272,7 +4272,7 @@ int jumpToLabel(const uint8 **p, const uint8 *top, const uint8 *label) {
 /*
         行またはラベルを検索する
 */
-int findLine(const uint8 **p, const uint8 **found, const uint8 *top) {
+int findLine(const uint8_t **p, const uint8_t **found, const uint8_t *top) {
   int line_no;
 
   if (isLineNo(p)) {
@@ -4281,7 +4281,7 @@ int findLine(const uint8 **p, const uint8 **found, const uint8 *top) {
     if (!jumpToLineNo(found, top, line_no))
       return ERR_40;
   } else if (isLabel(p)) {
-    const uint8 *label = *p;
+    const uint8_t *label = *p;
 
     if (!fetchLabel(p))
       return ERR_10;
@@ -4297,7 +4297,7 @@ int findLine(const uint8 **p, const uint8 **found, const uint8 *top) {
 /*
         次のコードに移動する
 */
-int goNext(const uint8 **p) {
+int goNext(const uint8_t **p) {
   if (**p == CODE_RESERVED)
     *p += 2;
   else if (**p == '\r') {
@@ -4317,7 +4317,7 @@ int goNext(const uint8 **p) {
 /*
         次の行に移動する
 */
-int goNextLine(const uint8 **p) {
+int goNextLine(const uint8_t **p) {
   if (*p == NULL || **p == 0xff) {
     *p = NULL;
     return FALSE;
@@ -4338,7 +4338,7 @@ int goNextLine(const uint8 **p) {
 /*
         次の行の最初のコードに移動する
 */
-int goNextLineCode(const uint8 **p) {
+int goNextLineCode(const uint8_t **p) {
   int line_no, size;
 
   if (!goNextLine(p))
@@ -4353,7 +4353,7 @@ int goNextLineCode(const uint8 **p) {
 /*
         DATAの読み込み位置を設定する
 */
-static const uint8 *restoreData(const uint8 *p) {
+static const uint8_t *restoreData(const uint8_t *p) {
   int len, line_no, size;
 
   if ((len = decodeLineNo(&line_no, &size, p)) <= 0)
@@ -4433,86 +4433,86 @@ static int popFlow(struct Basic *bas, void **top, int kind) {
   return ERR_OK;
 }
 
-static int staAuto(struct Basic *, const uint8 **);
-static int staBeep(struct Basic *, const uint8 **);
-static int staBload(struct Basic *, const uint8 **);
-static int staBsave(struct Basic *, const uint8 **);
-static int staCall(struct Basic *, const uint8 **);
-static int staCase(struct Basic *, const uint8 **);
-static int staCircle(struct Basic *, const uint8 **);
-static int staClear(struct Basic *, const uint8 **);
-static int staClose(struct Basic *, const uint8 **);
-static int staCls(struct Basic *, const uint8 **);
-static int staCont(struct Basic *, const uint8 **);
-static int staData(struct Basic *, const uint8 **);
-static int staDefault(struct Basic *, const uint8 **);
-static int staDegree(struct Basic *, const uint8 **);
-static int staDelete(struct Basic *, const uint8 **);
-static int staDim(struct Basic *, const uint8 **);
-static int staElse(struct Basic *, const uint8 **);
-static int staEnd(struct Basic *, const uint8 **);
-static int staEndif(struct Basic *, const uint8 **);
-static int staEndswitch(struct Basic *, const uint8 **);
-static int staErase(struct Basic *, const uint8 **);
-static int staFiles(struct Basic *, const uint8 **);
-static int staFor(struct Basic *, const uint8 **);
-static int staGcursor(struct Basic *, const uint8 **);
-static int staGosub(struct Basic *, const uint8 **);
-static int staGoto(struct Basic *, const uint8 **);
-static int staGprint(struct Basic *, const uint8 **);
-static int staGrad(struct Basic *, const uint8 **);
-static int staHdcopy(struct Basic *, const uint8 **);
-static int staIf(struct Basic *, const uint8 **);
-static int staInput(struct Basic *, const uint8 **);
-static int staKill(struct Basic *, const uint8 **);
-static int staLcopy(struct Basic *, const uint8 **);
-static int staLet(struct Basic *, const uint8 **);
-static int staLfiles(struct Basic *, const uint8 **);
-static int staLine(struct Basic *, const uint8 **);
-static int staList(struct Basic *, const uint8 **);
-static int staLlist(struct Basic *, const uint8 **);
-static int staLninput(struct Basic *, const uint8 **);
-static int staLoad(struct Basic *, const uint8 **);
-static int staLocate(struct Basic *, const uint8 **);
-static int staLprint(struct Basic *, const uint8 **);
-static int staNew(struct Basic *, const uint8 **);
-static int staNext(struct Basic *, const uint8 **);
-static int staOn(struct Basic *, const uint8 **);
-static int staOpen(struct Basic *, const uint8 **);
-static int staOut(struct Basic *, const uint8 **);
-static int staPaint(struct Basic *, const uint8 **);
-static int staPass(struct Basic *, const uint8 **);
-static int staPioput(struct Basic *, const uint8 **);
-static int staPioset(struct Basic *, const uint8 **);
-static int staPoke(struct Basic *, const uint8 **);
-static int staPreset(struct Basic *, const uint8 **);
-static int staPrint(struct Basic *, const uint8 **);
-static int staPset(struct Basic *, const uint8 **);
-static int staRadian(struct Basic *, const uint8 **);
-static int staRandomize(struct Basic *, const uint8 **);
-static int staRead(struct Basic *, const uint8 **);
-static int staRem(struct Basic *, const uint8 **);
-static int staRenum(struct Basic *, const uint8 **);
-static int staRepeat(struct Basic *, const uint8 **);
-static int staRestore(struct Basic *, const uint8 **);
-static int staReturn(struct Basic *, const uint8 **);
-static int staRun(struct Basic *, const uint8 **);
-static int staSave(struct Basic *, const uint8 **);
-static int staSpinp(struct Basic *, const uint8 **);
-static int staSpout(struct Basic *, const uint8 **);
-static int staStop(struct Basic *, const uint8 **);
-static int staSwitch(struct Basic *, const uint8 **);
-static int staTroff(struct Basic *, const uint8 **);
-static int staTron(struct Basic *, const uint8 **);
-static int staUntil(struct Basic *, const uint8 **);
-static int staWait(struct Basic *, const uint8 **);
-static int staWend(struct Basic *, const uint8 **);
-static int staWhile(struct Basic *, const uint8 **);
+static int staAuto(struct Basic *, const uint8_t **);
+static int staBeep(struct Basic *, const uint8_t **);
+static int staBload(struct Basic *, const uint8_t **);
+static int staBsave(struct Basic *, const uint8_t **);
+static int staCall(struct Basic *, const uint8_t **);
+static int staCase(struct Basic *, const uint8_t **);
+static int staCircle(struct Basic *, const uint8_t **);
+static int staClear(struct Basic *, const uint8_t **);
+static int staClose(struct Basic *, const uint8_t **);
+static int staCls(struct Basic *, const uint8_t **);
+static int staCont(struct Basic *, const uint8_t **);
+static int staData(struct Basic *, const uint8_t **);
+static int staDefault(struct Basic *, const uint8_t **);
+static int staDegree(struct Basic *, const uint8_t **);
+static int staDelete(struct Basic *, const uint8_t **);
+static int staDim(struct Basic *, const uint8_t **);
+static int staElse(struct Basic *, const uint8_t **);
+static int staEnd(struct Basic *, const uint8_t **);
+static int staEndif(struct Basic *, const uint8_t **);
+static int staEndswitch(struct Basic *, const uint8_t **);
+static int staErase(struct Basic *, const uint8_t **);
+static int staFiles(struct Basic *, const uint8_t **);
+static int staFor(struct Basic *, const uint8_t **);
+static int staGcursor(struct Basic *, const uint8_t **);
+static int staGosub(struct Basic *, const uint8_t **);
+static int staGoto(struct Basic *, const uint8_t **);
+static int staGprint(struct Basic *, const uint8_t **);
+static int staGrad(struct Basic *, const uint8_t **);
+static int staHdcopy(struct Basic *, const uint8_t **);
+static int staIf(struct Basic *, const uint8_t **);
+static int staInput(struct Basic *, const uint8_t **);
+static int staKill(struct Basic *, const uint8_t **);
+static int staLcopy(struct Basic *, const uint8_t **);
+static int staLet(struct Basic *, const uint8_t **);
+static int staLfiles(struct Basic *, const uint8_t **);
+static int staLine(struct Basic *, const uint8_t **);
+static int staList(struct Basic *, const uint8_t **);
+static int staLlist(struct Basic *, const uint8_t **);
+static int staLninput(struct Basic *, const uint8_t **);
+static int staLoad(struct Basic *, const uint8_t **);
+static int staLocate(struct Basic *, const uint8_t **);
+static int staLprint(struct Basic *, const uint8_t **);
+static int staNew(struct Basic *, const uint8_t **);
+static int staNext(struct Basic *, const uint8_t **);
+static int staOn(struct Basic *, const uint8_t **);
+static int staOpen(struct Basic *, const uint8_t **);
+static int staOut(struct Basic *, const uint8_t **);
+static int staPaint(struct Basic *, const uint8_t **);
+static int staPass(struct Basic *, const uint8_t **);
+static int staPioput(struct Basic *, const uint8_t **);
+static int staPioset(struct Basic *, const uint8_t **);
+static int staPoke(struct Basic *, const uint8_t **);
+static int staPreset(struct Basic *, const uint8_t **);
+static int staPrint(struct Basic *, const uint8_t **);
+static int staPset(struct Basic *, const uint8_t **);
+static int staRadian(struct Basic *, const uint8_t **);
+static int staRandomize(struct Basic *, const uint8_t **);
+static int staRead(struct Basic *, const uint8_t **);
+static int staRem(struct Basic *, const uint8_t **);
+static int staRenum(struct Basic *, const uint8_t **);
+static int staRepeat(struct Basic *, const uint8_t **);
+static int staRestore(struct Basic *, const uint8_t **);
+static int staReturn(struct Basic *, const uint8_t **);
+static int staRun(struct Basic *, const uint8_t **);
+static int staSave(struct Basic *, const uint8_t **);
+static int staSpinp(struct Basic *, const uint8_t **);
+static int staSpout(struct Basic *, const uint8_t **);
+static int staStop(struct Basic *, const uint8_t **);
+static int staSwitch(struct Basic *, const uint8_t **);
+static int staTroff(struct Basic *, const uint8_t **);
+static int staTron(struct Basic *, const uint8_t **);
+static int staUntil(struct Basic *, const uint8_t **);
+static int staWait(struct Basic *, const uint8_t **);
+static int staWend(struct Basic *, const uint8_t **);
+static int staWhile(struct Basic *, const uint8_t **);
 
 /*
         AUTO
 */
-static int staAuto(struct Basic *bas, const uint8 **p) {
+static int staAuto(struct Basic *bas, const uint8_t **p) {
   int start = -1, step = -1;
 
   /* 開始番号を得る */
@@ -4565,7 +4565,7 @@ static void buzz(int hz) {
 /*
         BEEP
 */
-static int staBeep(struct Basic *bas, const uint8 **p) {
+static int staBeep(struct Basic *bas, const uint8_t **p) {
   int err, count = 1, freq = 7, len = 2000, hz, i;
 
   if ((err = fetchNum_i(bas, &count, p)) < 0)
@@ -4605,9 +4605,9 @@ static int staBeep(struct Basic *bas, const uint8 **p) {
 /*
         BLOAD/CLOAD
 */
-static int staBload(struct Basic *bas, const uint8 **p) {
+static int staBload(struct Basic *bas, const uint8_t **p) {
   int err, mode, address = 0, begin;
-  uint8 *filename;
+  uint8_t *filename;
 
   if (fetchSymbol(p, "M")) {
     mode = 1;
@@ -4620,7 +4620,7 @@ static int staBload(struct Basic *bas, const uint8 **p) {
     mode = 0;
 
   if (isTerm(p))
-    filename = (uint8 *)pathSioIn;
+    filename = (uint8_t *)pathSioIn;
   else {
     if (mode > 0)
       if (!fetchComma(p))
@@ -4660,9 +4660,9 @@ static int staBload(struct Basic *bas, const uint8 **p) {
 /*
         BSAVE/CSAVE
 */
-static int staBsave(struct Basic *bas, const uint8 **p) {
+static int staBsave(struct Basic *bas, const uint8_t **p) {
   int err, mode, start = 0, end = 0;
-  uint8 *filename;
+  uint8_t *filename;
 
   if (fetchSymbol(p, "M")) {
     mode = 1;
@@ -4683,7 +4683,7 @@ static int staBsave(struct Basic *bas, const uint8 **p) {
     mode = 0;
 
   if (isTerm(p))
-    filename = (uint8 *)pathSioOut;
+    filename = (uint8_t *)pathSioOut;
   else {
     if (mode > 0)
       if (!fetchComma(p))
@@ -4710,7 +4710,7 @@ static int staBsave(struct Basic *bas, const uint8 **p) {
 /*
         CALL
 */
-static int staCall(struct Basic *bas, const uint8 **p) {
+static int staCall(struct Basic *bas, const uint8_t **p) {
   int err, address;
 
   if ((err = fetchNum_i(bas, &address, p)) < 0)
@@ -4739,7 +4739,7 @@ static int staCall(struct Basic *bas, const uint8 **p) {
 /*
         CASE(ブロック構文)
 */
-static int staCase(struct Basic *bas, const uint8 **p) {
+static int staCase(struct Basic *bas, const uint8_t **p) {
   struct SwitchCase *switch_case;
   int err;
 
@@ -4755,7 +4755,7 @@ static int staCase(struct Basic *bas, const uint8 **p) {
 }
 
 /* 塗りつぶしのための一時領域 */
-static uint8 dot[6][144];
+static uint8_t dot[6][144];
 
 /*
         一時領域を消去する (下請け)
@@ -4765,7 +4765,7 @@ static void cleardot(void) { memset(dot, 0, sizeof(dot)); }
 /*
         一時領域に点を描く (paintの下請け)
 */
-static void putdot(uint16 x, uint16 y, uint8 mode) {
+static void putdot(uint16 x, uint16 y, uint8_t mode) {
   if (x < 0 || x >= lcdWidth || y < 0 || y >= lcdHeight)
     return;
 
@@ -4808,7 +4808,7 @@ static int paint_line(int16 x, int16 y) {
 /*
         一時領域からVRAMに転送する (staCircle, staPaintの下請け)
 */
-static int draw(uint8 pat, uint8 mode) {
+static int draw(uint8_t pat, uint8_t mode) {
   int i, j, n = 0;
 
   for (j = 0; j < lcdHeight; j++)
@@ -4830,10 +4830,10 @@ static int draw(uint8 pat, uint8 mode) {
 /*
         CIRCLE
 */
-static int staCircle(struct Basic *bas, const uint8 **p) {
+static int staCircle(struct Basic *bas, const uint8_t **p) {
   double a1 = .0, a2 = 360.0, ratio = 1.0, a, y;
   int err, x0, y0, r, l1 = FALSE, l2 = FALSE, pat = 0, n = 0, x, z, d, outline;
-  uint8 mode = 1;
+  uint8_t mode = 1;
 
   if (!fetchSymbol(p, "("))
     return ERR_10;
@@ -4959,7 +4959,7 @@ static int staCircle(struct Basic *bas, const uint8 **p) {
 /*
         CLEAR
 */
-static int staClear(struct Basic *bas, const uint8 **p) {
+static int staClear(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -4972,7 +4972,7 @@ static int staClear(struct Basic *bas, const uint8 **p) {
 /*
         CLOSE
 */
-static int staClose(struct Basic *bas, const uint8 **p) {
+static int staClose(struct Basic *bas, const uint8_t **p) {
   int err, fileno;
 
   do {
@@ -4998,7 +4998,7 @@ static int staClose(struct Basic *bas, const uint8 **p) {
 /*
         CLS
 */
-static int staCls(struct Basic *bas, const uint8 **p) {
+static int staCls(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -5011,7 +5011,7 @@ static int staCls(struct Basic *bas, const uint8 **p) {
 /*
         CONT
 */
-static int staCont(struct Basic *bas, const uint8 **p) {
+static int staCont(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
   if (bas->p == NULL)
@@ -5026,7 +5026,7 @@ static int staCont(struct Basic *bas, const uint8 **p) {
 /*
         DATA
 */
-static int staData(struct Basic *bas, const uint8 **p) {
+static int staData(struct Basic *bas, const uint8_t **p) {
   while (!isTerm(p))
     goNext(p);
 
@@ -5038,14 +5038,14 @@ static int staData(struct Basic *bas, const uint8 **p) {
 /*
         DEFAULT(ブロック構文)
 */
-static int staDefault(struct Basic *bas, const uint8 **p) {
+static int staDefault(struct Basic *bas, const uint8_t **p) {
   return staCase(bas, p);
 }
 
 /*
         DEGREE
 */
-static int staDegree(struct Basic *bas, const uint8 **p) {
+static int staDegree(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -5058,9 +5058,9 @@ static int staDegree(struct Basic *bas, const uint8 **p) {
 /*
         DELETE
 */
-static int staDelete(struct Basic *bas, const uint8 **p) {
+static int staDelete(struct Basic *bas, const uint8_t **p) {
   int start, end, line_no;
-  uint8 buf[256];
+  uint8_t buf[256];
 
   /* 開始行番号を得る */
   if (isLineNo(p)) {
@@ -5095,10 +5095,10 @@ static int staDelete(struct Basic *bas, const uint8 **p) {
 /*
         DIM
 */
-static int staDim(struct Basic *bas, const uint8 **p) {
+static int staDim(struct Basic *bas, const uint8_t **p) {
   int err, len, kind, type, dims, max0, max1, size;
-  uint8 *var;
-  const uint8 *name;
+  uint8_t *var;
+  const uint8_t *name;
 
   ssleep(631); /* ??? */
 
@@ -5164,7 +5164,7 @@ static int staDim(struct Basic *bas, const uint8 **p) {
 /*
         ELSE
 */
-static int staElse(struct Basic *bas, const uint8 **p) {
+static int staElse(struct Basic *bas, const uint8_t **p) {
   goNextLine(p);
   return ERR_OK_JUMP;
 }
@@ -5172,7 +5172,7 @@ static int staElse(struct Basic *bas, const uint8 **p) {
 /*
         ELSE(ブロック構文)
 */
-static int staBlockElse(struct Basic *bas, const uint8 **p) {
+static int staBlockElse(struct Basic *bas, const uint8_t **p) {
   int depth = 0;
 
   if (!isTerm(p))
@@ -5205,7 +5205,7 @@ static int staBlockElse(struct Basic *bas, const uint8 **p) {
 /*
         END
 */
-static int staEnd(struct Basic *bas, const uint8 **p) {
+static int staEnd(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -5216,7 +5216,7 @@ static int staEnd(struct Basic *bas, const uint8 **p) {
 /*
         ENDIF(ブロック構文)
 */
-static int staEndif(struct Basic *bas, const uint8 **p) {
+static int staEndif(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
   return ERR_OK_NEXT;
@@ -5225,7 +5225,7 @@ static int staEndif(struct Basic *bas, const uint8 **p) {
 /*
         ENDSWITCH(ブロック構文)
 */
-static int staEndswitch(struct Basic *bas, const uint8 **p) {
+static int staEndswitch(struct Basic *bas, const uint8_t **p) {
   struct SwitchCase *switch_case;
   int err;
 
@@ -5240,9 +5240,9 @@ static int staEndswitch(struct Basic *bas, const uint8 **p) {
 /*
         ERASE
 */
-static int staErase(struct Basic *bas, const uint8 **p) {
+static int staErase(struct Basic *bas, const uint8_t **p) {
   int len, kind, type;
-  const uint8 *name;
+  const uint8_t *name;
 
   ssleep(631); /* ??? */
 
@@ -5264,9 +5264,9 @@ static int staErase(struct Basic *bas, const uint8 **p) {
 /*
         FILES
 */
-static int staFiles(struct Basic *bas, const uint8 **p) {
+static int staFiles(struct Basic *bas, const uint8_t **p) {
   char path[MAX_PATH] = "";
-  uint8 ch;
+  uint8_t ch;
 
   if (!isTerm(p))
     return ERR_10;
@@ -5287,10 +5287,10 @@ static int staFiles(struct Basic *bas, const uint8 **p) {
 /*
         FOR
 */
-static int staFor(struct Basic *bas, const uint8 **p) {
+static int staFor(struct Basic *bas, const uint8_t **p) {
   struct ForLoop *for_loop;
   int err, kind, type, size;
-  uint8 *val, *num;
+  uint8_t *val, *num;
 
   /* フロー制御スタックの先頭を進める */
   if ((err = pushFlow(bas, (void **)&for_loop, CODE_FOR)) < 0)
@@ -5337,7 +5337,7 @@ static int staFor(struct Basic *bas, const uint8 **p) {
 /*
         GCURSOR
 */
-static int staGcursor(struct Basic *bas, const uint8 **p) {
+static int staGcursor(struct Basic *bas, const uint8_t **p) {
   int err, x, y;
 
   if (!fetchSymbol(p, "("))
@@ -5366,10 +5366,10 @@ static int staGcursor(struct Basic *bas, const uint8 **p) {
 /*
         GOSUB
 */
-static int staGosub(struct Basic *bas, const uint8 **p) {
+static int staGosub(struct Basic *bas, const uint8_t **p) {
   struct GosubReturn *gosub_return;
   int err;
-  const uint8 *p_next;
+  const uint8_t *p_next;
 
   if ((err = findLine(p, &p_next, bas->prog)) < 0)
     return err;
@@ -5390,9 +5390,9 @@ static int staGosub(struct Basic *bas, const uint8 **p) {
 /*
         GOTO
 */
-static int staGoto(struct Basic *bas, const uint8 **p) {
+static int staGoto(struct Basic *bas, const uint8_t **p) {
   int err;
-  const uint8 *p_next;
+  const uint8_t *p_next;
 
   if ((err = findLine(p, &p_next, bas->prog)) < 0)
     return err;
@@ -5422,7 +5422,7 @@ static void pause(struct Basic *bas) {
 /*
         パターンを描く (staGprintの下請け)
 */
-static void gprint1(struct Basic *bas, uint16 x, uint16 y, uint8 pat) {
+static void gprint1(struct Basic *bas, uint16 x, uint16 y, uint8_t pat) {
   pset(x, y - 7, pat & 0x01 ? 1 : 0);
   pset(x, y - 6, pat & 0x02 ? 1 : 0);
   pset(x, y - 5, pat & 0x04 ? 1 : 0);
@@ -5436,10 +5436,10 @@ static void gprint1(struct Basic *bas, uint16 x, uint16 y, uint8 pat) {
 /*
         GPRINT
 */
-static int staGprint(struct Basic *bas, const uint8 **p) {
+static int staGprint(struct Basic *bas, const uint8_t **p) {
   int err, type, pat;
   uint16 x = z80read16(&z80, 0x79db), y = z80read16(&z80, 0x79dd);
-  uint8 *num_or_str;
+  uint8_t *num_or_str;
 
   ssleep(4409);
 
@@ -5456,7 +5456,7 @@ static int staGprint(struct Basic *bas, const uint8 **p) {
       ssleep(1043);
       gprint1(bas, x++, y, pat);
     } else if (type == TYPE_STR) {
-      uint8 *q;
+      uint8_t *q;
 
       for (q = num_or_str; *q != 0 && *(q + 1) != 0; q += 2) {
         if (!isxdigit(*q) || !isxdigit(*(q + 1)))
@@ -5486,7 +5486,7 @@ static int staGprint(struct Basic *bas, const uint8 **p) {
 /*
         GRAD
 */
-static int staGrad(struct Basic *bas, const uint8 **p) {
+static int staGrad(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -5499,7 +5499,7 @@ static int staGrad(struct Basic *bas, const uint8 **p) {
 /*
         HDCOPY
 */
-static int staHdcopy(struct Basic *bas, const uint8 **p) {
+static int staHdcopy(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -5511,7 +5511,7 @@ static int staHdcopy(struct Basic *bas, const uint8 **p) {
 /*
         同じ行のELSEまで移動する (staIf, staBlockIfの下請け)
 */
-static int goElse(struct Basic *bas, const uint8 **p) {
+static int goElse(struct Basic *bas, const uint8_t **p) {
   int depth = 1;
 
   for (;;) {
@@ -5536,9 +5536,9 @@ static int goElse(struct Basic *bas, const uint8 **p) {
 /*
         IF
 */
-static int staIf(struct Basic *bas, const uint8 **p) {
+static int staIf(struct Basic *bas, const uint8_t **p) {
   int err, type, zero;
-  uint8 *bool;
+  uint8_t *bool;
 
   if ((err = fetchParam(bas, &bool, &type, p)) < 0)
     return err;
@@ -5567,9 +5567,9 @@ static int staIf(struct Basic *bas, const uint8 **p) {
 /*
         IF(ブロック構文)
 */
-static int staBlockIf(struct Basic *bas, const uint8 **p) {
+static int staBlockIf(struct Basic *bas, const uint8_t **p) {
   int err, type, zero;
-  uint8 *bool;
+  uint8_t *bool;
 
   if ((err = fetchParam(bas, &bool, &type, p)) < 0)
     return err;
@@ -5629,10 +5629,10 @@ static int staBlockIf(struct Basic *bas, const uint8 **p) {
 
 /*
  */
-static int fetchArrayWild(struct Basic *bas, uint8 **var, int *type,
-                          const uint8 **p) {
+static int fetchArrayWild(struct Basic *bas, uint8_t **var, int *type,
+                          const uint8_t **p) {
   int err, len, kind;
-  const uint8 *q;
+  const uint8_t *q;
 
   if ((len = getVarType(*p, &kind, type)) <= 0)
     return FALSE;
@@ -5658,7 +5658,7 @@ static int fetchArrayWild(struct Basic *bas, uint8 **var, int *type,
 /*
         ファイルから値を読み込む
 */
-static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
+static int fetchValFromFile(uint8_t *val, int type, FILE *fp) {
   int ch, in_quote = FALSE;
   char buf[256 + 1], *p = buf;
 
@@ -5666,7 +5666,7 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
   for (;;) {
     if ((ch = getc(fp)) < 0)
       break;
-    else if (ch != ' ' && ch != '¥t') {
+    else if (ch != ' ' && ch != '\t') {
       ungetc(ch, fp);
       break;
     }
@@ -5680,10 +5680,10 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
       break;
     else if (ch == '\n' || ch == '\r')
       break;
-    else if (ch == ' ' || ch == '¥t' || ch == ',') {
+    else if (ch == ' ' || ch == '\t' || ch == ',') {
       if (!in_quote)
         break;
-    } else if (ch == '¥"') {
+    } else if (ch == '\"') {
       if (p == buf) {
         in_quote = TRUE;
         continue;
@@ -5694,7 +5694,7 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
             break;
           else if (ch == ',' || ch == '\n' || ch == '\r')
             break;
-          else if (ch != ' ' && ch != '¥t') {
+          else if (ch != ' ' && ch != '\t') {
             ungetc(ch, fp);
             break;
           }
@@ -5716,7 +5716,7 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
     for (;;) {
       if ((ch = getc(fp)) < 0)
         break;
-      else if (ch != ' ' && ch != '¥t') {
+      else if (ch != ' ' && ch != '\t') {
         ungetc(ch, fp);
         break;
       }
@@ -5724,7 +5724,7 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
 
   /* 変換する */
   if (type == TYPE_NUM) {
-    if (encodeNum(val, (uint8 *)buf) < 0)
+    if (encodeNum(val, (uint8_t *)buf) < 0)
       numLet(val, NUM_0);
   } else if (type == TYPE_STR)
     strcpy(val, buf);
@@ -5737,9 +5737,9 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
 /*
         INPUT #
 */
-static int staInputFile(struct Basic *bas, const uint8 **p) {
+static int staInputFile(struct Basic *bas, const uint8_t **p) {
   int err, fileno, type, size;
-  uint8 *array, *val, num_or_str[256 + 1];
+  uint8_t *array, *val, num_or_str[256 + 1];
 
   if (!fetchSymbol(p, "#"))
     return ERR_10;
@@ -5796,14 +5796,14 @@ static int staInputFile(struct Basic *bas, const uint8 **p) {
   return ERR_OK_NEXT;
 }
 
-static int encodeProg(uint8 *, const uint8 *, int);
+static int encodeProg(uint8_t *, const uint8_t *, int);
 
 /*
         INPUT
 */
-static int staInput(struct Basic *bas, const uint8 **p) {
+static int staInput(struct Basic *bas, const uint8_t **p) {
   int err, kind, type, size;
-  uint8 k, buf[256], prog[256], *q, *val, *prompt, *num_or_str;
+  uint8_t k, buf[256], prog[256], *q, *val, *prompt, *num_or_str;
 
   if (peekSymbol(p, "#"))
     return staInputFile(bas, p);
@@ -5818,10 +5818,10 @@ static int staInput(struct Basic *bas, const uint8 **p) {
         if (!fetchSymbol(p, ";"))
           return ERR_10;
         gprintf("%s", prompt);
-        prompt = (uint8 *)"";
+        prompt = (uint8_t *)"";
       }
     } else
-      prompt = (uint8 *)"?";
+      prompt = (uint8_t *)"?";
 
     /* 変数を得る */
     if ((err = fetchVarVal(bas, &val, &kind, &type, &size, p)) < 0)
@@ -5851,7 +5851,7 @@ static int staInput(struct Basic *bas, const uint8 **p) {
 
       if (type == TYPE_STR) {
         if (strcmp(buf, "") != 0)
-          setVarVal(val, kind, type, size, (const uint8 *)buf);
+          setVarVal(val, kind, type, size, (const uint8_t *)buf);
       } else if (type == TYPE_NUM) {
         encodeProg(prog, buf, MODE_RUN);
         q = prog;
@@ -5884,9 +5884,9 @@ static int staInput(struct Basic *bas, const uint8 **p) {
 /*
         KILL
 */
-static int staKill(struct Basic *bas, const uint8 **p) {
+static int staKill(struct Basic *bas, const uint8_t **p) {
   int err;
-  uint8 *filename;
+  uint8_t *filename;
 
   if ((err = fetchStr(bas, &filename, p)) < 0)
     return err;
@@ -5901,7 +5901,7 @@ static int staKill(struct Basic *bas, const uint8 **p) {
 /*
         LCOPY
 */
-static int staLcopy(struct Basic *bas, const uint8 **p) {
+static int staLcopy(struct Basic *bas, const uint8_t **p) {
   int start, end, to;
 
   if ((start = fetchLineNo(p)) < 0)
@@ -5919,9 +5919,9 @@ static int staLcopy(struct Basic *bas, const uint8 **p) {
 /*
         LET
 */
-static int staLet(struct Basic *bas, const uint8 **p) {
+static int staLet(struct Basic *bas, const uint8_t **p) {
   int err, kind, type, size;
-  uint8 *val, *num_or_str;
+  uint8_t *val, *num_or_str;
 
   do {
     if ((err = fetchVarVal(bas, &val, &kind, &type, &size, p)) < 0)
@@ -5955,9 +5955,9 @@ static int staLet(struct Basic *bas, const uint8 **p) {
 /*
         LFILES
 */
-static int staLfiles(struct Basic *bas, const uint8 **p) {
+static int staLfiles(struct Basic *bas, const uint8_t **p) {
   int err;
-  uint8 *str;
+  uint8_t *str;
 
   if ((err = fetchStr(bas, &str, p)) < 0)
     return err;
@@ -5973,9 +5973,9 @@ static int staLfiles(struct Basic *bas, const uint8 **p) {
 /*
         LINE
 */
-static int staLine(struct Basic *bas, const uint8 **p) {
+static int staLine(struct Basic *bas, const uint8_t **p) {
   int err, x1, y1, x2, y2, pat = 0xffff, draw = 0, w, h;
-  uint8 mode = 1;
+  uint8_t mode = 1;
 
   if (fetchSymbol(p, "(")) {
     if ((err = fetchNum_i(bas, &x1, p)) < 0)
@@ -6058,9 +6058,9 @@ static int staLine(struct Basic *bas, const uint8 **p) {
 /*
         LIST
 */
-static int staList(struct Basic *bas, const uint8 **p) {
+static int staList(struct Basic *bas, const uint8_t **p) {
   int err, size;
-  const uint8 *prog;
+  const uint8_t *prog;
 
   if (isTerm(p))
     prog = bas->prog;
@@ -6079,13 +6079,13 @@ static int staList(struct Basic *bas, const uint8 **p) {
 /*
         LLIST
 */
-static int staLlist(struct Basic *bas, const uint8 **p) {
+static int staLlist(struct Basic *bas, const uint8_t **p) {
   int start, end;
 
   if (isTerm(p)) {
 
   } else if (isLabel(p)) {
-    const uint8 *prog;
+    const uint8_t *prog;
 
     jumpToLabel(&prog, bas->prog, *p);
   } else {
@@ -6105,14 +6105,14 @@ static int staLlist(struct Basic *bas, const uint8 **p) {
 /*
         LNINPUT
 */
-static int staLninput(struct Basic *bas, const uint8 **p) { return ERR_10; }
+static int staLninput(struct Basic *bas, const uint8_t **p) { return ERR_10; }
 
 /*
         LOAD
 */
-static int staLoad(struct Basic *bas, const uint8 **p) {
+static int staLoad(struct Basic *bas, const uint8_t **p) {
   int err;
-  uint8 *filename;
+  uint8_t *filename;
 
   if ((err = fetchStr(bas, &filename, p)) < 0)
     return err;
@@ -6129,7 +6129,7 @@ static int staLoad(struct Basic *bas, const uint8 **p) {
 /*
         LOCATE
 */
-static int staLocate(struct Basic *bas, const uint8 **p) {
+static int staLocate(struct Basic *bas, const uint8_t **p) {
   int err, col = z80read8(&z80, 0x7922), row = z80read8(&z80, 0x7923);
 
   if ((err = fetchNumOrEmpty_i(bas, &col, p)) < 0)
@@ -6156,12 +6156,12 @@ static int staLocate(struct Basic *bas, const uint8 **p) {
 /*
         LPRINT
 */
-static int staLprint(struct Basic *bas, const uint8 **p) { return ERR_10; }
+static int staLprint(struct Basic *bas, const uint8_t **p) { return ERR_10; }
 
 /*
         MON
 */
-static int staMon(struct Basic *bas, const uint8 **p) {
+static int staMon(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -6180,7 +6180,7 @@ static void clearCont(struct Basic *bas) {
 /*
         NEW
 */
-static int staNew(struct Basic *bas, const uint8 **p) {
+static int staNew(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -6194,11 +6194,11 @@ static int staNew(struct Basic *bas, const uint8 **p) {
 /*
         NEXT
 */
-static int staNext(struct Basic *bas, const uint8 **p) {
+static int staNext(struct Basic *bas, const uint8_t **p) {
   struct ForLoop *for_loop;
   int err, kind, type, size, dir;
-  uint8 *val, *val_next, result[SIZEOF_NUM];
-  const uint8 *var;
+  uint8_t *val, *val_next, result[SIZEOF_NUM];
+  const uint8_t *var;
 
   ssleep(8500);
 
@@ -6259,10 +6259,10 @@ static int staNext(struct Basic *bas, const uint8 **p) {
 /*
         ON..GOTO, ON..GOSUB
 */
-static int staOn(struct Basic *bas, const uint8 **p) {
+static int staOn(struct Basic *bas, const uint8_t **p) {
   int err, index;
-  uint8 code;
-  const uint8 *label_or_no = NULL;
+  uint8_t code;
+  const uint8_t *label_or_no = NULL;
 
   if ((err = fetchNum_i(bas, &index, p)) < 0)
     return err;
@@ -6311,9 +6311,9 @@ static int staOn(struct Basic *bas, const uint8 **p) {
 /*
         OPEN
 */
-static int staOpen(struct Basic *bas, const uint8 **p) {
+static int staOpen(struct Basic *bas, const uint8_t **p) {
   int err, fileno = 1, mode = 0;
-  uint8 *filename;
+  uint8_t *filename;
   char path[MAX_PATH];
 
   if ((err = fetchStr(bas, &filename, p)) < 0)
@@ -6365,7 +6365,7 @@ static int staOpen(struct Basic *bas, const uint8 **p) {
 /*
         OUT
 */
-static int staOut(struct Basic *bas, const uint8 **p) {
+static int staOut(struct Basic *bas, const uint8_t **p) {
   int err, port = 0x18, val;
 
   if ((err = fetchNum_i(bas, &val, p)) < 0)
@@ -6387,7 +6387,7 @@ static int staOut(struct Basic *bas, const uint8 **p) {
 /*
         塗りつぶす (staCircle, staPaintの下請け)
 */
-static int paint(int16 x, int16 y, uint8 pat) {
+static int paint(int16 x, int16 y, uint8_t pat) {
   int i, j, redo;
 
   cleardot();
@@ -6412,7 +6412,7 @@ static int paint(int16 x, int16 y, uint8 pat) {
 /*
         PAINT
 */
-static int staPaint(struct Basic *bas, const uint8 **p) {
+static int staPaint(struct Basic *bas, const uint8_t **p) {
   int err, x, y, pat, n;
 
   if (!fetchSymbol(p, "("))
@@ -6443,9 +6443,9 @@ static int staPaint(struct Basic *bas, const uint8 **p) {
 /*
         PASS
 */
-static int staPass(struct Basic *bas, const uint8 **p) {
+static int staPass(struct Basic *bas, const uint8_t **p) {
   int err;
-  uint8 *pass;
+  uint8_t *pass;
 
   if ((err = fetchStr(bas, &pass, p)) < 0)
     return err;
@@ -6458,7 +6458,7 @@ static int staPass(struct Basic *bas, const uint8 **p) {
 /*
         PIOPUT
 */
-static int staPioput(struct Basic *bas, const uint8 **p) {
+static int staPioput(struct Basic *bas, const uint8_t **p) {
   int err, x;
 
   if ((err = fetchNum_i(bas, &x, p)) < 0)
@@ -6472,7 +6472,7 @@ static int staPioput(struct Basic *bas, const uint8 **p) {
 /*
         PIOSET
 */
-static int staPioset(struct Basic *bas, const uint8 **p) {
+static int staPioset(struct Basic *bas, const uint8_t **p) {
   int err, x;
 
   if ((err = fetchNum_i(bas, &x, p)) < 0)
@@ -6488,7 +6488,7 @@ static int staPioset(struct Basic *bas, const uint8 **p) {
 /*
         POKE
 */
-static int staPoke(struct Basic *bas, const uint8 **p) {
+static int staPoke(struct Basic *bas, const uint8_t **p) {
   int err, address, val;
 
   if ((err = fetchNum_i(bas, &address, p)) < 0)
@@ -6517,7 +6517,7 @@ static int staPoke(struct Basic *bas, const uint8 **p) {
 /*
         PRESET
 */
-static int staPreset(struct Basic *bas, const uint8 **p) {
+static int staPreset(struct Basic *bas, const uint8_t **p) {
   int err, x, y;
 
   if (!fetchSymbol(p, "("))
@@ -6545,15 +6545,15 @@ static int staPreset(struct Basic *bas, const uint8 **p) {
 
 /*
  */
-static int formatVal(char *buf, const uint8 *val, int type) {
+static int formatVal(char *buf, const uint8_t *val, int type) {
   int err;
 
   if (type == TYPE_NUM) {
     if (numSgn(val) >= 0) {
       buf[0] = ' ';
-      err = decodeNum((uint8 *)buf + 1, val);
+      err = decodeNum((uint8_t *)buf + 1, val);
     } else
-      err = decodeNum((uint8 *)buf, val);
+      err = decodeNum((uint8_t *)buf, val);
     if (err < 0)
       return err;
 
@@ -6569,10 +6569,10 @@ static int formatVal(char *buf, const uint8 *val, int type) {
 /*
         PRINT #
 */
-static int staPrintFile(struct Basic *bas, const uint8 **p) {
+static int staPrintFile(struct Basic *bas, const uint8_t **p) {
   int err, fileno, type, size;
   char buf[260 + 1];
-  uint8 *num_or_str, *array;
+  uint8_t *num_or_str, *array;
 
   if (!fetchSymbol(p, "#"))
     return ERR_10;
@@ -6648,9 +6648,9 @@ static void initFormat(struct Basic *bas) {
 /*
         書式を設定する (PRINT, USINGの下請け)
 */
-static int _staUsing(struct Basic *bas, const uint8 **p) {
+static int _staUsing(struct Basic *bas, const uint8_t **p) {
   int err;
-  uint8 *format, *f;
+  uint8_t *format, *f;
 
   initFormat(bas);
 
@@ -6700,9 +6700,9 @@ static int _staUsing(struct Basic *bas, const uint8 **p) {
 /*
         PRINT
 */
-static int staPrint(struct Basic *bas, const uint8 **p) {
+static int staPrint(struct Basic *bas, const uint8_t **p) {
   int err, type, i, len, cat;
-  uint8 *val, *c, buf[32];
+  uint8_t *val, *c, buf[32];
 
   if (peekSymbol(p, "#"))
     return staPrintFile(bas, p);
@@ -6807,7 +6807,7 @@ static int staPrint(struct Basic *bas, const uint8 **p) {
 /*
         DATAをスタックに積む (staReadの下請け)
 */
-static int pushData(struct Basic *bas, const uint8 **p, int type) {
+static int pushData(struct Basic *bas, const uint8_t **p, int type) {
   int err;
 
   if (*p == NULL)
@@ -6815,7 +6815,7 @@ static int pushData(struct Basic *bas, const uint8 **p, int type) {
 
   if (type == TYPE_NUM) {
     int len;
-    uint8 num[SIZEOF_NUM];
+    uint8_t num[SIZEOF_NUM];
 
     if (peekSymbol(p, ",") || isTerm(p))
       numLet(num, NUM_0);
@@ -6829,7 +6829,7 @@ static int pushData(struct Basic *bas, const uint8 **p, int type) {
       return err;
   } else {
     int size;
-    const uint8 *str;
+    const uint8_t *str;
 
     if (fetchLDquote(p)) {
       str = *p;
@@ -6865,9 +6865,9 @@ static int pushData(struct Basic *bas, const uint8 **p, int type) {
 /*
         PSET
 */
-static int staPset(struct Basic *bas, const uint8 **p) {
+static int staPset(struct Basic *bas, const uint8_t **p) {
   int err, x, y;
-  uint8 mode = 1;
+  uint8_t mode = 1;
 
   if (!fetchSymbol(p, "("))
     return ERR_10;
@@ -6902,7 +6902,7 @@ static int staPset(struct Basic *bas, const uint8 **p) {
 /*
         RADIAN
 */
-static int staRadian(struct Basic *bas, const uint8 **p) {
+static int staRadian(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -6915,7 +6915,7 @@ static int staRadian(struct Basic *bas, const uint8 **p) {
 /*
         RANDOMIZE
 */
-static int staRandomize(struct Basic *bas, const uint8 **p) {
+static int staRandomize(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -6930,9 +6930,9 @@ static int staRandomize(struct Basic *bas, const uint8 **p) {
 /*
         READ
 */
-static int staRead(struct Basic *bas, const uint8 **p) {
+static int staRead(struct Basic *bas, const uint8_t **p) {
   int err, kind, type, size;
-  uint8 *val;
+  uint8_t *val;
 
   ssleep(1358);
 
@@ -6945,14 +6945,14 @@ static int staRead(struct Basic *bas, const uint8 **p) {
     if ((err = pushData(bas, &bas->d, type)) < 0)
       return err;
     if (type == TYPE_NUM) {
-      uint8 *num;
+      uint8_t *num;
 
       if ((err = popNum(&num)) < 0)
         return err;
       if ((err = setVarVal(val, kind, type, size, num)) < 0)
         return err;
     } else {
-      uint8 *str;
+      uint8_t *str;
 
       if ((err = popStr(&str)) < 0)
         return err;
@@ -6972,7 +6972,7 @@ static int staRead(struct Basic *bas, const uint8 **p) {
 /*
         REM
 */
-static int staRem(struct Basic *bas, const uint8 **p) {
+static int staRem(struct Basic *bas, const uint8_t **p) {
   ssleep(2337);
 
   goNextLine(p);
@@ -6982,7 +6982,7 @@ static int staRem(struct Basic *bas, const uint8 **p) {
 /*
         削除する
 */
-static int _delete(uint8 *area, int area_size, uint8 *p, int len) {
+static int _delete(uint8_t *area, int area_size, uint8_t *p, int len) {
   memmove(p, p + len, (int)((area + area_size) - (p + len)));
   return ERR_OK;
 }
@@ -6990,7 +6990,7 @@ static int _delete(uint8 *area, int area_size, uint8 *p, int len) {
 /*
         行の語を削除する
 */
-static int deleteWord(uint8 *area, int area_size, uint8 *line, uint8 *p,
+static int deleteWord(uint8_t *area, int area_size, uint8_t *line, uint8_t *p,
                       int len) {
   _delete(area, area_size, p, len);
   line[2] -= len;
@@ -7000,8 +7000,8 @@ static int deleteWord(uint8 *area, int area_size, uint8 *line, uint8 *p,
 /*
         挿入する
 */
-static int _insert(uint8 *area, int area_size, uint8 *p, int len) {
-  uint8 *last;
+static int _insert(uint8_t *area, int area_size, uint8_t *p, int len) {
+  uint8_t *last;
 
   /* オーバーするか? */
   for (last = area; !IS_LAST(last); last += LINE_SIZE(last))
@@ -7019,8 +7019,8 @@ static int _insert(uint8 *area, int area_size, uint8 *p, int len) {
 /*
         行の語を挿入する
 */
-static int insertWord(uint8 *area, int area_size, uint8 *line, uint8 *p,
-                      const uint8 *word, int len) {
+static int insertWord(uint8_t *area, int area_size, uint8_t *line, uint8_t *p,
+                      const uint8_t *word, int len) {
   int err;
 
   if (LINE_SIZE(p) + len > 0xff)
@@ -7037,12 +7037,12 @@ static int insertWord(uint8 *area, int area_size, uint8 *line, uint8 *p,
         行番号を付け直す (staRenumの下請け)
 */
 static void _renum(struct Basic *bas, int line_no_old, int line_no_new) {
-  uint8 *line, *p, *q, *r;
+  uint8_t *line, *p, *q, *r;
   int len, line_no;
-  uint8 buf[8];
+  uint8_t buf[8];
 
   for (line = bas->prog; !IS_LAST(line); line += LINE_SIZE(line)) {
-    for (p = line + 3; *p != '\r'; goNext((const uint8 **)&p)) {
+    for (p = line + 3; *p != '\r'; goNext((const uint8_t **)&p)) {
       q = p;
 
       /* 行番号またはラベルがパラメータのステートメントでなければ処理しない */
@@ -7058,17 +7058,17 @@ static void _renum(struct Basic *bas, int line_no_old, int line_no_new) {
         continue;
       q++;
 
-      skipBlank((const uint8 **)&q);
+      skipBlank((const uint8_t **)&q);
 
       do {
 
-        if (isLabel((const uint8 **)&q)) {
+        if (isLabel((const uint8_t **)&q)) {
           /* ラベルを読み飛ばす */
-          fetchLabel((const uint8 **)&q);
-        } else if (isLineNo((const uint8 **)&q)) {
+          fetchLabel((const uint8_t **)&q);
+        } else if (isLineNo((const uint8_t **)&q)) {
           /* 行番号を得る */
           r = q;
-          line_no = fetchLineNoOnly((const uint8 **)&r);
+          line_no = fetchLineNoOnly((const uint8_t **)&r);
 
           /* 変換前の行番号か? */
           if (line_no == line_no_old) {
@@ -7083,9 +7083,9 @@ static void _renum(struct Basic *bas, int line_no_old, int line_no_new) {
           }
 
           /* 行番号を読み飛ばす */
-          fetchLineNo((const uint8 **)&q);
+          fetchLineNo((const uint8_t **)&q);
         }
-      } while (fetchComma((const uint8 **)&q));
+      } while (fetchComma((const uint8_t **)&q));
     }
   }
 }
@@ -7093,9 +7093,9 @@ static void _renum(struct Basic *bas, int line_no_old, int line_no_new) {
 /*
         RENUM
 */
-static int staRenum(struct Basic *bas, const uint8 **p) {
+static int staRenum(struct Basic *bas, const uint8_t **p) {
   int line_no_new = 10, line_no_start = 0, step = 10, line_no, line_no_old;
-  uint8 *line;
+  uint8_t *line;
 
   if (isLineNo(p)) {
     if ((line_no_new = fetchLineNo(p)) < 0)
@@ -7144,7 +7144,7 @@ static int staRenum(struct Basic *bas, const uint8 **p) {
 /*
         REPEAT
 */
-static int staRepeat(struct Basic *bas, const uint8 **p) {
+static int staRepeat(struct Basic *bas, const uint8_t **p) {
   struct RepeatLoop *repeat_loop;
   int err;
 
@@ -7164,9 +7164,9 @@ static int staRepeat(struct Basic *bas, const uint8 **p) {
 /*
         RESTORE
 */
-static int staRestore(struct Basic *bas, const uint8 **p) {
+static int staRestore(struct Basic *bas, const uint8_t **p) {
   int err;
-  const uint8 *start = bas->prog;
+  const uint8_t *start = bas->prog;
 
   if (isLineNo(p) || isLabel(p))
     if ((err = findLine(p, &start, bas->prog)) < 0)
@@ -7183,7 +7183,7 @@ static int staRestore(struct Basic *bas, const uint8 **p) {
 /*
         RETURN
 */
-static int staReturn(struct Basic *bas, const uint8 **p) {
+static int staReturn(struct Basic *bas, const uint8_t **p) {
   struct GosubReturn *gosub_return;
   int err;
 
@@ -7203,9 +7203,9 @@ static int staReturn(struct Basic *bas, const uint8 **p) {
 /*
         RUN
 */
-static int staRun(struct Basic *bas, const uint8 **p) {
+static int staRun(struct Basic *bas, const uint8_t **p) {
   int err;
-  const uint8 *start = bas->prog;
+  const uint8_t *start = bas->prog;
 
   ssleep(1000000);
 
@@ -7238,9 +7238,9 @@ static int staRun(struct Basic *bas, const uint8 **p) {
 /*
         SAVE
 */
-static int staSave(struct Basic *bas, const uint8 **p) {
+static int staSave(struct Basic *bas, const uint8_t **p) {
   int err;
-  uint8 *filename;
+  uint8_t *filename;
 
   if ((err = fetchStr(bas, &filename, p)) < 0)
     return err;
@@ -7255,17 +7255,17 @@ static int staSave(struct Basic *bas, const uint8 **p) {
 /*
         SPINP
 */
-static int staSpinp(struct Basic *bas, const uint8 **p) { return ERR_10; }
+static int staSpinp(struct Basic *bas, const uint8_t **p) { return ERR_10; }
 
 /*
         SPOUT
 */
-static int staSpout(struct Basic *bas, const uint8 **p) { return ERR_10; }
+static int staSpout(struct Basic *bas, const uint8_t **p) { return ERR_10; }
 
 /*
         STOP
 */
-static int staStop(struct Basic *bas, const uint8 **p) {
+static int staStop(struct Basic *bas, const uint8_t **p) {
   if (!isTerm(p))
     return ERR_10;
 
@@ -7275,11 +7275,11 @@ static int staStop(struct Basic *bas, const uint8 **p) {
 /*
         SWITCH(ブロック構文)
 */
-static int staSwitch(struct Basic *bas, const uint8 **p) {
+static int staSwitch(struct Basic *bas, const uint8_t **p) {
   struct SwitchCase *switch_case;
   int err, type;
-  uint8 *dummy, *bool;
-  const uint8 *var, *tmp;
+  uint8_t *dummy, *bool;
+  const uint8_t *var, *tmp;
 
   if ((err = peekFlow(bas, (void **)&switch_case, CODE_SWITCH)) != ERR_69)
     return ERR_69;
@@ -7330,20 +7330,20 @@ static int staSwitch(struct Basic *bas, const uint8 **p) {
 /*
         TROFF
 */
-static int staTroff(struct Basic *bas, const uint8 **p) { return ERR_OK_NEXT; }
+static int staTroff(struct Basic *bas, const uint8_t **p) { return ERR_OK_NEXT; }
 
 /*
         TRON
 */
-static int staTron(struct Basic *bas, const uint8 **p) { return ERR_OK_NEXT; }
+static int staTron(struct Basic *bas, const uint8_t **p) { return ERR_OK_NEXT; }
 
 /*
         UNTIL
 */
-static int staUntil(struct Basic *bas, const uint8 **p) {
+static int staUntil(struct Basic *bas, const uint8_t **p) {
   struct RepeatLoop *repeat_loop;
   int err;
-  uint8 *bool;
+  uint8_t *bool;
 
   if ((err = fetchNum(bas, &bool, p)) < 0)
     return err;
@@ -7365,7 +7365,7 @@ static int staUntil(struct Basic *bas, const uint8 **p) {
 /*
         USING
 */
-static int staUsing(struct Basic *bas, const uint8 **p) {
+static int staUsing(struct Basic *bas, const uint8_t **p) {
   int err;
 
   ssleep(7286);
@@ -7382,7 +7382,7 @@ static int staUsing(struct Basic *bas, const uint8 **p) {
 /*
         WAIT
 */
-static int staWait(struct Basic *bas, const uint8 **p) {
+static int staWait(struct Basic *bas, const uint8_t **p) {
   int err, pause = FALSE, w = 0;
 
   ssleep(6194);
@@ -7405,7 +7405,7 @@ static int staWait(struct Basic *bas, const uint8 **p) {
 /*
         WEND
 */
-static int staWend(struct Basic *bas, const uint8 **p) {
+static int staWend(struct Basic *bas, const uint8_t **p) {
   struct WhileLoop *while_loop;
   int err;
 
@@ -7425,10 +7425,10 @@ static int staWend(struct Basic *bas, const uint8 **p) {
 /*
         WHILE
 */
-static int staWhile(struct Basic *bas, const uint8 **p) {
+static int staWhile(struct Basic *bas, const uint8_t **p) {
   struct WhileLoop *while_loop;
   int err, depth = 0;
-  uint8 *bool;
+  uint8_t *bool;
 
   if ((err = pushFlow(bas, (void **)&while_loop, CODE_WHILE)) < 0)
     return err;
@@ -7599,9 +7599,9 @@ struct Statement staTable[] = {
 /*
         1ステートメント実行する
 */
-int runSta1(struct Basic *bas, const uint8 **p) {
+int runSta1(struct Basic *bas, const uint8_t **p) {
   int err;
-  const uint8 *exe;
+  const uint8_t *exe;
 
   /* 終了か? */
   if (*p == NULL)
@@ -7667,7 +7667,7 @@ int runSta1(struct Basic *bas, const uint8 **p) {
 /*
         複数のステートメントを実行する (runProg, runLineの下請け)
 */
-static int runSta(struct Basic *bas, const uint8 **p) {
+static int runSta(struct Basic *bas, const uint8_t **p) {
   int err;
 
   while ((err = runSta1(bas, p)) == ERR_OK_NEXT)
@@ -7687,7 +7687,7 @@ static int runSta(struct Basic *bas, const uint8 **p) {
 /*
         1行実行する (runProgの下請け)
 */
-static int runLine(struct Basic *bas, const uint8 **p) {
+static int runLine(struct Basic *bas, const uint8_t **p) {
   int err;
 
   /* ブロック制御命令を実行する */
@@ -7721,10 +7721,10 @@ static int runLine(struct Basic *bas, const uint8 **p) {
 /*
         文字列から予約語を検索する (encodeProgの下請け)
 */
-static int getKeywordFromName(int *code, const uint8 *name) {
+static int getKeywordFromName(int *code, const uint8_t *name) {
   const struct KeywordTable *k;
   int len;
-  const uint8 *p;
+  const uint8_t *p;
 
   /* 一覧から予約語を検索する */
   for (k = keywordTable; k->name != NULL; k++)
@@ -7751,7 +7751,7 @@ static int getKeywordFromName(int *code, const uint8 *name) {
 /*
         リテラル文字列を中間コードに変換する (encodeProgの下請け)
 */
-static void encodeStr(uint8 **dst, const uint8 **src) {
+static void encodeStr(uint8_t **dst, const uint8_t **src) {
   if (**src != '"')
     return;
 
@@ -7766,7 +7766,7 @@ static void encodeStr(uint8 **dst, const uint8 **src) {
 /*
         DATAを中間コードに変換する (encodeProgの下請け)
 */
-static void encodeData(uint8 **dst, const uint8 **src) {
+static void encodeData(uint8_t **dst, const uint8_t **src) {
   int in_str = FALSE;
 
   while ((**src != ':' || (**src == ':' && in_str)) && **src != '\r' &&
@@ -7780,8 +7780,8 @@ static void encodeData(uint8 **dst, const uint8 **src) {
 /*
         ラベルを中間コードに変換する (encodeProgの下請け)
 */
-static void encodeLabel(uint8 **dst, const uint8 **src) {
-  while (**src == ' ' || **src == '¥t')
+static void encodeLabel(uint8_t **dst, const uint8_t **src) {
+  while (**src == ' ' || **src == '\t')
     *(*dst)++ = *(*src)++;
 
   if (**src != '*')
@@ -7799,7 +7799,7 @@ static void encodeLabel(uint8 **dst, const uint8 **src) {
 /*
         コメントを中間コードに変換する (encodeProgの下請け)
 */
-static void encodeRem(uint8 **dst, const uint8 **src) {
+static void encodeRem(uint8_t **dst, const uint8_t **src) {
   while (**src != '\r' && **src != '\n' && **src != 0)
     *(*dst)++ = *(*src)++;
 }
@@ -7807,7 +7807,7 @@ static void encodeRem(uint8 **dst, const uint8 **src) {
 /*
         16進数を中間コードに変換する (encodeProgの下請け)
 */
-static void encodeHex(uint8 **dst, const uint8 **src) {
+static void encodeHex(uint8_t **dst, const uint8_t **src) {
   if (**src == '&') {
     *(*dst)++ = *(*src)++;
 
@@ -7823,8 +7823,8 @@ static void encodeHex(uint8 **dst, const uint8 **src) {
 /*
         10進数を中間コードに変換する (encodeProgの下請け)
 */
-static void encodeDec(uint8 **dst, const uint8 **src) {
-  const uint8 *p;
+static void encodeDec(uint8_t **dst, const uint8_t **src) {
+  const uint8_t *p;
 
   /* 仮数部 */
   while (isdigit(**src) || **src == '.')
@@ -7835,7 +7835,7 @@ static void encodeDec(uint8 **dst, const uint8 **src) {
     ;
   if (toupper(*p) != 'E')
     return;
-  for (; *p == ' ' || *p == '¥t'; p++)
+  for (; *p == ' ' || *p == '\t'; p++)
     ;
   if (!isdigit(*p) && *p != '+' && *p != '-')
     return;
@@ -7854,10 +7854,10 @@ static void encodeDec(uint8 **dst, const uint8 **src) {
 /*
         テキストから中間コードに変換する (runProg, insertProgの下請け)
 */
-static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
+static int encodeProg(uint8_t *dst, const uint8_t *src, int mode) {
   int len, code;
-  const uint8 *p = src;
-  uint8 *q = dst;
+  const uint8_t *p = src;
+  uint8_t *q = dst;
 
   encodeLabel(&q, &p);
 
@@ -7874,7 +7874,7 @@ static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
       encodeStr(&q, &p);
     else if ((len = getKeywordFromName(&code, p)) > 0) {
       p += len;
-      if (*p == ' ' || *p == '¥t')
+      if (*p == ' ' || *p == '\t')
         p++;
       *q++ = CODE_RESERVED;
       *q++ = code;
@@ -7909,20 +7909,20 @@ static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
 /*
         行を挿入する (insertProgの下請け)
 */
-static int insertLine(uint8 *area, int area_size, int line_no,
-                      const uint8 *line, int len, uint8 **ret_p) {
+static int insertLine(uint8_t *area, int area_size, int line_no,
+                      const uint8_t *line, int len, uint8_t **ret_p) {
   int del, err;
-  uint8 *p;
-  const uint8 *q;
+  uint8_t *p;
+  const uint8_t *q;
 
   /* 挿入先の行のアドレスを得る */
-  if ((del = jumpToLineNo((const uint8 **)&p, area, line_no))) {
+  if ((del = jumpToLineNo((const uint8_t **)&p, area, line_no))) {
     /* 既に同じ行があれば削除する */
     _delete(area, area_size, p, LINE_SIZE(p));
   }
 
   /* 空行ならば戻る */
-  for (q = line; q < line + len && (*q == ' ' || *q == '¥t'); q++)
+  for (q = line; q < line + len && (*q == ' ' || *q == '\t'); q++)
     ;
   if (q >= line + len || *q == '\r' || *q == '\n' || *q == 0x1a || *q == 0) {
     if (ret_p != NULL)
@@ -7947,11 +7947,11 @@ static int insertLine(uint8 *area, int area_size, int line_no,
 /*
         プログラムを挿入する
 */
-int insertProg(struct Basic *bas, const uint8 *line, int *ret_line_no,
-               uint8 **ret_prog) {
+int insertProg(struct Basic *bas, const uint8_t *line, int *ret_line_no,
+               uint8_t **ret_prog) {
   int line_no, len, err;
-  uint8 buf[256 + 3], *q = buf;
-  const uint8 *p = line;
+  uint8_t buf[256 + 3], *q = buf;
+  const uint8_t *p = line;
 
   if (ret_line_no != NULL)
     *ret_line_no = 0;
@@ -7970,7 +7970,7 @@ int insertProg(struct Basic *bas, const uint8 *line, int *ret_line_no,
     return ERR_41;
 
   /* プログラムを中間コードに変換する */
-  if (*p == ' ' || *p == '¥t')
+  if (*p == ' ' || *p == '\t')
     p++;
   if ((len = encodeProg(q, p, MODE_PRO)) < 0)
     return len;
@@ -8042,7 +8042,7 @@ static int loadBas(struct Basic *bas) {
       memcpy(buf, buf_line_no, strlen(buf_line_no));
     }
 
-    if (insertProg(bas, (uint8 *)buf, NULL, NULL) < 0)
+    if (insertProg(bas, (uint8_t *)buf, NULL, NULL) < 0)
       goto fail;
   }
 
@@ -8064,8 +8064,8 @@ fail:;
 static int saveBas(struct Basic *bas) {
   FILE *fp;
   int len, size, line_no;
-  uint8 buf[256];
-  const uint8 *prog = bas->prog;
+  uint8_t buf[256];
+  const uint8_t *prog = bas->prog;
 
   if ((fp = fopen(pathBasic, "w")) == NULL)
     return FALSE;
@@ -8086,10 +8086,10 @@ static int saveBas(struct Basic *bas) {
 /*
         プログラムを実行する
 */
-int runProg(struct Basic *bas, uint8 *buf) {
+int runProg(struct Basic *bas, uint8_t *buf) {
   int err, len, size, type = 0;
-  uint8 *ans = NULL, prog[256], k;
-  const uint8 *p;
+  uint8_t *ans = NULL, prog[256], k;
+  const uint8_t *p;
 
   skipBlank(&p);
   p = buf;
@@ -8192,10 +8192,10 @@ int runProg(struct Basic *bas, uint8 *buf) {
 /*
         BASICプログラムを表示する (basRun, basProの下請け)
 */
-static void browseProg(struct Basic *bas, const uint8 *sep, const uint8 *cur) {
+static void browseProg(struct Basic *bas, const uint8_t *sep, const uint8_t *cur) {
   int pos = 0;
-  uint8 buf[512];
-  const uint8 *p;
+  uint8_t buf[512];
+  const uint8_t *p;
 
   if (cur != NULL)
     while (*cur != 0xff && pos < lcdCols * lcdRows) {
@@ -8222,10 +8222,10 @@ static void browseProg(struct Basic *bas, const uint8 *sep, const uint8 *cur) {
 /*
         指定の行へ移動する (basRun, basProの下請け)
 */
-static int jumpLine(struct Basic *bas, uint8 **cur, int line_no) {
-  uint8 *p;
+static int jumpLine(struct Basic *bas, uint8_t **cur, int line_no) {
+  uint8_t *p;
 
-  if (!jumpToLineNo((const uint8 **)&p, bas->prog, line_no))
+  if (!jumpToLineNo((const uint8_t **)&p, bas->prog, line_no))
     return FALSE;
 
   if (cur != NULL)
@@ -8238,7 +8238,7 @@ static int jumpLine(struct Basic *bas, uint8 **cur, int line_no) {
 */
 int basRun(struct Basic *bas) {
   int err, newline;
-  uint8 *cur, ch, buf[512] = "";
+  uint8_t *cur, ch, buf[512] = "";
 
   *mode = MODE_RUN;
   clearCont(bas);
@@ -8250,7 +8250,7 @@ int basRun(struct Basic *bas) {
     newline = (buf[0] == 0);
 
     switch ((
-        ch = ggetline(buf, (const uint8 *)(newline ? ">" : ""), GETLINE_MAN))) {
+        ch = ggetline(buf, (const uint8_t *)(newline ? ">" : ""), GETLINE_MAN))) {
     case 0x0c: /* CLS */
       buf[0] = 0;
       gcls();
@@ -8266,7 +8266,7 @@ int basRun(struct Basic *bas) {
         break;
       if (!jumpLine(bas, &cur, bas->line_no))
         break;
-      browseProg(bas, (const uint8 *)":", cur);
+      browseProg(bas, (const uint8_t *)":", cur);
       waitRelease();
       gcls();
       break;
@@ -8285,9 +8285,9 @@ int basRun(struct Basic *bas) {
 /*
         1行表示する (basProの下請け)
 */
-static int dispLine(int row, const uint8 *cur) {
+static int dispLine(int row, const uint8_t *cur) {
   int size, len;
-  uint8 buf[512], *p = buf;
+  uint8_t buf[512], *p = buf;
 
   decodeLineNoProg(buf, cur, " ");
   size = len = strlen(buf);
@@ -8313,7 +8313,7 @@ static int dispLine(int row, const uint8 *cur) {
 /*
         次の行へ移動する (basProの下請け)
 */
-static int jumpNext(struct Basic *bas, uint8 **cur, int *pos, int *row) {
+static int jumpNext(struct Basic *bas, uint8_t **cur, int *pos, int *row) {
   int len;
 
   /* 末尾か? */
@@ -8336,7 +8336,7 @@ static int jumpNext(struct Basic *bas, uint8 **cur, int *pos, int *row) {
   *cur += LINE_SIZE(*cur);
 
   if (row != NULL) {
-    uint8 buf[512];
+    uint8_t buf[512];
 
     decodeLineNoProg(buf, *cur, " ");
     len = strlen(buf);
@@ -8352,8 +8352,8 @@ static int jumpNext(struct Basic *bas, uint8 **cur, int *pos, int *row) {
 /*
         前の行へ移動する (basProの下請け)
 */
-static int jumpPrev(struct Basic *bas, uint8 **cur, int *pos, int *row) {
-  uint8 *prev_cur = *cur, *p;
+static int jumpPrev(struct Basic *bas, uint8_t **cur, int *pos, int *row) {
+  uint8_t *prev_cur = *cur, *p;
 
   /* 先頭か? */
   if (*cur == bas->prog)
@@ -8369,7 +8369,7 @@ static int jumpPrev(struct Basic *bas, uint8 **cur, int *pos, int *row) {
 
   if (row != NULL) {
     int len, height;
-    uint8 buf[512];
+    uint8_t buf[512];
 
     decodeLineNoProg(buf, *cur, " ");
     len = strlen(buf);
@@ -8391,7 +8391,7 @@ static int jumpPrev(struct Basic *bas, uint8 **cur, int *pos, int *row) {
 /*
         指定の行へ移動する (basProの下請け)
 */
-static int jumpTo(struct Basic *bas, uint8 *prev, uint8 *cur, int *pos,
+static int jumpTo(struct Basic *bas, uint8_t *prev, uint8_t *cur, int *pos,
                   int *row) {
   /* 移動する */
   if (prev > cur) {
@@ -8413,8 +8413,8 @@ static int jumpTo(struct Basic *bas, uint8 *prev, uint8 *cur, int *pos,
 /*
         最後の行へ移動する (basProの下請け)
 */
-static int jumpLast(struct Basic *bas, uint8 **cur, int *row) {
-  uint8 *p = bas->prog, *next_p = bas->prog;
+static int jumpLast(struct Basic *bas, uint8_t **cur, int *row) {
+  uint8_t *p = bas->prog, *next_p = bas->prog;
 
   for (;;) {
     p = next_p;
@@ -8438,7 +8438,7 @@ static int jumpLast(struct Basic *bas, uint8 **cur, int *row) {
 */
 int basPro(struct Basic *bas) {
   int err, pos = -1, row = -1, mod = FALSE, line_no;
-  uint8 ch, buf[512] = "", *cur = NULL, *prev = NULL;
+  uint8_t ch, buf[512] = "", *cur = NULL, *prev = NULL;
 
   *mode = MODE_PRO;
   bas->auto_step = 0;
@@ -8461,7 +8461,7 @@ int basPro(struct Basic *bas) {
       ch = ggetline(buf, NULL, GETLINE_PRO, &tmp_pos, &tmp_row, &tmp_mod);
     } else if (cur == NULL) { /* 入力待ち */
       strcpy(buf, "");
-      ch = ggetline(buf, (const uint8 *)">", GETLINE_MAN);
+      ch = ggetline(buf, (const uint8_t *)">", GETLINE_MAN);
     } else if (pos < 0) { /* 閲覧中 */
       strcpy(buf, "");
       ch = ggetline(buf, NULL, GETLINE_MAN);
@@ -8485,7 +8485,7 @@ int basPro(struct Basic *bas) {
         ;              /* 何もしない */
       else {           /* 閲覧中 */
         row = pos = 0; /* 編集開始 */
-        browseProg(bas, (const uint8 *)" ", cur);
+        browseProg(bas, (const uint8_t *)" ", cur);
       }
       break;
     case 0x0d: /* RETURN */
@@ -8531,10 +8531,10 @@ int basPro(struct Basic *bas) {
       if (cur == NULL) { /* 入力待ち */
         if (bas->line_no <= 0 || !jumpLine(bas, &cur, bas->line_no))
           if (jumpLast(bas, &cur, &row)) /* 末尾へ */
-            browseProg(bas, (const uint8 *)":", cur);
+            browseProg(bas, (const uint8_t *)":", cur);
       } else if (pos < 0) {              /* 閲覧中 */
         jumpPrev(bas, &cur, NULL, NULL); /* 前の行へ */
-        browseProg(bas, (const uint8 *)":", cur);
+        browseProg(bas, (const uint8_t *)":", cur);
       } else { /* 編集中 */
         /* 変更されたならば挿入する */
         if (mod)
@@ -8553,11 +8553,11 @@ int basPro(struct Basic *bas) {
       if (cur == NULL) { /* 入力待ち */
         if (bas->line_no <= 0 || !jumpLine(bas, &cur, bas->line_no)) {
           cur = bas->prog; /* 先頭へ */
-          browseProg(bas, (const uint8 *)":", cur);
+          browseProg(bas, (const uint8_t *)":", cur);
         }
       } else if (pos < 0) {              /* 閲覧中 */
         jumpNext(bas, &cur, NULL, NULL); /* 次の行へ */
-        browseProg(bas, (const uint8 *)":", cur);
+        browseProg(bas, (const uint8_t *)":", cur);
       } else { /* 編集中 */
         /* 変更されたならば挿入する */
         if (mod)
@@ -8594,7 +8594,7 @@ int initBasic(struct Basic *bas) {
   typeSp = &typeStack[-1];
 
   bas->top = &bas->stack[-1];
-  bas->fixed_var = (uint8(*)[SIZEOF_NUM]) & memory[0x7800];
+  bas->fixed_var = (uint8_t(*)[SIZEOF_NUM]) & memory[0x7800];
 
   bas->vars = malloc(sizeof(bas->vars));
   *bas->vars = NULL;

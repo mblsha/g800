@@ -6,7 +6,7 @@
 #define SDLXPM_H
 
 #include "SDL.h"
-SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *[], Uint8 *);
+SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *[], uint8_t *);
 
 #endif
 

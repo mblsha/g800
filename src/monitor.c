@@ -55,7 +55,7 @@ int loadProg(uint16 *begin_ret, const char *path) {
 /*
         表示できる文字に変換する (dump0の下請け)
 */
-static uint8 to_disp(uint8 chr) {
+static uint8_t to_disp(uint8_t chr) {
   if (chr < 0x20 || chr > 0xf8)
     return '.';
   else
@@ -66,7 +66,7 @@ static uint8 to_disp(uint8 chr) {
         dumpを1画面表示する (dumpの下請け)
 */
 static void dump0(uint16 address) {
-  uint8 sum = 0, *p;
+  uint8_t sum = 0, *p;
 
   address &= 0xfff0;
   for (p = &memory[address]; p < &memory[address + 16]; p++)
@@ -120,8 +120,8 @@ static void dump0(uint16 address) {
 /*
         Dumpを表示する (下請け)
 */
-static uint8 dump(uint16 address) {
-  uint8 k;
+static uint8_t dump(uint16 address) {
+  uint8_t k;
 
   for (;;) {
     dump0(address);
@@ -148,8 +148,8 @@ static uint8 dump(uint16 address) {
 /*
         メモリを編集する (下請け)
 */
-static int edit0(uint16 address, int cur, uint8 k) {
-  uint8 x, *p;
+static int edit0(uint16 address, int cur, uint8_t k) {
+  uint8_t x, *p;
 
   if ('0' <= k && k <= '9')
     x = k - '0';
@@ -167,14 +167,14 @@ static int edit0(uint16 address, int cur, uint8 k) {
     *p = (*p & 0xf0) | x;
   return TRUE;
 }
-static uint8 edit(uint16 address) {
-  const uint8 col[] = {7,  8,  10, 11, 13, 14, 16, 17, 7,  8,  10,
+static uint8_t edit(uint16 address) {
+  const uint8_t col[] = {7,  8,  10, 11, 13, 14, 16, 17, 7,  8,  10,
                        11, 13, 14, 16, 17, 7,  8,  10, 11, 13, 14,
                        16, 17, 7,  8,  10, 11, 13, 14, 16, 17};
-  const uint8 row[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+  const uint8_t row[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
                        2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3};
   int cur = (address & 0x0f) * 2;
-  uint8 k;
+  uint8_t k;
 
   for (;;) {
     /* スクロールする */
@@ -226,9 +226,9 @@ static uint8 edit(uint16 address) {
 /*
         逆アセンブルする (下請け)
 */
-static uint8 disasm(uint16 address) {
+static uint8_t disasm(uint16 address) {
   char buf[256];
-  uint8 k, row, *p;
+  uint8_t k, row, *p;
 
   for (;;) {
     gcls();
@@ -244,7 +244,7 @@ static uint8 disasm(uint16 address) {
     case 0x1e: /* ↑ */
       break;
     case 0x1f: /* ↓ */
-      address = (int)((uint8 *)z80disasm(buf, &memory[address],
+      address = (int)((uint8_t *)z80disasm(buf, &memory[address],
                                          z80bank(&z80, (uint16)(p - memory)),
                                          (uint16)(p - memory), z80.i.symbol) -
                       memory);
@@ -265,10 +265,10 @@ static uint8 disasm(uint16 address) {
 /*
         パラメータを得る (getParam1, getParam2の下請け)
 */
-static const uint8 *_getParam(const uint8 *p, int *param) {
-  uint8 tmp[256];
-  const uint8 *q;
-  uint8 *r;
+static const uint8_t *_getParam(const uint8_t *p, int *param) {
+  uint8_t tmp[256];
+  const uint8_t *q;
+  uint8_t *r;
 
   for (q = p, r = tmp; isxdigit(*q); q++, r++)
     *r = *q;
@@ -286,15 +286,15 @@ static const uint8 *_getParam(const uint8 *p, int *param) {
 /*
         1つのパラメータを得る (monitorの下請け)
 */
-static int getParam1(const uint8 *buf, int off, int *param) {
+static int getParam1(const uint8_t *buf, int off, int *param) {
   return (_getParam(buf + off, param) != NULL);
 }
 
 /*
         2つのパラメータを得る (monitorの下請け)
 */
-static int getParam2(const uint8 *buf, int off, int *param1, int *param2) {
-  const uint8 *p;
+static int getParam2(const uint8_t *buf, int off, int *param1, int *param2) {
+  const uint8_t *p;
 
   if ((p = _getParam(buf + off, param1)) == NULL)
     return FALSE;
@@ -308,8 +308,8 @@ static int getParam2(const uint8 *buf, int off, int *param1, int *param2) {
 /*
         文字列を大文字にする (monitorの下請け)
 */
-static uint8 *toUpperStr(uint8 *buf) {
-  uint8 *p;
+static uint8_t *toUpperStr(uint8_t *buf) {
+  uint8_t *p;
 
   for (p = buf; *p != 0; p++)
     *p = toupper((char)*p);
@@ -323,7 +323,7 @@ static uint8 *toUpperStr(uint8 *buf) {
 int monitor(void) {
   int size, param1, param2;
   uint16 address;
-  uint8 buf[256];
+  uint8_t buf[256];
 
   /* タイトルを表示する */
   memory[0x7902] = 0;
@@ -338,7 +338,7 @@ int monitor(void) {
     gprintf("*");
 
     /* 入力されたコマンドを得る */
-    switch (ggetline(buf, (const uint8 *)"", GETLINE_MAN)) {
+    switch (ggetline(buf, (const uint8_t *)"", GETLINE_MAN)) {
     case 0x01: /* BASIC */
       memory[0x7902] = 0x40;
       return 0;

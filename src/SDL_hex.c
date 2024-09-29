@@ -67,7 +67,7 @@ static int hex2i(const char *hex) {
 Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
                       size_t mem_size, int check, int free_rw) {
   int i, len, off_h, off_l, off, rec, val, sum = 0, top = 0xffff, size = 0;
-  Uint8 *w;
+  uint8_t *w;
   char buf[8];
 
   if (rw == NULL)
@@ -113,12 +113,12 @@ Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
     sum += rec;
 
     /* データ部 */
-    for (i = 0, w = (Uint8 *)mem + off; i < len; i++, w++) {
+    for (i = 0, w = (uint8_t *)mem + off; i < len; i++, w++) {
       if (SDL_RWread(rw, buf, 2, 1) == 0)
         goto fail;
       if ((val = hex2i(buf)) < 0)
         goto fail;
-      if (mem != NULL && (Uint8 *)mem <= w && w < (Uint8 *)mem + mem_size)
+      if (mem != NULL && (uint8_t *)mem <= w && w < (uint8_t *)mem + mem_size)
         *w = val;
       sum += val;
     }
@@ -174,7 +174,7 @@ Sint64 SDLHex_LoadAbs_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
     return size;
 
   SDL_RWseek(rw, 0, RW_SEEK_SET);
-  return SDLHex_Load_RW(rw, (Uint8 *)mem - top, NULL, mem_size + top, check,
+  return SDLHex_Load_RW(rw, (uint8_t *)mem - top, NULL, mem_size + top, check,
                         SDL_TRUE);
 }
 
@@ -214,7 +214,7 @@ static char *int2c(char *hex, int i) {
 Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
                       int free_rw) {
   int orig_size = size, len, off_h, off_l, sum;
-  const Uint8 *r = (Uint8 *)mem + off;
+  const uint8_t *r = (uint8_t *)mem + off;
   char buf[80], *w;
 
   if (rw == NULL)
@@ -248,12 +248,12 @@ Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
     sum = len;
 
     /* オフセットアドレス */
-    off_h = ((int)(r - (Uint8 *)mem) >> 8) & 0xff;
+    off_h = ((int)(r - (uint8_t *)mem) >> 8) & 0xff;
     int2c(w, off_h);
     w += 2;
     sum += off_h;
 
-    off_l = (int)(r - (Uint8 *)mem) & 0xff;
+    off_l = (int)(r - (uint8_t *)mem) & 0xff;
     int2c(w, off_l);
     w += 2;
     sum += off_l;
@@ -300,7 +300,7 @@ fail:;
 */
 Sint64 SDLHex_SaveAbs_RW(SDL_RWops *rw, const void *mem, Sint64 off,
                          size_t size, int free_rw) {
-  return SDLHex_Save_RW(rw, (const Uint8 *)mem - off, off, size, free_rw);
+  return SDLHex_Save_RW(rw, (const uint8_t *)mem - off, off, size, free_rw);
 }
 
 /*

@@ -157,14 +157,14 @@
 /* BASICシステムの状態 */
 struct Basic {
   int prog_size; /* プログラム領域のサイズ */
-  uint8 *prog;   /* プログラム領域 */
+  uint8_t *prog;   /* プログラム領域 */
 
-  const uint8 *d; /* DATA文の読み込み位置 */
-  const uint8 *p; /* プログラムの実行位置 */
+  const uint8_t *d; /* DATA文の読み込み位置 */
+  const uint8_t *p; /* プログラムの実行位置 */
   int line_no;    /* プログラムの実行中行番号 */
 
-  uint8 (*fixed_var)[SIZEOF_NUM]; /* 固定変数 */
-  uint8 **vars;                   /* 単純変数・配列変数 */
+  uint8_t (*fixed_var)[SIZEOF_NUM]; /* 固定変数 */
+  uint8_t **vars;                   /* 単純変数・配列変数 */
 
   int auto_line_no; /* AUTO時の行番号 */
   int auto_step;    /* AUTO時のステップ */
@@ -180,37 +180,37 @@ struct Basic {
   FILE *fp[3];
 
   union Flow {
-    uint8 kind;
+    uint8_t kind;
 
     struct ForLoop {
-      uint8 kind;
+      uint8_t kind;
       int line_no;
-      const uint8 *ret;
-      const uint8 *var;
-      uint8 to[SIZEOF_NUM];
-      uint8 step[SIZEOF_NUM];
+      const uint8_t *ret;
+      const uint8_t *var;
+      uint8_t to[SIZEOF_NUM];
+      uint8_t step[SIZEOF_NUM];
     } for_loop;
 
     struct RepeatLoop {
-      uint8 kind;
+      uint8_t kind;
       int line_no;
-      const uint8 *ret;
+      const uint8_t *ret;
     } repeat_loop;
 
     struct WhileLoop {
-      uint8 kind;
+      uint8_t kind;
       int line_no;
-      const uint8 *ret;
+      const uint8_t *ret;
     } while_loop;
 
     struct GosubReturn {
-      uint8 kind;
+      uint8_t kind;
       int line_no;
-      const uint8 *ret;
+      const uint8_t *ret;
     } gosub_return;
 
     struct SwitchBase {
-      uint8 kind;
+      uint8_t kind;
     } switch_case;
   } stack[16], *top;
 };

@@ -18,21 +18,21 @@
 #include "g800.h"
 
 /* カーソル位置 */
-static uint8 curCol;
-static uint8 curRow;
+static uint8_t curCol;
+static uint8_t curRow;
 
 /* VRAM保存領域 */
-static uint8 savedVram[166 * 9];
-static uint8 savedLcdContrast;
-static uint8 savedLcdTop;
-static uint8 savedLcdBegin;
-static uint8 savedMemory790d;
+static uint8_t savedVram[166 * 9];
+static uint8_t savedLcdContrast;
+static uint8_t savedLcdTop;
+static uint8_t savedLcdBegin;
+static uint8_t savedMemory790d;
 static int savedLcdScales;
 
 /*
         表示位置を決める
 */
-static void ulocate(uint8 col, uint8 row) {
+static void ulocate(uint8_t col, uint8_t row) {
   curCol = col;
   curRow = row;
 }
@@ -124,8 +124,8 @@ static int prevsize(const char *p) {
 /*
         文字列を得る(バッファを消去しない) (ugetsの下請け)
 */
-static uint8 uadds(char *buf) {
-  uint8 x, y, ch;
+static uint8_t uadds(char *buf) {
+  uint8_t x, y, ch;
   char *p;
 
   /* バッファを表示する */
@@ -199,7 +199,7 @@ static uint8 uadds(char *buf) {
 /*
         文字列を得る
 */
-static uint8 ugets(char *buf) {
+static uint8_t ugets(char *buf) {
   strcpy(buf, "");
   return uadds(buf);
 }
@@ -297,8 +297,8 @@ static int strsize(const char *str, int n) {
 /*
         一覧から項目を選択する (下請け)
 */
-static uint8 selectItem(char **sel, char *buf) {
-  uint8 ch;
+static uint8_t selectItem(char **sel, char *buf) {
+  uint8_t ch;
   int top = 0, cur = 0, i, n, y;
   char *item[256], *p;
 
@@ -590,9 +590,9 @@ static int makePath(char *path, char *dir) {
 /*
         ファイルの一覧から選択する
 */
-uint8 selectFile(char *path) {
+uint8_t selectFile(char *path) {
   char file_list[0x4000], *p = 0, *dir;
-  uint8 ch = 0;
+  uint8_t ch = 0;
 
   for (;;) {
     if (strcmp(path, "") == 0)
@@ -633,7 +633,7 @@ uint8 selectFile(char *path) {
         ファイルの一覧から選択する
 */
 int inputFile(char *path) {
-  uint8 ch;
+  uint8_t ch;
   char buf[PATH_MAX];
 
   strcpy(buf, path);
@@ -660,7 +660,7 @@ int inputFile(char *path) {
 /*
         数値(16進数2バイト)を得る (下請け)
 */
-static int gethex16(uint8 col, uint8 row, const char *prompt) {
+static int gethex16(uint8_t col, uint8_t row, const char *prompt) {
   char buf[256], *p;
 
   ulocate(col, row);

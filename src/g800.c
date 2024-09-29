@@ -11,7 +11,7 @@
 #include "g800.h"
 
 /* アドレス0000‾003fの初期値 */
-static uint8 base[] = {
+static uint8_t base[] = {
     0xc3, 0xf4, 0xbf, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc9, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0xc9, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc9,
@@ -20,12 +20,12 @@ static uint8 base[] = {
     0x00, 0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 /* アドレス0038‾003aの初期値 (PC-G850) */
-const static uint8 base_g850[] = {0xc3, 0x37, 0xbc};
+const static uint8_t base_g850[] = {0xc3, 0x37, 0xbc};
 
 /*
         ROMを1ページ読み込む (下請け)
 */
-static int loadROM1page(uint8 *p, const char *dir, int page, int size) {
+static int loadROM1page(uint8_t *p, const char *dir, int page, int size) {
   int result;
   char path[FILENAME_MAX];
 
@@ -69,7 +69,7 @@ static int loadROM(const char *dir) {
       loadROM1page(ROM(page), dir, page, 0x4000);
   } else {
     int font_off;
-    uint8 *p;
+    uint8_t *p;
 
     /* 0000-003fを設定する */
     if (machine == MACHINE_G850)
@@ -107,7 +107,7 @@ static int loadROM(const char *dir) {
 /*
         EXROMを1ページ読み込む (下請け)
 */
-static int loadExROM1page(uint8 *p, const char *dir, int page, int size) {
+static int loadExROM1page(uint8_t *p, const char *dir, int page, int size) {
   int result;
   char path[FILENAME_MAX];
 
@@ -232,7 +232,7 @@ int isoff(void) { return z80.r.halt && z80.r.iff == 0 && ioReset == 0; }
 */
 int exec(int exit_when_underflow) {
   int wait, states_update_io;
-  uint8 itype;
+  uint8_t itype;
 
   wait = 1000 / freqUpdateIO;
   z80.i.stack_under = (exit_when_underflow ? 0x7ff6 : 0xffff);

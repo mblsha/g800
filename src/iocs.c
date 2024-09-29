@@ -11,7 +11,7 @@
 #include <string.h>
 
 /* キーコード -> ASCIIコード変換テーブル */
-const static uint8 keycode2ascii_normal[] = {
+const static uint8_t keycode2ascii_normal[] = {
     0x00, 0x06, /* OFF */
     0x51,       /* Q */
     0x57,       /* W */
@@ -198,7 +198,7 @@ const static uint8 keycode2ascii_normal[] = {
 
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-const static uint8 keycode2ascii_caps[] = {
+const static uint8_t keycode2ascii_caps[] = {
     0x00, 0x06, /* CAPS + OFF */
     0x71,       /* CAPS + Q */
     0x77,       /* CAPS + W */
@@ -295,11 +295,11 @@ const static uint8 keycode2ascii_caps[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 /* 次に表示する文字の位置 */
-static uint8 *curCol = &memory[0x7920], *curRow = &memory[0x7921];
+static uint8_t *curCol = &memory[0x7920], *curRow = &memory[0x7921];
 /* 最後に表示した文字の位置 */
-static uint8 *lastCol = &memory[0x7922], *lastRow = &memory[0x7923];
+static uint8_t *lastCol = &memory[0x7922], *lastRow = &memory[0x7923];
 /* 改行しないか? */
-static uint8 *noWrap = &memory[0x797d];
+static uint8_t *noWrap = &memory[0x797d];
 
 /*
         電源を停止する
@@ -313,12 +313,12 @@ void poweroff(void) {
 /*
         パターンを表示する
 */
-void putpat(uint8 col, uint8 row, const uint8 *pat, uint8 len) {
+void putpat(uint8_t col, uint8_t row, const uint8_t *pat, uint8_t len) {
   if (cellHeight == 8)
     memcpy(VRAM_CR(col, row), pat, len);
   else {
-    uint8 *p, *start = VRAM_CR(col, row);
-    const uint8 *q;
+    uint8_t *p, *start = VRAM_CR(col, row);
+    const uint8_t *q;
 
     for (p = start, q = pat; p < start + len; p++, q++)
       *p = *q & 0x7f;
@@ -328,7 +328,7 @@ void putpat(uint8 col, uint8 row, const uint8 *pat, uint8 len) {
 /*
         rowを消去する
 */
-static inline void clrline(uint8 row) {
+static inline void clrline(uint8_t row) {
   memset(VRAM_CR(0, row), 0, vramWidth - 1);
 }
 
@@ -336,7 +336,7 @@ static inline void clrline(uint8 row) {
         上にスクロールする
 */
 void scrup(void) {
-  uint8 tmp;
+  uint8_t tmp;
 
   tmp = vram[vramWidth * 7 + lcdWidth];
   vram[vramWidth * 7 + lcdWidth] = vram[vramWidth * 6 + lcdWidth];
@@ -370,9 +370,9 @@ void scrup(void) {
 /*
         下にスクロールする
 */
-void scrdown(uint8 row, uint8 col) {
+void scrdown(uint8_t row, uint8_t col) {
   int n;
-  uint8 r;
+  uint8_t r;
 
   n = lcdWidth - row * cellWidth;
   for (r = vramRows - 1; r != row; r--)
@@ -384,7 +384,7 @@ void scrdown(uint8 row, uint8 col) {
         画面全体を消去する
 */
 void clrall(void) {
-  uint8 row;
+  uint8_t row;
 
   for (row = 0; row != vramCols; row++)
     clrline(row);
@@ -393,8 +393,8 @@ void clrall(void) {
 /*
         最初の文字を表示する
 */
-void putchr(uint8 col, uint8 row, uint8 chr) {
-  uint8 pat[7];
+void putchr(uint8_t col, uint8_t row, uint8_t chr) {
+  uint8_t pat[7];
 
   if (row >= lcdRows || col >= lcdCols)
     return;
@@ -407,7 +407,7 @@ void putchr(uint8 col, uint8 row, uint8 chr) {
 /*
         次の行を求める
 */
-int nextRow(uint8 *col, uint8 *row) {
+int nextRow(uint8_t *col, uint8_t *row) {
   *col = 0;
   if (*row >= lcdRows - 1) {
     *row = lcdRows - 1;
@@ -421,7 +421,7 @@ int nextRow(uint8 *col, uint8 *row) {
 /*
         次の列を求める
 */
-int nextCol(uint8 *col, uint8 *row) {
+int nextCol(uint8_t *col, uint8_t *row) {
   if (*col >= lcdCols - 1)
     return nextRow(col, row);
   else {
@@ -433,7 +433,7 @@ int nextCol(uint8 *col, uint8 *row) {
 /*
         前の列を求める
 */
-void prevCol(uint8 *col, uint8 *row) {
+void prevCol(uint8_t *col, uint8_t *row) {
   if (*col == 0) {
     if (*row == 0)
       return;
@@ -446,7 +446,7 @@ void prevCol(uint8 *col, uint8 *row) {
 /*
         2つ目以降の文字を表示する
 */
-int putchrNext(uint8 *col, uint8 *row, uint8 chr) {
+int putchrNext(uint8_t *col, uint8_t *row, uint8_t chr) {
   if (nextCol(col, row)) {
     scrup();
     putchr(*col, *row, chr);
@@ -460,7 +460,7 @@ int putchrNext(uint8 *col, uint8 *row, uint8 chr) {
 /*
         文字列を表示する
 */
-int putstr(uint8 col, uint8 row, void *str, ...) {
+int putstr(uint8_t col, uint8_t row, void *str, ...) {
   va_list v;
   char buf[512], *p;
 
@@ -482,7 +482,7 @@ int putstr(uint8 col, uint8 row, void *str, ...) {
 /*
         表示位置を決める
 */
-void glocate(uint8 col, uint8 row) {
+void glocate(uint8_t col, uint8_t row) {
   *curCol = col;
   *curRow = row;
   *noWrap = 1;
@@ -491,7 +491,7 @@ void glocate(uint8 col, uint8 row) {
 /*
         カーソルを移動する
 */
-int moveCursor(uint8 ctrl) {
+int moveCursor(uint8_t ctrl) {
   if (ctrl == 0x0d) { /* RETURN */
     *curCol = 0;
     (*curRow)++;
@@ -522,7 +522,7 @@ int moveCursor(uint8 ctrl) {
 /*
         1文字表示する
 */
-int gputchr(uint8 chr) {
+int gputchr(uint8_t chr) {
   int scroll;
 
   if (*noWrap == 0) {
@@ -559,7 +559,7 @@ int gputchr(uint8 chr) {
 */
 void gprintf(const char *str, ...) {
   va_list v;
-  uint8 buf[512], *p;
+  uint8_t buf[512], *p;
 
   va_start(v, str);
   vsprintf((char *)buf, str, v);
@@ -587,7 +587,7 @@ void gcls() {
 /*
         LCD上にドットがあるか調べる
 */
-uint8 point(int16 x, int16 y) {
+uint8_t point(int16 x, int16 y) {
   /*
   printf("POINT(%d,%d)\n", x, y);
   fflush(stdout);
@@ -602,8 +602,8 @@ uint8 point(int16 x, int16 y) {
 /*
         LCD上に点を描く
 */
-void pset(int16 x, int16 y, uint8 mode) {
-  uint8 mask, *p;
+void pset(int16 x, int16 y, uint8_t mode) {
+  uint8_t mask, *p;
 
   if (x < 0 || y < 0 || x >= lcdWidth || y >= lcdHeight)
     return;
@@ -630,8 +630,8 @@ void pset(int16 x, int16 y, uint8 mode) {
         ステータスを描く
 */
 void putstatus(int status, int on_off) {
-  uint8 *p = VRAM_CR(lcdCols, machineInfo[machine]->status_row[status]);
-  uint8 mask = machineInfo[machine]->status_mask[status];
+  uint8_t *p = VRAM_CR(lcdCols, machineInfo[machine]->status_row[status]);
+  uint8_t mask = machineInfo[machine]->status_mask[status];
 
   if (on_off)
     *p |= mask;
@@ -678,7 +678,7 @@ static uint16 rotate(uint16 *mask) {
 /*
         LCD上に線を描く
 */
-void line(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
+void line(int16 x1, int16 y1, int16 x2, int16 y2, uint8_t mode, uint16 pat) {
   int dx, dx0, dy, dy0, e;
   int16 x, y;
   uint16 mask = 0x0001;
@@ -729,7 +729,7 @@ void line(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
 /*
         LCD上に四角を描く
 */
-void box(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
+void box(int16 x1, int16 y1, int16 x2, int16 y2, uint8_t mode, uint16 pat) {
   int dx = (x2 > x1 ? x2 - x1 : x1 - x2), dy = (y2 > y1 ? y2 - y1 : y1 - y2);
 
   /*
@@ -762,7 +762,7 @@ void box(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
 /*
         LCD上に塗りつぶした四角を描く
 */
-void boxfill(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
+void boxfill(int16 x1, int16 y1, int16 x2, int16 y2, uint8_t mode, uint16 pat) {
   uint16 i, j;
   uint16 mask = 0x0001;
 
@@ -781,7 +781,7 @@ void boxfill(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
 /*
         LCD上にパターンを描く
 */
-static void gprint(int16 x, int16 y, uint8 pat) {
+static void gprint(int16 x, int16 y, uint8_t pat) {
   /*
   printf("GPRINT(%d,%d),%02x\n", x, y, pat);
   fflush(stdout);
@@ -800,10 +800,10 @@ static void gprint(int16 x, int16 y, uint8 pat) {
 /*
         押されているキーを得る(waitなし)
 */
-uint8 peekKeycode(void) {
-  const static uint8 zero[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t peekKeycode(void) {
+  const static uint8_t zero[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   int len;
-  uint8 k, *p;
+  uint8_t k, *p;
 
   if (keyBreak)
     return GKEY_BREAK;
@@ -849,8 +849,8 @@ uint8 peekKeycode(void) {
 /*
         押されているキーを得る(waitあり)
 */
-uint8 getKeycode(void) {
-  uint8 keycode;
+uint8_t getKeycode(void) {
+  uint8_t keycode;
 
   updateLCD();
 
@@ -881,7 +881,7 @@ void waitRelease(void) {
 /*
         キーコードをASCIIに変換する
 */
-uint8 keycode2ascii(uint8 keycode, int is_normal) {
+uint8_t keycode2ascii(uint8_t keycode, int is_normal) {
   if (is_normal)
     return keycode2ascii_normal[keycode];
   else
@@ -890,7 +890,7 @@ uint8 keycode2ascii(uint8 keycode, int is_normal) {
 
 /*
  */
-int setMode(uint8 ch) {
+int setMode(uint8_t ch) {
   if (ch == 0x00)
     memory[0x7902] = 0x00;
   else if (ch == 0x01) /* BASIC */
@@ -918,7 +918,7 @@ int setMode(uint8 ch) {
 /*
         カーソルを表示する (getChrcodeの下請け)
 */
-static void putCursor(uint8 col, uint8 row, const uint8 *off, const uint8 *on,
+static void putCursor(uint8_t col, uint8_t row, const uint8_t *off, const uint8_t *on,
                       int count) {
   int cursor = count % freqUpdateIO;
 
@@ -947,11 +947,11 @@ static void putCursor(uint8 col, uint8 row, const uint8 *off, const uint8 *on,
 /*
         キーコードを得る(オートリピートあり・ウェイトなし) (getChrcodeの下請け)
 */
-static uint8 peekKeycodeRepeat(void) {
+static uint8_t peekKeycodeRepeat(void) {
   static int repeat_counter = 0;
   static int repeat_start_counter = 0;
-  static uint8 old_key;
-  static uint8 last_key = GKEY_NONE;
+  static uint8_t old_key;
+  static uint8_t last_key = GKEY_NONE;
 
   updateKey();
   updateLCD();
@@ -986,232 +986,232 @@ static uint8 peekKeycodeRepeat(void) {
 /*
         キー入力を1文字得る (ggetchrの下請け)
 */
-uint8 getChrcode(int cursor) {
+uint8_t getChrcode(int cursor) {
   const struct RomanKana {
-    const uint8 *roman;
-    const uint8 *kana;
+    const uint8_t *roman;
+    const uint8_t *kana;
   } *r, table[] = {
-            {(const uint8 *)"A", (const uint8 *)"\xb1"},           /* ア */
-            {(const uint8 *)"I", (const uint8 *)"\xb2"},           /* イ */
-            {(const uint8 *)"U", (const uint8 *)"\xb3"},           /* ウ */
-            {(const uint8 *)"E", (const uint8 *)"\xb4"},           /* エ */
-            {(const uint8 *)"O", (const uint8 *)"\xb5"},           /* オ */
-            {(const uint8 *)"YE", (const uint8 *)"\xb2\xaa"},      /* イェ */
-            {(const uint8 *)"KA", (const uint8 *)"\xb6"},          /* カ */
-            {(const uint8 *)"KI", (const uint8 *)"\xb7"},          /* キ */
-            {(const uint8 *)"KU", (const uint8 *)"\xb8"},          /* ク */
-            {(const uint8 *)"KE", (const uint8 *)"\xb9"},          /* ケ */
-            {(const uint8 *)"KO", (const uint8 *)"\xba"},          /* コ */
-            {(const uint8 *)"CA", (const uint8 *)"\xb6"},          /* カ */
-            {(const uint8 *)"CU", (const uint8 *)"\xb8"},          /* ク */
-            {(const uint8 *)"CO", (const uint8 *)"\xba"},          /* コ */
-            {(const uint8 *)"QA", (const uint8 *)"\xb8\xa7"},      /* クァ */
-            {(const uint8 *)"QI", (const uint8 *)"\xb8\xa8"},      /* クィ */
-            {(const uint8 *)"QU", (const uint8 *)"\xb8"},          /* ク */
-            {(const uint8 *)"QE", (const uint8 *)"\xb8\xaa"},      /* クェ */
-            {(const uint8 *)"QO", (const uint8 *)"\xb8\xab"},      /* クォ */
-            {(const uint8 *)"KYA", (const uint8 *)"\xb7\xac"},     /* キャ */
-            {(const uint8 *)"KYI", (const uint8 *)"\xb7\xa8"},     /* キィ */
-            {(const uint8 *)"KYU", (const uint8 *)"\xb7\xad"},     /* キュ */
-            {(const uint8 *)"KYE", (const uint8 *)"\xb7\xaa"},     /* キェ */
-            {(const uint8 *)"KYO", (const uint8 *)"\xb7\xae"},     /* キョ */
-            {(const uint8 *)"SA", (const uint8 *)"\xbb"},          /* サ */
-            {(const uint8 *)"SI", (const uint8 *)"\xbc"},          /* シ */
-            {(const uint8 *)"SU", (const uint8 *)"\xbd"},          /* ス */
-            {(const uint8 *)"SE", (const uint8 *)"\xbe"},          /* セ */
-            {(const uint8 *)"SO", (const uint8 *)"\xbf"},          /* ソ */
-            {(const uint8 *)"SHA", (const uint8 *)"\xbc\xac"},     /* シャ */
-            {(const uint8 *)"SHI", (const uint8 *)"\xbc"},         /* シ */
-            {(const uint8 *)"SHU", (const uint8 *)"\xbc\xad"},     /* シュ */
-            {(const uint8 *)"SHE", (const uint8 *)"\xbc\xaa"},     /* シェ */
-            {(const uint8 *)"SHO", (const uint8 *)"\xbc\xae"},     /* ショ */
-            {(const uint8 *)"SYA", (const uint8 *)"\xbc\xac"},     /* シャ */
-            {(const uint8 *)"SYI", (const uint8 *)"\xbc"},         /* シ */
-            {(const uint8 *)"SYU", (const uint8 *)"\xbc\xad"},     /* シュ */
-            {(const uint8 *)"SYE", (const uint8 *)"\xbc\xaa"},     /* シェ */
-            {(const uint8 *)"SYO", (const uint8 *)"\xbc\xae"},     /* ショ */
-            {(const uint8 *)"TA", (const uint8 *)"\xc0"},          /* タ */
-            {(const uint8 *)"TI", (const uint8 *)"\xc1"},          /* チ */
-            {(const uint8 *)"TU", (const uint8 *)"\xc2"},          /* ツ */
-            {(const uint8 *)"TE", (const uint8 *)"\xc3"},          /* テ */
-            {(const uint8 *)"TO", (const uint8 *)"\xc4"},          /* ト */
-            {(const uint8 *)"TSA", (const uint8 *)"\xc2\xa7"},     /* ツァ */
-            {(const uint8 *)"TSI", (const uint8 *)"\xc2\xa8"},     /* ツィ */
-            {(const uint8 *)"TSU", (const uint8 *)"\xc2"},         /* ツ */
-            {(const uint8 *)"TSE", (const uint8 *)"\xc2\xaa"},     /* ツェ */
-            {(const uint8 *)"TSO", (const uint8 *)"\xc2\xab"},     /* ツォ */
-            {(const uint8 *)"CHA", (const uint8 *)"\xc1\xac"},     /* チャ */
-            {(const uint8 *)"CHI", (const uint8 *)"\xc1"},         /* チ */
-            {(const uint8 *)"CHU", (const uint8 *)"\xc1\xad"},     /* チュ */
-            {(const uint8 *)"CHE", (const uint8 *)"\xc1\xaa"},     /* チェ */
-            {(const uint8 *)"CHO", (const uint8 *)"\xc1\xac"},     /* チョ */
-            {(const uint8 *)"TYA", (const uint8 *)"\xc1\xac"},     /* チャ */
-            {(const uint8 *)"TYI", (const uint8 *)"\xc1\xa8"},     /* チィ */
-            {(const uint8 *)"TYU", (const uint8 *)"\xc1\xad"},     /* チュ */
-            {(const uint8 *)"TYE", (const uint8 *)"\xc1\xaa"},     /* チェ */
-            {(const uint8 *)"TYO", (const uint8 *)"\xc1\xac"},     /* チョ */
-            {(const uint8 *)"CYA", (const uint8 *)"\xc1\xac"},     /* チャ */
-            {(const uint8 *)"CYI", (const uint8 *)"\xc1\xa8"},     /* チィ */
-            {(const uint8 *)"CYU", (const uint8 *)"\xc1\xad"},     /* チュ */
-            {(const uint8 *)"CYE", (const uint8 *)"\xc1\xaa"},     /* チェ */
-            {(const uint8 *)"CYO", (const uint8 *)"\xc1\xac"},     /* チョ */
-            {(const uint8 *)"NA", (const uint8 *)"\xc5"},          /* ナ */
-            {(const uint8 *)"NI", (const uint8 *)"\xc6"},          /* ニ */
-            {(const uint8 *)"NU", (const uint8 *)"\xc7"},          /* ヌ */
-            {(const uint8 *)"NE", (const uint8 *)"\xc8"},          /* ネ */
-            {(const uint8 *)"NO", (const uint8 *)"\xc9"},          /* ノ */
-            {(const uint8 *)"NYA", (const uint8 *)"\xc6\xac"},     /* ニャ */
-            {(const uint8 *)"NYI", (const uint8 *)"\xc6\xa8"},     /* ニィ */
-            {(const uint8 *)"NYU", (const uint8 *)"\xc6\xad"},     /* ニュ */
-            {(const uint8 *)"NYE", (const uint8 *)"\xc6\xaa"},     /* ニェ */
-            {(const uint8 *)"NYO", (const uint8 *)"\xc6\xac"},     /* ニョ */
-            {(const uint8 *)"HA", (const uint8 *)"\xca"},          /* ハ */
-            {(const uint8 *)"HI", (const uint8 *)"\xcb"},          /* ヒ */
-            {(const uint8 *)"HU", (const uint8 *)"\xcc"},          /* フ */
-            {(const uint8 *)"HE", (const uint8 *)"\xcd"},          /* ヘ */
-            {(const uint8 *)"HO", (const uint8 *)"\xce"},          /* ホ */
-            {(const uint8 *)"FA", (const uint8 *)"\xcd\xa7"},      /* ファ */
-            {(const uint8 *)"FI", (const uint8 *)"\xcd\xa8"},      /* フィ */
-            {(const uint8 *)"FU", (const uint8 *)"\xcd"},          /* フ */
-            {(const uint8 *)"FE", (const uint8 *)"\xcd\xaa"},      /* フェ */
-            {(const uint8 *)"FO", (const uint8 *)"\xcd\xab"},      /* フォ */
-            {(const uint8 *)"HYA", (const uint8 *)"\xcb\xac"},     /* ヒャ */
-            {(const uint8 *)"HYI", (const uint8 *)"\xcb\xa8"},     /* ヒィ */
-            {(const uint8 *)"HYU", (const uint8 *)"\xcb\xad"},     /* ヒュ */
-            {(const uint8 *)"HYE", (const uint8 *)"\xcb\xaa"},     /* ヒェ */
-            {(const uint8 *)"HYO", (const uint8 *)"\xcb\xac"},     /* ヒョ */
-            {(const uint8 *)"MA", (const uint8 *)"\xcf"},          /* マ */
-            {(const uint8 *)"MI", (const uint8 *)"\xd0"},          /* ミ */
-            {(const uint8 *)"MU", (const uint8 *)"\xd1"},          /* ム */
-            {(const uint8 *)"ME", (const uint8 *)"\xd2"},          /* メ */
-            {(const uint8 *)"MO", (const uint8 *)"\xd3"},          /* モ */
-            {(const uint8 *)"MYA", (const uint8 *)"\xd0\xac"},     /* ミャ */
-            {(const uint8 *)"MYI", (const uint8 *)"\xd0\xa8"},     /* ミィ */
-            {(const uint8 *)"MYU", (const uint8 *)"\xd0\xad"},     /* ミュ */
-            {(const uint8 *)"MYE", (const uint8 *)"\xd0\xaa"},     /* ミェ */
-            {(const uint8 *)"MYO", (const uint8 *)"\xd0\xac"},     /* ミョ */
-            {(const uint8 *)"YA", (const uint8 *)"\xd4"},          /* ヤ */
-            {(const uint8 *)"YI", (const uint8 *)"\xb2"},          /* イ */
-            {(const uint8 *)"YU", (const uint8 *)"\xd5"},          /* ユ */
-            {(const uint8 *)"YO", (const uint8 *)"\xd6"},          /* ヨ */
-            {(const uint8 *)"RA", (const uint8 *)"\xd7"},          /* ラ */
-            {(const uint8 *)"RI", (const uint8 *)"\xd8"},          /* リ */
-            {(const uint8 *)"RU", (const uint8 *)"\xd9"},          /* ル */
-            {(const uint8 *)"RE", (const uint8 *)"\xda"},          /* レ */
-            {(const uint8 *)"RO", (const uint8 *)"\xdb"},          /* ロ */
-            {(const uint8 *)"LA", (const uint8 *)"\xd7"},          /* ラ */
-            {(const uint8 *)"LI", (const uint8 *)"\xd8"},          /* リ */
-            {(const uint8 *)"LU", (const uint8 *)"\xd9"},          /* ル */
-            {(const uint8 *)"LE", (const uint8 *)"\xda"},          /* レ */
-            {(const uint8 *)"LO", (const uint8 *)"\xdb"},          /* ロ */
-            {(const uint8 *)"RYA", (const uint8 *)"\xd8\xac"},     /* リャ */
-            {(const uint8 *)"RYI", (const uint8 *)"\xd8\xa8"},     /* リィ */
-            {(const uint8 *)"RYU", (const uint8 *)"\xd8\xad"},     /* リュ */
-            {(const uint8 *)"RYE", (const uint8 *)"\xd8\xaa"},     /* リェ */
-            {(const uint8 *)"RYO", (const uint8 *)"\xd8\xae"},     /* リョ */
-            {(const uint8 *)"LYA", (const uint8 *)"\xd8\xac"},     /* リャ */
-            {(const uint8 *)"LYI", (const uint8 *)"\xd8\xa8"},     /* リィ */
-            {(const uint8 *)"LYU", (const uint8 *)"\xd8\xad"},     /* リュ */
-            {(const uint8 *)"LYE", (const uint8 *)"\xd8\xaa"},     /* リェ */
-            {(const uint8 *)"LYO", (const uint8 *)"\xd8\xae"},     /* リョ */
-            {(const uint8 *)"WA", (const uint8 *)"\xdc"},          /* ワ */
-            {(const uint8 *)"WO", (const uint8 *)"\xa6"},          /* ヲ */
-            {(const uint8 *)"VA", (const uint8 *)"\xb3\xde\xa7"},  /* ヴァ */
-            {(const uint8 *)"VI", (const uint8 *)"\xb3\xde\xa8"},  /* ヴィ */
-            {(const uint8 *)"VU", (const uint8 *)"\xb3\xde"},      /* ヴ */
-            {(const uint8 *)"VE", (const uint8 *)"\xb3\xde\xaa"},  /* ヴェ */
-            {(const uint8 *)"VO", (const uint8 *)"\xb3\xde\xab"},  /* ヴォ */
-            {(const uint8 *)"GA", (const uint8 *)"\xb6\xde"},      /* ガ */
-            {(const uint8 *)"GI", (const uint8 *)"\xb7\xde"},      /* ギ */
-            {(const uint8 *)"GU", (const uint8 *)"\xb8\xde"},      /* グ */
-            {(const uint8 *)"GE", (const uint8 *)"\xb9\xde"},      /* ゲ */
-            {(const uint8 *)"GO", (const uint8 *)"\xba\xde"},      /* ゴ */
-            {(const uint8 *)"GYA", (const uint8 *)"\xb7\xde\xac"}, /* ギャ */
-            {(const uint8 *)"GYI", (const uint8 *)"\xb7\xde\xa8"}, /* ギィ */
-            {(const uint8 *)"GYU", (const uint8 *)"\xb7\xde\xad"}, /* ギュ */
-            {(const uint8 *)"GYE", (const uint8 *)"\xb7\xde\xaa"}, /* ギェ */
-            {(const uint8 *)"GYO", (const uint8 *)"\xb7\xde\xac"}, /* ギョ */
-            {(const uint8 *)"ZA", (const uint8 *)"\xbb\xde"},      /* ザ */
-            {(const uint8 *)"ZI", (const uint8 *)"\xbc\xde"},      /* ジ */
-            {(const uint8 *)"ZU", (const uint8 *)"\xbd\xde"},      /* ズ */
-            {(const uint8 *)"ZE", (const uint8 *)"\xbe\xde"},      /* ゼ */
-            {(const uint8 *)"ZO", (const uint8 *)"\xbf\xde"},      /* ゾ */
-            {(const uint8 *)"JA", (const uint8 *)"\xbc\xde\xac"},  /* ジャ */
-            {(const uint8 *)"JI", (const uint8 *)"\xbc\xde"},      /* ジ */
-            {(const uint8 *)"JU", (const uint8 *)"\xbc\xde\xad"},  /* ジュ */
-            {(const uint8 *)"JE", (const uint8 *)"\xbc\xde\xaa"},  /* ジェ */
-            {(const uint8 *)"JO", (const uint8 *)"\xbc\xde\xac"},  /* ジョ */
-            {(const uint8 *)"JYA", (const uint8 *)"\xbc\xde\xac"}, /* ジャ */
-            {(const uint8 *)"JYI", (const uint8 *)"\xbc\xde\xa8"}, /* ジィ */
-            {(const uint8 *)"JYU", (const uint8 *)"\xbc\xde\xad"}, /* ジュ */
-            {(const uint8 *)"JYE", (const uint8 *)"\xbc\xde\xaa"}, /* ジェ */
-            {(const uint8 *)"JYO", (const uint8 *)"\xbc\xde\xac"}, /* ジョ */
-            {(const uint8 *)"ZYA", (const uint8 *)"\xbc\xde\xac"}, /* ジャ */
-            {(const uint8 *)"ZYI", (const uint8 *)"\xbc\xde\xa8"}, /* ジィ */
-            {(const uint8 *)"ZYU", (const uint8 *)"\xbc\xde\xad"}, /* ジュ */
-            {(const uint8 *)"ZYE", (const uint8 *)"\xbc\xde\xaa"}, /* ジェ */
-            {(const uint8 *)"ZYO", (const uint8 *)"\xbc\xde\xac"}, /* ジョ */
-            {(const uint8 *)"DA", (const uint8 *)"\xc0\xde"},      /* ダ */
-            {(const uint8 *)"DI", (const uint8 *)"\xc1\xde"},      /* ヂ */
-            {(const uint8 *)"DU", (const uint8 *)"\xc2\xde"},      /* ヅ */
-            {(const uint8 *)"DE", (const uint8 *)"\xc3\xde"},      /* デ */
-            {(const uint8 *)"DO", (const uint8 *)"\xc4\xde"},      /* ド */
-            {(const uint8 *)"DHA", (const uint8 *)"\xc3\xde\xac"}, /* デャ */
-            {(const uint8 *)"DHI", (const uint8 *)"\xc3\xde\xa8"}, /* ディ */
-            {(const uint8 *)"DHU", (const uint8 *)"\xc3\xde\xad"}, /* デュ */
-            {(const uint8 *)"DHE", (const uint8 *)"\xc3\xde\xaa"}, /* デェ */
-            {(const uint8 *)"DHO", (const uint8 *)"\xc3\xde\xac"}, /* デョ */
-            {(const uint8 *)"DYA", (const uint8 *)"\xc1\xde\xac"}, /* ヂャ */
-            {(const uint8 *)"DYI", (const uint8 *)"\xc1\xde\xa8"}, /* ヂィ */
-            {(const uint8 *)"DYU", (const uint8 *)"\xc1\xde\xad"}, /* ヂュ */
-            {(const uint8 *)"DYE", (const uint8 *)"\xc1\xde\xaa"}, /* ヂェ */
-            {(const uint8 *)"DYO", (const uint8 *)"\xc1\xde\xac"}, /* ヂョ */
-            {(const uint8 *)"BA", (const uint8 *)"\xca\xde"},      /* バ */
-            {(const uint8 *)"BI", (const uint8 *)"\xcb\xde"},      /* ビ */
-            {(const uint8 *)"BU", (const uint8 *)"\xcc\xde"},      /* ブ */
-            {(const uint8 *)"BE", (const uint8 *)"\xcd\xde"},      /* ベ */
-            {(const uint8 *)"BO", (const uint8 *)"\xce\xde"},      /* ボ */
-            {(const uint8 *)"BYA", (const uint8 *)"\xcb\xde\xac"}, /* ビャ */
-            {(const uint8 *)"BYI", (const uint8 *)"\xcb\xde\xa8"}, /* ビィ */
-            {(const uint8 *)"BYU", (const uint8 *)"\xcb\xde\xad"}, /* ビュ */
-            {(const uint8 *)"BYE", (const uint8 *)"\xcb\xde\xaa"}, /* ビェ */
-            {(const uint8 *)"BYO", (const uint8 *)"\xcb\xde\xac"}, /* ビョ */
-            {(const uint8 *)"PA", (const uint8 *)"\xca\xdf"},      /* パ */
-            {(const uint8 *)"PI", (const uint8 *)"\xcb\xdf"},      /* ピ */
-            {(const uint8 *)"PU", (const uint8 *)"\xcc\xdf"},      /* プ */
-            {(const uint8 *)"PE", (const uint8 *)"\xcd\xdf"},      /* ペ */
-            {(const uint8 *)"PO", (const uint8 *)"\xce\xdf"},      /* ポ */
-            {(const uint8 *)"PYA", (const uint8 *)"\xcb\xdf\xac"}, /* ピャ */
-            {(const uint8 *)"PYI", (const uint8 *)"\xcb\xdf\xa8"}, /* ピ */
-            {(const uint8 *)"PYU", (const uint8 *)"\xcb\xdf\xad"}, /* ピュ */
-            {(const uint8 *)"PYE", (const uint8 *)"\xcb\xdf\xaa"}, /* ピ */
-            {(const uint8 *)"PYO", (const uint8 *)"\xcb\xdf\xac"}, /* ピョ */
-            {(const uint8 *)"N'", (const uint8 *)"\xdd"},          /* ン */
-            {(const uint8 *)".", (const uint8 *)"\xa1"},           /* 。 */
-            {(const uint8 *)"(", (const uint8 *)"\xa2"},           /* 「 */
-            {(const uint8 *)")", (const uint8 *)"\xa3"},           /* 」 */
-            {(const uint8 *)",", (const uint8 *)"\xa4"},           /* 、 */
-            {(const uint8 *)"+", (const uint8 *)"\xa5"},           /* ・ */
-            {(const uint8 *)"-", (const uint8 *)"\xb0"}, /* ー (独自拡張) */
-            {(const uint8 *)"X", (const uint8 *)""},
+            {(const uint8_t *)"A", (const uint8_t *)"\xb1"},           /* ア */
+            {(const uint8_t *)"I", (const uint8_t *)"\xb2"},           /* イ */
+            {(const uint8_t *)"U", (const uint8_t *)"\xb3"},           /* ウ */
+            {(const uint8_t *)"E", (const uint8_t *)"\xb4"},           /* エ */
+            {(const uint8_t *)"O", (const uint8_t *)"\xb5"},           /* オ */
+            {(const uint8_t *)"YE", (const uint8_t *)"\xb2\xaa"},      /* イェ */
+            {(const uint8_t *)"KA", (const uint8_t *)"\xb6"},          /* カ */
+            {(const uint8_t *)"KI", (const uint8_t *)"\xb7"},          /* キ */
+            {(const uint8_t *)"KU", (const uint8_t *)"\xb8"},          /* ク */
+            {(const uint8_t *)"KE", (const uint8_t *)"\xb9"},          /* ケ */
+            {(const uint8_t *)"KO", (const uint8_t *)"\xba"},          /* コ */
+            {(const uint8_t *)"CA", (const uint8_t *)"\xb6"},          /* カ */
+            {(const uint8_t *)"CU", (const uint8_t *)"\xb8"},          /* ク */
+            {(const uint8_t *)"CO", (const uint8_t *)"\xba"},          /* コ */
+            {(const uint8_t *)"QA", (const uint8_t *)"\xb8\xa7"},      /* クァ */
+            {(const uint8_t *)"QI", (const uint8_t *)"\xb8\xa8"},      /* クィ */
+            {(const uint8_t *)"QU", (const uint8_t *)"\xb8"},          /* ク */
+            {(const uint8_t *)"QE", (const uint8_t *)"\xb8\xaa"},      /* クェ */
+            {(const uint8_t *)"QO", (const uint8_t *)"\xb8\xab"},      /* クォ */
+            {(const uint8_t *)"KYA", (const uint8_t *)"\xb7\xac"},     /* キャ */
+            {(const uint8_t *)"KYI", (const uint8_t *)"\xb7\xa8"},     /* キィ */
+            {(const uint8_t *)"KYU", (const uint8_t *)"\xb7\xad"},     /* キュ */
+            {(const uint8_t *)"KYE", (const uint8_t *)"\xb7\xaa"},     /* キェ */
+            {(const uint8_t *)"KYO", (const uint8_t *)"\xb7\xae"},     /* キョ */
+            {(const uint8_t *)"SA", (const uint8_t *)"\xbb"},          /* サ */
+            {(const uint8_t *)"SI", (const uint8_t *)"\xbc"},          /* シ */
+            {(const uint8_t *)"SU", (const uint8_t *)"\xbd"},          /* ス */
+            {(const uint8_t *)"SE", (const uint8_t *)"\xbe"},          /* セ */
+            {(const uint8_t *)"SO", (const uint8_t *)"\xbf"},          /* ソ */
+            {(const uint8_t *)"SHA", (const uint8_t *)"\xbc\xac"},     /* シャ */
+            {(const uint8_t *)"SHI", (const uint8_t *)"\xbc"},         /* シ */
+            {(const uint8_t *)"SHU", (const uint8_t *)"\xbc\xad"},     /* シュ */
+            {(const uint8_t *)"SHE", (const uint8_t *)"\xbc\xaa"},     /* シェ */
+            {(const uint8_t *)"SHO", (const uint8_t *)"\xbc\xae"},     /* ショ */
+            {(const uint8_t *)"SYA", (const uint8_t *)"\xbc\xac"},     /* シャ */
+            {(const uint8_t *)"SYI", (const uint8_t *)"\xbc"},         /* シ */
+            {(const uint8_t *)"SYU", (const uint8_t *)"\xbc\xad"},     /* シュ */
+            {(const uint8_t *)"SYE", (const uint8_t *)"\xbc\xaa"},     /* シェ */
+            {(const uint8_t *)"SYO", (const uint8_t *)"\xbc\xae"},     /* ショ */
+            {(const uint8_t *)"TA", (const uint8_t *)"\xc0"},          /* タ */
+            {(const uint8_t *)"TI", (const uint8_t *)"\xc1"},          /* チ */
+            {(const uint8_t *)"TU", (const uint8_t *)"\xc2"},          /* ツ */
+            {(const uint8_t *)"TE", (const uint8_t *)"\xc3"},          /* テ */
+            {(const uint8_t *)"TO", (const uint8_t *)"\xc4"},          /* ト */
+            {(const uint8_t *)"TSA", (const uint8_t *)"\xc2\xa7"},     /* ツァ */
+            {(const uint8_t *)"TSI", (const uint8_t *)"\xc2\xa8"},     /* ツィ */
+            {(const uint8_t *)"TSU", (const uint8_t *)"\xc2"},         /* ツ */
+            {(const uint8_t *)"TSE", (const uint8_t *)"\xc2\xaa"},     /* ツェ */
+            {(const uint8_t *)"TSO", (const uint8_t *)"\xc2\xab"},     /* ツォ */
+            {(const uint8_t *)"CHA", (const uint8_t *)"\xc1\xac"},     /* チャ */
+            {(const uint8_t *)"CHI", (const uint8_t *)"\xc1"},         /* チ */
+            {(const uint8_t *)"CHU", (const uint8_t *)"\xc1\xad"},     /* チュ */
+            {(const uint8_t *)"CHE", (const uint8_t *)"\xc1\xaa"},     /* チェ */
+            {(const uint8_t *)"CHO", (const uint8_t *)"\xc1\xac"},     /* チョ */
+            {(const uint8_t *)"TYA", (const uint8_t *)"\xc1\xac"},     /* チャ */
+            {(const uint8_t *)"TYI", (const uint8_t *)"\xc1\xa8"},     /* チィ */
+            {(const uint8_t *)"TYU", (const uint8_t *)"\xc1\xad"},     /* チュ */
+            {(const uint8_t *)"TYE", (const uint8_t *)"\xc1\xaa"},     /* チェ */
+            {(const uint8_t *)"TYO", (const uint8_t *)"\xc1\xac"},     /* チョ */
+            {(const uint8_t *)"CYA", (const uint8_t *)"\xc1\xac"},     /* チャ */
+            {(const uint8_t *)"CYI", (const uint8_t *)"\xc1\xa8"},     /* チィ */
+            {(const uint8_t *)"CYU", (const uint8_t *)"\xc1\xad"},     /* チュ */
+            {(const uint8_t *)"CYE", (const uint8_t *)"\xc1\xaa"},     /* チェ */
+            {(const uint8_t *)"CYO", (const uint8_t *)"\xc1\xac"},     /* チョ */
+            {(const uint8_t *)"NA", (const uint8_t *)"\xc5"},          /* ナ */
+            {(const uint8_t *)"NI", (const uint8_t *)"\xc6"},          /* ニ */
+            {(const uint8_t *)"NU", (const uint8_t *)"\xc7"},          /* ヌ */
+            {(const uint8_t *)"NE", (const uint8_t *)"\xc8"},          /* ネ */
+            {(const uint8_t *)"NO", (const uint8_t *)"\xc9"},          /* ノ */
+            {(const uint8_t *)"NYA", (const uint8_t *)"\xc6\xac"},     /* ニャ */
+            {(const uint8_t *)"NYI", (const uint8_t *)"\xc6\xa8"},     /* ニィ */
+            {(const uint8_t *)"NYU", (const uint8_t *)"\xc6\xad"},     /* ニュ */
+            {(const uint8_t *)"NYE", (const uint8_t *)"\xc6\xaa"},     /* ニェ */
+            {(const uint8_t *)"NYO", (const uint8_t *)"\xc6\xac"},     /* ニョ */
+            {(const uint8_t *)"HA", (const uint8_t *)"\xca"},          /* ハ */
+            {(const uint8_t *)"HI", (const uint8_t *)"\xcb"},          /* ヒ */
+            {(const uint8_t *)"HU", (const uint8_t *)"\xcc"},          /* フ */
+            {(const uint8_t *)"HE", (const uint8_t *)"\xcd"},          /* ヘ */
+            {(const uint8_t *)"HO", (const uint8_t *)"\xce"},          /* ホ */
+            {(const uint8_t *)"FA", (const uint8_t *)"\xcd\xa7"},      /* ファ */
+            {(const uint8_t *)"FI", (const uint8_t *)"\xcd\xa8"},      /* フィ */
+            {(const uint8_t *)"FU", (const uint8_t *)"\xcd"},          /* フ */
+            {(const uint8_t *)"FE", (const uint8_t *)"\xcd\xaa"},      /* フェ */
+            {(const uint8_t *)"FO", (const uint8_t *)"\xcd\xab"},      /* フォ */
+            {(const uint8_t *)"HYA", (const uint8_t *)"\xcb\xac"},     /* ヒャ */
+            {(const uint8_t *)"HYI", (const uint8_t *)"\xcb\xa8"},     /* ヒィ */
+            {(const uint8_t *)"HYU", (const uint8_t *)"\xcb\xad"},     /* ヒュ */
+            {(const uint8_t *)"HYE", (const uint8_t *)"\xcb\xaa"},     /* ヒェ */
+            {(const uint8_t *)"HYO", (const uint8_t *)"\xcb\xac"},     /* ヒョ */
+            {(const uint8_t *)"MA", (const uint8_t *)"\xcf"},          /* マ */
+            {(const uint8_t *)"MI", (const uint8_t *)"\xd0"},          /* ミ */
+            {(const uint8_t *)"MU", (const uint8_t *)"\xd1"},          /* ム */
+            {(const uint8_t *)"ME", (const uint8_t *)"\xd2"},          /* メ */
+            {(const uint8_t *)"MO", (const uint8_t *)"\xd3"},          /* モ */
+            {(const uint8_t *)"MYA", (const uint8_t *)"\xd0\xac"},     /* ミャ */
+            {(const uint8_t *)"MYI", (const uint8_t *)"\xd0\xa8"},     /* ミィ */
+            {(const uint8_t *)"MYU", (const uint8_t *)"\xd0\xad"},     /* ミュ */
+            {(const uint8_t *)"MYE", (const uint8_t *)"\xd0\xaa"},     /* ミェ */
+            {(const uint8_t *)"MYO", (const uint8_t *)"\xd0\xac"},     /* ミョ */
+            {(const uint8_t *)"YA", (const uint8_t *)"\xd4"},          /* ヤ */
+            {(const uint8_t *)"YI", (const uint8_t *)"\xb2"},          /* イ */
+            {(const uint8_t *)"YU", (const uint8_t *)"\xd5"},          /* ユ */
+            {(const uint8_t *)"YO", (const uint8_t *)"\xd6"},          /* ヨ */
+            {(const uint8_t *)"RA", (const uint8_t *)"\xd7"},          /* ラ */
+            {(const uint8_t *)"RI", (const uint8_t *)"\xd8"},          /* リ */
+            {(const uint8_t *)"RU", (const uint8_t *)"\xd9"},          /* ル */
+            {(const uint8_t *)"RE", (const uint8_t *)"\xda"},          /* レ */
+            {(const uint8_t *)"RO", (const uint8_t *)"\xdb"},          /* ロ */
+            {(const uint8_t *)"LA", (const uint8_t *)"\xd7"},          /* ラ */
+            {(const uint8_t *)"LI", (const uint8_t *)"\xd8"},          /* リ */
+            {(const uint8_t *)"LU", (const uint8_t *)"\xd9"},          /* ル */
+            {(const uint8_t *)"LE", (const uint8_t *)"\xda"},          /* レ */
+            {(const uint8_t *)"LO", (const uint8_t *)"\xdb"},          /* ロ */
+            {(const uint8_t *)"RYA", (const uint8_t *)"\xd8\xac"},     /* リャ */
+            {(const uint8_t *)"RYI", (const uint8_t *)"\xd8\xa8"},     /* リィ */
+            {(const uint8_t *)"RYU", (const uint8_t *)"\xd8\xad"},     /* リュ */
+            {(const uint8_t *)"RYE", (const uint8_t *)"\xd8\xaa"},     /* リェ */
+            {(const uint8_t *)"RYO", (const uint8_t *)"\xd8\xae"},     /* リョ */
+            {(const uint8_t *)"LYA", (const uint8_t *)"\xd8\xac"},     /* リャ */
+            {(const uint8_t *)"LYI", (const uint8_t *)"\xd8\xa8"},     /* リィ */
+            {(const uint8_t *)"LYU", (const uint8_t *)"\xd8\xad"},     /* リュ */
+            {(const uint8_t *)"LYE", (const uint8_t *)"\xd8\xaa"},     /* リェ */
+            {(const uint8_t *)"LYO", (const uint8_t *)"\xd8\xae"},     /* リョ */
+            {(const uint8_t *)"WA", (const uint8_t *)"\xdc"},          /* ワ */
+            {(const uint8_t *)"WO", (const uint8_t *)"\xa6"},          /* ヲ */
+            {(const uint8_t *)"VA", (const uint8_t *)"\xb3\xde\xa7"},  /* ヴァ */
+            {(const uint8_t *)"VI", (const uint8_t *)"\xb3\xde\xa8"},  /* ヴィ */
+            {(const uint8_t *)"VU", (const uint8_t *)"\xb3\xde"},      /* ヴ */
+            {(const uint8_t *)"VE", (const uint8_t *)"\xb3\xde\xaa"},  /* ヴェ */
+            {(const uint8_t *)"VO", (const uint8_t *)"\xb3\xde\xab"},  /* ヴォ */
+            {(const uint8_t *)"GA", (const uint8_t *)"\xb6\xde"},      /* ガ */
+            {(const uint8_t *)"GI", (const uint8_t *)"\xb7\xde"},      /* ギ */
+            {(const uint8_t *)"GU", (const uint8_t *)"\xb8\xde"},      /* グ */
+            {(const uint8_t *)"GE", (const uint8_t *)"\xb9\xde"},      /* ゲ */
+            {(const uint8_t *)"GO", (const uint8_t *)"\xba\xde"},      /* ゴ */
+            {(const uint8_t *)"GYA", (const uint8_t *)"\xb7\xde\xac"}, /* ギャ */
+            {(const uint8_t *)"GYI", (const uint8_t *)"\xb7\xde\xa8"}, /* ギィ */
+            {(const uint8_t *)"GYU", (const uint8_t *)"\xb7\xde\xad"}, /* ギュ */
+            {(const uint8_t *)"GYE", (const uint8_t *)"\xb7\xde\xaa"}, /* ギェ */
+            {(const uint8_t *)"GYO", (const uint8_t *)"\xb7\xde\xac"}, /* ギョ */
+            {(const uint8_t *)"ZA", (const uint8_t *)"\xbb\xde"},      /* ザ */
+            {(const uint8_t *)"ZI", (const uint8_t *)"\xbc\xde"},      /* ジ */
+            {(const uint8_t *)"ZU", (const uint8_t *)"\xbd\xde"},      /* ズ */
+            {(const uint8_t *)"ZE", (const uint8_t *)"\xbe\xde"},      /* ゼ */
+            {(const uint8_t *)"ZO", (const uint8_t *)"\xbf\xde"},      /* ゾ */
+            {(const uint8_t *)"JA", (const uint8_t *)"\xbc\xde\xac"},  /* ジャ */
+            {(const uint8_t *)"JI", (const uint8_t *)"\xbc\xde"},      /* ジ */
+            {(const uint8_t *)"JU", (const uint8_t *)"\xbc\xde\xad"},  /* ジュ */
+            {(const uint8_t *)"JE", (const uint8_t *)"\xbc\xde\xaa"},  /* ジェ */
+            {(const uint8_t *)"JO", (const uint8_t *)"\xbc\xde\xac"},  /* ジョ */
+            {(const uint8_t *)"JYA", (const uint8_t *)"\xbc\xde\xac"}, /* ジャ */
+            {(const uint8_t *)"JYI", (const uint8_t *)"\xbc\xde\xa8"}, /* ジィ */
+            {(const uint8_t *)"JYU", (const uint8_t *)"\xbc\xde\xad"}, /* ジュ */
+            {(const uint8_t *)"JYE", (const uint8_t *)"\xbc\xde\xaa"}, /* ジェ */
+            {(const uint8_t *)"JYO", (const uint8_t *)"\xbc\xde\xac"}, /* ジョ */
+            {(const uint8_t *)"ZYA", (const uint8_t *)"\xbc\xde\xac"}, /* ジャ */
+            {(const uint8_t *)"ZYI", (const uint8_t *)"\xbc\xde\xa8"}, /* ジィ */
+            {(const uint8_t *)"ZYU", (const uint8_t *)"\xbc\xde\xad"}, /* ジュ */
+            {(const uint8_t *)"ZYE", (const uint8_t *)"\xbc\xde\xaa"}, /* ジェ */
+            {(const uint8_t *)"ZYO", (const uint8_t *)"\xbc\xde\xac"}, /* ジョ */
+            {(const uint8_t *)"DA", (const uint8_t *)"\xc0\xde"},      /* ダ */
+            {(const uint8_t *)"DI", (const uint8_t *)"\xc1\xde"},      /* ヂ */
+            {(const uint8_t *)"DU", (const uint8_t *)"\xc2\xde"},      /* ヅ */
+            {(const uint8_t *)"DE", (const uint8_t *)"\xc3\xde"},      /* デ */
+            {(const uint8_t *)"DO", (const uint8_t *)"\xc4\xde"},      /* ド */
+            {(const uint8_t *)"DHA", (const uint8_t *)"\xc3\xde\xac"}, /* デャ */
+            {(const uint8_t *)"DHI", (const uint8_t *)"\xc3\xde\xa8"}, /* ディ */
+            {(const uint8_t *)"DHU", (const uint8_t *)"\xc3\xde\xad"}, /* デュ */
+            {(const uint8_t *)"DHE", (const uint8_t *)"\xc3\xde\xaa"}, /* デェ */
+            {(const uint8_t *)"DHO", (const uint8_t *)"\xc3\xde\xac"}, /* デョ */
+            {(const uint8_t *)"DYA", (const uint8_t *)"\xc1\xde\xac"}, /* ヂャ */
+            {(const uint8_t *)"DYI", (const uint8_t *)"\xc1\xde\xa8"}, /* ヂィ */
+            {(const uint8_t *)"DYU", (const uint8_t *)"\xc1\xde\xad"}, /* ヂュ */
+            {(const uint8_t *)"DYE", (const uint8_t *)"\xc1\xde\xaa"}, /* ヂェ */
+            {(const uint8_t *)"DYO", (const uint8_t *)"\xc1\xde\xac"}, /* ヂョ */
+            {(const uint8_t *)"BA", (const uint8_t *)"\xca\xde"},      /* バ */
+            {(const uint8_t *)"BI", (const uint8_t *)"\xcb\xde"},      /* ビ */
+            {(const uint8_t *)"BU", (const uint8_t *)"\xcc\xde"},      /* ブ */
+            {(const uint8_t *)"BE", (const uint8_t *)"\xcd\xde"},      /* ベ */
+            {(const uint8_t *)"BO", (const uint8_t *)"\xce\xde"},      /* ボ */
+            {(const uint8_t *)"BYA", (const uint8_t *)"\xcb\xde\xac"}, /* ビャ */
+            {(const uint8_t *)"BYI", (const uint8_t *)"\xcb\xde\xa8"}, /* ビィ */
+            {(const uint8_t *)"BYU", (const uint8_t *)"\xcb\xde\xad"}, /* ビュ */
+            {(const uint8_t *)"BYE", (const uint8_t *)"\xcb\xde\xaa"}, /* ビェ */
+            {(const uint8_t *)"BYO", (const uint8_t *)"\xcb\xde\xac"}, /* ビョ */
+            {(const uint8_t *)"PA", (const uint8_t *)"\xca\xdf"},      /* パ */
+            {(const uint8_t *)"PI", (const uint8_t *)"\xcb\xdf"},      /* ピ */
+            {(const uint8_t *)"PU", (const uint8_t *)"\xcc\xdf"},      /* プ */
+            {(const uint8_t *)"PE", (const uint8_t *)"\xcd\xdf"},      /* ペ */
+            {(const uint8_t *)"PO", (const uint8_t *)"\xce\xdf"},      /* ポ */
+            {(const uint8_t *)"PYA", (const uint8_t *)"\xcb\xdf\xac"}, /* ピャ */
+            {(const uint8_t *)"PYI", (const uint8_t *)"\xcb\xdf\xa8"}, /* ピ */
+            {(const uint8_t *)"PYU", (const uint8_t *)"\xcb\xdf\xad"}, /* ピュ */
+            {(const uint8_t *)"PYE", (const uint8_t *)"\xcb\xdf\xaa"}, /* ピ */
+            {(const uint8_t *)"PYO", (const uint8_t *)"\xcb\xdf\xac"}, /* ピョ */
+            {(const uint8_t *)"N'", (const uint8_t *)"\xdd"},          /* ン */
+            {(const uint8_t *)".", (const uint8_t *)"\xa1"},           /* 。 */
+            {(const uint8_t *)"(", (const uint8_t *)"\xa2"},           /* 「 */
+            {(const uint8_t *)")", (const uint8_t *)"\xa3"},           /* 」 */
+            {(const uint8_t *)",", (const uint8_t *)"\xa4"},           /* 、 */
+            {(const uint8_t *)"+", (const uint8_t *)"\xa5"},           /* ・ */
+            {(const uint8_t *)"-", (const uint8_t *)"\xb0"}, /* ー (独自拡張) */
+            {(const uint8_t *)"X", (const uint8_t *)""},
             {NULL}};
   const struct DaiSho {
-    const uint8 *dai;
-    const uint8 *sho;
+    const uint8_t *dai;
+    const uint8_t *sho;
   } *d, dai_sho[] = {
-            {(const uint8 *)"\xb1", (const uint8 *)"\xa7"}, /* ア → ァ */
-            {(const uint8 *)"\xb2", (const uint8 *)"\xa8"}, /* イ → ィ */
-            {(const uint8 *)"\xb3", (const uint8 *)"\xa9"}, /* ウ → ゥ */
-            {(const uint8 *)"\xb4", (const uint8 *)"\xaa"}, /* エ → ェ */
-            {(const uint8 *)"\xb5", (const uint8 *)"\xab"}, /* オ → ォ */
-            {(const uint8 *)"\xd4", (const uint8 *)"\xac"}, /* ヤ → ャ */
-            {(const uint8 *)"\xd5", (const uint8 *)"\xad"}, /* ユ → ュ */
-            {(const uint8 *)"\xd6", (const uint8 *)"\xae"}, /* ヨ → ョ */
-            {(const uint8 *)"\xc2", (const uint8 *)"\xaf"}, /* ツ → ッ */
+            {(const uint8_t *)"\xb1", (const uint8_t *)"\xa7"}, /* ア → ァ */
+            {(const uint8_t *)"\xb2", (const uint8_t *)"\xa8"}, /* イ → ィ */
+            {(const uint8_t *)"\xb3", (const uint8_t *)"\xa9"}, /* ウ → ゥ */
+            {(const uint8_t *)"\xb4", (const uint8_t *)"\xaa"}, /* エ → ェ */
+            {(const uint8_t *)"\xb5", (const uint8_t *)"\xab"}, /* オ → ォ */
+            {(const uint8_t *)"\xd4", (const uint8_t *)"\xac"}, /* ヤ → ャ */
+            {(const uint8_t *)"\xd5", (const uint8_t *)"\xad"}, /* ユ → ュ */
+            {(const uint8_t *)"\xd6", (const uint8_t *)"\xae"}, /* ヨ → ョ */
+            {(const uint8_t *)"\xc2", (const uint8_t *)"\xaf"}, /* ツ → ッ */
             {NULL}};
   const struct Function {
-    uint8 key;
-    uint8 code;
+    uint8_t key;
+    uint8_t code;
   } *f, func[] = {{GKEY_PI, CODE_PI},
                   {GKEY_NPR, CODE_NPR},
                   {GKEY_DEG, CODE_DEG},
@@ -1245,9 +1245,9 @@ uint8 getChrcode(int cursor) {
                   {GKEY_LOG | 0x80, CODE_TEN},
                   {GKEY_TAN | 0x80, CODE_ATN},
                   {0}};
-  static uint8 queue[8] = {0}, roman[4] = {0, 0, 0, 0};
+  static uint8_t queue[8] = {0}, roman[4] = {0, 0, 0, 0};
   int cursor_count = 0, roman_row;
-  uint8 key, ch, *v_cursor, *v_roman, cursor_back[5], cursor_off[5],
+  uint8_t key, ch, *v_cursor, *v_roman, cursor_back[5], cursor_off[5],
       cursor_on[5], roman_back[5 * 6];
 
   /* カーソル位置の文字を保存する */
@@ -1275,7 +1275,7 @@ uint8 getChrcode(int cursor) {
     memcpy(cursor_off, cursor_back, sizeof(cursor_off));
     memset(cursor_on, 0xff, sizeof(cursor_on));
   } else if (cursor == CURSOR_INS) {
-    const uint8 pat[] = {0x08, 0x1c, 0x3e, 0x7f, 0x00};
+    const uint8_t pat[] = {0x08, 0x1c, 0x3e, 0x7f, 0x00};
     memcpy(cursor_off, cursor_back, sizeof(cursor_off));
     memcpy(cursor_on, pat, sizeof(cursor_on));
   } else {
@@ -1434,20 +1434,20 @@ uint8 getChrcode(int cursor) {
 /*
         キー入力を1文字得る (ggetchrの下請け)
 */
-uint8 ggetchr(void) { return getChrcode(CURSOR_NONE); }
+uint8_t ggetchr(void) { return getChrcode(CURSOR_NONE); }
 
 /*
         ggetlineの状態
 */
 struct ggetline_stat {
   int base_col, base_row, cur_pos, mod;
-  uint8 *buf;
+  uint8_t *buf;
 };
 
 /*
         バッファ位置から座標を得る (ggetlineの下請け)
 */
-static int _pos_to_cr(struct ggetline_stat *stat, uint8 *col, uint8 *row,
+static int _pos_to_cr(struct ggetline_stat *stat, uint8_t *col, uint8_t *row,
                       int pos) {
   int z, x, y;
 
@@ -1475,7 +1475,7 @@ static int _pos_to_cr(struct ggetline_stat *stat, uint8 *col, uint8 *row,
 */
 static void _refresh(struct ggetline_stat *stat) {
   int pos;
-  uint8 col, row;
+  uint8_t col, row;
 
   for (pos = 0; stat->buf[pos] != 0; pos++)
     if (_pos_to_cr(stat, &col, &row, pos))
@@ -1495,7 +1495,7 @@ static void _scroll_down(struct ggetline_stat *stat) {
         カーソルを左に動かす (ggetlineの下請け)
 */
 static int _moveleft(struct ggetline_stat *stat) {
-  uint8 col, row;
+  uint8_t col, row;
 
   if (stat->cur_pos <= 0)
     return FALSE;
@@ -1543,7 +1543,7 @@ static void _scroll_up(struct ggetline_stat *stat) {
         カーソルを右に動かす (ggetlineの下請け)
 */
 static int _moveright(struct ggetline_stat *stat) {
-  uint8 col, row;
+  uint8_t col, row;
 
   if (stat->buf[stat->cur_pos] == 0)
     return FALSE;
@@ -1581,9 +1581,9 @@ static void _jumplast(struct ggetline_stat *stat) {
 /*
         バッファに文字を書き込む (ggetlineの下請け)
 */
-static void _putchr(struct ggetline_stat *stat, uint8 c) {
+static void _putchr(struct ggetline_stat *stat, uint8_t c) {
   int last = (stat->buf[stat->cur_pos] == 0);
-  uint8 col, row;
+  uint8_t col, row;
 
   stat->mod = TRUE;
 
@@ -1609,7 +1609,7 @@ static void _puttab(struct ggetline_stat *stat) {
 /*
         バッファに文字を挿入する (ggetlineの下請け)
 */
-static void _inschr(struct ggetline_stat *stat, uint8 c) {
+static void _inschr(struct ggetline_stat *stat, uint8_t c) {
   stat->mod = TRUE;
 
   memmove(&stat->buf[stat->cur_pos + 1], &stat->buf[stat->cur_pos],
@@ -1632,7 +1632,7 @@ static void _instab(struct ggetline_stat *stat) {
         バッファの文字を削除する (ggetlineの下請け)
 */
 static int _del(struct ggetline_stat *stat) {
-  uint8 col, row;
+  uint8_t col, row;
 
   if (stat->buf[stat->cur_pos] == 0)
     return FALSE;
@@ -1671,8 +1671,8 @@ static void _clear(struct ggetline_stat *stat) {
 /*
         プロンプトを表示する (ggetlineの下請け)
 */
-static void _putprompt(struct ggetline_stat *stat, const uint8 *prompt) {
-  uint8 col, row;
+static void _putprompt(struct ggetline_stat *stat, const uint8_t *prompt) {
+  uint8_t col, row;
 
   if (prompt == NULL)
     return;
@@ -1687,9 +1687,9 @@ static void _putprompt(struct ggetline_stat *stat, const uint8 *prompt) {
 /*
         プロンプトを消す (ggetlineの下請け)
 */
-static void _clearprompt(struct ggetline_stat *stat, const uint8 *prompt) {
+static void _clearprompt(struct ggetline_stat *stat, const uint8_t *prompt) {
   int pos;
-  uint8 col, row;
+  uint8_t col, row;
 
   if (prompt == NULL)
     return;
@@ -1703,12 +1703,12 @@ static void _clearprompt(struct ggetline_stat *stat, const uint8 *prompt) {
 /*
         文字列の入力を得る
 */
-uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
+uint8_t ggetline(uint8_t *buf, const uint8_t *prompt, int mode, ...) {
   va_list v;
   struct ggetline_stat stat;
   int ins = FALSE, first = TRUE, cursor = CURSOR_NONE, *pos = NULL, *row = NULL,
       *mod = NULL;
-  uint8 c, str[32], *p;
+  uint8_t c, str[32], *p;
 
   stat.base_col = -1;
   stat.base_row = -1;
@@ -1720,7 +1720,7 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
 
   if (mode == GETLINE_PRO) {
     int len;
-    uint8 cur_col, cur_row;
+    uint8_t cur_col, cur_row;
 
     va_start(v, mode);
     pos = (int *)va_arg(v, int *);
@@ -1937,7 +1937,7 @@ uint8 ggetline(uint8 *buf, const uint8 *prompt, int mode, ...) {
 /*
         数値(16進数)を得る
 */
-static int ishex(uint8 ascii) {
+static int ishex(uint8_t ascii) {
   return ascii == 0x30 || ascii == 0x31 || ascii == 0x32 || ascii == 0x33 ||
          ascii == 0x34 || ascii == 0x35 || ascii == 0x36 || ascii == 0x37 ||
          ascii == 0x38 || ascii == 0x39 || ascii == 0x61 || ascii == 0x41 ||
@@ -1945,13 +1945,13 @@ static int ishex(uint8 ascii) {
          ascii == 0x64 || ascii == 0x44 || ascii == 0x65 || ascii == 0x45 ||
          ascii == 0x66 || ascii == 0x46;
 }
-static void gethex(void *num, int length, uint8 col, uint8 row) {
+static void gethex(void *num, int length, uint8_t col, uint8_t row) {
   int n, first = TRUE;
   char buf[8];
-  uint8 k, x = length * 2;
+  uint8_t k, x = length * 2;
 
-  if (length == sizeof(uint8))
-    putstr(col, row, "%02X", *(uint8 *)num);
+  if (length == sizeof(uint8_t))
+    putstr(col, row, "%02X", *(uint8_t *)num);
   else
     putstr(col, row, "%04X", *(uint16 *)num);
 
@@ -1974,8 +1974,8 @@ static void gethex(void *num, int length, uint8 col, uint8 row) {
   if (x == 0)
     return;
   sscanf(buf, "%x", &n);
-  if (length == sizeof(uint8))
-    *(uint8 *)num = n;
+  if (length == sizeof(uint8_t))
+    *(uint8_t *)num = n;
   else
     *(uint16 *)num = n;
 }
@@ -1989,7 +1989,7 @@ static inline uint16 destroy16(void) {
   rnd = rnd * 65541 + 1;
   return rnd >> 16;
 }
-static inline uint8 destroy8(void) { return destroy16() >> 8; }
+static inline uint8_t destroy8(void) { return destroy16() >> 8; }
 
 /*
         全レジスタを表示する
@@ -2079,7 +2079,7 @@ static inline int iocs_02_f892(Z80stat *z) {
 }
 static inline int iocs_9490(Z80stat *z) {
   uint16 address;
-  uint8 page;
+  uint8_t page;
 
   if (useROM)
     return -1;
@@ -2177,7 +2177,7 @@ static inline int iocs_0e_ffa3(Z80stat *z) {
 }
 static inline int iocs_bb6b(Z80stat *z) {
   uint16 address;
-  uint8 page;
+  uint8_t page;
 
   if (useROM)
     return -1;
