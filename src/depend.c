@@ -28,15 +28,15 @@
 /* LCD・VRAM */
 #define MAX_ZOOM 3              /* ステータス表示部の拡大の最大値 */
 #define MAX_SCALE (360 / 8 + 1) /* 階調の最大値 */
-#define SCREEN(x, y)                                                           ¥
-  ((Uint8 *)screen->pixels + (y) * screen->pitch +                             ¥
+#define SCREEN(x, y)                                                           \
+  ((Uint8 *)screen->pixels + (y) * screen->pitch +                             \
    screen->format->BytesPerPixel * (x)) /* ピクセルのアドレス */
-#define VRAM_OFF(col, row, top)                                                ¥
-  (((row + (top) / 8) % 8) * vramWidth +                                       ¥
+#define VRAM_OFF(col, row, top)                                                \
+  (((row + (top) / 8) % 8) * vramWidth +                                       \
    (col) * cellWidth) /* 仮想VRAMのオフセット */
-#define VRAM(col, row, top)                                                    ¥
+#define VRAM(col, row, top)                                                    \
   &vram[VRAM_OFF(col, row, top)] /* 仮想VRAMのアドレス */
-#define OLD_VRAM(col, row, top)                                                ¥
+#define OLD_VRAM(col, row, top)                                                \
   &oldVram[VRAM_OFF(col, row, top)] /* 1フレーム前の仮想VRAMのアドレス */
 
 /* 色・Pixelテーブルのインデックス番号 */

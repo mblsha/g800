@@ -25,8 +25,8 @@
 
 /* エミュレートされるマシン */
 #define MACHINE_FIRST 0
-#define MACHINE_E200                                                                   ¥
-  0 /* PC-G801/PC-G802/PC-G803/PC-G805/PC-G811/PC-G813/PC-G820/PC-G830/PC-E200/PC-E220 ¥
+#define MACHINE_E200                                                                   \
+  0 /* PC-G801/PC-G802/PC-G803/PC-G805/PC-G811/PC-G813/PC-G820/PC-G830/PC-E200/PC-E220 \
      */
 #define MACHINE_G815 1 /* PC-G815 */
 #define MACHINE_G850 2 /* PC-G850/PC-G850S/PC-G850V/PC-G850VS */
@@ -407,15 +407,15 @@
 #define E200_MARGIN_DOWN (60 - PIXEL_HEIGHT)
 #define E200_MARGIN_LEFT PIXEL_WIDTH
 #define E200_MARGIN_RIGHT 0
-#define E200_LCD_MAIN_WIDTH                                                    ¥
+#define E200_LCD_MAIN_WIDTH                                                    \
   ((E200_CELL_WIDTH + 1) * E200_LCD_COLS * PIXEL_WIDTH)
-#define E200_LCD_MAIN_HEIGHT                                                   ¥
+#define E200_LCD_MAIN_HEIGHT                                                   \
   ((E200_CELL_HEIGHT + 1) * E200_LCD_ROWS * PIXEL_HEIGHT)
 #define E200_LCD_X 0
 #define E200_LCD_Y 0
-#define E200_LCD_WIDTH                                                         ¥
+#define E200_LCD_WIDTH                                                         \
   (E200_MARGIN_LEFT + E200_LCD_MAIN_WIDTH + E200_MARGIN_RIGHT)
-#define E200_LCD_HEIGHT                                                        ¥
+#define E200_LCD_HEIGHT                                                        \
   (E200_MARGIN_UP + E200_LCD_MAIN_HEIGHT + E200_MARGIN_DOWN + PIXEL_HEIGHT)
 #define _E200_STATUS_X E200_MARGIN_LEFT
 #define _E200_USTATUS_Y (E200_MARGIN_UP - STATUS_HEIGHT - PIXEL_HEIGHT)
@@ -452,7 +452,7 @@
 #define E200_STATUS_PRINT_Y _E200_DSTATUS_Y
 #define E200_STATUS_BUSY_X (_E200_STATUS_X + PIXEL_WIDTH * 6 * 0)
 #define E200_STATUS_BUSY_Y _E200_USTATUS_Y
-#define E200_STATUS_BATT_X                                                     ¥
+#define E200_STATUS_BATT_X                                                     \
   (E200_MARGIN_LEFT + E200_LCD_MAIN_WIDTH - STATUS_BATT_WIDTH)
 #define E200_STATUS_BATT_Y _E200_USTATUS_Y
 #define E200_STATUS_E_X (_E200_STATUS_X + PIXEL_WIDTH * 6 * 21)
@@ -523,9 +523,9 @@
 #define G815_LCD_MAIN_HEIGHT E200_LCD_MAIN_HEIGHT
 #define G815_LCD_X 0
 #define G815_LCD_Y 0
-#define G815_LCD_WIDTH                                                         ¥
+#define G815_LCD_WIDTH                                                         \
   (G815_MARGIN_LEFT + G815_LCD_MAIN_WIDTH + G815_MARGIN_RIGHT)
-#define G815_LCD_HEIGHT                                                        ¥
+#define G815_LCD_HEIGHT                                                        \
   (G815_MARGIN_UP + G815_LCD_MAIN_HEIGHT + G815_MARGIN_DOWN + PIXEL_HEIGHT)
 #define _G815_STATUS_X G815_MARGIN_LEFT
 #define _G815_USTATUS_Y (G815_MARGIN_UP - STATUS_HEIGHT - PIXEL_HEIGHT)
@@ -562,7 +562,7 @@
 #define G815_STATUS_PRINT_Y _G815_DSTATUS_Y
 #define G815_STATUS_BUSY_X (_G815_STATUS_X + PIXEL_WIDTH * 6 * 0)
 #define G815_STATUS_BUSY_Y _G815_USTATUS_Y
-#define G815_STATUS_BATT_X                                                     ¥
+#define G815_STATUS_BATT_X                                                     \
   (G815_MARGIN_LEFT + G815_LCD_MAIN_WIDTH - STATUS_BATT_WIDTH)
 #define G815_STATUS_BATT_Y _G815_USTATUS_Y
 #define G815_STATUS_E_X (_G815_STATUS_X + PIXEL_WIDTH * 6 * 21)
@@ -633,9 +633,9 @@
 #define G850_LCD_MAIN_HEIGHT (G850_CELL_HEIGHT * G850_LCD_ROWS * PIXEL_HEIGHT)
 #define G850_LCD_X 0
 #define G850_LCD_Y 0
-#define G850_LCD_WIDTH                                                         ¥
+#define G850_LCD_WIDTH                                                         \
   (G850_MARGIN_LEFT + G850_LCD_MAIN_WIDTH + G850_MARGIN_RIGHT)
-#define G850_LCD_HEIGHT                                                        ¥
+#define G850_LCD_HEIGHT                                                        \
   (G850_MARGIN_UP + G850_LCD_MAIN_HEIGHT + G850_MARGIN_DOWN)
 #define _G850_RSTATUS_X (G850_MARGIN_LEFT + G850_LCD_MAIN_WIDTH + PIXEL_WIDTH)
 #define _G850_LSTATUS_X PIXEL_WIDTH

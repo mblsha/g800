@@ -118,7 +118,7 @@ static int ankToKey(char ch, uint8 mod, uint8 *key) {
   const uint8 key_59[] = {MOD_CAPSLOCK, GKEY_Y, 0};                 /* Y */
   const uint8 key_5a[] = {MOD_CAPSLOCK, GKEY_Z, 0};                 /* Z */
   const uint8 key_5b[] = {GKEY_2NDF, GKEY_A, 0};                    /* [ */
-  const uint8 key_5c[] = {GKEY_2NDF, GKEY_G, 0};                    /* ¥ */
+  const uint8 key_5c[] = {GKEY_2NDF, GKEY_G, 0};                    /* \ */
   const uint8 key_5d[] = {GKEY_2NDF, GKEY_S, 0};                    /* ] */
   const uint8 key_5e[] = {GKEY_HAT, 0};                             /* ^ */
   const uint8 key_5f[] = {GKEY_2NDF, GKEY_K, 0};                    /* _ */
@@ -390,104 +390,104 @@ static int utf8ToUtf16(const char *utf8, int *utf16) {
 */
 static int utf16ToAnk(int utf16, char *ank) {
   const char *kana[] = {
-      "¥xde",     /* 0x309b ゛ */
-      "¥xdf",     /* 0x309c ゜ */
+      "\xde",     /* 0x309b ゛ */
+      "\xdf",     /* 0x309c ゜ */
       "",         /* 0x309d */
       "",         /* 0x309e */
       "",         /* 0x309f */
       "",         /* 0x30a0 */
-      "¥xa7",     /* 0x30a1 ァ */
-      "¥xb1",     /* 0x30a2 ア */
-      "¥xa8",     /* 0x30a3 ィ */
-      "¥xb2",     /* 0x30a4 イ */
-      "¥xa9",     /* 0x30a5 ゥ */
-      "¥xb3",     /* 0x30a6 ウ */
-      "¥xaa",     /* 0x30a7 ェ */
-      "¥xb4",     /* 0x30a8 エ */
-      "¥xab",     /* 0x30a9 ォ */
-      "¥xb5",     /* 0x30aa オ */
-      "¥xb6",     /* 0x30ab カ */
-      "¥xb6¥xde", /* 0x30ac ガ */
-      "¥xb7",     /* 0x30ad キ */
-      "¥xb7¥xde", /* 0x30ae ギ */
-      "¥xb8",     /* 0x30af ク */
-      "¥xb8¥xde", /* 0x30b0 グ */
-      "¥xb9",     /* 0x30b1 ケ */
-      "¥xb9¥xde", /* 0x30b2 ゲ */
-      "¥xba",     /* 0x30b3 コ */
-      "¥xba¥xde", /* 0x30b4 ゴ */
-      "¥xbb",     /* 0x30b5 サ */
-      "¥xbb¥xde", /* 0x30b6 ザ */
-      "¥xbc",     /* 0x30b7 シ */
-      "¥xbc¥xde", /* 0x30b8 ジ */
-      "¥xbd",     /* 0x30b9 ス */
-      "¥xbd¥xde", /* 0x30ba ズ */
-      "¥xbe",     /* 0x30bb セ */
-      "¥xbe¥xde", /* 0x30bc ゼ */
-      "¥xbf",     /* 0x30bd ソ */
-      "¥xbf¥xde", /* 0x30be ゾ */
-      "¥xc0",     /* 0x30bf タ */
-      "¥xc0¥xde", /* 0x30c0 ダ */
-      "¥xc1",     /* 0x30c1 チ */
-      "¥xc1¥xde", /* 0x30c2 ヂ */
-      "¥xaf",     /* 0x30c3 ッ */
-      "¥xc2",     /* 0x30c4 ツ */
-      "¥xc2¥xde", /* 0x30c5 ヅ */
-      "¥xc3",     /* 0x30c6 テ */
-      "¥xc3¥xde", /* 0x30c7 デ */
-      "¥xc4",     /* 0x30c8 ト */
-      "¥xc4¥xde", /* 0x30c9 ド */
-      "¥xc5",     /* 0x30ca ナ */
-      "¥xc6",     /* 0x30cb ニ */
-      "¥xc7",     /* 0x30cc ヌ */
-      "¥xc8",     /* 0x30cd ネ */
-      "¥xc9",     /* 0x30ce ノ */
-      "¥xca",     /* 0x30cf ハ */
-      "¥xca¥xde", /* 0x30d0 バ */
-      "¥xca¥xdf", /* 0x30d1 パ */
-      "¥xcb",     /* 0x30d2 ヒ */
-      "¥xcb¥xde", /* 0x30d3 ビ */
-      "¥xcb¥xdf", /* 0x30d4 ピ */
-      "¥xcc",     /* 0x30d5 フ */
-      "¥xcc¥xde", /* 0x30d6 ブ */
-      "¥xcc¥xdf", /* 0x30d7 プ */
-      "¥xcd",     /* 0x30d8 ヘ */
-      "¥xcd¥xde", /* 0x30d9 ベ */
-      "¥xcd¥xdf", /* 0x30da ペ */
-      "¥xce",     /* 0x30db ホ */
-      "¥xce¥xde", /* 0x30dc ボ */
-      "¥xce¥xdf", /* 0x30dd ポ */
-      "¥xcf",     /* 0x30de マ */
-      "¥xd0",     /* 0x30df ミ */
-      "¥xd1",     /* 0x30e0 ム */
-      "¥xd2",     /* 0x30e1 メ */
-      "¥xd3",     /* 0x30e2 モ */
-      "¥xac",     /* 0x30e3 ャ */
-      "¥xd4",     /* 0x30e4 ヤ */
-      "¥xad",     /* 0x30e5 ュ */
-      "¥xd5",     /* 0x30e6 ユ */
-      "¥xae",     /* 0x30e7 ョ */
-      "¥xd6",     /* 0x30e8 ヨ */
-      "¥xd7",     /* 0x30e9 ラ */
-      "¥xd8",     /* 0x30ea リ */
-      "¥xd9",     /* 0x30eb ル */
-      "¥xda",     /* 0x30ec レ */
-      "¥xdb",     /* 0x30ed ロ */
+      "\xa7",     /* 0x30a1 ァ */
+      "\xb1",     /* 0x30a2 ア */
+      "\xa8",     /* 0x30a3 ィ */
+      "\xb2",     /* 0x30a4 イ */
+      "\xa9",     /* 0x30a5 ゥ */
+      "\xb3",     /* 0x30a6 ウ */
+      "\xaa",     /* 0x30a7 ェ */
+      "\xb4",     /* 0x30a8 エ */
+      "\xab",     /* 0x30a9 ォ */
+      "\xb5",     /* 0x30aa オ */
+      "\xb6",     /* 0x30ab カ */
+      "\xb6\xde", /* 0x30ac ガ */
+      "\xb7",     /* 0x30ad キ */
+      "\xb7\xde", /* 0x30ae ギ */
+      "\xb8",     /* 0x30af ク */
+      "\xb8\xde", /* 0x30b0 グ */
+      "\xb9",     /* 0x30b1 ケ */
+      "\xb9\xde", /* 0x30b2 ゲ */
+      "\xba",     /* 0x30b3 コ */
+      "\xba\xde", /* 0x30b4 ゴ */
+      "\xbb",     /* 0x30b5 サ */
+      "\xbb\xde", /* 0x30b6 ザ */
+      "\xbc",     /* 0x30b7 シ */
+      "\xbc\xde", /* 0x30b8 ジ */
+      "\xbd",     /* 0x30b9 ス */
+      "\xbd\xde", /* 0x30ba ズ */
+      "\xbe",     /* 0x30bb セ */
+      "\xbe\xde", /* 0x30bc ゼ */
+      "\xbf",     /* 0x30bd ソ */
+      "\xbf\xde", /* 0x30be ゾ */
+      "\xc0",     /* 0x30bf タ */
+      "\xc0\xde", /* 0x30c0 ダ */
+      "\xc1",     /* 0x30c1 チ */
+      "\xc1\xde", /* 0x30c2 ヂ */
+      "\xaf",     /* 0x30c3 ッ */
+      "\xc2",     /* 0x30c4 ツ */
+      "\xc2\xde", /* 0x30c5 ヅ */
+      "\xc3",     /* 0x30c6 テ */
+      "\xc3\xde", /* 0x30c7 デ */
+      "\xc4",     /* 0x30c8 ト */
+      "\xc4\xde", /* 0x30c9 ド */
+      "\xc5",     /* 0x30ca ナ */
+      "\xc6",     /* 0x30cb ニ */
+      "\xc7",     /* 0x30cc ヌ */
+      "\xc8",     /* 0x30cd ネ */
+      "\xc9",     /* 0x30ce ノ */
+      "\xca",     /* 0x30cf ハ */
+      "\xca\xde", /* 0x30d0 バ */
+      "\xca\xdf", /* 0x30d1 パ */
+      "\xcb",     /* 0x30d2 ヒ */
+      "\xcb\xde", /* 0x30d3 ビ */
+      "\xcb\xdf", /* 0x30d4 ピ */
+      "\xcc",     /* 0x30d5 フ */
+      "\xcc\xde", /* 0x30d6 ブ */
+      "\xcc\xdf", /* 0x30d7 プ */
+      "\xcd",     /* 0x30d8 ヘ */
+      "\xcd\xde", /* 0x30d9 ベ */
+      "\xcd\xdf", /* 0x30da ペ */
+      "\xce",     /* 0x30db ホ */
+      "\xce\xde", /* 0x30dc ボ */
+      "\xce\xdf", /* 0x30dd ポ */
+      "\xcf",     /* 0x30de マ */
+      "\xd0",     /* 0x30df ミ */
+      "\xd1",     /* 0x30e0 ム */
+      "\xd2",     /* 0x30e1 メ */
+      "\xd3",     /* 0x30e2 モ */
+      "\xac",     /* 0x30e3 ャ */
+      "\xd4",     /* 0x30e4 ヤ */
+      "\xad",     /* 0x30e5 ュ */
+      "\xd5",     /* 0x30e6 ユ */
+      "\xae",     /* 0x30e7 ョ */
+      "\xd6",     /* 0x30e8 ヨ */
+      "\xd7",     /* 0x30e9 ラ */
+      "\xd8",     /* 0x30ea リ */
+      "\xd9",     /* 0x30eb ル */
+      "\xda",     /* 0x30ec レ */
+      "\xdb",     /* 0x30ed ロ */
       "",         /* 0x30ee */
-      "¥xdc",     /* 0x30ef ワ */
+      "\xdc",     /* 0x30ef ワ */
       "",         /* 0x30f0 */
       "",         /* 0x30f1 */
-      "¥xa6",     /* 0x30f2 ヲ */
-      "¥xdd",     /* 0x30f3 ン */
-      "¥xb3¥xde", /* 0x30f4 ヴ */
+      "\xa6",     /* 0x30f2 ヲ */
+      "\xdd",     /* 0x30f3 ン */
+      "\xb3\xde", /* 0x30f4 ヴ */
       "",         /* 0x30f5 */
       "",         /* 0x30f6 */
       "",         /* 0x30f7 */
       "",         /* 0x30f8 */
       "",         /* 0x30f9 */
       "",         /* 0x30fa */
-      "¥xa5",     /* 0x30fb ・ */
-      "¥xb0"      /* 0x30fc ー */
+      "\xa5",     /* 0x30fb ・ */
+      "\xb0"      /* 0x30fc ー */
   };
   char *a = ank;
   const char *p;
@@ -502,7 +502,7 @@ static int utf16ToAnk(int utf16, char *ank) {
   else if (utf16 == 0x0093 || utf16 == 0x0094 || utf16 == 0x201c ||
            utf16 == 0x201d) /* " */
     *a++ = 0x22;
-  else if (utf16 == 0x00a5 || utf16 == 0xffe5) /* ¥ */
+  else if (utf16 == 0x00a5 || utf16 == 0xffe5) /* \ */
     *a++ = 0x5c;
   else if (utf16 == 0x00b0) /* ° */
     *a++ = 0xdf;
@@ -710,7 +710,7 @@ int writeProfFile(const char *path) {
   for (p = z80.i.prof.record; p->count != 0; p++)
     if (p->bank == 0 && p->address <= 0x7fff) {
       sym = z80symbol(z80.i.symbol, p->bank, p->address);
-      fprintf(fp, "%02x:%04x¥t%s¥t%d¥t%I64d¥t%I64d\n", p->bank, p->address,
+      fprintf(fp, "%02x:%04x\t%s\t%d\t%I64d\t%I64d\n", p->bank, p->address,
               (sym != NULL ? sym : ""), p->count, p->states,
               p->states / p->count);
     }
@@ -778,17 +778,17 @@ int writePathFile(const char *path) {
               p->code[0] == 0xfa || /* jp M, mn */
               p->code[0] == 0xfc    /* call M, mn */
           )
-            fprintf(fp, "%02x:%04x¥t%s¥t%s¥t%d¥t%I64d¥t%f¥t%d¥t%f", bank,
+            fprintf(fp, "%02x:%04x\t%s\t%s\t%d\t%I64d\t%f\t%d\t%f", bank,
                     address, (sym != NULL ? sym : ""), disasm, p->count,
                     p->states, (double)p->states / p->count, p->cond,
                     ((double)p->cond / p->count));
           else
-            fprintf(fp, "%02x:%04x¥t%s¥t%s¥t%d¥t%I64d¥t%f¥t¥t", bank, address,
+            fprintf(fp, "%02x:%04x\t%s\t%s\t%d\t%I64d\t%f\t\t", bank, address,
                     (sym != NULL ? sym : ""), disasm, p->count, p->states,
                     (double)p->states / p->count);
           if (p->code[0] == 0xcd /* call mn */
           )
-            fprintf(fp, "¥t%I64d¥t%f\n", p->sub_states,
+            fprintf(fp, "\t%I64d\t%f\n", p->sub_states,
                     ((double)p->sub_states / p->count));
           else if (p->code[0] == 0xc4 || /* call NZ, mn */
                    p->code[0] == 0xc7 || /* rst 00H */
@@ -807,7 +807,7 @@ int writePathFile(const char *path) {
                    p->code[0] == 0xfc || /* call M, mn */
                    p->code[0] == 0xff    /* rst 38H */
           )
-            fprintf(fp, "¥t%I64d¥t%f¥t%f\n", p->sub_states,
+            fprintf(fp, "\t%I64d\t%f\t%f\n", p->sub_states,
                     ((double)p->sub_states / p->count),
                     (p->cond > 0 ? (double)p->sub_states / p->cond : .0));
           else

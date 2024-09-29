@@ -74,7 +74,7 @@ static char *getexedir(void) {
   WideCharToMultiByte(CP_UTF8, 0, w_module_name, -1, _buffer, sizeof(_buffer),
                       NULL, NULL);
 
-  for (p = _buffer + strlen(_buffer); p > _buffer && *p != '¥¥'; p--)
+  for (p = _buffer + strlen(_buffer); p > _buffer && *p != '\\'; p--)
     ;
   *p = 0;
 
@@ -113,23 +113,23 @@ static int readArg(Conf *conf, char *argv) {
   if (*argv != '-')
     return 0;
 
-  for (p = argv; *p != '=' && *p != '¥0'; p++)
+  for (p = argv; *p != '=' && *p != '\0'; p++)
     ;
-  if (*p == '¥0')
+  if (*p == '\0')
     return 0;
 
-  for (q = p; *q != '¥0'; q++)
+  for (q = p; *q != '\0'; q++)
     ;
 
   size = (int)(p - argv - 1);
   memcpy(conf->key, argv + 1, size);
-  *(conf->key + size) = '¥0';
+  *(conf->key + size) = '\0';
 
   size = (int)(q - p + 1);
   memcpy(conf->value, p + 1, size);
-  *(conf->value + size) = '¥0';
+  *(conf->value + size) = '\0';
 
-  *(conf + 1)->key = '¥0';
+  *(conf + 1)->key = '\0';
   return 1;
 }
 
@@ -200,27 +200,27 @@ static int readConfig(FILE *fp, Conf *conf) {
   do {
     if (fgets(buf, sizeof(buf), fp) == NULL)
       return 0;
-    if (memcmp(buf, "¥xef¥xbb¥xbf", 3) == 0) { /* UTF-8のBOM */
+    if (memcmp(buf, "\xef\xbb\xbf", 3) == 0) { /* UTF-8のBOM */
       is_utf8 = TRUE;
       memmove(buf, buf + 3, strlen(buf + 3) + 1);
     }
-    for (p = buf; *p == ' ' || *p == '¥t'; p++)
+    for (p = buf; *p == ' ' || *p == '\t'; p++)
       ;
   } while (*p == COMMENT || *p == '\r' || *p == '\n' || *p == 0);
 
-  for (q = p; *q != ' ' && *q != '¥t' && *q != '\r' && *q != '\n' && *q != 0;
+  for (q = p; *q != ' ' && *q != '\t' && *q != '\r' && *q != '\n' && *q != 0;
        q++)
     ;
   *q++ = 0;
   strcpy(conf->key, p);
 
   /* 右辺を得る */
-  for (p = q; *p == ' ' || *p == '¥t'; p++)
+  for (p = q; *p == ' ' || *p == '\t'; p++)
     ;
   for (q = p; *q != '\r' && *q != '\n' && *q != 0 && *q != COMMENT; q++)
     ;
   if (p < q)
-    for (; *(q - 1) == ' ' || *(q - 1) == '¥t'; q--)
+    for (; *(q - 1) == ' ' || *(q - 1) == '\t'; q--)
       ;
   *q++ = 0;
 #if defined(_WIN32)
@@ -236,7 +236,7 @@ static int readConfig(FILE *fp, Conf *conf) {
 #endif
 
   /* 終端を書き込む */
-  *(conf + 1)->key = '¥0';
+  *(conf + 1)->key = '\0';
   return 1;
 }
 
@@ -281,7 +281,7 @@ const char *getOptText(const Conf *conf, const char *key,
                        const char *default_value) {
   const Conf *p;
 
-  for (p = conf; p->key[0] != '¥0'; p++)
+  for (p = conf; p->key[0] != '\0'; p++)
     if (strcasecmp(p->key, key) == 0)
       return p->value;
   return default_value;

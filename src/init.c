@@ -13,10 +13,10 @@
 #define KEYBOARD_JP 1 /* 日本語 */
 
 /* エミュレートする側のキー名を設定する */
-#define SET_TABLE_KEY(t, key, code)                                            ¥
-  setOptTable(t, key, code);                                                   ¥
-  setOptTable(t, "%" key, MODKEY_ALT | code);                                  ¥
-  setOptTable(t, "^" key, MODKEY_CTRL | code);                                 ¥
+#define SET_TABLE_KEY(t, key, code)                                            \
+  setOptTable(t, key, code);                                                   \
+  setOptTable(t, "%" key, MODKEY_ALT | code);                                  \
+  setOptTable(t, "^" key, MODKEY_CTRL | code);                                 \
   setOptTable(t, "+" key, MODKEY_SHIFT | code)
 
 /* キー割り当て */
@@ -151,7 +151,7 @@ const static OptTable tableGkey[] = {{"off", GKEY_OFF},
                                      {"copy", GKEY_COPY},
                                      {"paste", GKEY_PASTE},
                                      {"!", GMODKEY_SHIFT | GKEY_Q},
-                                     {"¥"", GMODKEY_SHIFT | GKEY_W},
+                                     {"\"", GMODKEY_SHIFT | GKEY_W},
                                      {"hash", GMODKEY_SHIFT | GKEY_E},
                                      {"$", GMODKEY_SHIFT | GKEY_R},
                                      {"%", GMODKEY_SHIFT | GKEY_T},
@@ -161,7 +161,7 @@ const static OptTable tableGkey[] = {{"off", GKEY_OFF},
                                      {"]", GMODKEY_SHIFT | GKEY_S},
                                      {"{", GMODKEY_SHIFT | GKEY_D},
                                      {"}", GMODKEY_SHIFT | GKEY_F},
-                                     {"¥¥", GMODKEY_SHIFT | GKEY_G},
+                                     {"\\", GMODKEY_SHIFT | GKEY_G},
                                      {"|", GMODKEY_SHIFT | GKEY_H},
                                      {"‾", GMODKEY_SHIFT | GKEY_J},
                                      {"_", GMODKEY_SHIFT | GKEY_K},
@@ -234,7 +234,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {";", KEY_SEMICOLON},
                                  {"=", KEY_EQUALS},
                                  {"[", KEY_LEFTBRACKET},
-                                 {"¥¥", KEY_BACKSLASH},
+                                 {"\\", KEY_BACKSLASH},
                                  {"]", KEY_RIGHTBRACKET},
                                  {"`", KEY_BACKQUOTE},
                                  {"a", KEY_A},
@@ -354,7 +354,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {"%;", MODKEY_ALT | KEY_SEMICOLON},
                                  {"%=", MODKEY_ALT | KEY_EQUALS},
                                  {"%[", MODKEY_ALT | KEY_LEFTBRACKET},
-                                 {"%¥¥", MODKEY_ALT | KEY_BACKSLASH},
+                                 {"%\\", MODKEY_ALT | KEY_BACKSLASH},
                                  {"%]", MODKEY_ALT | KEY_RIGHTBRACKET},
                                  {"%`", MODKEY_ALT | KEY_BACKQUOTE},
                                  {"%a", MODKEY_ALT | KEY_A},
@@ -465,7 +465,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {"^;", MODKEY_CTRL | KEY_SEMICOLON},
                                  {"^=", MODKEY_CTRL | KEY_EQUALS},
                                  {"^[", MODKEY_CTRL | KEY_LEFTBRACKET},
-                                 {"^¥¥", MODKEY_CTRL | KEY_BACKSLASH},
+                                 {"^\\", MODKEY_CTRL | KEY_BACKSLASH},
                                  {"^]", MODKEY_CTRL | KEY_RIGHTBRACKET},
                                  {"^`", MODKEY_CTRL | KEY_BACKQUOTE},
                                  {"^a", MODKEY_CTRL | KEY_A},
@@ -576,7 +576,7 @@ static OptTable tableKey[512] = {{"none", 0},
                                  {"+;", MODKEY_SHIFT | KEY_SEMICOLON},
                                  {"+=", MODKEY_SHIFT | KEY_EQUALS},
                                  {"+[", MODKEY_SHIFT | KEY_LEFTBRACKET},
-                                 {"+¥¥", MODKEY_SHIFT | KEY_BACKSLASH},
+                                 {"+\\", MODKEY_SHIFT | KEY_BACKSLASH},
                                  {"+]", MODKEY_SHIFT | KEY_RIGHTBRACKET},
                                  {"+`", MODKEY_SHIFT | KEY_BACKQUOTE},
                                  {"+a", MODKEY_SHIFT | KEY_A},
@@ -802,7 +802,7 @@ static int getDirLength(const char *path) {
   const char *p;
 
   for (p = path + strlen(path) - 1; p > path; p--)
-    if (*p == '¥¥' || *p == ':' || *p == '/')
+    if (*p == '\\' || *p == ':' || *p == '/')
       return (int)(p - path) + 1;
   return 0;
 }
@@ -817,8 +817,8 @@ static void quit(void) {
   else if (*pathProg != 0)
     loadSym(pathProg);
 
-  writeProfFile(".¥¥prof.tsv");
-  writePathFile(".¥¥path.tsv");
+  writeProfFile(".\\prof.tsv");
+  writePathFile(".\\path.tsv");
 #endif
 
   quitDepend();

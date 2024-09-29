@@ -319,7 +319,7 @@ static uint8 selectItem(char **sel, char *buf) {
       uprintf("%.*s", strsize(p, 10), p);
     }
     ulocate(0, cur);
-    uprintf("¥x13");
+    uprintf("\x13");
     updateLCD();
 
     switch (ch = ggetchr()) {
@@ -448,7 +448,7 @@ static int makeFileList(char *file_list, int size, const char *dir_name) {
   sprintf(dir, "%s", dir_name);
   for (p = dir; *p != 0; p++)
     if (*p == '/')
-      *p = '¥¥';
+      *p = '\\';
 
   sprintf(path, "%s*.*", dir);
   MultiByteToWideChar(CP_UTF8, 0, path, -1, w_path, PATH_MAX);
@@ -472,7 +472,7 @@ static int makeFileList(char *file_list, int size, const char *dir_name) {
       continue;
     if (found.dwFileAttributes &
         FILE_ATTRIBUTE_DIRECTORY) { /* ディレクトリか? */
-      sprintf(path, "%s%s¥¥", dir, file);
+      sprintf(path, "%s%s\\", dir, file);
       MultiByteToWideChar(CP_UTF8, 0, path, -1, w_path, PATH_MAX);
       if (cur_abs_dir_len ==
           GetFullPathNameW(w_path, sizeof(next_abs_dir), next_abs_dir, NULL))
