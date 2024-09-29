@@ -1016,7 +1016,7 @@ int init(int argc, char *argv[]) {
   if (getOptText(conf, "auto", NULL) != NULL) {
     char buf[256];
 
-    sprintf(buf, "%s¥n", getOptText(conf, "auto", NULL));
+    sprintf(buf, "%s\n", getOptText(conf, "auto", NULL));
     setAutoKeyText(buf, FALSE);
   }
 

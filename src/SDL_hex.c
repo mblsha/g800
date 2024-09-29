@@ -77,7 +77,7 @@ Sint64 SDLHex_Load_RW(SDL_RWops *rw, void *mem, Sint64 *ret_top,
     /* レコード開始記号 */
     if (SDL_RWread(rw, buf, 1, 1) == 0)
       break;
-    if (*buf == '¥n' || *buf == '¥r')
+    if (*buf == '\n' || *buf == '\r')
       continue;
     if (*buf != ':')
       goto fail;
@@ -229,10 +229,10 @@ Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
     if (size <= 0) {
       /* エンドレコード */
 #if defined(_WIN32)
-      strcpy(w, "00000001FF¥r¥n");
+      strcpy(w, "00000001FF\r\n");
       SDL_RWwrite(rw, buf, 13, 1);
 #else
-      strcpy(w, "00000001FF¥n");
+      strcpy(w, "00000001FF\n");
       SDL_RWwrite(rw, buf, 12, 1);
 #endif
       break;
@@ -276,9 +276,9 @@ Sint64 SDLHex_Save_RW(SDL_RWops *rw, const void *mem, Sint64 off, size_t size,
 
     /* 改行 */
 #if defined(_WIN32)
-    *w++ = '¥r';
+    *w++ = '\r';
 #endif
-    *w++ = '¥n';
+    *w++ = '\n';
 
     /* 書き込み */
     if (SDL_RWwrite(rw, buf, (int)(w - buf), 1) == 0)

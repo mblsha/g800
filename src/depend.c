@@ -1111,7 +1111,7 @@ void updateLayout(void) {
   SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
   SDL_ShowWindow(window);
   if ((screen = SDL_GetWindowSurface(window)) == NULL) {
-    fprintf(stderr, "SDL_GetWindowSurface fail. %s¥n", SDL_GetError());
+    fprintf(stderr, "SDL_GetWindowSurface fail. %s\n", SDL_GetError());
     exit(1);
   }
 #elif SDL_MAJOR_VERSION == 1
@@ -1119,7 +1119,7 @@ void updateLayout(void) {
            w, h, videoInfo->vfmt->BitsPerPixel,
            SDL_HWSURFACE | (videoInfo->vfmt->BitsPerPixel <= 8 ? SDL_HWPALETTE
                                                                : 0))) == NULL) {
-    fprintf(stderr, "SDL_SetVideoMode fail. %s¥n", SDL_GetError());
+    fprintf(stderr, "SDL_SetVideoMode fail. %s\n", SDL_GetError());
     exit(1);
   }
 #endif
@@ -1652,7 +1652,7 @@ int initDepend(void) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER |
                (useJoy ? SDL_INIT_JOYSTICK : 0) |
                (buzzer != BUZZER_NONE ? SDL_INIT_AUDIO : 0))) {
-    fprintf(stderr, "SDL_Init fail. %s¥n", SDL_GetError());
+    fprintf(stderr, "SDL_Init fail. %s\n", SDL_GetError());
     exit(1);
   }
 
@@ -1661,13 +1661,13 @@ int initDepend(void) {
   if ((window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED,
                                  SDL_WINDOWPOS_UNDEFINED, 0, 0,
                                  SDL_WINDOW_HIDDEN)) == NULL) {
-    fprintf(stderr, "SDL_CreateWindow fail. %s¥n", SDL_GetError());
+    fprintf(stderr, "SDL_CreateWindow fail. %s\n", SDL_GetError());
     exit(1);
   }
 #elif SDL_MAJOR_VERSION == 1
   /* ビデオ情報を得る */
   if ((videoInfo = SDL_GetVideoInfo()) == NULL) {
-    fprintf(stderr, "SDL_GetVideoInfo fail. %s¥n", SDL_GetError());
+    fprintf(stderr, "SDL_GetVideoInfo fail. %s\n", SDL_GetError());
     exit(1);
   }
 #endif
@@ -1699,7 +1699,7 @@ int initDepend(void) {
     audio.samples = soundBufferSize;
     audio.callback = playSound;
     if (SDL_OpenAudio(&audio, NULL) < 0) {
-      fprintf(stderr, "SDL_OpenAudio fail. %s¥n", SDL_GetError());
+      fprintf(stderr, "SDL_OpenAudio fail. %s\n", SDL_GetError());
       exit(1);
     }
     SDL_PauseAudio(0);

@@ -331,7 +331,7 @@ int monitor(void) {
   *VRAM_CR(lcdCols, 1) = 0x00;
   *VRAM_CR(lcdCols, 2) = 0x00;
   gcls();
-  gprintf("MACHINE LANGUAGE MONITOR¥r");
+  gprintf("MACHINE LANGUAGE MONITOR\r");
 
   while (memory[0x7902] == 0x00) {
     /* プロンプトを表示する */
@@ -358,7 +358,7 @@ int monitor(void) {
       /* コマンドを実行する */
       toUpperStr(buf);
 
-      gprintf("¥r");
+      gprintf("\r");
 
       if (buf[0] == 0) {
         /* コマンドなし */
@@ -379,15 +379,15 @@ int monitor(void) {
       } else if (memcmp(buf, "R", 1) == 0) {
         /* R:読み込み */
         if ((size = loadProg(&address, pathSioIn)) <= 0)
-          gprintf("READ ERROR¥r");
+          gprintf("READ ERROR\r");
         else
-          gprintf("INFO:%04X-%04X¥r", address, address + size - 1);
+          gprintf("INFO:%04X-%04X\r", address, address + size - 1);
       } else if (memcmp(buf, "W", 1) == 0 &&
                  getParam2(buf, 1, &param1, &param2) && param1 >= 0 &&
                  param2 >= 0) {
         /* W:書き込み */
         if (writeHex(pathSioOut, memory, param1, param2 - param1) <= 0)
-          gprintf("WRITE ERROR¥r");
+          gprintf("WRITE ERROR\r");
       } else if (memcmp(buf, "USER", 4) == 0 && getParam1(buf, 4, &param1)) {
         /* USER:ユーザエリア */
         if (param1 >= 0x100 && param1 <= 0x7fff) {
@@ -396,12 +396,12 @@ int monitor(void) {
         }
         size = (memory[0x7fff] * 0x100 + memory[0x7ffe] - 1) & 0xffff;
         if (size == 0xffff)
-          gprintf("FREE:NOT RESERVED¥r");
+          gprintf("FREE:NOT RESERVED\r");
         else
-          gprintf("FREE:%04X-%04X¥r", 0x100, size);
+          gprintf("FREE:%04X-%04X\r", 0x100, size);
       } else {
         /* エラー */
-        gprintf(" SYNTAX ERROR¥r");
+        gprintf(" SYNTAX ERROR\r");
       }
     }
   }

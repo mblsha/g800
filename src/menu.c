@@ -46,11 +46,11 @@ static int uputchr(const char *p) {
 
   if (*p == 0)
     return 0;
-  else if (*p == '¥n') {
+  else if (*p == '\n') {
     if (nextRow(&curCol, &curRow))
       scrup();
     return 1;
-  } else if (*p == '¥r') {
+  } else if (*p == '\r') {
     curCol = 0;
     return 1;
   }
@@ -101,7 +101,7 @@ static void uprintf(const char *str, ...) {
 */
 static void ucls(void) {
   ulocate(0, lcdRows - 1);
-  uprintf("¥n¥n¥n¥n¥n¥n¥n¥n");
+  uprintf("\n\n\n\n\n\n\n\n");
   lcdTop = lcdBegin = memory[0x790d] = 0;
   ulocate(0, 0);
 }
@@ -170,7 +170,7 @@ static uint8 uadds(char *buf) {
       return ch;
     case 0x0d: /* RETURN */
       /* RETURNを押して入力を終了した */
-      uprintf("¥r¥n");
+      uprintf("\r\n");
       return ch;
     case 0x08: /* BS */
     case 0x1d: /* ← */
@@ -422,9 +422,9 @@ int isG800File(const char *path) {
     if (!isdigit((unsigned char)*p) && *p != ':' && *p != 0x1a)
       return FALSE;
 
-    while ((int)(p - buf) < size && *p != '¥r' && *p != '¥n')
+    while ((int)(p - buf) < size && *p != '\r' && *p != '\n')
       p++;
-    while ((int)(p - buf) < size && (*p == '¥r' || *p == '¥n'))
+    while ((int)(p - buf) < size && (*p == '\r' || *p == '\n'))
       p++;
   }
 
@@ -650,7 +650,7 @@ int inputFile(char *path) {
   }
   ucls();
 
-  if (ch == '¥r' || ch == ' ') {
+  if (ch == '\r' || ch == ' ') {
     strcpy(path, buf);
     return TRUE;
   } else
@@ -690,11 +690,11 @@ static int menuFile(void) {
   for (;;) {
     /* メニューを表示する */
     ucls();
-    uprintf("      <<<< FILE >>>¥n"
-            "¥n"
-            "  Read  Write¥n"
-            "¥n"
-            "¥n");
+    uprintf("      <<<< FILE >>>\n"
+            "\n"
+            "  Read  Write\n"
+            "\n"
+            "\n");
     ulocate(0, lcdRows - 2);
     uprintf("%s", info);
 
@@ -754,11 +754,11 @@ static int menuSio(void) {
   for (;;) {
     /* メニューとSIO状態を表示する */
     ucls();
-    uprintf("       <<< SIO >>>¥n"
-            "¥n"
-            "  In   Out   Switch¥n"
-            "¥n"
-            "¥n");
+    uprintf("       <<< SIO >>>\n"
+            "\n"
+            "  In   Out   Switch\n"
+            "\n"
+            "\n");
     ulocate(0, lcdRows - 2);
     switch (sioMode) {
     case SIO_MODE_STOP:
@@ -826,8 +826,8 @@ int menu(void) {
   for (;;) {
     /* メニューを表示する */
     ucls();
-    uprintf("      *** MENU ***¥n"
-            "¥n"
+    uprintf("      *** MENU ***\n"
+            "\n"
             "  Sio  File  CLS:Return");
     updateLCD();
 

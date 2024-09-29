@@ -38,7 +38,7 @@ void z80log(const Z80stat *z) {
   char buf[256];
   int states = Z80_STATES(z);
 
-  printf("%s%dclocks (%dmsec)¥n¥n", z80regs(buf, z), states,
+  printf("%s%dclocks (%dmsec)\n\n", z80regs(buf, z), states,
          states / (freqCPU / 1000));
 }
 #endif
@@ -710,7 +710,7 @@ int writeProfFile(const char *path) {
   for (p = z80.i.prof.record; p->count != 0; p++)
     if (p->bank == 0 && p->address <= 0x7fff) {
       sym = z80symbol(z80.i.symbol, p->bank, p->address);
-      fprintf(fp, "%02x:%04x¥t%s¥t%d¥t%I64d¥t%I64d¥n", p->bank, p->address,
+      fprintf(fp, "%02x:%04x¥t%s¥t%d¥t%I64d¥t%I64d\n", p->bank, p->address,
               (sym != NULL ? sym : ""), p->count, p->states,
               p->states / p->count);
     }
@@ -788,7 +788,7 @@ int writePathFile(const char *path) {
                     (double)p->states / p->count);
           if (p->code[0] == 0xcd /* call mn */
           )
-            fprintf(fp, "¥t%I64d¥t%f¥n", p->sub_states,
+            fprintf(fp, "¥t%I64d¥t%f\n", p->sub_states,
                     ((double)p->sub_states / p->count));
           else if (p->code[0] == 0xc4 || /* call NZ, mn */
                    p->code[0] == 0xc7 || /* rst 00H */
@@ -807,11 +807,11 @@ int writePathFile(const char *path) {
                    p->code[0] == 0xfc || /* call M, mn */
                    p->code[0] == 0xff    /* rst 38H */
           )
-            fprintf(fp, "¥t%I64d¥t%f¥t%f¥n", p->sub_states,
+            fprintf(fp, "¥t%I64d¥t%f¥t%f\n", p->sub_states,
                     ((double)p->sub_states / p->count),
                     (p->cond > 0 ? (double)p->sub_states / p->cond : .0));
           else
-            fprintf(fp, "¥n");
+            fprintf(fp, "\n");
 
           fflush(fp);
         }

@@ -357,7 +357,7 @@ int main(int argc, char *argv[]) {
   }
 
   /*
-  printf("Total states = %d¥n", z80.i.total_states);
+  printf("Total states = %d\n", z80.i.total_states);
   */
 
   /* 後処理 */

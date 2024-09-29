@@ -268,7 +268,7 @@ static inline int out18(uint8 x) {
   if((interval = Z80_STATES(&z80) - prev_states) < 0)
           interval = INT_MAX - prev_states + Z80_STATES(&z80);
   prev_states = Z80_STATES(&z80) + states;
-  printf("interval=%d (%d)¥n", interval, pin11out() & PIN11_XOUT);
+  printf("interval=%d (%d)\n", interval, pin11out() & PIN11_XOUT);
   */
   return 18;
 
@@ -856,7 +856,7 @@ static inline int out6f_g850(uint8 x) { return 0; }
 */
 int z80inport(Z80stat *z, uint8 *x, uint16 address) {
   /*
-  printf("in %02x¥n", address);
+  printf("in %02x\n", address);
   */
 
   /* ディスプレイ用・その他(機種依存) */
@@ -999,7 +999,7 @@ int z80inport(Z80stat *z, uint8 *x, uint16 address) {
   }
 
 #if defined(WARN_UNKOWN_IO)
-  printf("UNKNOWN in (%02xh)¥n", address & 0xff);
+  printf("UNKNOWN in (%02xh)\n", address & 0xff);
   fflush(stdout);
 #endif
   *x = 0x78;
@@ -1011,7 +1011,7 @@ int z80inport(Z80stat *z, uint8 *x, uint16 address) {
 */
 int z80outport(Z80stat *z, uint16 address, uint8 x) {
   /*
-  printf("out (%02x), %02x¥n", address, x);
+  printf("out (%02x), %02x\n", address, x);
   fflush(stdout);
   */
 
@@ -1148,7 +1148,7 @@ int z80outport(Z80stat *z, uint16 address, uint8 x) {
   }
 
 #if defined(WARN_UNKOWN_IO)
-  printf("UNKNOWN out (%02xh), %02xh¥n", address & 0xff, x);
+  printf("UNKNOWN out (%02xh), %02xh\n", address & 0xff, x);
   fflush(stdout);
 #endif
   return 0;

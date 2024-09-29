@@ -206,9 +206,9 @@ static int readConfig(FILE *fp, Conf *conf) {
     }
     for (p = buf; *p == ' ' || *p == '¥t'; p++)
       ;
-  } while (*p == COMMENT || *p == '¥r' || *p == '¥n' || *p == 0);
+  } while (*p == COMMENT || *p == '\r' || *p == '\n' || *p == 0);
 
-  for (q = p; *q != ' ' && *q != '¥t' && *q != '¥r' && *q != '¥n' && *q != 0;
+  for (q = p; *q != ' ' && *q != '¥t' && *q != '\r' && *q != '\n' && *q != 0;
        q++)
     ;
   *q++ = 0;
@@ -217,7 +217,7 @@ static int readConfig(FILE *fp, Conf *conf) {
   /* 右辺を得る */
   for (p = q; *p == ' ' || *p == '¥t'; p++)
     ;
-  for (q = p; *q != '¥r' && *q != '¥n' && *q != 0 && *q != COMMENT; q++)
+  for (q = p; *q != '\r' && *q != '\n' && *q != 0 && *q != COMMENT; q++)
     ;
   if (p < q)
     for (; *(q - 1) == ' ' || *(q - 1) == '¥t'; q--)

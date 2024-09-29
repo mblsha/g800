@@ -589,7 +589,7 @@ void gcls() {
 */
 uint8 point(int16 x, int16 y) {
   /*
-  printf("POINT(%d,%d)¥n", x, y);
+  printf("POINT(%d,%d)\n", x, y);
   fflush(stdout);
   */
 
@@ -684,7 +684,7 @@ void line(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
   uint16 mask = 0x0001;
 
   /*
-  printf("LINE(%d,%d)-(%d,%d),%d¥n", x1, y1, x2, y2, mode & 0x03);
+  printf("LINE(%d,%d)-(%d,%d),%d\n", x1, y1, x2, y2, mode & 0x03);
   fflush(stdout);
   */
 
@@ -733,7 +733,7 @@ void box(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
   int dx = (x2 > x1 ? x2 - x1 : x1 - x2), dy = (y2 > y1 ? y2 - y1 : y1 - y2);
 
   /*
-  printf("BOX(%d,%d)-(%d,%d),%d¥n", x1, y1, x2, y2, mode);
+  printf("BOX(%d,%d)-(%d,%d),%d\n", x1, y1, x2, y2, mode);
   fflush(stdout);
   */
 
@@ -767,7 +767,7 @@ void boxfill(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
   uint16 mask = 0x0001;
 
   /*
-  printf("BOXFILL(%d,%d)-(%d,%d),%d¥n", x1, y1, x2, y2, mode);
+  printf("BOXFILL(%d,%d)-(%d,%d),%d\n", x1, y1, x2, y2, mode);
   fflush(stdout);
   */
 
@@ -783,7 +783,7 @@ void boxfill(int16 x1, int16 y1, int16 x2, int16 y2, uint8 mode, uint16 pat) {
 */
 static void gprint(int16 x, int16 y, uint8 pat) {
   /*
-  printf("GPRINT(%d,%d),%02x¥n", x, y, pat);
+  printf("GPRINT(%d,%d),%02x\n", x, y, pat);
   fflush(stdout);
   */
 
@@ -1369,7 +1369,7 @@ uint8 getChrcode(int cursor) {
       memset(roman, 0, sizeof(roman));
     } else {
       /* ローマ字の入力を得る */
-      if (!isalpha(ch) && ch != '¥'')
+      if (!isalpha(ch) && ch != \\')
         memset(roman, 0, sizeof(roman));
       if (roman[0] == 0)
         roman[0] = ch;
@@ -2118,7 +2118,7 @@ static inline int iocs_9490(Z80stat *z) {
   }
 
   /*
-  printf("page=%02x address=%04x¥n", page, address);
+  printf("page=%02x address=%04x\n", page, address);
   fflush(stdout);
   */
 
@@ -2218,7 +2218,7 @@ static inline int iocs_bb6b(Z80stat *z) {
   }
 
   /*
-  printf("page=%02x address=%04x¥n", page, address);
+  printf("page=%02x address=%04x\n", page, address);
   fflush(stdout);
   */
 
@@ -2595,7 +2595,7 @@ int z80subroutine(Z80stat *z, uint16 address) {
 
   if (address >= 0x8000) {
 #ifdef WARN_UNKNOWN_IO
-    printf("UNKNOWN CALL %04x¥n", address);
+    printf("UNKNOWN CALL %04x\n", address);
 #endif
     return (useROM ? -1 : 100);
   } else
