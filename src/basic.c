@@ -736,7 +736,7 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
     }
 
     /*
-    printf("%02X%02X%02X%02X%02X%02X E%d¥n",
+    printf("%02X%02X%02X%02X%02X%02X E%d\n",
     fra[0], fra[1], fra[2], fra[3], fra[4], fra[5], exp);
     */
 
@@ -821,7 +821,7 @@ static int encodeNumDms(uint8 *num, const uint8 *str, int dms) {
   /* 仮数部を書き込む */
   memcpy(&num[2], fra, sizeof(fra));
   /*
-  printf("%02X%02X%02X%02X%02X%02X%02X%02X¥n",
+  printf("%02X%02X%02X%02X%02X%02X%02X%02X\n",
   num[0], num[1], num[2], num[3], num[4], num[5], num[6], num[7]);
   */
   return (int)(p - str);
@@ -3210,7 +3210,7 @@ int findVar(struct Basic *bas, uint8 **var, uint8 *ret_name1, const uint8 *name,
   }
   if (ret_name1 != NULL)
     *ret_name1 = name1;
-  /*printf("DEBUG: namer=%02x%02x, type=%d¥n", name[0], name1, type);*/
+  /*printf("DEBUG: namer=%02x%02x, type=%d\n", name[0], name1, type);*/
 
   /* 変数を検索する */
   for (v = bas->vars; *v != NULL; v++)
@@ -3322,7 +3322,7 @@ int getSimpleVal(uint8 **val, int *type, int *size, uint8 *var) {
     *type = TYPE_NUM;
   else
     *type = TYPE_STR;
-  /*printf("DEBUG: var=%02x%02x, type=%d¥n", var[0], var[1], *type);*/
+  /*printf("DEBUG: var=%02x%02x, type=%d\n", var[0], var[1], *type);*/
 
   /* 長さを得る */
   *size = var[6];
@@ -3344,7 +3344,7 @@ int getArrayVal(uint8 **val, int *type, int *size, uint8 *var, int index0,
     *type = TYPE_NUM;
   else
     *type = TYPE_STR;
-  /*printf("DEBUG: var=%02x%02x, type=%d¥n", var[0], var[1], *type);*/
+  /*printf("DEBUG: var=%02x%02x, type=%d\n", var[0], var[1], *type);*/
 
   /* 2次元目の要素数を得る */
   array_size1 = var[4];
@@ -3395,7 +3395,7 @@ static int fetchLitStr(struct Element *e, const uint8 **p) {
     e->ele_type = ELE_TYPE_STR;
     e->x.str = *p;
 
-    while (**p != '¥"' && **p != '¥r')
+    while (**p != '¥"' && **p != '\r')
       (*p)++;
     if (**p == '¥"')
       (*p)++;
@@ -3613,7 +3613,7 @@ static int pushEle(const struct Element *e) {
 static int getStrLen(const uint8 *str) {
   const uint8 *p;
 
-  for (p = str; *p != 0 && *p != '¥"' && *p != '¥r'; p++)
+  for (p = str; *p != 0 && *p != '¥"' && *p != '\r'; p++)
     ;
   return (int)(p - str);
 }
@@ -4025,7 +4025,7 @@ int fetchAnyKeyword(const uint8 **p) {
         行の終端か?
 */
 int isLineTerm(const uint8 **p) {
-  return p == NULL || **p == '¥r' || **p == '¥'';
+  return p == NULL || **p == '\r' || **p == \\';
 }
 
 /*
@@ -4169,7 +4169,7 @@ int decodeProg(uint8 *dst, const uint8 *src) {
   if (*p == 0xff)
     return 0;
 
-  while (*p != '¥r' && *p != 0) {
+  while (*p != '\r' && *p != 0) {
     if (*p == CODE_RESERVED) {
       p++;
       q += getKeywordFromCode(q, *p++);
@@ -4300,7 +4300,7 @@ int findLine(const uint8 **p, const uint8 **found, const uint8 *top) {
 int goNext(const uint8 **p) {
   if (**p == CODE_RESERVED)
     *p += 2;
-  else if (**p == '¥r') {
+  else if (**p == '\r') {
     (*p)++;
 
     if (**p == 0xff) {
@@ -4323,7 +4323,7 @@ int goNextLine(const uint8 **p) {
     return FALSE;
   }
 
-  while (**p != '¥r')
+  while (**p != '\r')
     goNext(p);
   (*p)++;
 
@@ -4378,7 +4378,7 @@ static int pushFlow(struct Basic *bas, void **top, int kind) {
     return ERR_54;
 
   /*
-  printf("%*cPUSH LINE=%d KIND=%d DEPTH=%d¥n", (int )(bas->top - bas->stack), '
+  printf("%*cPUSH LINE=%d KIND=%d DEPTH=%d\n", (int )(bas->top - bas->stack), '
   ', bas->line_no, kind, (int )(bas->top - bas->stack));
   */
 
@@ -4418,7 +4418,7 @@ static int popFlow(struct Basic *bas, void **top, int kind) {
   int err;
 
   /*
-  printf("%*cPOP LINE=%d KIND=%d DEPTH=%d¥n", (int )(bas->top - bas->stack), '
+  printf("%*cPOP LINE=%d KIND=%d DEPTH=%d\n", (int )(bas->top - bas->stack), '
   ', bas->line_no, kind, (int )(bas->top - bas->stack));
   */
 
@@ -5275,7 +5275,7 @@ static int staFiles(struct Basic *bas, const uint8 **p) {
   ch = selectFile(path);
   popVram();
 
-  if (ch == '¥r' && strcmp(path, "") != 0) {
+  if (ch == '\r' && strcmp(path, "") != 0) {
     if (!inportBas(path))
       return ERR_94;
     if (!loadBas(bas))
@@ -5678,7 +5678,7 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
   for (;;) {
     if ((ch = getc(fp)) < 0)
       break;
-    else if (ch == '¥n' || ch == '¥r')
+    else if (ch == '\n' || ch == '\r')
       break;
     else if (ch == ' ' || ch == '¥t' || ch == ',') {
       if (!in_quote)
@@ -5692,7 +5692,7 @@ static int fetchValFromFile(uint8 *val, int type, FILE *fp) {
         for (;;) {
           if ((ch = getc(fp)) < 0)
             break;
-          else if (ch == ',' || ch == '¥n' || ch == '¥r')
+          else if (ch == ',' || ch == '\n' || ch == '\r')
             break;
           else if (ch != ' ' && ch != '¥t') {
             ungetc(ch, fp);
@@ -5840,11 +5840,11 @@ static int staInput(struct Basic *bas, const uint8 **p) {
           return ERR_END;
       }
 
-      for (q = buf; *q != 0 && *q != '¥r' && *q != '¥n'; q++)
+      for (q = buf; *q != 0 && *q != '\r' && *q != '\n'; q++)
         ;
       *q = 0;
 
-      gprintf("%s¥r", buf);
+      gprintf("%s\r", buf);
 
       /* 変数に代入する */
       err = 0;
@@ -5863,14 +5863,14 @@ static int staInput(struct Basic *bas, const uint8 **p) {
           err = ERR_90;
         else if ((err = setVarVal(val, kind, type, size, num_or_str)) < 0)
           ;
-        else if (*q != 0 && *q != '¥r' && *q != '¥n')
+        else if (*q != 0 && *q != '\r' && *q != '\n')
           err = ERR_90;
       }
 
       /* エラーか? */
       if (err < 0) {
         glocate(0, *curRow);
-        gprintf("ERROR %d¥r", -err);
+        gprintf("ERROR %d\r", -err);
       } else
         break;
     }
@@ -6595,14 +6595,14 @@ static int staPrintFile(struct Basic *bas, const uint8 **p) {
           break;
         if ((err = formatVal(buf, num_or_str, type)) < 0)
           return err;
-        fprintf(bas->fp[fileno], "%s¥n", buf);
+        fprintf(bas->fp[fileno], "%s\n", buf);
 
         for (j = 1;; j++) {
           if (getArrayVal(&num_or_str, &type, &size, array, i, j) < 0)
             break;
           if ((err = formatVal(buf, num_or_str, type)) < 0)
             return err;
-          fprintf(bas->fp[fileno], "%s¥n", buf);
+          fprintf(bas->fp[fileno], "%s\n", buf);
         }
       }
 
@@ -6629,7 +6629,7 @@ static int staPrintFile(struct Basic *bas, const uint8 **p) {
         else
           fprintf(bas->fp[fileno], "%s ", buf);
         if (!fetchSymbol(p, ";"))
-          fprintf(bas->fp[fileno], "¥n");
+          fprintf(bas->fp[fileno], "\n");
       }
     }
   } while (!isTerm(p));
@@ -6760,7 +6760,7 @@ static int staPrint(struct Basic *bas, const uint8 **p) {
         while (*curCol != lcdCols - len)
           moveCursor(0x1c);
       else {
-        moveCursor('¥r');
+        moveCursor('\r');
         while (*curCol != lcdCols / 2 - len)
           moveCursor(0x1c);
       }
@@ -6781,7 +6781,7 @@ static int staPrint(struct Basic *bas, const uint8 **p) {
         while (*curCol != lcdCols / 2)
           moveCursor(0x1c);
       else
-        moveCursor('¥r');
+        moveCursor('\r');
     }
 
     /* 次の値へ移る */
@@ -7042,7 +7042,7 @@ static void _renum(struct Basic *bas, int line_no_old, int line_no_new) {
   uint8 buf[8];
 
   for (line = bas->prog; !IS_LAST(line); line += LINE_SIZE(line)) {
-    for (p = line + 3; *p != '¥r'; goNext((const uint8 **)&p)) {
+    for (p = line + 3; *p != '\r'; goNext((const uint8 **)&p)) {
       q = p;
 
       /* 行番号またはラベルがパラメータのステートメントでなければ処理しない */
@@ -7620,7 +7620,7 @@ int runSta1(struct Basic *bas, const uint8 **p) {
     return ERR_BREAK;
 
   /* 行末か? */
-  if (**p == '¥r' || **p == '¥'') {
+  if (**p == '\r' || **p == \\') {
     goNextLine(p);
     return ERR_OK_JUMP;
   }
@@ -7675,10 +7675,10 @@ static int runSta(struct Basic *bas, const uint8 **p) {
   if (*p == NULL) /* 終了 */
     return ERR_END;
   if (err == ERR_BREAK) { /* 中断 */
-    gprintf("¥rBREAK");
+    gprintf("\rBREAK");
     return err;
   } else if (IS_ERROR(err)) { /* エラー */
-    gprintf("¥rERROR %d", -err);
+    gprintf("\rERROR %d", -err);
     return err;
   } else
     return err;
@@ -7709,7 +7709,7 @@ static int runLine(struct Basic *bas, const uint8 **p) {
   else
     err = ERR_OK_NEXT;
   if (err < 0) {
-    gprintf("¥rERROR %d", -err);
+    gprintf("\rERROR %d", -err);
     return err;
   } else if (err == ERR_OK_JUMP)
     return err;
@@ -7757,7 +7757,7 @@ static void encodeStr(uint8 **dst, const uint8 **src) {
 
   do {
     *(*dst)++ = *(*src)++;
-  } while (**src != '"' && **src != '¥r' && **src != '¥n' && **src != 0);
+  } while (**src != '"' && **src != '\r' && **src != '\n' && **src != 0);
 
   if (**src == '"')
     *(*dst)++ = *(*src)++;
@@ -7769,8 +7769,8 @@ static void encodeStr(uint8 **dst, const uint8 **src) {
 static void encodeData(uint8 **dst, const uint8 **src) {
   int in_str = FALSE;
 
-  while ((**src != ':' || (**src == ':' && in_str)) && **src != '¥r' &&
-         **src != '¥n' && **src != 0) {
+  while ((**src != ':' || (**src == ':' && in_str)) && **src != '\r' &&
+         **src != '\n' && **src != 0) {
     if (**src == '"')
       in_str = !in_str;
     *(*dst)++ = *(*src)++;
@@ -7800,7 +7800,7 @@ static void encodeLabel(uint8 **dst, const uint8 **src) {
         コメントを中間コードに変換する (encodeProgの下請け)
 */
 static void encodeRem(uint8 **dst, const uint8 **src) {
-  while (**src != '¥r' && **src != '¥n' && **src != 0)
+  while (**src != '\r' && **src != '\n' && **src != 0)
     *(*dst)++ = *(*src)++;
 }
 
@@ -7862,9 +7862,9 @@ static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
   encodeLabel(&q, &p);
 
   for (;;) {
-    if (*p == '¥r' || *p == '¥n' || *p == 0)
+    if (*p == '\r' || *p == '\n' || *p == 0)
       break;
-    else if (*p == '¥'' && mode != MODE_MAN)
+    else if (*p == \\' && mode != MODE_MAN)
       encodeRem(&q, &p);
     else if (isdigit(*p) || *p == '.')
       encodeDec(&q, &p);
@@ -7901,7 +7901,7 @@ static int encodeProg(uint8 *dst, const uint8 *src, int mode) {
                   q--;
   */
   if ((int)(q - dst) > 0)
-    *q++ = '¥r';
+    *q++ = '\r';
   *q = 0;
   return (int)(q - dst);
 }
@@ -7924,7 +7924,7 @@ static int insertLine(uint8 *area, int area_size, int line_no,
   /* 空行ならば戻る */
   for (q = line; q < line + len && (*q == ' ' || *q == '¥t'); q++)
     ;
-  if (q >= line + len || *q == '¥r' || *q == '¥n' || *q == 0x1a || *q == 0) {
+  if (q >= line + len || *q == '\r' || *q == '\n' || *q == 0x1a || *q == 0) {
     if (ret_p != NULL)
       *ret_p = (del ? p : NULL);
     return 1;
@@ -7960,7 +7960,7 @@ int insertProg(struct Basic *bas, const uint8 *line, int *ret_line_no,
 
   /* 空行ならば戻る */
   skipBlank(&p);
-  if (*p == '¥r' || *p == '¥n' || *p == 0x1a || *p == 0)
+  if (*p == '\r' || *p == '\n' || *p == 0x1a || *p == 0)
     return ERR_OK;
 
   /* 行番号を得る */
@@ -8076,7 +8076,7 @@ static int saveBas(struct Basic *bas) {
     prog += len;
     prog += decodeProg(buf, prog);
 
-    fprintf(fp, "%d%.*s¥n", line_no, strlen(buf), buf);
+    fprintf(fp, "%d%.*s\n", line_no, strlen(buf), buf);
   }
 
   fclose(fp);
@@ -8098,7 +8098,7 @@ int runProg(struct Basic *bas, uint8 *buf) {
   if ((len = encodeProg(prog, p, MODE_MAN)) <= 0)
     return 1;
   decodeProg(buf, prog);
-  gprintf("%s¥r", buf);
+  gprintf("%s\r", buf);
 
   p = prog;
   if ((err = runSta1(bas, &p)) == ERR_OK_JUMP || err == ERR_OK_CONT) {
@@ -8116,12 +8116,12 @@ int runProg(struct Basic *bas, uint8 *buf) {
       if (peekSymbol(&bas->p, "*"))
         fetchLabel(&bas->p);
       /*
-                              printf("LINE=%d¥n", bas->line_no);
+                              printf("LINE=%d\n", bas->line_no);
       */
     } while ((err = runLine(bas, &bas->p)) >= 0);
 
     if (IS_ERROR(err) || err == ERR_BREAK)
-      gprintf(" IN %d¥r", bas->line_no);
+      gprintf(" IN %d\r", bas->line_no);
 
     /*
                     if(err != ERR_BREAK)
@@ -8155,7 +8155,7 @@ int runProg(struct Basic *bas, uint8 *buf) {
 
   /* エラーか? */
   if (IS_ERROR(err)) {
-    gprintf("¥rERROR %d¥r", -err);
+    gprintf("\rERROR %d\r", -err);
 
     for (;;) {
       if ((k = getKeycode()) == GKEY_CLS) {
@@ -8175,10 +8175,10 @@ int runProg(struct Basic *bas, uint8 *buf) {
 
     numCorrect9(ans);
     decodeNum(prog, ans);
-    gprintf("%24s¥r", prog);
+    gprintf("%24s\r", prog);
   } else {
     strcpy(prog, "");
-    gprintf("%s¥r", ans);
+    gprintf("%s\r", ans);
   }
 
   if ((k = getKeycode()) == GKEY_LEFT || k == GKEY_RIGHT)
@@ -8244,7 +8244,7 @@ int basRun(struct Basic *bas) {
   clearCont(bas);
 
   gcls();
-  gprintf("RUN MODE¥r");
+  gprintf("RUN MODE\r");
 
   while (*mode == MODE_RUN && !isoff()) {
     newline = (buf[0] == 0);
@@ -8259,7 +8259,7 @@ int basRun(struct Basic *bas) {
       err = runProg(bas, buf);
 
       if (err > 0 && newline)
-        gprintf("¥r");
+        gprintf("\r");
       break;
     case 0x1e: /* ↑ */
       if (bas->line_no <= 0)
@@ -8445,7 +8445,7 @@ int basPro(struct Basic *bas) {
   loadBas(bas);
 
   gcls();
-  gprintf("PROGRAM MODE¥r");
+  gprintf("PROGRAM MODE\r");
 
   while (*mode == MODE_PRO && !isoff()) {
     if (bas->auto_step > 0 &&
@@ -8500,7 +8500,7 @@ int basPro(struct Basic *bas) {
           if (line_no > 0) {
             decodeLineNoProg(buf, cur, ":");
             gprintf("%s", buf);
-            moveCursor('¥r');
+            moveCursor('\r');
           }
         } else { /* 編集中 */
           if (cur != prev)
@@ -8510,10 +8510,10 @@ int basPro(struct Basic *bas) {
           pos = 0;
         }
       } else if (err >= 0) { /* 空行 */
-        moveCursor('¥r');
+        moveCursor('\r');
         pos = bas->auto_step = -1; /* 編集・自動入力終了 */
       } else if ((err = runProg(bas, buf)) == ERR_AUTO) { /* 自動入力開始 */
-        moveCursor('¥r');
+        moveCursor('\r');
       } else if (err == ERR_LIST) { /* 閲覧開始 */
         jumpLine(bas, &cur, bas->line_no);
         clearCont(bas);
@@ -8521,7 +8521,7 @@ int basPro(struct Basic *bas) {
       } else if (err > 0) {        /* 正常終了 */
         saveBas(bas);
         clearCont(bas);
-        moveCursor('¥r');
+        moveCursor('\r');
         cur = NULL, pos = bas->auto_step = -1; /* 閲覧・編集・自動入力終了 */
       } else {                                 /* エラー */
         cur = NULL, pos = bas->auto_step = -1; /* 閲覧・編集・自動入力終了 */

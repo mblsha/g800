@@ -1471,9 +1471,9 @@ char *z80regs(char *str, const Z80stat *r) {
 
   sprintf(
       str,
-      "%c%c%c%c%c%c(%02x) A=%02x BC=%04x DE=%04x HL=%04x SP=%04x PC=%04x %s¥n"
+      "%c%c%c%c%c%c(%02x) A=%02x BC=%04x DE=%04x HL=%04x SP=%04x PC=%04x %s\n"
       "%c%c%c%c%c%c(%02x) A'%02x BC'%04x DE'%04x HL'%04x IX=%04x IY=%04x "
-      "IFF=%d%d %s¥n",
+      "IFF=%d%d %s\n",
       (r->r.f & 0x80 ? 'S' : '-'), (r->r.f & 0x40 ? 'Z' : '-'),
       (r->r.f & 0x10 ? 'H' : '-'), (r->r.f & 0x04 ? 'P' : '-'),
       (r->r.f & 0x02 ? 'N' : '-'), (r->r.f & 0x01 ? 'C' : '-'), r->r.f, r->r.a,
