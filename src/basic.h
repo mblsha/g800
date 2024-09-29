@@ -6,6 +6,9 @@
 #if !defined(BASIC_H)
 #define BASIC_H
 
+#include <stdint.h>
+#include <stdio.h>
+
 /* サイズ */
 #define SIZEOF_NUM 8 /* 数値のサイズ */
 

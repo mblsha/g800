@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utils.h"
 
 /* キーコード -> ASCIIコード変換テーブル */
 const static uint8_t keycode2ascii_normal[] = {

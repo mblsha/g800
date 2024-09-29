@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <time.h>
+#include "utils.h"
 
 /* 真偽 */
 #define FALSE 0 /* 偽 */
@@ -4025,7 +4026,7 @@ int fetchAnyKeyword(const uint8_t **p) {
         行の終端か?
 */
 int isLineTerm(const uint8_t **p) {
-  return p == NULL || **p == '\r' || **p == \\';
+  return p == NULL || **p == '\r' || **p == '\\';
 }
 
 /*
@@ -5407,7 +5408,7 @@ static int staGoto(struct Basic *bas, const uint8_t **p) {
 
 /*
  */
-static void pause(struct Basic *bas) {
+static void bpause(struct Basic *bas) {
   if (*pauseWhenPrint & 0x04)
     while (getKeycode() != GKEY_RETURN)
       ;
@@ -5479,7 +5480,7 @@ static int staGprint(struct Basic *bas, const uint8_t **p) {
       return ERR_10;
   }
 
-  pause(bas);
+  bpause(bas);
   return ERR_OK_NEXT;
 }
 
@@ -6717,7 +6718,7 @@ static int staPrint(struct Basic *bas, const uint8_t **p) {
 
   if (isTerm(p)) {
     *noWrap = 0x00;
-    pause(bas);
+    bpause(bas);
     return ERR_OK_NEXT;
   }
 
@@ -6800,7 +6801,7 @@ static int staPrint(struct Basic *bas, const uint8_t **p) {
       return ERR_10;
   }
 
-  pause(bas);
+  bpause(bas);
   return ERR_OK_NEXT;
 }
 
@@ -7620,7 +7621,7 @@ int runSta1(struct Basic *bas, const uint8_t **p) {
     return ERR_BREAK;
 
   /* 行末か? */
-  if (**p == '\r' || **p == \\') {
+  if (**p == '\r' || **p == '\\') {
     goNextLine(p);
     return ERR_OK_JUMP;
   }
@@ -7864,7 +7865,7 @@ static int encodeProg(uint8_t *dst, const uint8_t *src, int mode) {
   for (;;) {
     if (*p == '\r' || *p == '\n' || *p == 0)
       break;
-    else if (*p == \\' && mode != MODE_MAN)
+    else if (*p == '\\' && mode != MODE_MAN)
       encodeRem(&q, &p);
     else if (isdigit(*p) || *p == '.')
       encodeDec(&q, &p);

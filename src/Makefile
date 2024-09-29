@@ -1,9 +1,9 @@
 EXE = g800
 CC = clang
-OBJS = g800.o z80.o z80disasm.o z80prof.o SDL_hex.o conf.o io.o iocs.o sio.o sound.o util.o menu.o monitor.o basic.o init.o depend.o sdlxpm.o
+OBJS = g800.o z80.o z80disasm.o z80prof.o SDL_hex.o conf.o io.o iocs.o sio.o sound.o util.o menu.o monitor.o basic.o init.o depend.o sdlxpm.o utils.o
 
 # SDL2.0
-CFLAGS = -DZ80_USE_SDL -DZ80_TRACE -DZ80_PROF -finline-limit=20000 -Wall $(shell sdl2-config --cflags)
+CFLAGS = -DZ80_USE_SDL -DZ80_TRACE -DZ80_PROF -Wall $(shell sdl2-config --cflags)
 LDFLAGS = -s $(shell sdl2-config --libs)
 
 # SDL1.2
@@ -33,7 +33,7 @@ sdlxpm.o: sdlxpm.c
 	$(CC) -c $(CFLAGS) -Os $<
 resource.o: resource.rc g800icon.ico
 	windres $< -o $@
-$(OBJS): g800.h z80.h basic.h
+$(OBJS): g800.h z80.h basic.h utils.h
 z80.o: z80.h z80memory.h
 iocs.o: font.h
 depend.o: depend.h symbol.h keytop.h g800icon.xpm

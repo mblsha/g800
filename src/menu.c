@@ -3,6 +3,7 @@
         メニュー
 */
 
+#include <dirent.h>
 #include <ctype.h>
 #include <fcntl.h>
 #include <limits.h>

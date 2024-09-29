@@ -179,7 +179,7 @@ void z80prof_path(Z80stat *z) {
   int bank;
 
   if (prof->stack == NULL)
-    return NULL;
+    return;
 
   bank = z80bank(z, z->r16.pc);
   if (bank < 0 || bank >= 0x100)
@@ -201,7 +201,7 @@ void z80prof_exec(Z80stat *z, int states) {
   int bank, i;
 
   if (prof->stack == NULL)
-    return NULL;
+    return;
   if (prof->pos == NULL)
     return;
 
@@ -225,7 +225,7 @@ void z80prof_cond(Z80stat *z, int cond) {
   Z80prof *prof = &z->i.prof;
 
   if (prof->stack == NULL)
-    return NULL;
+    return;
   if (prof->pos == NULL)
     return;
   if (!cond)

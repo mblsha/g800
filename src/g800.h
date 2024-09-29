@@ -12,9 +12,10 @@
 #include <unistd.h>
 
 #define strcmp(x, y) strcmp((const char *)(x), (const char *)(y))
-#define stricmp(x, y) stricmp((const char *)(x), (const char *)(y))
 #define strcpy(x, y) strcpy((char *)(x), (const char *)(y))
 #define strlen(x) strlen((const char *)(x))
+
+#define MAX_PATH 256
 
 /*
         マクロ
