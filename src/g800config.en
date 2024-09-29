@@ -1,0 +1,135 @@
+#
+# G800設定ファイル
+#
+
+# エミュレートされるマシン
+machine	g850
+#machine	g815
+#machine	e200
+
+# ROMイメージのあるディレクトリ
+rom_dir	
+
+# RAMファイルパス名
+ram_path	~/.g800user.txt
+
+# IOCSをエミュレートするか
+emulate_iocs
+
+# プロファイラ
+prof	n
+
+# CPUクロック周波数(kHz)
+clock	
+
+# I/O更新周期(Hz)
+refresh	60
+
+# LCD
+zoom	3
+lcd_back	cceebb
+lcd_off	aaddbb
+lcd_on	002211
+
+# LCDの階調数
+lcd_scales	2
+
+# キーボード
+keyboard	en
+
+# キー割り当て
+basic	f1
+text	f2
+const	^o
+ans	^a
+off	escape
+on	pause
+2ndf	rshift
+sin	^s
+cos	^c
+tan	^t
+fe	^f	# F<->Eキー
+cls	home
+npr	^n	# nPrキー
+deg	^d	# ->DEGキー
+ln	^l
+log	^g
+rcp	^i	# 1/xキー
+mdf	^m
+pi	^p	# πキー
+sqr	^r	# √キー
+squ	^q	# x^2キー
+m+	^return
+rcm	^=	# R・CMキー
+capslock	capslock
+shift	lshift
+kana	lalt	# カナキー
+delete	delete
+degree	+d	# °
+minute	+m	# ′
+second	+s	# ″
+!	+1
+"	+'
+hash	+3
+$	+4
+%	+5
+^	+6
+'	'
+&	+7
+(	+9
+)	+0
+*	+8
++	+=
+<	+,
+>	+.
+?	+/
+@	+2
+[	[
+\	\
+]	]
+_	+-
+{	+[
+|	+\
+}	+]
+~	+`
+reset	f8
+menu	f4
+copy	^x	# 計算結果をクリップボードにコピーする
+paste	^v	# クリップボードの内容をキー入力する
+trace
+11pin1		# 端子番号4 BUSY
+11pin2		# 端子番号5 Dout
+11pin3	f5	# 端子番号6 Xin
+11pin4		# 端子番号7 Xout
+11pin5	f6	# 端子番号8 Din
+11pin6	f7	# 端子番号9 ACK
+11pin7		# 端子番号10
+11pin8		# 端子番号11
+
+# 「閉じる」をOFFキーとして扱う
+close_as_off	n
+
+# ソフトウェアキーを使うか
+software_key	n
+
+# ブザーを使うか
+buzzer	y
+
+# ファイルフィルタを使用するか
+file_filter	y
+
+# ジョイスティック
+use_joy	y
+joy_up	8
+joy_down	2
+joy_left	4
+joy_right	6
+joy_button1	space
+joy_button2	return
+joy_button3	tab
+joy_button4	kana
+joy_button5	5
+joy_button6	
+joy_button7	1
+joy_button8	2
+joy_button9	space

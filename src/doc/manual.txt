@@ -1,0 +1,460 @@
+SHARP PC-G850/G815/E200エミュレータ g800 テスト版 20240225
+
+
+
+* 概要 *
+ g800はLinux/Windows/MacOSXで動作する SHARP ポケットコンピュータ PC-G850/G815/
+E200エミュレータです.
+ 実機のROMイメージが必要ですが, IOCSコールのエミュレーションと互換BASICインタ
+ープリタを内蔵しているため, ROMイメージがなくても一部のポケコン用プログラムを
+実行できます.
+
+
+* インストール *
+Linux, MacOSXでソースからmakeする場合
+1. g800src.0.11.4.tgzを解凍する.
+2. makeを実行する.
+   コンパイルには SDL2.0 の Development library が必要である.
+   http://www.libsdl.org/からダウンロードできる.
+   (SDL1.2でもよいがMakefileを修正する必要がある.)
+3. rootユーザでmake installを実行する. (/usr/local/binにコピーされる.)
+4. 設定ファイルg800configを.g800configに名前を変えて~/にコピーする.
+
+Windowsの場合
+1. g800win32.0.11.4.zipを解凍する.
+2. g800.exeとSDL2.dllを同じ適当なフォルダにコピーする.
+3. 設定ファイルg800configをc:\Users\<ユーザ名>, またはg800.exeと同じフォルダに
+   コピーする.
+
+ ROMイメージはIntelHEX形式で次のファイル名でコピーする. コピーしたディレクトリ
+は設定ファイルに記述する. (方法は後で述べる)
+
+    アドレス                ファイル名
+    RAM 0000~003f           base.txt
+    ROM BANK00 c000~ffff    rom00.txt
+    ROM BANK01 c000~ffff    rom01.txt
+    ROM BANK02 c000~ffff    rom02.txt
+          .                    .
+          .                    .
+          .                    .
+    ROM BANKhh c000~ffff    romhh.txt  (hhは16進数2桁)
+
+ ROMのページ数は次のとおりである. (書かれていない機種は不明)
+
+    機種      | ページ数
+    ----------+---------
+    PC-E200   |        5
+    PC-E220   |        8
+    PC-G850   |       18
+    PC-G850S  |       19
+    PC-G850V  |       22
+    PC-G850VS |       22
+
+
+
+* 実行 *
+o 起動
+(1)g800 -[option]=[value] [PC-G800バイナリ(IntelHEX形式)] [開始アドレス(16進数)]
+
+ [PC-G800バイナリ]をメモリにロードし, [開始アドレス]から実行する.
+ [option]は下の設定ファイルの左側の文字列, [value]には右側の文字列である. オプ
+ションは複数設定できる. また[PC-G800バイナリ]の前, [開始アドレス]の後のどちら
+に書いてもよい.
+ [開始アドレス]を省略すると(または実行ファイルのアイコンにPC-G800バイナリファイ
+ルをドロップすると), バイナリを読み込んだあと, ROMイメージがあればBASIC, なけれ
+ば擬似モニタを実行する.
+ [PC-G800バイナリ], [開始アドレス]の両方を省略すると(または実行ファイルのアイコ
+ンをダブルクリックすると), 何も読み込まずにBASICまたは擬似モニタを実行する.
+ 例: g800 -machine=g850 -clock=10000 prog.hex 100
+     prog.hexをPC-G850モード, クロック数10MHzでアドレス0100hから実行する.
+
+(2)g800 -sio_in=[ファイル]
+
+ [ファイル]をSIOからの入力とする.
+ TEXT EDITORのSio->Load, またはMACHINE LANGUAGE MONITORのRコマンドで受信できる.
+ Sio->Formatで databit=8, parity=noneまたはodd にする必要がある.
+
+(3)g800 -sio_out=[ファイル]
+
+ SIOへの出力を[ファイル]に書き込む.
+ TEXT EDITORのSio->Save, またはMACHINE LANGUAGE MONITORのWコマンドで送信できる.
+ Sio->Formatで databit=8, stopbit=1, parity=none にする必要がある.
+
+o メニュー
+ メニュー起動キーを押すとメニューモードに入る.
+ (初期設定はF4キー, 以前のバージョンの設定ファイルを使用するときは設定ファイル
+に書き加える必要がある.)
+
+ [S]キー  : SIOメニューを開く
+ [F]キー  : ファイルメニューを開く
+ [CLS]キー: 戻る
+
+(1)SIOメニュー
+
+ [I]キー: SIOから入力するファイルを設定する (-sio_inオプションと同じ)
+          ファイル名入力のとき[TAB]キーを押すと一覧から選択できる. 一覧はカーソ
+          ルキーで選択し[RETURN]または[SPACE]で決定する. また[TAB]を押すとファ
+          イル名入力に戻る.
+ [O]キー: SIOへ出力するファイルを設定する (-sio_outオプションと同じ)
+          操作は入力のときと同じ.
+ [S]キー: 入力/出力/停止を切り替える
+
+(2)ファイルメニュー
+
+ [R]キー: IntelHEX形式のファイルを読み込みメモリに書き込む
+ [W]キー: メモリの内容をIntelHEX形式として書き込む
+
+o ファイルのドラッグ&ドロップ
+ ファイルのドラッグ&ドロップでSIOから入力するファイルをセットすることができる.
+
+o 擬似モニタ
+ 次のコマンドが使用できる.
+
+(1)G<開始アドレス>
+ <開始アドレス>から実行する.
+
+(2)D<アドレス>
+ <アドレス>のダンプを表示する.
+
+(3)E<アドレス>
+ <アドレス>のメモリを変更する.
+
+(4)R
+ SIO入力で設定したファイルを読み込む.
+
+(5)W<開始アドレス>,<終了アドレス>
+ SIO出力で設定したファイルに<開始アドレス>から<終了アドレス>までを書き込む.
+
+
+
+* 設定 *
+ .g800config(またはg800config)を編集することで設定を変えることができる.
+ 下の説明で|はいずれか1つを選択すること, <...>は適当な数値や文字列を表す.
+
+machine	PC-G801|PC-G802|PC-G803|PC-G805|PC-G811|PC-G813|PC-G820|PC-G830|
+	PC-E200|PC-E220|PC-G815|PC-G850|PC-G850S|PC-G850V|PC-G850VS|
+	e200|g815|g850
+    エミュレートするマシンを指定する.
+
+    PC-E200系(4行隙間あり)ならば e200, PC-G815(4行隙間なし)ならば g815,
+    PC-G850系(6行)ならば g850 でもよい. (古い記述方)
+
+rom_dir	<ディレクトリ名>
+    実機のROMイメージのあるディレクトリを指定する.
+    ~はホームディレクトリ(*)を表す.
+    ROMイメージがない場合は空白にする.
+
+    (*) Linuxの場合は /home/<ユーザ名>, Windows7の場合は c:\Users\<ユーザ名>,
+    WindowsXP/2000の場合は c:\Documents and Settings\<ユーザ名>,
+    Windows95/98/Meの場合は実行ファイルのあるディレクトリ
+
+ram_path	<パス名>
+    RAMの0040Hから7fffHの内容を保存するファイルのフルパス名を指定する.
+    ~はホームディレクトリを表す. 空白の場合は保存しない.
+
+emulate_iocs	y|n
+    yにするとIOCSコールをエミュレートする. nにすると実機のROM内のIOCSルーチンを
+    使用する.
+    空白のときは, rom_dirを設定した場合はn, していない場合はyと同じになる.
+
+clock	<クロック数>
+    CPUのクロック数をkHz単位で設定する. (例:4MHzなら4000)
+    空白にするとPC-G850のとき9000, PC-E200/PC-G815のとき4000になる.
+
+refresh	<更新周期>
+    LCDやキーボードの更新周期をHz単位で設定する.
+
+zoom	<倍率>
+    表示の倍率を設定する.
+
+lcd_back	<rrggbb>
+    LCDの背景色を設定する. (例:赤ccH, 緑eeH, 青bbHならcceebb)
+
+lcd_off		<rrggbb>
+    LCDのOFFの部分の色を設定する.
+
+lcd_on		<rrggbb>
+    LCDのONの部分の色を設定する.
+
+lcd_scales	<階調数>
+    LCDの残像による濃度の階調数を設定する.
+    2のとき残像をエミュレートしない. 空白のときは最大限エミュレートする.
+
+keyboard	jp|en
+    キーボードを設定する. (jp:日本語, en:英語)
+
+<g800key>	<key>
+    PC-G800のキー<g800key>に, エミュレータのキー<key>を割り当てる.
+    <key>の先頭に%をつけるとALTキー, ^をつけるとCTRLキー, +をつけるとSHIFTキー
+    との同時押しを割り当てることができる.
+    また, PC-G800のSHIFTキーとの同時押し(!など)に対してキーを割り当てることもで
+    きる.
+    設定できるキーの一覧は付録を参照すること.
+
+close_as_off	y|n
+    yにすると「閉じる」ボタンをクリックしたときOFFキーを押したときと同じように
+    振る舞う.
+
+software_key	y|n
+    yにするとウィンドウにクリックできる関数キーを表示する.
+
+buzzer	y|n|sync
+    yのとき音を出力する. syncにすると音質は向上するが処理が遅れることがある.
+
+file_filter	y|n
+    yのとき行番号付きのテキストファイルとIntelHEX形式のみファイル選択に表示する.
+
+use_joy	y|n
+    yにするとジョイスティックが有効になる.
+
+info_image	<パス名>
+    LCDの上に画像を表示する. 画像の形式はビットマップ(*.bmp)のみ.
+
+joy_up	<g800key>
+joy_down	<g800key>
+joy_left	<g800key>
+joy_right	<g800key>
+joy_button1	<g800key>
+joy_button2	<g800key>
+joy_button3	<g800key>
+joy_button4	<g800key>
+joy_button5	<g800key>
+joy_button6	<g800key>
+joy_button7	<g800key>
+joy_button8	<g800key>
+joy_button9	<g800key>
+    ジョイスティックのキーにボタンを割り当てる. <g800key>にはPC-G800のキーを設
+    定する.
+
+
+
+* テスト版の機能 *
+ 実行したプログラムのサブルーチンや命令の実行回数を記録するプロファイラを使用
+できる.
+ デフォルトではOFFになっている. g800configに
+    prof  y
+ を追加するか, 起動オプションで
+    -prof=y
+ を指定すると有効になる.
+
+ ファイルのオプション指定, またはSIOからの読み込みで指定したIntelHEXファイルと
+同じ名前で拡張子が*.symのno$gmb形式のシンボルファイルがあれば読み込んで使用す
+る.
+
+ 結果は終了時にタブ区切りのテキストファイルで出力される.
+
+ サブルーチンの呼び出しの記録はprof.tsvに出力される.
+ 内容は
+ 1列目 サブルーチンのバンク番号:アドレス
+ 2列目 シンボル名(ない場合は空白)
+ 3列目 呼び出し回数
+ 4列目 合計ステート数
+ 5列目 1回あたりの平均ステート数
+ となっている.
+
+ 命令の実行回数の記録はpath.tsvに出力される.
+ 内容は
+ 1列目 実行したコードのバンク番号:アドレス
+ 2列目 シンボル名
+ 3列目 逆アセンブルされたコード
+ 4列目 実行回数
+ 5列目 総ステート数
+ 6列目 1回あたりの平均ステート数
+ 7列目 分岐条件成立回数
+ 8列目 分岐条件成立確率
+ 9列目 サブルーチンの総ステート数
+ 10列目 サブルーチンの平均ステート数(分岐成立時・不成立時の両方)
+ 11列目 サブルーチンの平均ステート数(分岐成立時のみ)
+ となっている.
+
+ 現在は試作版のため, 仕様やファイルの形式は大幅に変更される可能性がある.
+
+
+
+* アンインストール *
+Linux/MacOSXの場合
+ /usr/local/binのg800を削除する.
+
+Windowsの場合
+ コピーしたg800.exe, SDL2.dllを削除する. (レジストリは操作していない.)
+
+
+
+* 既知の問題点 *
+・CapsLockキーは必ずSHIFTキーと同時に押さなければならない. CapsLockキーを単独で
+  押すと, 1度目は有効だが, 2度目はキーが効かない.
+  (この状態はSHIFTキーを押しながらCapsLockキーを押すと解除される.)
+・日本語キーボードで`(半角/全角キー)またはカナキーを割り当てこのキーを押すと操
+  作できなくなる.
+・X11, win32以外では_キー, ¥キー, カナキー, 変換キー, 無変換キーを割り当てら
+  れない. (SDL 2.0.4が対応していないため.)
+
+
+
+* 付録 *
+
+o PC-G800のキーの一覧
+
+- 通常キー
+ 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z ^ (
+ ) ; , . = + - * /
+ off on basic text const ans 2ndf sin cos tan fe cls npr deg ln log mdf pi
+ sqr squ m+ rcm up down left right return space tab capslock shift kana
+ insert backspace shift reset
+
+ *注意 fe:[F<->E]キー, npr:[nPr]キー, deg:[->DEG]キー, pi:[π]キー
+       sqr:[√]キー, squ:[x^2]キー, rcm:[R・CM]キー, kana:[カナ]キー
+       up/down/left/right:カーソルキー上下左右
+
+- SHIFTキーとの同時押し
+ ! " hash $ % & ' [ ] { } \ | ~ _ ? equal : < > @ degree minute second delete
+ input print cont run list save load
+ asmbl clang contrast drg pnp m- rnd xy ncr dms cur cub pol base-n fact stat
+ asn asc atn exp ten digit ca
+
+- エミュレータの操作
+ menu  メニューモードに移行する
+ trace トレースを標準出力に出力する
+ copy  計算結果をクリップボードにコピーする
+ paste クリップボードの内容をキー入力する
+
+o エミュレータのキーの一覧
+
+ 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z , -
+ . / : ; [ \ ] ^ ' ` \
+ f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12 f13 f14 f15
+ backspace tab clear return pause space delete insert home end pageup
+ pagedown numlock scrolllock capslock lshift lctrl lalt rshift rctrl ralt
+ mode compose help print sysreq break menu power
+ up down left right
+ _ kana yen xfer nfer
+ n0 n1 n2 n3 n4 n5 n6 n7 n8 n9 n. n/ n* n- n+ n= nreturn
+
+ 先頭に%をつけるとALT, ^をつけるとCTRL, +をつけるとSHIFTキーとの同時押しになる.
+
+ *注意 f1~f15:ファンクションキー[F1]~[F15]
+       lshift/lctrl/lalt:左側[Shift]/[Ctrl]/[Alt]キー
+       rshift/rctrl/ralt:右側[Shift]/[Ctrl]/[Alt]キー
+       up/down/left/right:カーソルキー上下左右
+       _:日本語106/109キーボードの右Shiftキーの左のキー
+       yen:日本語106/109キーボードのBackspaceの左のキー
+       xfer:変換キー
+       nfer:無変換キー
+       n?:テンキー
+
+
+
+* 作者のページと連絡先 *
+webpage: http://ver0.sakura.ne.jp/
+email: maruhiro@bridge.ocn.ne.jp
+
+
+
+* 謝辞 *
+ nさん, てらうちさん, T.Matsuさん
+ ありがとうございました.
+
+
+
+* 参考文献・参考Webページ *
+ 次の文献とWebページを参考にしました. ありがとうございます. なお敬称は省略して
+います.
+
+ポケコン
+    ポケットコンピュータPC-E200取扱説明書, シャープ, 1988
+    村山健一, ポケコン・エレクトロニクス, 工学社, 1990
+    あきひ, ぽけこんのほん1, 単色ドット絵向上委員会, 2003
+    あきひ, 秋日和 http://ha9.seikyou.ne.jp/home/akihi/
+    あきやん, SHARP PC-G850 解析資料, 蓄積多趣味人 http://www.akiyan.com/
+    咳めぐ, COSMO PATROL http://orange.kakiko.com/cosmopatrol/
+    Zefiro, ZefiroAthCx http://shina-ring.zefiro.dnsalias.org/
+    ながい, ポケコンガーデン, http://www.k2.dion.ne.jp/~nagai/
+    牧野 伊吹, Gadget Factory, http://park19.wakwak.com/~gadget_factory/
+    PikaCharat, CharatSoft.com, http://www.charatsoft.com/
+
+Z80
+    服部裕子, Z-VISION シミュレータで学ぶZ80アセンブリ言語, 工学社, 1990
+    山内幹男, よくわかるマイコン塾, CQ出版社, 1990
+    Sean Young, The Undocumented Z80 Documented, msxnet http://www.msxnet.org/tech/, 2005
+
+エミュレータプログラミング
+    Marat Fayzullin著 bero訳, コンピュータエミュレータの書き方, Console/Emulator Programming http://www.geocities.co.jp/Playtown/2004/
+
+開発環境
+    MinGW - Minimalist GNU for Windows, http://www.mingw.org/
+
+SDL
+    Simple Directmedia Layer, http://www.libsdl.org/
+    adas, Adas' Linux ゲームプログラム, http://www.geocities.co.jp/CollegeLife/2093/
+
+ライセンス
+    Open Source Group Japan, http://www.opensource.jp/
+
+フォント
+    門真なむ, Little Limit, http://www.geocities.jp/littlimi/
+
+
+* ライセンス *
+フォントは門真なむさんのk6x8を一部変更して使用しています.
+
+--- k6x8のライセンス ------------------------------------------------------------------------------------------------------------------
+These fonts are free softwares.
+Unlimited permission is granted to use, copy, and distribute it, with or without modification, either commercially and noncommercially.
+THESE FONTS ARE PROVIDED "AS IS" WITHOUT WARRANTY.
+
+これらのフォントはフリー（自由な）ソフトウエアです。
+あらゆる改変の有無に関わらず、また商業的な利用であっても、自由にご利用、複製、再配布することができますが、全て無保証とさせていただきます。
+
+Copyright(C) 2000-2007 Num Kadoma
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+g800はBSDスタイルライセンスのもとで配布される.
+
+Copyright (c) 2005 ~ 2023 maruhiro
+All rights reserved. 
+
+Redistribution and use in source and binary forms, 
+with or without modification, are permitted provided that 
+the following conditions are met: 
+
+ 1. Redistributions of source code must retain the above copyright notice, 
+    this list of conditions and the following disclaimer. 
+
+ 2. Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
+THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(日本語訳・参考)
+Copyright (c) 2005 ~ 2022 maruhiro
+All rights reserved.
+
+ソースコード形式かバイナリ形式か、変更するかしないかを問わず、以下の条件を満たす
+場合に限り、再頒布および使用が許可されます。
+
+ 1. ソースコードを再頒布する場合、上記の著作権表示、本条件一覧、および下記免責条
+    項を含めること。
+ 2. バイナリ形式で再頒布する場合、頒布物に付属のドキュメント等の資料に、上記の著
+    作権表示、本条件一覧、および下記免責条項を含めること。
+
+本ソフトウェアは、著作権者およびコントリビューターによって「現状のまま」提供され
+ており、明示黙示を問わず、商業的な使用可能性、および特定の目的に対する適合性に関
+する暗黙の保証も含め、またそれに限定されない、いかなる保証もありません。著作権者
+もコントリビューターも、事由のいかんを問わず、損害発生の原因いかんを問わず、かつ
+責任の根拠が契約であるか厳格責任であるか（過失その他の）不法行為であるかを問わず
+、仮にそのような損害が発生する可能性を知らされていたとしても、本ソフトウェアの使
+用によって発生した（代替品または代用サービスの調達、使用の喪失、データの喪失、利
+益の喪失、業務の中断も含め、またそれに限定されない）直接損害、間接損害、偶発的な
+損害、特別損害、懲罰的損害、または結果損害について、一切責任を負わないものとしま
+す。
