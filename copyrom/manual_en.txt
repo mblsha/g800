@@ -1,0 +1,36 @@
+"g850copy.hex" and "e200copy.hex" Manual
+
+* Overview *
+ This is a program for making ROM image files.
+
+* Usage *
+
+ At Pocket computer
+ 1. MON
+ 2. USER6000
+ 3. R
+
+ At Windows/Linux/Mac
+ 4. If your pocket computer is PC-G850, PC-G850S or PC-G850V, send "copyg850.hex".
+    otherwise send "copye200.hex".
+
+ At Pocket computer
+ 5.G5500
+ 6.If "A=" is displayed, Type "0" and "Enter"
+ 7.W1000,4FFF
+
+ At Windows/Linux/Mac
+ 8.Receive and save the file. (File name is rom00.txt)
+ 9.Repeat 5 to 8.
+   If PC-G850V, A=1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,10,11,12,13,14,15
+   File name is rom01.txt, ... , rom0a.txt, ... , rom15.txt.
+
+   If PC-G850S, A=1,2, ... ,12
+
+   If PC-E200, A=1,2,3
+
+ At Pocket computer
+ 10.W0,3F
+
+ At Windows/Linux/Mac
+ 11.Receive and save the file. (File name is base.txt)
