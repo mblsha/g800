@@ -1544,16 +1544,16 @@ uint8_t updateKey(void) {
 /*
         待つ
 */
-int delay(int interval) {
+int delay(int interval_ms) {
   static Uint32 last = 0, left;
   Uint32 now;
 
   if (noWait)
-    interval = 0;
+    interval_ms = 0;
 
   now = SDL_GetTicks();
-  if (last + interval > now) {
-    left = last + interval - now;
+  if (last + interval_ms > now) {
+    left = last + interval_ms - now;
     SDL_Delay(left);
     last = now + left;
     return FALSE;

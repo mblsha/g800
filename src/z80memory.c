@@ -3,10 +3,48 @@
         Memory access for g800
 */
 
-uint8_t z80read8(const Z80stat *z, uint16 address);
-void z80write8(const Z80stat *z, uint16 address, uint8_t value);
-uint16 z80read16(const Z80stat *z, uint16 address);
-void z80write16(const Z80stat *z, uint16 address, uint16 value);
+#include "g800.h"
+
+/*
+        8bits READ/WRITE
+*/
+uint8_t z80read8(const Z80stat *z, uint16 address) {
+  return memory[address];
+}
+void z80write8(const Z80stat *z, uint16 address, uint8_t value) {
+  if (address < 0x8000)
+    memory[address] = value;
+}
+
+#if defined(Z80_LITTLEENDIAN)
+
+/*
+        16bits READ/WRITE (リトルエンディアン)
+*/
+uint16 z80read16(const Z80stat *z, uint16 address) {
+  return *(uint16 *)(&memory[address]);
+}
+void z80write16(const Z80stat *z, uint16 address, uint16 value) {
+  if (address < 0x7fff)
+    *(uint16 *)(&memory[address]) = value;
+}
+
+#else
+
+/*
+        16bits READ/WRITE (エンディアン非依存)
+*/
+uint16 z80read16(const Z80stat *z, uint16 address) {
+  return ((uint16)memory[(address) + 1] << 8U | memory[address]);
+}
+void z80write16(const Z80stat *z, uint16 address, uint16 value) {
+  if (address < 0x7fff) {
+    memory[address] = value & 0xff;
+    memory[address + 1] = value >> 8;
+  }
+}
+
+#endif
 
 /*
         Copyright 2005 ~ 2008 maruhiro

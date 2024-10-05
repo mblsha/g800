@@ -1,6 +1,6 @@
 EXE = g800
 CC = clang
-OBJS = g800.o z80.o z80disasm.o z80prof.o SDL_hex.o conf.o io.o iocs.o sio.o sound.o util.o menu.o monitor.o basic.o init.o depend.o sdlxpm.o utils.o
+OBJS = g800.o z80.o z80disasm.o z80prof.o SDL_hex.o conf.o io.o iocs.o sio.o sound.o util.o menu.o monitor.o basic.o init.o depend.o sdlxpm.o utils.o z80memory.o
 
 # SDL2.0
 CFLAGS = -DZ80_USE_SDL -DZ80_TRACE -DZ80_PROF -Wall $(shell sdl2-config --cflags)
