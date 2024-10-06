@@ -8,12 +8,19 @@
 #include "conf.h"
 #include "depend.h"
 #include "z80.h"
+#include "load_rom.h"
 #include <stdio.h>
 #include <unistd.h>
 
+#if !defined(strcmp)
 #define strcmp(x, y) strcmp((const char *)(x), (const char *)(y))
+#endif
+#if !defined(strcpy)
 #define strcpy(x, y) strcpy((char *)(x), (const char *)(y))
+#endif
+#if !defined(strncpy)
 #define strlen(x) strlen((const char *)(x))
+#endif
 
 #define MAX_PATH 256
 

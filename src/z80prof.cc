@@ -21,12 +21,12 @@ void z80prof_init(Z80stat *z, int use) {
     return;
   }
 
-  prof->stack = malloc(sizeof(*prof->stack) * 32);
+  prof->stack = (Z80stack*)malloc(sizeof(*prof->stack) * 32);
   prof->cur = NULL;
-  prof->record = malloc(sizeof(*prof->record));
+  prof->record = (Z80record*)malloc(sizeof(*prof->record));
   memset(prof->record, 0, sizeof(*prof->record));
 
-  prof->path = malloc(sizeof(prof->path[0]) * 0x100);
+  prof->path = (Z80path**)malloc(sizeof(prof->path[0]) * 0x100);
   memset(prof->path, 0, sizeof(prof->path[0]) * 0x100);
   prof->pos = NULL;
 }
@@ -97,7 +97,7 @@ static Z80record *z80prof_find(Z80prof *prof, uint16 bank, uint16 address) {
     if (p->bank == bank && p->address == address)
       return p;
 
-  prof->record = realloc(prof->record, (n + 2) * sizeof(*prof->record));
+  prof->record = (Z80record*)realloc(prof->record, (n + 2) * sizeof(*prof->record));
   memset(&prof->record[n + 1], 0, sizeof(prof->record[n + 1]));
   return &prof->record[n];
 }
@@ -186,7 +186,7 @@ void z80prof_path(Z80stat *z) {
     return;
 
   if (prof->path[bank] == NULL) {
-    prof->path[bank] = malloc(sizeof(prof->path[bank][0]) * 0x10000);
+    prof->path[bank] = (Z80path*)malloc(sizeof(prof->path[bank][0]) * 0x10000);
     memset(prof->path[bank], 0, sizeof(prof->path[bank][0]) * 0x10000);
   }
 

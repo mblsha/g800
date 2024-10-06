@@ -3,10 +3,15 @@
         Memory access for g800
 */
 
+#if !defined(Z80MEMORY_H)
+#define Z80MEMORY_H
+
 uint8_t z80read8(const Z80stat *z, uint16 address);
 void z80write8(const Z80stat *z, uint16 address, uint8_t value);
 uint16 z80read16(const Z80stat *z, uint16 address);
 void z80write16(const Z80stat *z, uint16 address, uint16 value);
+
+#endif
 
 /*
         Copyright 2005 ~ 2008 maruhiro

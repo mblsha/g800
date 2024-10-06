@@ -234,7 +234,7 @@ static uint8_t disasm(uint16 address) {
     gcls();
     p = &memory[address];
     for (row = 0; row < lcdRows; row++) {
-      p = z80disasm(buf, p, z80bank(&z80, (uint16)(p - memory)),
+      p = (uint8_t*)z80disasm(buf, p, z80bank(&z80, (uint16)(p - memory)),
                     (uint16)(p - memory), z80.i.symbol);
       glocate(0, row);
       gprintf("%04X:%s", (int)(p - memory), buf);

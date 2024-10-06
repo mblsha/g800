@@ -210,9 +210,13 @@ struct KeywordTable {
   int level;
 };
 
+typedef int (*OperatorFunc)(Basic*, uint8_t*);
+typedef int (*OperatorFunc2)(Basic*, uint8_t*, uint8_t*);
+typedef int (*OperatorFunc3)(Basic*, uint8_t*, uint8_t*, uint8_t*);
+
 /* 演算子・関数表 */
 struct Operator {
-  int (*func)(); /* 処理する関数 */
+  OperatorFunc func; /* 処理する関数 */
   int params;    /* 引数の数 */
   int type[4];   /* 引数の型 */
   int ret;       /* 戻り値の型 */
@@ -2767,62 +2771,62 @@ const struct Operator opeTable[] = {
     {NULL},                                               /* 7d CASE */
     {NULL},                                               /* 7e DEFAULT */
     {NULL},                                               /* 7f ENDSWITCH */
-    {funcMdf, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 80 MDF */
-    {funcRec, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},   /* 81 REC */
-    {funcPol, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},   /* 82 POL */
+    {(OperatorFunc)funcMdf, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 80 MDF */
+    {(OperatorFunc)funcRec, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},   /* 81 REC */
+    {(OperatorFunc)funcPol, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},   /* 82 POL */
     {NULL},                                               /* 83 */
     {NULL},                                               /* 84 */
     {NULL},                                               /* 85 */
-    {funcTen, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 86 TEN */
-    {funcRcp, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 87 RCP */
-    {funcSqu, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 88 SQU */
-    {funcCur, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 89 CUR */
-    {funcHsn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8a HSN */
-    {funcHcs, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8b HCS */
-    {funcHtn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8c HTN */
-    {funcAhs, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8d AHS */
-    {funcAhc, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8e AHC */
-    {funcAht, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8f AHT */
-    {funcFact, 1, {TYPE_NUM}, TYPE_NUM, NULL},            /* 90 FACT */
-    {funcLn, 1, {TYPE_NUM}, TYPE_NUM, NULL},              /* 91 LN */
-    {funcLog, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 92 LOG */
-    {funcExp, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 93 EXP */
-    {funcSqr, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 94 SQR */
-    {funcSin, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 95 SIN */
-    {funcCos, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 96 COS */
-    {funcTan, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 97 TAN */
-    {funcInt, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 98 INT */
-    {funcAbs, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 99 ABS */
-    {funcSgn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9a SGN */
-    {funcDeg, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9b DEG */
-    {funcDms, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9c DMS */
-    {funcAsn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9d ASN */
-    {funcAcs, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9e ACS */
-    {funcAtn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9f ATN */
-    {funcRnd, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* a0 RND */
-    {opeAnd, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},    /* a1 AND */
-    {opeOr, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},     /* a2 OR */
-    {opeNot, 1, {TYPE_NUM}, TYPE_NUM, NULL},              /* a3 NOT */
-    {funcPeek, 1, {TYPE_NUM}, TYPE_NUM, NULL},            /* a4 PEEK */
-    {opeXor, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},    /* a5 XOR */
-    {funcInp, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* a6 INP */
+    {(OperatorFunc)funcTen, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 86 TEN */
+    {(OperatorFunc)funcRcp, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 87 RCP */
+    {(OperatorFunc)funcSqu, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 88 SQU */
+    {(OperatorFunc)funcCur, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 89 CUR */
+    {(OperatorFunc)funcHsn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8a HSN */
+    {(OperatorFunc)funcHcs, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8b HCS */
+    {(OperatorFunc)funcHtn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8c HTN */
+    {(OperatorFunc)funcAhs, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8d AHS */
+    {(OperatorFunc)funcAhc, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8e AHC */
+    {(OperatorFunc)funcAht, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 8f AHT */
+    {(OperatorFunc)funcFact, 1, {TYPE_NUM}, TYPE_NUM, NULL},            /* 90 FACT */
+    {(OperatorFunc)funcLn, 1, {TYPE_NUM}, TYPE_NUM, NULL},              /* 91 LN */
+    {(OperatorFunc)funcLog, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 92 LOG */
+    {(OperatorFunc)funcExp, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 93 EXP */
+    {(OperatorFunc)funcSqr, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 94 SQR */
+    {(OperatorFunc)funcSin, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 95 SIN */
+    {(OperatorFunc)funcCos, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 96 COS */
+    {(OperatorFunc)funcTan, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 97 TAN */
+    {(OperatorFunc)funcInt, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 98 INT */
+    {(OperatorFunc)funcAbs, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 99 ABS */
+    {(OperatorFunc)funcSgn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9a SGN */
+    {(OperatorFunc)funcDeg, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9b DEG */
+    {(OperatorFunc)funcDms, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9c DMS */
+    {(OperatorFunc)funcAsn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9d ASN */
+    {(OperatorFunc)funcAcs, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9e ACS */
+    {(OperatorFunc)funcAtn, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* 9f ATN */
+    {(OperatorFunc)funcRnd, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* a0 RND */
+    {(OperatorFunc)opeAnd, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},    /* a1 AND */
+    {(OperatorFunc)opeOr, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},     /* a2 OR */
+    {(OperatorFunc)opeNot, 1, {TYPE_NUM}, TYPE_NUM, NULL},              /* a3 NOT */
+    {(OperatorFunc)funcPeek, 1, {TYPE_NUM}, TYPE_NUM, NULL},            /* a4 PEEK */
+    {(OperatorFunc)opeXor, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},    /* a5 XOR */
+    {(OperatorFunc)funcInp, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* a6 INP */
     {NULL},                                               /* a7 */
-    {funcPioget, 0, {0}, TYPE_NUM, NULL},                 /* a8 PIOGET */
+    {(OperatorFunc)funcPioget, 0, {0}, TYPE_NUM, NULL},                 /* a8 PIOGET */
     {NULL},                                               /* a9 */
     {NULL},                                               /* aa */
     {NULL},                                               /* ab */
     {NULL},                                               /* ac */
-    {funcPoint, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL}, /* ad POINT */
-    {funcPi, 0, {0}, TYPE_NUM, NULL},                     /* ae PI */
-    {funcFre},                                            /* af FRE */
-    {funcEof, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* b0 EOF */
+    {(OperatorFunc)funcPoint, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL}, /* ad POINT */
+    {(OperatorFunc)funcPi, 0, {0}, TYPE_NUM, NULL},                     /* ae PI */
+    {(OperatorFunc)funcFre},                                            /* af FRE */
+    {(OperatorFunc)funcEof, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* b0 EOF */
     {NULL},                                               /* b1 */
-    {funcLof, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* b2 LOF */
+    {(OperatorFunc)funcLof, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* b2 LOF */
     {NULL},                                               /* b3 */
     {NULL},                                               /* b4 */
     {NULL},                                               /* b5 */
-    {funcNcr, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},   /* b6 NCR */
-    {funcNpr, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},   /* b7 NPR */
+    {(OperatorFunc)funcNcr, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},   /* b6 NCR */
+    {(OperatorFunc)funcNpr, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},   /* b7 NPR */
     {NULL},                                               /* b8 */
     {NULL},                                               /* b9 */
     {NULL},                                               /* ba */
@@ -2830,15 +2834,15 @@ const struct Operator opeTable[] = {
     {NULL},                                               /* bc */
     {NULL},                                               /* bd */
     {NULL},                                               /* be */
-    {funcCub, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* bf CUB */
+    {(OperatorFunc)funcCub, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* bf CUB */
     {NULL},                                               /* c0 */
     {NULL},                                               /* c1 */
     {NULL},                                               /* c2 */
     {NULL},                                               /* c3 */
     {NULL},                                               /* c4 */
     {NULL},                                               /* c5 */
-    {opeMod, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},    /* c6 MOD */
-    {funcFix, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* c7 FIX */
+    {(OperatorFunc)opeMod, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},    /* c6 MOD */
+    {(OperatorFunc)funcFix, 1, {TYPE_NUM}, TYPE_NUM, NULL},             /* c7 FIX */
     {NULL},                                               /* c8 */
     {NULL},                                               /* c9 */
     {NULL},                                               /* ca */
@@ -2847,10 +2851,10 @@ const struct Operator opeTable[] = {
     {NULL},                                               /* cd */
     {NULL},                                               /* ce */
     {NULL},                                               /* cf */
-    {funcAsc, 1, {TYPE_STR}, TYPE_NUM, NULL},             /* d0 ASC */
-    {funcVal, 1, {TYPE_STR}, TYPE_NUM, NULL},             /* d1 VAL */
-    {funcLen, 1, {TYPE_STR}, TYPE_NUM, NULL},             /* d2 LEN */
-    {funcVdeg, 1, {TYPE_STR}, TYPE_NUM, NULL},            /* d3 VDEG */
+    {(OperatorFunc)funcAsc, 1, {TYPE_STR}, TYPE_NUM, NULL},             /* d0 ASC */
+    {(OperatorFunc)funcVal, 1, {TYPE_STR}, TYPE_NUM, NULL},             /* d1 VAL */
+    {(OperatorFunc)funcLen, 1, {TYPE_STR}, TYPE_NUM, NULL},             /* d2 LEN */
+    {(OperatorFunc)funcVdeg, 1, {TYPE_STR}, TYPE_NUM, NULL},            /* d3 VDEG */
     {NULL},                                               /* d4 */
     {NULL},                                               /* d5 */
     {NULL},                                               /* d6 */
@@ -2872,17 +2876,17 @@ const struct Operator opeTable[] = {
     {NULL},                                               /* e6 */
     {NULL},                                               /* e7 */
     {NULL},                                               /* e8 */
-    {funcInkeyS, 0, {0}, TYPE_STR, NULL},                 /* e9 INKEY$ */
-    {funcMidS, 3, {TYPE_STR, TYPE_NUM, TYPE_NUM}, TYPE_STR, NULL}, /* ea MID$ */
-    {funcLeftS, 2, {TYPE_STR, TYPE_NUM}, TYPE_STR, NULL},  /* eb LEFT$ */
-    {funcRightS, 2, {TYPE_STR, TYPE_NUM}, TYPE_STR, NULL}, /* ec RIGHT$ */
+    {(OperatorFunc)funcInkeyS, 0, {0}, TYPE_STR, NULL},                 /* e9 INKEY$ */
+    {(OperatorFunc)funcMidS, 3, {TYPE_STR, TYPE_NUM, TYPE_NUM}, TYPE_STR, NULL}, /* ea MID$ */
+    {(OperatorFunc)funcLeftS, 2, {TYPE_STR, TYPE_NUM}, TYPE_STR, NULL},  /* eb LEFT$ */
+    {(OperatorFunc)funcRightS, 2, {TYPE_STR, TYPE_NUM}, TYPE_STR, NULL}, /* ec RIGHT$ */
     {NULL},                                                /* ed */
     {NULL},                                                /* ee */
     {NULL},                                                /* ef */
-    {funcChrS, 1, {TYPE_NUM}, TYPE_STR, NULL},             /* f0 CHR$ */
-    {funcStrS, 1, {TYPE_NUM}, TYPE_STR, NULL},             /* f1 STR$ */
-    {funcHexS, 1, {TYPE_NUM}, TYPE_STR, NULL},             /* f2 HEX$ */
-    {funcDmsS, 1, {TYPE_NUM}, TYPE_STR, NULL},             /* f3 DMS$ */
+    {(OperatorFunc)funcChrS, 1, {TYPE_NUM}, TYPE_STR, NULL},             /* f0 CHR$ */
+    {(OperatorFunc)funcStrS, 1, {TYPE_NUM}, TYPE_STR, NULL},             /* f1 STR$ */
+    {(OperatorFunc)funcHexS, 1, {TYPE_NUM}, TYPE_STR, NULL},             /* f2 HEX$ */
+    {(OperatorFunc)funcDmsS, 1, {TYPE_NUM}, TYPE_STR, NULL},             /* f3 DMS$ */
     {NULL},                                                /* f4 */
     {NULL},                                                /* f5 */
     {NULL},                                                /* f6 */
@@ -2896,28 +2900,28 @@ const struct Operator opeTable[] = {
     {NULL},                                                /* fe */
     {NULL},                                                /* ff */
 
-    {opeAdd, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x10e]}, /* 100 + */
-    {opeSub, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 101 - */
-    {opeMul, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 102 * */
-    {opeDiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 103 / */
-    {opeIdiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},            /* 104 \ */
-    {opePow, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 105 ^ */
-    {opeEq, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x10f]},  /* 106 = */
-    {opeNe, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x110]},  /* 107 <> */
-    {opeGt, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x111]},  /* 108 > */
-    {opeGe, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x112]},  /* 109 >= */
-    {opeLt, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x113]},  /* 10a < */
-    {opeLe, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x114]},  /* 10b <= */
-    {opePos, 1, {TYPE_NUM}, TYPE_NUM, NULL},                       /* 10c + */
-    {opeNeg, 1, {TYPE_NUM}, TYPE_NUM, NULL},                       /* 10d - */
+    {(OperatorFunc)opeAdd, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x10e]}, /* 100 + */
+    {(OperatorFunc)opeSub, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 101 - */
+    {(OperatorFunc)opeMul, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 102 * */
+    {(OperatorFunc)opeDiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 103 / */
+    {(OperatorFunc)opeIdiv, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},            /* 104 \ */
+    {(OperatorFunc)opePow, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, NULL},             /* 105 ^ */
+    {(OperatorFunc)opeEq, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x10f]},  /* 106 = */
+    {(OperatorFunc)opeNe, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x110]},  /* 107 <> */
+    {(OperatorFunc)opeGt, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x111]},  /* 108 > */
+    {(OperatorFunc)opeGe, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x112]},  /* 109 >= */
+    {(OperatorFunc)opeLt, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x113]},  /* 10a < */
+    {(OperatorFunc)opeLe, 2, {TYPE_NUM, TYPE_NUM}, TYPE_NUM, &opeTable[0x114]},  /* 10b <= */
+    {(OperatorFunc)opePos, 1, {TYPE_NUM}, TYPE_NUM, NULL},                       /* 10c + */
+    {(OperatorFunc)opeNeg, 1, {TYPE_NUM}, TYPE_NUM, NULL},                       /* 10d - */
 
-    {opeCat, 2, {TYPE_STR, TYPE_STR}, TYPE_STR, NULL},   /* 0x10e + */
-    {opeEqStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x10f = */
-    {opeNeStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x110 <> */
-    {opeGtStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x111 > */
-    {opeGeStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x112 >= */
-    {opeLtStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x113 < */
-    {opeLeStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}  /* 0x114 <= */
+    {(OperatorFunc)opeCat, 2, {TYPE_STR, TYPE_STR}, TYPE_STR, NULL},   /* 0x10e + */
+    {(OperatorFunc)opeEqStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x10f = */
+    {(OperatorFunc)opeNeStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x110 <> */
+    {(OperatorFunc)opeGtStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x111 > */
+    {(OperatorFunc)opeGeStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x112 >= */
+    {(OperatorFunc)opeLtStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}, /* 0x113 < */
+    {(OperatorFunc)opeLeStr, 2, {TYPE_STR, TYPE_STR}, TYPE_NUM, NULL}  /* 0x114 <= */
 };
 
 /*
@@ -3241,7 +3245,7 @@ int allocVar(struct Basic *bas, uint8_t **var, const uint8_t *name, int kind,
   /* 変数表の領域を確保する */
   for (v = bas->vars, n = 0; *v != NULL; v++, n++)
     ;
-  bas->vars = realloc(bas->vars, (n + 2) * sizeof(*bas->vars));
+  bas->vars = (uint8_t**)realloc(bas->vars, (n + 2) * sizeof(*bas->vars));
   v = &bas->vars[n];
 
   /* 変数の領域を確保する */
@@ -3251,7 +3255,7 @@ int allocVar(struct Basic *bas, uint8_t **var, const uint8_t *name, int kind,
     len = 16;
   var_size = (array_size0 + 1) * (array_size1 + 1) * len;
 
-  *v++ = *var = p = malloc(7 + var_size);
+  *v++ = *var = p = (uint8_t*)malloc(7 + var_size);
   *v = NULL;
 
   /* 変数の情報を書き込む */
@@ -3288,7 +3292,7 @@ int freeVar(struct Basic *bas, const uint8_t *name, int kind, int type) {
   for (; *v != NULL; v++)
     *v = *(v + 1);
 
-  bas->vars = realloc(bas->vars, (int)(v - bas->vars) * sizeof(*bas->vars));
+  bas->vars = (uint8_t**)realloc(bas->vars, (int)(v - bas->vars) * sizeof(*bas->vars));
   return ERR_OK;
 }
 
@@ -3301,7 +3305,7 @@ int freeAllVars(struct Basic *bas) {
   for (v = bas->vars; *v != NULL; v++)
     free(*v);
 
-  bas->vars = realloc(bas->vars, 1 * sizeof(*bas->vars));
+  bas->vars = (uint8_t**)realloc(bas->vars, 1 * sizeof(*bas->vars));
   *bas->vars = NULL;
   return ERR_OK;
 }
@@ -3647,9 +3651,9 @@ static int exeOpe(struct Basic *bas, int ope) {
   else if (o->params == 1)
     err = o->func(bas, valueSp[0]);
   else if (o->params == 2)
-    err = o->func(bas, valueSp[0], valueSp[1]);
+    err = reinterpret_cast<OperatorFunc2>(o->func)(bas, valueSp[0], valueSp[1]);
   else if (o->params == 3)
-    err = o->func(bas, valueSp[0], valueSp[1], valueSp[2]);
+    err = reinterpret_cast<OperatorFunc3>(o->func)(bas, valueSp[0], valueSp[1], valueSp[2]);
   else
     err = -10;
   if (err < 0)

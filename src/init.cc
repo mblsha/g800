@@ -862,7 +862,7 @@ int init(int argc, char *argv[]) {
   setHomeDir(dirROM, getOptText(conf, "rom_dir", ""));
   useROM = (strcmp(dirROM, "") != 0);
   if (getOptIntTable(conf, tableYesNo, "exram", FALSE))
-    exram = malloc(0x8000);
+    exram = (uint8_t*)malloc(0x8000);
   else
     exram = NULL;
 
@@ -1002,7 +1002,7 @@ int init(int argc, char *argv[]) {
   if (buzzer != BUZZER_NONE) {
     soundBufferSize = getSoundBufferSize(freqUpdateIO);
     freqUpdateIO = FREQ_SOUND / soundBufferSize;
-    soundReadBuffer = calloc(1, soundBufferSize * 2);
+    soundReadBuffer = (uint8_t*)calloc(1, soundBufferSize * 2);
     soundWriteBuffer = soundReadBuffer + soundBufferSize;
   }
 

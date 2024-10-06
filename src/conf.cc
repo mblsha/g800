@@ -364,7 +364,7 @@ void setOptTable(OptTable *table, const char *key, int value) {
       o->value = value;
       return;
     }
-  o->string = malloc(strlen(key) + 1);
+  o->string = (char*)malloc(strlen(key) + 1);
   strcpy(o->string, key);
   o->value = value;
   o++;

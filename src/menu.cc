@@ -310,12 +310,12 @@ static uint8_t selectItem(char **sel, char *buf) {
   for (;;) {
     ucls();
     for (i = 0, y = 0; i < lcdRows; i++, y++) {
-      p = (top + i < n ? item[top + i] : "");
+      p = (char*)(top + i < n ? item[top + i] : "");
       ulocate(1, y);
       uprintf("%.*s", strsize(p, 12), p);
     }
     for (i = lcdRows, y = 0; i < lcdRows * 2; i++, y++) {
-      p = (top + i < n ? item[top + i] : "");
+      p = (char*)(top + i < n ? item[top + i] : "");
       ulocate(14, y);
       uprintf("%.*s", strsize(p, 10), p);
     }

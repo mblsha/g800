@@ -158,7 +158,7 @@ SDL_Surface *SDL_CreateRGBSurfaceFromXpm(char *xpm[], uint8_t *mask) {
   /* Pixelを描き込む */
   if (SDL_MUSTLOCK(s))
     SDL_LockSurface(s);
-  for (i = 0, q_pix = s->pixels, p_mask = mask; i != height;
+  for (i = 0, q_pix = (uint8_t*)s->pixels, p_mask = mask; i != height;
        i++, q_pix += s->pitch, p_mask += (width + 7) / 8, pp_xpm++) {
     for (p_pix = q_pix, p_xpm = *pp_xpm; p_pix != q_pix + s->pitch;
          p_pix += s->format->BytesPerPixel, p_xpm++) {

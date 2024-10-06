@@ -656,12 +656,12 @@ int loadSym(const char *path) {
                   )) == NULL)
     return -1;
 
-  z80.i.symbol = malloc(sizeof(*z80.i.symbol));
+  z80.i.symbol = (Z80symbol*)malloc(sizeof(*z80.i.symbol));
 
   while (!feof(fp)) {
     fgets(buf, sizeof(buf), fp);
     if (writeSymRecord(&z80.i.symbol[n], buf))
-      z80.i.symbol = realloc(z80.i.symbol, (++n + 1) * sizeof(*z80.i.symbol));
+      z80.i.symbol = (Z80symbol*)realloc(z80.i.symbol, (++n + 1) * sizeof(*z80.i.symbol));
   }
 
   memset(&z80.i.symbol[n], 0, sizeof(z80.i.symbol[n]));
@@ -676,7 +676,7 @@ int loadSym(const char *path) {
         プロファイラの結果のバンク・アドレスを比較する(qsort用) (下請け)
 */
 static int cmpProfRecord(const void *a, const void *b) {
-  const Z80record *x = a, *y = b;
+  const Z80record *x = (Z80record*)a, *y = (Z80record*)b;
   int result;
 
   if ((result = (int)x->bank - (int)y->bank) != 0)

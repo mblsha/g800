@@ -11,40 +11,25 @@
 uint8_t z80read8(const Z80stat *z, uint16 address) {
   return memory[address];
 }
+
 void z80write8(const Z80stat *z, uint16 address, uint8_t value) {
-  if (address < 0x8000)
-    memory[address] = value;
+  if (address >= 0x8000)
+    return;
+  memory[address] = value;
 }
 
-#if defined(Z80_LITTLEENDIAN)
-
-/*
-        16bits READ/WRITE (リトルエンディアン)
-*/
-uint16 z80read16(const Z80stat *z, uint16 address) {
-  return *(uint16 *)(&memory[address]);
-}
-void z80write16(const Z80stat *z, uint16 address, uint16 value) {
-  if (address < 0x7fff)
-    *(uint16 *)(&memory[address]) = value;
-}
-
-#else
 
 /*
         16bits READ/WRITE (エンディアン非依存)
 */
 uint16 z80read16(const Z80stat *z, uint16 address) {
-  return ((uint16)memory[(address) + 1] << 8U | memory[address]);
-}
-void z80write16(const Z80stat *z, uint16 address, uint16 value) {
-  if (address < 0x7fff) {
-    memory[address] = value & 0xff;
-    memory[address + 1] = value >> 8;
-  }
+  return z80read8(z, address) | (z80read8(z, address + 1) << 8);
 }
 
-#endif
+void z80write16(const Z80stat *z, uint16 address, uint16 value) {
+  z80write8(z, address, value & 0xff);
+  z80write8(z, address + 1, value >> 8);
+}
 
 /*
         Copyright 2005 ~ 2008 maruhiro

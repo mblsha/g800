@@ -328,7 +328,7 @@ static inline int out1b(uint8_t x) {
   if (ramBank == (x & 0x04))
     return 0;
 
-  tmp = alloca(0x8000);
+  tmp = (uint8_t*)alloca(0x8000);
   memcpy(tmp, memory, 0x8000);
   memcpy(memory, exram, 0x8000);
   memcpy(exram, tmp, 0x8000);
