@@ -26,48 +26,48 @@ set(SOURCES
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DZ80_USE_SDL -DZ80_TRACE -DZ80_PROF -Wall")
 
-find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
+set(FONT_HEADER ${CMAKE_BINARY_DIR}/font.h)
+add_custom_command(
+    OUTPUT ${FONT_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/font.txt | gawk -f ${CMAKE_SOURCE_DIR}/makefont.awk > ${FONT_HEADER}
+    DEPENDS ${CMAKE_SOURCE_DIR}/font.txt ${CMAKE_SOURCE_DIR}/makefont.awk
+)
 
-add_executable(${EXE} ${SOURCES})
+set(SYMBOL_HEADER ${CMAKE_BINARY_DIR}/symbol.h)
+add_custom_command(
+    OUTPUT ${SYMBOL_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/symbol1.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk  > ${SYMBOL_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/symbol2.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${SYMBOL_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/symbol3.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${SYMBOL_HEADER}
+    DEPENDS ${CMAKE_SOURCE_DIR}/symbol1.txt ${CMAKE_SOURCE_DIR}/symbol2.txt ${CMAKE_SOURCE_DIR}/symbol3.txt
+            ${CMAKE_SOURCE_DIR}/makesymbol.awk
+)
+
+set(KEYTOP_HEADER ${CMAKE_BINARY_DIR}/keytop.h)
+add_custom_command(
+    OUTPUT ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytop1.txt      | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk  > ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytopE220_1.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytop2.txt      | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytopE220_2.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytop3.txt      | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytopE220_3.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    DEPENDS ${CMAKE_SOURCE_DIR}/keytop1.txt ${CMAKE_SOURCE_DIR}/keytop2.txt ${CMAKE_SOURCE_DIR}/keytop3.txt
+            ${CMAKE_SOURCE_DIR}/keytopE220_1.txt ${CMAKE_SOURCE_DIR}/keytopE220_2.txt ${CMAKE_SOURCE_DIR}/keytopE220_3.txt
+            ${CMAKE_SOURCE_DIR}/makesymbol.awk
+)
+
+# FIXME: not tested on Windows.
+# if(WIN32)
+#     add_executable(${EXE} WIN32 ${SOURCES} resource.rc)
+# endif()
+
+set(GENERATED_HEADERS ${FONT_HEADER} ${SYMBOL_HEADER} ${KEYTOP_HEADER})
+add_executable(${EXE} ${SOURCES} ${GENERATED_HEADERS})
+target_include_directories(${EXE} PRIVATE ${CMAKE_BINARY_DIR})
+
+find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
 if(TARGET SDL2::SDL2main)
     target_link_libraries(${EXE} PRIVATE SDL2::SDL2main)
 endif()
 target_link_libraries(${EXE} PRIVATE SDL2::SDL2)
-
-
-if(WIN32)
-    add_executable(${EXE} WIN32 ${SOURCES} resource.rc)
-endif()
-
-set(CONFIG_FILE ${CMAKE_SOURCE_DIR}/g800config)
-set(DESTINATION_FILE ${CMAKE_BINARY_DIR}/g800config)
-add_custom_command(
-    TARGET ${EXE} PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CONFIG_FILE} ${DESTINATION_FILE}
-    COMMENT "Copying g800config to build directory if it doesn't already exist."
-)
-
-add_custom_command(
-    OUTPUT font.h
-    COMMAND nkf -e -d font.txt | gawk -f makefont.awk > font.h
-    DEPENDS font.txt makefont.awk
-)
-
-add_custom_command(
-    OUTPUT symbol.h
-    COMMAND nkf -e -d symbol1.txt | gawk -f makesymbol.awk > symbol.h
-    COMMAND nkf -e -d symbol2.txt | gawk -f makesymbol.awk >> symbol.h
-    COMMAND nkf -e -d symbol3.txt | gawk -f makesymbol.awk >> symbol.h
-    DEPENDS symbol1.txt symbol2.txt symbol3.txt makesymbol.awk
-)
-
-add_custom_command(
-    OUTPUT keytop.h
-    COMMAND nkf -e -d keytop1.txt | gawk -f makesymbol.awk > keytop.h
-    COMMAND nkf -e -d keytopE220_1.txt | gawk -f makesymbol.awk >> keytop.h
-    COMMAND nkf -e -d keytop2.txt | gawk -f makesymbol.awk >> keytop.h
-    COMMAND nkf -e -d keytopE220_2.txt | gawk -f makesymbol.awk >> keytop.h
-    COMMAND nkf -e -d keytop3.txt | gawk -f makesymbol.awk >> keytop.h
-    COMMAND nkf -e -d keytopE220_3.txt | gawk -f makesymbol.awk >> keytop.h
-    DEPENDS keytop1.txt keytop2.txt keytop3.txt keytopE220_1.txt keytopE220_2.txt keytopE220_3.txt makesymbol.awk
-)
