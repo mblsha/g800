@@ -30,7 +30,7 @@ void boot(void) {
   timerInterval = 388643;
   z80.r.im = 1;
 
-  memcpy(memory, base, sizeof(base));
+  memcpy(memory, base.data(), base.size());
   memory[0x790d] = 0;
 
   switch (machine) {

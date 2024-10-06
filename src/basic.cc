@@ -5545,14 +5545,14 @@ static int goElse(struct Basic *bas, const uint8_t **p) {
 */
 static int staIf(struct Basic *bas, const uint8_t **p) {
   int err, type, zero;
-  uint8_t *bool;
+  uint8_t *boolp;
 
-  if ((err = fetchParam(bas, &bool, &type, p)) < 0)
+  if ((err = fetchParam(bas, &boolp, &type, p)) < 0)
     return err;
   if (type == TYPE_NUM)
-    zero = numIsZero(bool);
+    zero = numIsZero(boolp);
   else if (type == TYPE_STR)
-    zero = strlen(bool) == 0;
+    zero = strlen(boolp) == 0;
   else
     return ERR_10;
 
@@ -5576,14 +5576,14 @@ static int staIf(struct Basic *bas, const uint8_t **p) {
 */
 static int staBlockIf(struct Basic *bas, const uint8_t **p) {
   int err, type, zero;
-  uint8_t *bool;
+  uint8_t *boolp;
 
-  if ((err = fetchParam(bas, &bool, &type, p)) < 0)
+  if ((err = fetchParam(bas, &boolp, &type, p)) < 0)
     return err;
   if (type == TYPE_NUM)
-    zero = numIsZero(bool);
+    zero = numIsZero(boolp);
   else if (type == TYPE_STR)
-    zero = strlen(bool) == 0;
+    zero = strlen(boolp) == 0;
   else
     return ERR_10;
 
@@ -5862,9 +5862,9 @@ static int staInput(struct Basic *bas, const uint8_t **p) {
       } else if (type == TYPE_NUM) {
         encodeProg(prog, buf, MODE_RUN);
         q = prog;
-        skipBlank(&q);
+        skipBlank((const uint8_t**)&q);
 
-        if ((err = fetchParam(bas, &num_or_str, &type, &q)) < 0)
+        if ((err = fetchParam(bas, &num_or_str, &type, (const uint8_t**)&q)) < 0)
           ;
         else if (type != TYPE_NUM)
           err = ERR_90;
@@ -7285,7 +7285,7 @@ static int staStop(struct Basic *bas, const uint8_t **p) {
 static int staSwitch(struct Basic *bas, const uint8_t **p) {
   struct SwitchCase *switch_case;
   int err, type;
-  uint8_t *dummy, *bool;
+  uint8_t *dummy, *boolp;
   const uint8_t *var, *tmp;
 
   if ((err = peekFlow(bas, (void **)&switch_case, CODE_SWITCH)) != ERR_69)
@@ -7315,12 +7315,12 @@ static int staSwitch(struct Basic *bas, const uint8_t **p) {
         return err;
       if ((err = exeOpe(bas, CODE_EQ)) < 0)
         return err;
-      if ((err = popNum(&bool)) < 0)
+      if ((err = popNum(&boolp)) < 0)
         return err;
       if (!isTerm(p))
         return ERR_10;
 
-      if (!numIsZero(bool)) {
+      if (!numIsZero(boolp)) {
         if ((err = pushFlow(bas, (void **)&switch_case, CODE_SWITCH)) < 0)
           return err;
         return ERR_OK_NEXT;
@@ -7352,9 +7352,9 @@ static int staTron(struct Basic *bas, const uint8_t **p) { return ERR_OK_NEXT; }
 static int staUntil(struct Basic *bas, const uint8_t **p) {
   struct RepeatLoop *repeat_loop;
   int err;
-  uint8_t *bool;
+  uint8_t *boolp;
 
-  if ((err = fetchNum(bas, &bool, p)) < 0)
+  if ((err = fetchNum(bas, &boolp, p)) < 0)
     return err;
   if (!isTerm(p))
     return ERR_10;
@@ -7364,7 +7364,7 @@ static int staUntil(struct Basic *bas, const uint8_t **p) {
   if ((err = popFlow(bas, (void **)&repeat_loop, CODE_REPEAT)) < 0)
     return err;
 
-  if (!numIsZero(bool))
+  if (!numIsZero(boolp))
     return ERR_OK_NEXT;
   *p = repeat_loop->ret;
   bas->line_no = repeat_loop->line_no;
@@ -7437,21 +7437,21 @@ static int staWend(struct Basic *bas, const uint8_t **p) {
 static int staWhile(struct Basic *bas, const uint8_t **p) {
   struct WhileLoop *while_loop;
   int err, depth = 0;
-  uint8_t *bool;
+  uint8_t *boolp;
 
   if ((err = pushFlow(bas, (void **)&while_loop, CODE_WHILE)) < 0)
     return err;
   while_loop->line_no = bas->line_no;
   while_loop->ret = *p;
 
-  if ((err = fetchNum(bas, &bool, p)) < 0)
+  if ((err = fetchNum(bas, &boolp, p)) < 0)
     return err;
   if (!isTerm(p))
     return ERR_10;
 
   ssleep(6748);
 
-  if (!numIsZero(bool))
+  if (!numIsZero(boolp))
     return ERR_OK_NEXT;
   else {
     if ((err = popFlow(bas, (void **)&while_loop, CODE_WHILE)) < 0)
@@ -8599,18 +8599,18 @@ int initBasic(struct Basic *bas) {
   memset(bas, 0, sizeof(*bas));
 
   for (i = 0; i < sizeof(valueStack) / sizeof(valueStack[0]); i++)
-    valueStack[i] = malloc(256);
+    valueStack[i] = (uint8_t*)malloc(256);
   valueSp = &valueStack[-1];
   typeSp = &typeStack[-1];
 
   bas->top = &bas->stack[-1];
   bas->fixed_var = (uint8_t(*)[SIZEOF_NUM]) & memory[0x7800];
 
-  bas->vars = malloc(sizeof(bas->vars));
+  bas->vars = (uint8_t**)malloc(sizeof(bas->vars));
   *bas->vars = NULL;
 
   bas->prog_size = 0x8000;
-  bas->prog = malloc(bas->prog_size);
+  bas->prog = (uint8_t*)malloc(bas->prog_size);
   *bas->prog = 0xff;
   bas->p = NULL;
   return 0;

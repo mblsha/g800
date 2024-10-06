@@ -2,7 +2,7 @@
 #include "g800.h"
 
 /* アドレス0000~003fの初期値 */
-uint8_t base[] = {
+std::vector<uint8_t> base = {
     0xc3, 0xf4, 0xbf, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc9, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0xc9, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc9,
@@ -11,7 +11,7 @@ uint8_t base[] = {
     0x00, 0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 /* アドレス0038~003aの初期値 (PC-G850) */
-const uint8_t base_g850[] = {0xc3, 0x37, 0xbc};
+std::vector<uint8_t> base_g850 = {0xc3, 0x37, 0xbc};
 
 /*
         ROMを1ページ読み込む (下請け)
@@ -41,7 +41,7 @@ int loadROM(const char *dir) {
 
   if (useROM) {
     /* 0000-003fを読み込む */
-    if (loadROM1page(base, dir, -1, 0x40) < 0x40)
+    if (loadROM1page(base.data(), dir, -1, 0x40) < 0x40)
       return FALSE;
 
     /* ROMのページ数を調べる */
@@ -61,7 +61,7 @@ int loadROM(const char *dir) {
 
     /* 0000-003fを設定する */
     if (machine == MACHINE_G850)
-      memcpy(&base[0x0038], base_g850, sizeof(base_g850));
+      memcpy(&base[0x0038], base_g850.data(), base_g850.size());
 
     /* 擬似ROMのページ数を設定する */
     if (machine == MACHINE_E200) {
@@ -82,7 +82,7 @@ int loadROM(const char *dir) {
     rom = (uint8_t*)malloc(0x4000 * romBanks);
     for (p = rom; p < rom + 0x4000 * romBanks; p++)
       *p = rand() & 0xff;
-    memcpy(rom + font_off, font, sizeof(font));
+    memcpy(rom + font_off, font.data(), font.size());
   }
 
   /* BANKを初期化する */

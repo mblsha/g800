@@ -3,13 +3,13 @@ project(g800 LANGUAGES C CXX)
 
 set(SOURCES
     SDL_hex.cc
-    # basic.cc
+    basic.cc
     conf.cc
     depend.cc
     g800.cc
     init.cc
     io.cc
-    # iocs.cc
+    iocs.cc
     load_rom.cc
     menu.cc
     monitor.cc
@@ -26,10 +26,10 @@ set(SOURCES
 
 # FIXME: re-enable -Wall
 set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -DZ80_USE_SDL -DZ80_TRACE -DZ80_PROF -w")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DZ80_USE_SDL -DZ80_TRACE -DZ80_PROF -w")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DZ80_USE_SDL -DZ80_TRACE -DZ80_PROF -w -std=c++11")
 
 set(SYMBOLS_DIR ${CMAKE_SOURCE_DIR}/symbols)
-set(FONT_HEADER ${CMAKE_BINARY_DIR}/font.h)
+set(FONT_HEADER ${CMAKE_BINARY_DIR}/font.cc)
 add_custom_command(
     OUTPUT ${FONT_HEADER}
     COMMAND nkf -e -d ${SYMBOLS_DIR}/font.txt | gawk -f ${SYMBOLS_DIR}/makefont.awk > ${FONT_HEADER}
@@ -89,7 +89,7 @@ target_link_libraries(core PRIVATE SDL2::SDL2)
 target_link_libraries(${EXE} PRIVATE SDL2::SDL2)
 
 # C++ Standard
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 SET(CMAKE_COLOR_DIAGNOSTICS ON)

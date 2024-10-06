@@ -2,9 +2,10 @@
 #define LOAD_ROM_H
 
 #include <stdint.h>
+#include <vector>
 
-extern uint8_t base[];
-extern const uint8_t base_g850[];
+extern std::vector<uint8_t> base;
+extern std::vector<uint8_t> base_g850;
 
 // ROMを読み込む (下請け)
 int loadROM(const char *dir);

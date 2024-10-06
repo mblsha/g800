@@ -157,6 +157,37 @@
 #define CODE_DMS_S 0xf3
 #define CODE_RESERVED 0xfe
 
+struct ForLoop {
+  uint8_t kind;
+  int line_no;
+  const uint8_t *ret;
+  const uint8_t *var;
+  uint8_t to[SIZEOF_NUM];
+  uint8_t step[SIZEOF_NUM];
+};
+
+struct RepeatLoop {
+  uint8_t kind;
+  int line_no;
+  const uint8_t *ret;
+};
+
+struct WhileLoop {
+  uint8_t kind;
+  int line_no;
+  const uint8_t *ret;
+};
+
+struct GosubReturn {
+  uint8_t kind;
+  int line_no;
+  const uint8_t *ret;
+};
+
+struct SwitchBase {
+  uint8_t kind;
+};
+
 /* BASICシステムの状態 */
 struct Basic {
   int prog_size; /* プログラム領域のサイズ */
@@ -185,36 +216,11 @@ struct Basic {
   union Flow {
     uint8_t kind;
 
-    struct ForLoop {
-      uint8_t kind;
-      int line_no;
-      const uint8_t *ret;
-      const uint8_t *var;
-      uint8_t to[SIZEOF_NUM];
-      uint8_t step[SIZEOF_NUM];
-    } for_loop;
-
-    struct RepeatLoop {
-      uint8_t kind;
-      int line_no;
-      const uint8_t *ret;
-    } repeat_loop;
-
-    struct WhileLoop {
-      uint8_t kind;
-      int line_no;
-      const uint8_t *ret;
-    } while_loop;
-
-    struct GosubReturn {
-      uint8_t kind;
-      int line_no;
-      const uint8_t *ret;
-    } gosub_return;
-
-    struct SwitchBase {
-      uint8_t kind;
-    } switch_case;
+    ForLoop for_loop;
+    RepeatLoop repeat_loop;
+    WhileLoop while_loop;
+    GosubReturn gosub_return;
+    SwitchBase switch_case;
   } stack[16], *top;
 };
 

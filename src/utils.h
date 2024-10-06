@@ -3,9 +3,12 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 template <typename T>
-int stricmp(T *s1, T *s2) {
+int stricmp(T *_s1, T *_s2) {
+  const char *s1 = (const char *)_s1;
+  const char *s2 = (const char *)_s2;
   size_t len1 = strlen(s1);
   size_t len2 = strlen(s2);
 
@@ -26,7 +29,7 @@ int stricmp(T *s1, T *s2) {
 
 template <typename T>
 int memicmp(T *s1, T *s2, int len) {
-  return strncasecmp(s1, s2, len);
+  return strncasecmp((const char*)s1, (const char*)s2, len);
 }
 
 template <typename T>

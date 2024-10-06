@@ -29,7 +29,7 @@ substr($0, 1, 1) ~ "[#.]" {
 			x = x + 2;
 		if(substr($0, i + 7, 1) == "#")
 			x = x + 1;
-	
+
 		bit[n] = bit[n] sprintf("0x%02x, ", x);
 	}
 }

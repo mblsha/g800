@@ -461,7 +461,7 @@ int putchrNext(uint8_t *col, uint8_t *row, uint8_t chr) {
 /*
         文字列を表示する
 */
-int putstr(uint8_t col, uint8_t row, void *str, ...) {
+int putstr(uint8_t col, uint8_t row, const char *str, ...) {
   va_list v;
   char buf[512], *p;
 
@@ -1382,13 +1382,13 @@ uint8_t getChrcode(int cursor) {
 
       /* ローマ字・カナ変換テーブルから検索し一致すればキューに入れる */
       for (r = table; r->roman != NULL; r++)
-        if (memicmp(roman, r->roman, strlen(roman)) == 0) {
+        if (memicmp((const char*)roman, (const char*)r->roman, strlen(roman)) == 0) {
           if (strlen(roman) == strlen(r->roman)) {
             strcpy(queue, r->kana);
 
             if (memory[0x7901] & 0x08) {
               for (d = dai_sho; d->dai != NULL; d++)
-                if (stricmp(queue, d->dai) == 0)
+                if (stricmp((uint8_t*)queue, (uint8_t*)d->dai) == 0)
                   strcpy(queue, d->sho);
               memory[0x7901] &= ~0x08;
             }

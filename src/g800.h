@@ -11,6 +11,7 @@
 #include "load_rom.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <vector>
 
 #if !defined(strcmp)
 #define strcmp(x, y) strcmp((const char *)(x), (const char *)(y))
@@ -1243,7 +1244,7 @@ EXTERN const char *machineName[]
 ;
 
 /* フォント */
-#include "font.h"
+extern std::vector<uint8_t> font;
 
 /* CPU/メモリ */
 EXTERN Z80stat z80;             /* CPU状態 */
