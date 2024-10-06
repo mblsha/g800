@@ -26,35 +26,37 @@ set(SOURCES
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DZ80_USE_SDL -DZ80_TRACE -DZ80_PROF -Wall")
 
+set(SYMBOLS_DIR ${CMAKE_SOURCE_DIR}/symbols)
 set(FONT_HEADER ${CMAKE_BINARY_DIR}/font.h)
 add_custom_command(
     OUTPUT ${FONT_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/font.txt | gawk -f ${CMAKE_SOURCE_DIR}/makefont.awk > ${FONT_HEADER}
-    DEPENDS ${CMAKE_SOURCE_DIR}/font.txt ${CMAKE_SOURCE_DIR}/makefont.awk
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/font.txt | gawk -f ${SYMBOLS_DIR}/makefont.awk > ${FONT_HEADER}
+    DEPENDS ${SYMBOLS_DIR}/font.txt ${SYMBOLS_DIR}/makefont.awk
 )
 
 set(SYMBOL_HEADER ${CMAKE_BINARY_DIR}/symbol.h)
 add_custom_command(
     OUTPUT ${SYMBOL_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/symbol1.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk  > ${SYMBOL_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/symbol2.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${SYMBOL_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/symbol3.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${SYMBOL_HEADER}
-    DEPENDS ${CMAKE_SOURCE_DIR}/symbol1.txt ${CMAKE_SOURCE_DIR}/symbol2.txt ${CMAKE_SOURCE_DIR}/symbol3.txt
-            ${CMAKE_SOURCE_DIR}/makesymbol.awk
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/symbol1.txt | gawk -f ${SYMBOLS_DIR}/makesymbol.awk  > ${SYMBOL_HEADER}
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/symbol2.txt | gawk -f ${SYMBOLS_DIR}/makesymbol.awk >> ${SYMBOL_HEADER}
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/symbol3.txt | gawk -f ${SYMBOLS_DIR}/makesymbol.awk >> ${SYMBOL_HEADER}
+    DEPENDS ${SYMBOLS_DIR}/symbol1.txt ${SYMBOLS_DIR}/symbol2.txt ${SYMBOLS_DIR}/symbol3.txt
+    ${SYMBOLS_DIR}/makesymbol.awk
 )
 
 set(KEYTOP_HEADER ${CMAKE_BINARY_DIR}/keytop.h)
 add_custom_command(
     OUTPUT ${KEYTOP_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytop1.txt      | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk  > ${KEYTOP_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytopE220_1.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytop2.txt      | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytopE220_2.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytop3.txt      | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
-    COMMAND nkf -e -d ${CMAKE_SOURCE_DIR}/keytopE220_3.txt | gawk -f ${CMAKE_SOURCE_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
-    DEPENDS ${CMAKE_SOURCE_DIR}/keytop1.txt ${CMAKE_SOURCE_DIR}/keytop2.txt ${CMAKE_SOURCE_DIR}/keytop3.txt
-            ${CMAKE_SOURCE_DIR}/keytopE220_1.txt ${CMAKE_SOURCE_DIR}/keytopE220_2.txt ${CMAKE_SOURCE_DIR}/keytopE220_3.txt
-            ${CMAKE_SOURCE_DIR}/makesymbol.awk
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/keytop1.txt      | gawk -f ${SYMBOLS_DIR}/makesymbol.awk  > ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/keytopE220_1.txt | gawk -f ${SYMBOLS_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/keytop2.txt      | gawk -f ${SYMBOLS_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/keytopE220_2.txt | gawk -f ${SYMBOLS_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/keytop3.txt      | gawk -f ${SYMBOLS_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    COMMAND nkf -e -d ${SYMBOLS_DIR}/keytopE220_3.txt | gawk -f ${SYMBOLS_DIR}/makesymbol.awk >> ${KEYTOP_HEADER}
+    DEPENDS ${SYMBOLS_DIR}/keytop1.txt ${SYMBOLS_DIR}/keytop2.txt ${SYMBOLS_DIR}/keytop3.txt
+    ${SYMBOLS_DIR}/keytopE220_1.txt ${SYMBOLS_DIR}/keytopE220_2.txt
+    ${SYMBOLS_DIR}/keytopE220_3.txt
+    ${SYMBOLS_DIR}/makesymbol.awk
 )
 
 # FIXME: not tested on Windows.
